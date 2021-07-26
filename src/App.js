@@ -1,5 +1,5 @@
 // LIBRARY
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { ConnectedRouter } from 'connected-react-router';
 import { Route } from 'react-router-dom';
@@ -7,6 +7,13 @@ import { css } from 'styled-components';
 
 // HISTORY
 import { history } from './redux/configStore';
+
+// REDUX
+import { userActions } from './redux/modules/user';
+import { useDispatch } from 'react-redux';
+
+//TOKEN
+import { getToken } from './common/token';
 
 // STYLE
 import GlobalStyle from './common/globalStyle';
@@ -22,6 +29,16 @@ import Permit from './components/Permit';
 import { Main, Login, Signup, Mypage } from './pages/index';
 
 function App() {
+  
+  const dispatch = useDispatch();
+  const token = getToken();
+
+  useEffect(() => {
+    if (token) {
+      dispatch(userActions.checkDidIWriteDB());
+      dispatch(userActions.logInCheck(token));
+    }
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>

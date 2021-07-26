@@ -36,7 +36,7 @@ const LogIn = (props) => {
         <React.Fragment>
             <div   style={{paddingTop:"110px"}}/>
             <Grid
-                width="820px"
+                width="100%"
                 is_flex="space-between"
                 margin="50px auto"
                 padding="30px 40px"

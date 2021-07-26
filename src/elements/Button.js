@@ -45,7 +45,7 @@ Button.defaultProps = {
     hoverColor: '#000',
     borderColor: '#dddddd',
     align: 'center',
-    clickEvent: () => { },
+    clickEvent: () => { }
 };
 
 export default Button;

@@ -23,6 +23,9 @@ Grid.defaultProps = {
     align: false,
     bg: false,
     clickEvent: () => {},
+    laptoptStyle: () => {},
+    tabletStyle: () => {},
+    mobileStyle: () => {},
 };
 
 const GridBox = styled.div`

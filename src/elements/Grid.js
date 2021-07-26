@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Grid = ({ children, _onClick, ...props }) => {
+const Grid = ({ children, clickEvent, ...props }) => {
     return (
     <React.Fragment>
-    <GridBox {...props} onClick={_onClick}>
+    <GridBox {...props} onClick={clickEvent}>
         {children}
     </GridBox>
     </React.Fragment>
@@ -22,10 +22,7 @@ Grid.defaultProps = {
     margin: false,
     align: false,
     bg: false,
-    _onClick: () => {},
-    laptoptStyle: () => {},
-    tabletStyle: () => {},
-    mobileStyle: () => {},
+    clickEvent: () => {},
 };
 
 const GridBox = styled.div`

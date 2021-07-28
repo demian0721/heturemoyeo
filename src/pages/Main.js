@@ -74,7 +74,7 @@ const Main = () => {
                     leave='transition ease-in duration-75'
                     leaveFrom='transform opacity-100'
                     leaveTo='transform opacity-0'
-                    className='z-50 absolute left-0 right-0 bottom-0 border border-gray-300 rounded-t-lg bg-white py-2 topDropShadow'
+                    className='z-50 absolute left-0 right-0 bottom-0 border border-gray-300 rounded-t-lg bg-white py-4 topDropShadow'
                 >
                     <div ref={ref} className='container mx-auto px-4'>
                         <div id='overlay--author__status' className='block'>

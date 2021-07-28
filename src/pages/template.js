@@ -9,10 +9,11 @@ import { AddButton, Button, Dropdown, Grid, LazyImage, Input, Text, Title } from
 import { history } from "../redux/configStore";
 
 //Components
+import Footer from "../components/Footer";
 
 //임포트 사용 항목 외 삭제요망
 
-const Footer = () => {
+const template = () => {
     
     
     return (
@@ -27,4 +28,4 @@ const Style = styled.div`
     //styled component use
 `;
 
-export default Footer;
+export default Template;

@@ -26,7 +26,7 @@ import { Grid } from './elements/index';
 import Permit from './components/Permit';
 
 // PAGES
-import { Main, Login, Signup, Mypage } from './pages/index';
+import { Main, Login, Signup, Mypage, Terms } from './pages/index';
 
 function App() {
   
@@ -72,6 +72,7 @@ function App() {
           <Route exact path="/" component={Main} />
           <Route path="/login" exact component={Login} />
           <Route path="/signup" exact component={Signup} />
+          <Route path="/signup/terms" exact component={Terms} />
           <Route path="/mypage" exact component={Mypage} />
         </ConnectedRouter>
       </Grid>

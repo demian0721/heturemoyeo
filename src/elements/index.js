@@ -6,5 +6,8 @@ import Input from './Input';
 import Text from './Text';
 import Title from './Title';
 import Dropdown from'./Dropdown';
+import CheckBox from'./CheckBox';
+import Toggle from'./Toggle';
+import Vehicles from'./Vehicles';
 
-export { AddButton, Button, Dropdown, Grid, LazyImage, Input, Text, Title };
+export { AddButton, Button, Dropdown, Grid, LazyImage, Input, Text, Title, CheckBox, Toggle, Vehicles };

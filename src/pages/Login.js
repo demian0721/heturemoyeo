@@ -35,11 +35,12 @@ const LogIn = (props) => {
     return (
         <React.Fragment>
             <div   style={{paddingTop:"110px"}}/>
-            <Grid
-                width="100%"
-                is_flex="space-between"
+            <Grid 
+                // width="100%"
+                width="360px"
+                // is_flex="space-between"
                 margin="50px auto"
-                padding="30px 40px"
+                padding="55px 40px 100.2px"
                 shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
                 tabletStyle={() => {
                     return css`
@@ -53,12 +54,16 @@ const LogIn = (props) => {
             `;
                 }}
             >
-                <Grid padding="16px">
-                    <Title>LOGIN</Title>
+                <Title fontSize="35px" textAlign="center">LOGO</Title>
+                <Grid padding="18px" bg="#EFEFEF">
+                    <Title 
+                        fontSize="18px" 
+                        margin="5px"
+                        >로그인</Title>
 
-                    <Grid padding="16px 0px">
+                    <Grid padding="8px 0px">
                         <Input
-                            placeholder="아이디를 입력해주세요."
+                            placeholder="이메일"
                             changeEvent={(event) => {
                                 setUserInfo({ ...userInfo, loginid: event.target.value });
                             }}
@@ -71,9 +76,9 @@ const LogIn = (props) => {
                         />
                     </Grid>
 
-                    <Grid padding="16px 0px 20px 0px">
+                    <Grid padding="8px 0px 5px 0px">
                         <Input
-                            placeholder="패스워드를 입력해주세요."
+                            placeholder="비밀번호"
                             type="password"
                             changeEvent={(event) => {
                                 setUserInfo({ ...userInfo, password: event.target.value });
@@ -85,32 +90,32 @@ const LogIn = (props) => {
                                 }
                             }}
                         />
+                        <Text fontSize="12px" lineHeight="1" textIndent="15px" textAlign="right">
+                            비밀번호 찾기
+                        </Text>
                     </Grid>
-                    <Text textAlign="center" fontSize="12px" lineHeight="2" textIndent="15px" color="red">
+                    <Text textAlign="center" fontSize="12px" lineHeight="1" textIndent="15px" color="red">
                         {warningText}
                     </Text>
+                    <Grid padding="5px 0px 0px 0px">
+                        <Button width="100%" height="auto" padding="12px 0" margin="0px 0px 10px" fontSize="15px" clickEvent={login}>
+                            로그인
+                        </Button>
+                    </Grid>
                     <Grid padding="5px 0px">
-                        <Text fontSize="12px" lineHeight="2" textIndent="15px">
-                            혹시 회원이 아니신가요?
-                        </Text>
                         <Button
                             width="100%"
                             height="auto"
                             padding="12px 0"
-                            bg="#EFEFEF"
+                            // bg="#EFEFEF"
                             hoverColor="#ccc"
-                            color="inherit"
+                            // color="inherit"
+                            fontSize="15px"
                             clickEvent={() => {
                                 history.push('/signup');
                             }}
                         >
-                            회원가입 하러가기
-                        </Button>
-                    </Grid>
-
-                    <Grid padding="16px 0px 0px 0px">
-                        <Button width="100%" height="auto" padding="12px 0" margin="0px 0px 30px" clickEvent={login}>
-                            로그인 하기
+                            회원가입
                         </Button>
                     </Grid>
                 </Grid>

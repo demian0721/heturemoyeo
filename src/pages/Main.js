@@ -20,7 +20,7 @@ const Main = () => {
     useEffect(() => {
         const container = document.getElementById('map')
         const options = {
-            center: new kakao.maps.LatLng(33.450701, 126.570667),
+            center: new kakao.maps.LatLng(37.5668998, 126.9345105),
             level: 3
         }
         const map = new kakao.maps.Map(container, options)
@@ -31,10 +31,7 @@ const Main = () => {
             removable: iwRemoveable
         })
         
-        addMarker(map, new kakao.maps.LatLng(33.450701, 126.570667))
-        addMarker(map, new kakao.maps.LatLng(33.447701, 126.570667))
-        addMarker(map, new kakao.maps.LatLng(33.450701, 126.573667))
-        addMarker(map, new kakao.maps.LatLng(33.453701, 126.573667))
+        addMarker(map, new kakao.maps.LatLng(37.5668998, 126.9345105))
         console.log(markers)
     }, [])
 

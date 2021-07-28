@@ -11,3 +11,18 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.topDropShadow {
+  box-shadow: 0 -5px 7px -6px #333;
+}
+
+.navbar {
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+
+.transition {
+  transition: all .2s ease-in-out;
+}

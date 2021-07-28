@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
     router: connectRouter(history),
 });
 
-const middlewares = [thunk.withExtraArgument({ history: history })];
+const middlewares = [thunk.withExtraArgument({ history })];
 
 if (process.env.NODE_ENV === 'development') {
     const { logger } = require('redux-logger');

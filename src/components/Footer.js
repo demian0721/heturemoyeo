@@ -20,11 +20,11 @@ const Footer = () => {
         <Menu>
           <thead>
             <tr>
-              <th>홈버튼</th>
-              <th>모임구하기</th>
-              <th>친구관리</th>
-              <th>대화방</th>
-              <th>마이페이지</th>
+              <th><Text clickEvent={() => { history.push('/'); }} style={{ cursor: "pointer" }}>홈버튼</Text></th>
+              <th><Text clickEvent={() => { history.push('/'); }} style={{ cursor: "pointer" }}>모임구하기</Text></th>
+              <th><Text clickEvent={() => { history.push('/'); }} style={{ cursor: "pointer" }}>친구관리</Text></th>
+              <th><Text clickEvent={() => { history.push('/'); }} style={{ cursor: "pointer" }}>대화방</Text></th>
+              <th><Text clickEvent={() => { history.push('/mypage'); }} style={{ cursor: "pointer" }}>마이페이지</Text></th>
             </tr>
           </thead>
         </Menu>
@@ -39,6 +39,7 @@ const Menu = styled.table`
     z-index: 100;
     position: fixed;
     bottom: 0;
+    padding: 10pxg;
     //styled component use
 `;
 

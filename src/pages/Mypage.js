@@ -19,7 +19,8 @@ const Mypage = () => {
     return (
         <React.Fragment>
             <Style>동해물과 백두산이 마르고닳도록</Style>
-            <Footer></Footer>
+            rkrkrk
+            <Footer/>
         </React.Fragment>
         )
 };

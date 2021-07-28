@@ -5,14 +5,14 @@ import { css } from 'styled-components';
 import { Transition } from '@headlessui/react'
 
 // COMPONENTS
-import Overlay from '../components/Overlay';
+import UserOverlay from '../components/UserOverlay';
 import Footer from '../components/Footer';
 
 // ELEMENTS
 import { Grid, Button, Title, Text, AddButton } from '../elements/index';
 
 const Main = () => {
-    const [markers, setMarkers] = useState([])
+    const [markers] = useState([])
     const [isOpen, setIsOpen] = useState(false)
 
     const addMarker = useCallback((map, position) => {
@@ -76,12 +76,14 @@ const Main = () => {
                     leaveTo='transform opacity-0'
                     className='z-50 absolute left-0 right-0 bottom-0 border border-gray-300 rounded-t-lg bg-white py-2 topDropShadow'
                 >
-                    <div ref={ref} className='container mx-auto px-2'>
-                        <div id='overlay--author__status'>
-                            <Title>유저 닉네임</Title>
-                            <Text>상태 메시지</Text>
-                            <Text>취향 해시태그</Text>
-                            <Text>참여중인 일정</Text>
+                    <div ref={ref} className='container mx-auto px-4'>
+                        <div id='overlay--author__status' className='block'>
+                            <UserOverlay
+                                username='마왕'
+                                userStatus='아 배고프다...'
+                                userHashTag='#코딩 #배고파 #^_^'
+                                userSchedule='Visual Studio Code 참여중'
+                            />
                         </div>
                     </div>
                 </Transition>
@@ -111,7 +113,6 @@ export function test() {
                 >
                     마커 삭제
                 </Button>
-                <Overlay />
                 <Footer />
             </Grid>
         </>

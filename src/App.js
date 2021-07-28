@@ -42,9 +42,6 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div style={{ position: "absolute", zIndex: "100" }}>
-
-      </div>
       <GlobalStyle />
       <Grid
         margin="0 auto"
@@ -59,12 +56,12 @@ function App() {
         laptoptStyle={() => {
           return css`
             max-width: none;
-            width: 100%;
+            width: 100vw;
           `;
         }}
         mobileStyle={() => {
           return css`
-            width: 100%;
+            width: 100vw;
           `;
         }}
       >

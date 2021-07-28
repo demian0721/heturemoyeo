@@ -13,14 +13,12 @@ import Footer from "../components/Footer";
 
 //임포트 사용 항목 외 삭제요망
 
-const Mypage = () => {
+const template = () => {
     
     
     return (
         <React.Fragment>
-            <Style>동해물과 백두산이 마르고닳도록</Style>
-            rkrkrk
-            <Footer/>
+        
         </React.Fragment>
         )
 };
@@ -28,9 +26,6 @@ const Mypage = () => {
 
 const Style = styled.div`
     //styled component use
-    background-color: red;
-    width: 500px;
 `;
 
-export default Mypage;
-
+export default Template;

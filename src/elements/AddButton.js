@@ -22,7 +22,7 @@ const AddButton = (props) => {
                 margin="0 0 10px"
                 radius="50%"
                 clickEvent={() => {
-                    history.push('/write');
+                    
                 }}
             >
                 <AddIcon />

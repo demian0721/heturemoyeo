@@ -74,16 +74,15 @@ const Main = () => {
                     leave='transition ease-in duration-75'
                     leaveFrom='transform opacity-100'
                     leaveTo='transform opacity-0'
+                    className='z-50 absolute left-0 right-0 bottom-0 border border-gray-300 rounded-t-lg bg-white py-2 topDropShadow'
                 >
-                    <div ref={ref} className='z-50 absolute left-0 right-0 bottom-0 border border-gray-300 rounded-t-lg bg-white py-2'>
-                        <Transition.Child as='div'>
-                            <div id='overlay-container' className='container mx-auto px-2'>
-                                <Title>유저 닉네임</Title>
-                                <Text>상태 메시지</Text>
-                                <Text>취향 해시태그</Text>
-                                <Text>참여중인 일정</Text>
-                            </div>
-                        </Transition.Child>
+                    <div ref={ref} className='container mx-auto px-2'>
+                        <div id='overlay--author__status'>
+                            <Title>유저 닉네임</Title>
+                            <Text>상태 메시지</Text>
+                            <Text>취향 해시태그</Text>
+                            <Text>참여중인 일정</Text>
+                        </div>
                     </div>
                 </Transition>
                 <Footer />

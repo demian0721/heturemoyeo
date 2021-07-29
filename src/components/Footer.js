@@ -31,6 +31,7 @@ const Footer = () => {
 };
 
 
+<<<<<<< Updated upstream
 const Menu = styled.div`
   display: flex;
   width: 100%;
@@ -40,6 +41,17 @@ const Menu = styled.div`
   position: relative;
   top: 20%;
   //styled component use
+=======
+const Menu = styled.table`
+    width: 100%;
+    z-index: 1;
+    position: fixed;
+    bottom: 0;
+    padding: 10px;
+    max-width: 800px;
+    margin: auto;
+    //styled component use
+>>>>>>> Stashed changes
 `;
 
 export default Footer;

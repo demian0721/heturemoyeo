@@ -4,8 +4,7 @@ import _ from "lodash";
 import { css } from "styled-components";
 
 //Elements
-import { Text, Title, Input, Grid, Button } from "../elements";
-import SimpleModal from "../elements/Modal";
+import { Text, Title, Input, Grid, Button, LazyImage } from "../elements";
 
 //HISTORY
 import { history } from "../redux/configStore";
@@ -17,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 //VALIDATION
 import { idVal, pwdVal } from "../common/validation";
 
-const SignUp = (props) => {
+const SignupInfo = (props) => {
   const dispatch = useDispatch();
 
   const dupState = useSelector((state) => state.user.is_check);
@@ -101,16 +100,6 @@ const SignUp = (props) => {
     setNameConfirm("해당 성함으로 주문됩니다.");
   };
 
-  const checkAddress = (val) => {
-    if (val === "") {
-      setAddressWarColor("red");
-      setAddressConfirm("주소가 입력되지 않았습니다.");
-      return;
-    }
-    setAddressWarColor("green");
-    setAddressConfirm("해당 주소로 주문됩니다.");
-  };
-
   const signup = () => {
     if (
       !(
@@ -136,11 +125,6 @@ const SignUp = (props) => {
     dispatch(userActions.nickCheck(id));
     setIdConfirm("");
   };
-
-  // const [check, setCheck] = React.useState(false);
-  // const onChange = (e) => {
-  //   setCheck(e.target.checked);
-  // };
 
   return (
     <React.Fragment>
@@ -169,9 +153,12 @@ const SignUp = (props) => {
         <Grid padding="16px" bg="#EFEFEF">
           <Title 
                 fontSize="18px" 
-                margin="5px">
-                회원가입</Title>
-
+                margin="5px"
+                textAlign="center">
+                회원정보 입력</Title>
+          <Grid padding="5px 0px 8px">
+          <LazyImage src="https://i.imgur.com/ViFAD8Z.png"/>
+          </Grid>
           <Grid padding="16px 0px 0px">
             <Text
               fontSize="12px"
@@ -185,7 +172,7 @@ const SignUp = (props) => {
           </Grid>
           <Grid is_flex padding="0px 0px 8px">
             <Input
-              placeholder="이메일을 입력해주세요."
+              placeholder="닉네임을 입력해주세요."
               changeEvent={(event) => {
                 setId(event.target.value);
               }}
@@ -206,136 +193,34 @@ const SignUp = (props) => {
             </Button>
           </Grid>
           <Grid padding="5px 0px 8px">
-            <Text
-              fontSize="12px"
-              margin="0px"
-              color={nameWarning}
-              lineHeight="2"
-              textIndent="15px"
-            >
-              {nameConfirm}
-            </Text>
             <Input
-              placeholder="성함을 입력해주세요."
-              changeEvent={(e) => {
-                setName(e.target.value);
-              }}
-              keyUp={(event) => {
-                debounce(event.target.value, checkName);
-              }}
+              placeholder="상태메세지를 입력해주세요."
               padding="14px 17px"
             />
           </Grid>
           <Grid padding="5px 0px 8px">
-            <Text
-              fontSize="12px"
-              margin="0px"
-              color={pwdWarning}
-              lineHeight="2"
-              textIndent="15px"
-            >
-              {pwdConfirm}
-            </Text>
             <Input
-              placeholder="비밀번호를 입력해주세요."
-              type="password"
-              changeEvent={(e) => {
-                setPwd(e.target.value);
-              }}
-              keyUp={(event) => {
-                debounce(event.target.value, checkPWD);
-              }}
+              placeholder="#관심사1 #관심사2 ..."
               padding="14px 17px"
             />
           </Grid>
-          <Grid padding="5px 0px 8px">
-            <Text
-              fontSize="12px"
-              margin="0px"
-              color={pwdCheckWarning}
-              lineHeight="2"
-              textIndent="15px"
-            >
-              {pwdCheckConfirm}
-            </Text>
-            <Input
-              placeholder="비밀번호를 한번 더 입력해주세요."
-              type="password"
-              changeEvent={(e) => {
-                setPwdCheck(e.target.value);
-              }}
-              keyUp={(event) => {
-                debounce(event.target.value, checkPWD2nd);
-              }}
-              padding="14px 17px"
-            />
-          </Grid>
-          <SimpleModal />
-          {/* <Grid padding="5px 0px 27px">
-            <Button
-              width="100%"
-              height="auto"
-              padding="12px 0"
-              bg="#FFFFFF"
-              hoverColor="#ccc"
-              color="inherit"
-              clickEvent={() => {
-                history.push("/signup/terms");
-              }}
-            >
-              <CheckBox onChange={onChange} checked={check}>
-                약관에 동의합니다.
-              </CheckBox>
-            </Button>
-          </Grid> */}
-
-          {/* <Grid padding="5px 0px 50px 0px">
-                        <Text fontSize="12px" margin="0px" color={addressWarning} lineHeight="2" textIndent="15px">
-                            {addressConfirm}
-                        </Text>
-                        <Input
-                            placeholder="주소를 입력해 주세요."
-                            changeEvent={(e) => {
-                                setAddress(e.target.value);
-                            }}
-                            keyUp={(event) => {
-                                debounce(event.target.value, checkAddress);
-                            }}
-                            padding="14px 17px"
-                        />
-                    </Grid> */}
-
-          {/* <Grid padding="16px 0px">
+          <Grid padding="16px 0px">
             <Button
               width="100%"
               height="auto"
               padding="12px 0"
               clickEvent={signup}
             >
-              회원가입 하기
-            </Button>
-          </Grid> */}
-          <Grid padding="15px 0px 15px">
-            <Button
-              width="100%"
-              height="auto"
-              padding="12px 0"
-              //   bg="#EFEFEF"
-              hoverColor="#ccc"
-              //   color="inherit"
-                clickEvent={() => {
-                  history.push("/signup/info");
-                }}
-            >
-              다음
+              완료
             </Button>
           </Grid>
+
         </Grid>
       </Grid>
     </React.Fragment>
   );
 };
 
-SignUp.defaultProps = {};
+SignupInfo.defaultProps = {};
 
-export default SignUp;
+export default SignupInfo;

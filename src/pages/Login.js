@@ -20,7 +20,7 @@ const LogIn = (props) => {
 
     const login = () => {
         if (!userInfo.loginid) {
-            setWarningText('아이디가 입력되지 않았습니다.');
+            setWarningText('이메일이 입력되지 않았습니다.');
             return;
         }
 
@@ -54,7 +54,7 @@ const LogIn = (props) => {
             `;
                 }}
             >
-                <Title fontSize="35px" textAlign="center">LOGO</Title>
+                <Title fontSize="35px" textAlign="center" marginBottom="15px">LOGO</Title>
                 <Grid padding="18px" bg="#EFEFEF">
                     <Title 
                         fontSize="18px" 
@@ -90,7 +90,7 @@ const LogIn = (props) => {
                                 }
                             }}
                         />
-                        <Text fontSize="12px" lineHeight="1" textIndent="15px" textAlign="right">
+                        <Text fontSize="12px" lineHeight="1" textIndent="15px" textAlign="right" margin="10px 0px 20px 0px">
                             비밀번호 찾기
                         </Text>
                     </Grid>

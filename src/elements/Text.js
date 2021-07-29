@@ -10,6 +10,7 @@ const TextStyle = styled.p`
     font-weight: ${(props) => props.fontWeight};
     margin: ${(props) => props.margin};
     margin-left: ${(props) => props.marginLeft};
+    margin-top: ${(props) => props.marginTop};
     text-align: ${(props) => props.textAlign};
     letter-spacing: ${(props) => props.spacing};
     word-break: break-all;

@@ -1,7 +1,7 @@
 // LIBRARY
 import React, { Component } from "react";
 import { css } from "styled-components";
-// import "../Signup/Signup.scss";
+import "../Signup.scss";
 
 //Elements
 import {

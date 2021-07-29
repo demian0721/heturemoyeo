@@ -1,0 +1,213 @@
+// signup font
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@200&family=Roboto:wght@100;300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Gothic+A1:wght@100;200;300;400;500;600;700&family=Nanum+Gothic:wght@400;700&display=swap");
+@import "./common.scss";
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin mQ($arg) {
+  @media only screen and (max-width: $arg) {
+    @content;
+  }
+}
+
+.Signup {
+  width: 100vw;
+  position: relative;
+  background-color: rgb(244, 244, 244);
+  font-family: "Gothic A1", sans-serif;
+  // .navWrap {
+  //   width: inherit;
+  //   nav {
+  //     height: 102px;
+  //     background-color: $color-white;
+  //   }
+  // }
+  .signupContainer {
+    @include flex-center;
+    padding: 50px 0;
+    margin-top:101px;
+    .signupBoard {
+      width: 555px;
+      background-color: $color-white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      header {
+        padding: 20px 20px;
+        width: 555px;
+        height: 114px;
+        display: flex;
+        justify-content: flex-end;
+        span {
+          font-size: 51px;
+          font-family: "Raleway", sans-serif;
+          color: rgb(193, 193, 193);
+          letter-spacing: -3px;
+        }
+      }
+      .joinInfoBoard {
+        border-top: 2px solid rgb(244, 244, 244);
+        .inputSection {
+          padding: 20px 20px 10px 20px;
+          margin-bottom: 20px;
+          width: 555px;
+          .emailInput,
+          .passwordInput,
+          .nameInput {
+            padding: 0 20px;
+            width: 515px;
+            height: 50px;
+            outline: none;
+            border: none;
+            background-color: rgb(239, 239, 239);
+          }
+          .nameInput,
+          .passwordInput {
+            margin-top: 6px;
+          }
+          .warningMessage {
+            display: block;
+            margin: 6px 0 0 0;
+            font-size: 13px;
+            color: red;
+          }
+          .emailMessage,
+          .nameMessage,
+          .passwordMessage {
+            display: none;
+          }
+        }
+        .infoSection {
+          width: inherit;
+          padding: 0 20px;
+          .joinInfoWrap {
+            width: inherit;
+            .joinInfoTitle {
+              padding: 5px 0 15px 0;
+              height: 40px;
+              border-bottom: 2px solid $color-black;
+              .infoTitle {
+                font-size: 15px;
+                font-weight: 700;
+                display: flex;
+                justify-content: space-between;
+              }
+            }
+            .firstAgreement {
+              width: inherit;
+              display: flex;
+              justify-content: space-between;
+              font-size: 14px;
+              font-weight: 600;
+              border-bottom: 1px solid rgb(244, 244, 244);
+              padding-bottom: 8px;
+              .keyAgreement {
+                padding-top: 32px;
+              }
+              .valueAgreement {
+                padding-top: 32px;
+                span {
+                  bottom: 0;
+                  display: flex;
+                  align-items: center;
+                  input {
+                    outline: none;
+                    margin-top: 0;
+                    margin-bottom: 0;
+                    margin-left: 6px;
+                  }
+                }
+              }
+            }
+            .secondAgreement {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              font-size: 14px;
+              font-weight: 600;
+              padding-bottom: 8px;
+              border-bottom: 1px solid rgb(244, 244, 244);
+              .keyAgreement {
+                padding-top: 32px;
+              }
+              .valueAgreement {
+                padding-top: 32px;
+                span {
+                  bottom: 0;
+                  display: flex;
+                  align-items: center;
+                  input {
+                    outline: none;
+                    margin-top: 0;
+                    margin-bottom: 0;
+                    margin-left: 6px;
+                  }
+                }
+              }
+            }
+            .secondAgrForm {
+              font-size: 13px;
+              border-bottom: 1px solid rgb(244, 244, 244);
+              line-height: 20px;
+              .thirdAgreement {
+                display: flex;
+                justify-content: space-between;
+                font-size: 14px;
+                font-weight: 600;
+                margin-bottom: 5px;
+                .keyAgreement {
+                  padding-top: 32px;
+                }
+                .valueAgreement {
+                  padding-top: 32px;
+                  span {
+                    bottom: 0;
+                    display: flex;
+                    align-items: center;
+                    input {
+                      outline: none;
+                      margin-top: 0;
+                      margin-bottom: 0;
+                      margin-left: 6px;
+                    }
+                  }
+                }
+              }
+            }
+            .thirdAgrForm {
+              ::-webkit-scrollbar {
+                display: none;
+              }
+            }
+          }
+          .signupBtnWrap {
+            height: 67px;
+            padding-top: 20px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            border-top: 2px solid $color-black;
+            .falseBtn {
+              width: 515px;
+              height: 45px;
+              border-radius: 45px;
+              color: $color-white;
+              font-weight: bold;
+              font-size: 18px;
+              background-color: rgb(46, 48, 57);
+            }
+            .signupBtn {
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
+  }
+
+}

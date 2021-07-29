@@ -6,14 +6,14 @@ import thunk from 'redux-thunk';
 
 // REDUCER
 import User from './modules/user';
-import Profile from './modules/Mypage';
+import MyPage from './modules/myPage';
 
 // HISTORY
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
     user: User,
-    profile: Profile,
+    myPage: MyPage,
     router: connectRouter(history),
 });
 

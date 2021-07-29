@@ -8,14 +8,14 @@ import Modal from '@material-ui/core/Modal';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 //Elements
-import { AddButton, Button, Dropdown, Grid, LazyImage, Input, Text, Title } from "../elements/index";
+import { AddButton, Button, Dropdown, Grid, Image, Input, Text, Title } from "../elements/index";
 
 //History
 import { history } from "../redux/configStore";
 import { useSelector, useDispatch } from 'react-redux';
 
 //DB
-import { profileActions } from '../redux/modules/Mypage';
+import { profileActions } from '../redux/modules/myPage';
 
 //Components
 import Footer from "../components/Footer";

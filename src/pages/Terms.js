@@ -89,7 +89,8 @@ export class Terms extends Component {
   //   };
 
   render() {
-    console.log(this.state.name);
+    console.log(this.props)
+    // console.log(this.state.name);
     return (
       <div>
         <Grid
@@ -248,7 +249,8 @@ export class Terms extends Component {
                           <div className="keyAgreement">
                             마케팅 정보 수신 동의 (선택)
                           </div>
-                          <div className="valueAgreement">
+                          <div className="valueAgreement"
+                          style={{fontWeight:""}}>
                             <span>
                               동의
                               <input
@@ -299,14 +301,14 @@ export class Terms extends Component {
               width="100%"
               height="auto"
               padding="12px 0"
-              //   bg="#EFEFEF"
+              bg="#A7AAAD"              
               hoverColor="#ccc"
               //   color="inherit"
               // clickEvent={() => {
               //   history.goBack();
               // }}
-                
-
+                onClick={() => {
+                  this.props.handleClose()}}
             >
               확인
             </Button>

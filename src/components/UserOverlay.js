@@ -20,15 +20,18 @@ const UserOverlay = ({ children, ...props }) => {
               strokeWidth={5}
               styles={
                 buildStyles({
-                  pathColor: '#00c09a',
+                  pathColor: '#009de0',
                   trailColor: '#e9e9e9'
                 })
               }
             />
           }
         </div>
-        <div className='flex font-semibold text-xs justify-center pt-'>
-          Rating: {props?.userRating}
+        <div className='flex text-xs lg:text-base justify-center pt-1'>
+          <div className='inline-flex'>
+            <p>Rating:</p>
+            <p className='font-semibold ml-1'>{props?.userRating}</p>
+          </div>
         </div>
       </div>
       <div className='block pl-4'>

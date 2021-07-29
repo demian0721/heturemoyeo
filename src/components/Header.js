@@ -17,13 +17,9 @@ const Header = () => {
     
     return (
       <React.Fragment>
-        <Grid width="100%" height="10vh" bg="skyblue" style={{position:"fixed", top:"0",zIndex:"100", minHeight: "70px", maxHeight: "100px"}}>
+        <Grid width="100%" height="10vh" bg="skyblue" style={{position:"fixed", top:"0",zIndex:"1", minHeight: "70px", maxHeight: "100px"}}>
           <Menu>
-            <thead>
-              <tr>
-                <th><Text clickEvent={() => { history.push('/'); }} style={{ cursor: "pointer" }}>Header</Text></th>
-              </tr>
-            </thead>
+            <Text hoverWeight='bold' margin="auto"  clickEvent={() => { history.push('/'); }} style={{ cursor: "pointer" }}>Header</Text>
           </Menu>
         </Grid>
       </React.Fragment>
@@ -31,10 +27,13 @@ const Header = () => {
 };
 
 const Menu = styled.table`
-    width: 100%;
-    padding: 10px;
-    max-width: 800px;
-    margin: auto;
+  display: flex;
+  width: 100%;
+  padding: 10px;
+  max-width: 800px;
+  margin:auto;
+  position: relative;
+  top: 20%;
     //styled component use
 `;
 

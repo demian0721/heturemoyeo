@@ -36,7 +36,7 @@ const Footer = () => {
 const Menu = styled.table`
     background-color: skyblue;
     width: 100%;
-    z-index: 100;
+    z-index: 1;
     position: fixed;
     bottom: 0;
     padding: 10pxg;

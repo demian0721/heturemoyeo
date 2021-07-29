@@ -35,8 +35,8 @@ const Button = ({ children, clickEvent, ...props }) => {
 
 Button.defaultProps = {
     display: 'inline-flex',
-    width: '60px',
-    height: '60px',
+    width: 'auto',
+    height: 'auto',
     fontSize: '16px',
     color: '#fff',
     padding: 0,

@@ -5,7 +5,7 @@ import axios from 'axios';
 import { getToken } from './token';
 
 const instance = axios.create({
-    baseURL: 'http://3.34.40.118/',
+    baseURL: 'http://astraios.shop:4001/',
     headers: {authorization: `Bearer ${getToken()}`},
 });
 

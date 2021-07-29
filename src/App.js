@@ -24,12 +24,13 @@ import { Grid } from './elements/index';
 
 // COMPONENTS
 import Permit from './components/Permit';
+import Footer from './components/Footer';
 
 // PAGES
 import { Main, Login, Signup, Mypage, Terms } from './pages/index';
 
 function App() {
-  
+
   const dispatch = useDispatch();
   const token = getToken();
 
@@ -40,42 +41,50 @@ function App() {
     }
   }, []);
 
+  // return (
+  //   <ThemeProvider theme={theme}>
+  //     <GlobalStyle />
+  //     <Grid
+  //       margin="0 auto"
+  //       padding="0"
+  //       width="100%"
+  //       height="auto"
+  //       style={{
+  //         minWidth: '700px',
+  //         position: 'relative',
+  //         transition: 'height 480ms ease-out 0s',
+  //       }}
+  //       laptoptStyle={() => {
+  //         return css`
+  //           max-width: none;
+  //           width: 100vw;
+  //         `;
+  //       }}
+  //       mobileStyle={() => {
+  //         return css`
+  //           width: 100vw;
+  //         `;
+  //       }}
+  //     >
+  //       <ConnectedRouter history={history} style={{ position: "relative", zIndex: "8" }}>
+  //         <Route exact path="/" component={Main} />
+  //         <Route path="/login" exact component={Login} />
+  //         <Route path="/signup" exact component={Signup} />
+  //         <Route path="/signup/terms" exact component={Terms} />
+  //         <Route path="/mypage" exact component={Mypage} />
+  //       </ConnectedRouter>
+  //     </Grid>
+  //   </ThemeProvider >
+  // );
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <Grid
-        margin="0 auto"
-        padding="0"
-        width="100%"
-        height="auto"
-        style={{
-          minWidth: '700px',
-          position: 'relative',
-          transition: 'height 480ms ease-out 0s',
-        }}
-        laptoptStyle={() => {
-          return css`
-            max-width: none;
-            width: 100vw;
-          `;
-        }}
-        mobileStyle={() => {
-          return css`
-            width: 100vw;
-          `;
-        }}
-      >
-        <ConnectedRouter history={history} style={{ position: "relative", zIndex: "8" }}>
-          <Route exact path="/" component={Main} />
-          <Route path="/login" exact component={Login} />
-          <Route path="/signup" exact component={Signup} />
-          <Route path="/signup/terms" exact component={Terms} />
-          <Route path="/mypage" exact component={Mypage} />
-        </ConnectedRouter>
-      </Grid>
-      <Permit></Permit>
-    </ThemeProvider >
-  );
+    <ConnectedRouter history={history}>
+      <Route exact path="/" component={Main} />
+      <Route path="/login" exact component={Login} />
+      <Route path="/signup" exact component={Signup} />
+      <Route path="/signup/terms" exact component={Terms} />
+      <Route path="/mypage" exact component={Mypage} />
+    </ConnectedRouter>
+  )
 }
 
 export default App;

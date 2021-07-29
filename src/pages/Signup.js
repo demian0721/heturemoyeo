@@ -4,7 +4,8 @@ import _ from "lodash";
 import { css } from "styled-components";
 
 //Elements
-import { Text, Title, Input, Grid, Button, CheckBox } from "../elements";
+import { Text, Title, Input, Grid, Button } from "../elements";
+import SimpleModal from "../elements/Modal";
 
 //HISTORY
 import { history } from "../redux/configStore";
@@ -136,10 +137,10 @@ const SignUp = (props) => {
     setIdConfirm("");
   };
 
-  const [check, setCheck] = React.useState(false);
-  const onChange = (e) => {
-    setCheck(e.target.checked);
-  };
+  // const [check, setCheck] = React.useState(false);
+  // const onChange = (e) => {
+  //   setCheck(e.target.checked);
+  // };
 
   return (
     <React.Fragment>
@@ -269,7 +270,8 @@ const SignUp = (props) => {
               padding="14px 17px"
             />
           </Grid>
-          <Grid padding="5px 0px 27px">
+          <SimpleModal />
+          {/* <Grid padding="5px 0px 27px">
             <Button
               width="100%"
               height="auto"
@@ -285,7 +287,8 @@ const SignUp = (props) => {
                 약관에 동의합니다.
               </CheckBox>
             </Button>
-          </Grid>
+          </Grid> */}
+
           {/* <Grid padding="5px 0px 50px 0px">
                         <Text fontSize="12px" margin="0px" color={addressWarning} lineHeight="2" textIndent="15px">
                             {addressConfirm}

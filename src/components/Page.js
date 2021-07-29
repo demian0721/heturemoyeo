@@ -15,7 +15,7 @@ import { history } from "../redux/configStore";
 
 //Components
 import Footer from "../components/Footer";
-import SimpleModal from "./modaltest";
+import SimpleModal from "./Mymodal";
 
 //임포트 사용 항목 외 삭제요망
 
@@ -31,10 +31,10 @@ const Page = () => {
               </Grid>
               <Grid padding="20px">
                 <Grid is_flex>
-                  <Title>닉네임</Title>
-                  <ArrowForwardIosIcon/>
+                  <Title onClick={() => { history.push('/mypageedit'); }} style={{cursor:"default"}}>닉네임</Title>
+                  <ArrowForwardIosIcon onClick={() => { history.push('/mypageedit'); }}/>
                 </Grid>
-                <Text>상태 메세지</Text>
+                <SimpleModal />
               </Grid>
             </Grid>
             
@@ -47,7 +47,7 @@ const Page = () => {
               <Button width="100%" padding="10px" margin="5px auto" display="block" style={{minWidth:"100px"}}>로그아웃</Button>
             </div>
           </Grid>
-          <SimpleModal />
+          
 
         </Style>
         )

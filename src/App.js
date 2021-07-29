@@ -26,7 +26,7 @@ function App() {
 
   useEffect(() => {
     if (token) {
-      dispatch(userActions.checkDidIWriteDB());
+      // dispatch(userActions.checkAuthDB());
       dispatch(userActions.logInCheck(token));
     }
   }, []);

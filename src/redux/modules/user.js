@@ -30,12 +30,12 @@ const initialState = {
 };
 
 // MIDDLEWARE
-const checkDidIWriteDB = () => {
+const checkAuthDB = () => {
     return function (dispatch) {
         instance
             .post('/api/user/me')
             .then((res) => {
-                dispatch(checkDidIWrite(res.data));
+                dispatch(checkAuthDB(res.data));
             })
             .catch((error) => {
                 console.error(error);
@@ -46,14 +46,14 @@ const checkDidIWriteDB = () => {
 const loginAction = (user) => {
     return function (dispatch, getState, { history }) {
         instance
-            .post('/user/login', user)
+            .post('/api/login', user)
             .then((res) => {
                 const userInfo = {
                     userId: res.data.userId,
                     nickname: user.nickname,
                 };
 
-                dispatch(checkDidIWrite(userInfo));
+                dispatch(checkAuthDB(userInfo));
                 dispatch(logIn(res.data.token));
 
                 setToken(res.data.token);
@@ -140,7 +140,7 @@ const userActions = {
     logInCheck,
     logOut,
     loginAction,
-    checkDidIWriteDB,
+    checkAuthDB,
     signupDB,
     nickCheck,
 };

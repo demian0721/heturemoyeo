@@ -25,6 +25,7 @@ const Mypage = () => {
           <Header />
           <Page/>
           {/* <Profile/> */}
+          {/* <ProfileEdit/> */}
           <Footer />
       </React.Fragment>
     );

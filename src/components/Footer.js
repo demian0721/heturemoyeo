@@ -17,29 +17,26 @@ const Footer = () => {
     
     return (
       <React.Fragment>
-        <Grid width="100%" height="10vh" bg="skyblue" style={{position:"fixed", bottom:"0",zIndex:"1", minHeight: "70px", maxHeight: "100px", alignItem: "center"}}>
-          <Menu>
-            <Text hoverWeight='bold' margin="auto" clickEvent={() => { history.push('/'); }} style={{ cursor: "pointer" }}>홈버튼</Text>
-            <Text hoverWeight='bold' margin="auto" clickEvent={() => { history.push('/'); }} style={{ cursor: "pointer" }}>모임구하기</Text>
-            <Text hoverWeight='bold' margin="auto" clickEvent={() => { history.push('/'); }} style={{ cursor: "pointer" }}>친구관리</Text>
-            <Text hoverWeight='bold' margin="auto" clickEvent={() => { history.push('/'); }} style={{ cursor: "pointer" }}>대화방</Text>
-            <Text hoverWeight='bold' margin="auto" clickEvent={() => { history.push('/mypage'); }} style={{ cursor: "pointer" }}>마이페이지</Text>
-          </Menu>
+        <Grid is_flex="center" width="100%" minWidth="280px" height="77px" bg="skyblue"
+        style={{position:"fixed", bottom:"0", zIndex:"2"}}>
+            <Text hoverWeight='bold' margin="auto"
+            clickEvent={() => { history.push('/'); }}
+            style={{ cursor: "pointer" }}>홈버튼</Text>
+            <Text hoverWeight='bold' margin="auto"
+            clickEvent={() => { history.push('/'); }}
+            style={{ cursor: "pointer" }}>모임구하기</Text>
+            <Text hoverWeight='bold' margin="auto"
+            clickEvent={() => { history.push('/'); }}
+            style={{ cursor: "pointer" }}>친구관리</Text>
+            <Text hoverWeight='bold' margin="auto"
+            clickEvent={() => { history.push('/'); }}
+            style={{ cursor: "pointer" }}>대화방</Text>
+            <Text hoverWeight='bold' margin="auto"
+            clickEvent={() => { history.push('/mypage'); }}
+            style={{ cursor: "pointer" }}>마이페이지</Text>
         </Grid>
       </React.Fragment>
     );
 };
-
-
-const Menu = styled.div`
-  display: flex;
-  width: 100%;
-  padding: 10px;
-  max-width: 800px;
-  margin:auto;
-  position: relative;
-  top: 20%;
-  //styled component use
-`;
 
 export default Footer;

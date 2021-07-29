@@ -87,7 +87,7 @@ const Main = () => {
                     leaveFrom='transform opacity-100'
                     leaveTo='transform opacity-0'
                     className='absolute left-0 right-0 bottom-0 border border-gray-300 rounded-t-lg bg-white py-4 topDropShadow'
-                    style={{ zIndex: 2 }}
+                    style={{ zIndex: 3 }}
                 >
                     <div ref={ref} className='container mx-auto px-4'>
                         <div id='overlay--author__status' className='block'>
@@ -103,8 +103,8 @@ const Main = () => {
                     </div>
                 </Transition>
             </div>
-            <MyLocation />
             <Footer />
+            <MyLocation />
             {/* <Grid
                 style={{ position: 'fixed', top: '10%', left: '3%', zIndex: 99 }}
                 width="auto"

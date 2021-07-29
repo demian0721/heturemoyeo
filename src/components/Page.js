@@ -29,7 +29,7 @@ const Page = () => {
 
   useEffect(() => { dispatch(profileActions.getProfilesDB()) }, [])
 
-  const ProfileList = useSelector(state => state.profile.list)
+  const ProfileList = useSelector(state => state.myPage.list)
 
   console.log(ProfileList)
     

@@ -38,7 +38,7 @@ const getProfilesDB = () => {
 };
 
 // REDUCER
-function profile(state = initialState, action) {
+function myPage(state = initialState, action) {
   switch (action.type) {
     case GET_PROFILE:
       return { ...state, list: action.profiles };
@@ -47,7 +47,7 @@ function profile(state = initialState, action) {
   }
 }
 
-export default profile;
+export default myPage;
 
 export const profileActions = {
   getProfiles,

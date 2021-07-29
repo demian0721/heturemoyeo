@@ -65,7 +65,7 @@ const Main = () => {
 
     return (
         <>
-        <Header/>
+        <Grid><Header/></Grid>
             <div className='container'> {/* 맵 영역 생성 */}
                 <div
                     id='map'
@@ -103,7 +103,6 @@ const Main = () => {
                     </div>
                 </Transition>
             </div>
-            <Footer />
             <MyLocation />
             {/* <Grid
                 style={{ position: 'fixed', top: '10%', left: '3%', zIndex: 99 }}
@@ -123,6 +122,7 @@ const Main = () => {
                     <MyLocationIcon />
                 </Button>
             </Grid> */}
+            <Grid><Footer /></Grid>
         </>
     )
 }

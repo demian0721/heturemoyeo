@@ -1,15 +1,29 @@
-//Library
-import React, { useState } from 'react';
-import styled from "styled-components";
+// LIBRARY
+import React, { useEffect } from 'react';
+import { ConnectedRouter } from 'connected-react-router';
+import { Route } from 'react-router-dom';
 
-//Elements
-import { AddButton, Button, Dropdown, Grid, LazyImage, Input, Text, Title } from "../elements/index";
+// HISTORY
+import { history } from './redux/configStore';
 
-//History
-import { history } from "../redux/configStore";
+// REDUX
+import { userActions } from './redux/modules/user';
+import { useDispatch } from 'react-redux';
 
-//Components
-import Footer from "../components/Footer";
+// TOKEN
+import { getToken } from './common/token';
+
+// STYLE
+import GlobalStyle from './common/globalStyle';
+
+// ELEMENTS
+
+// COMMON
+
+// COPONENTS
+
+// PAGES
+import { Main, Login, Signup, SignupInfo, Mypage, MypageEdit } from './pages/index';
 
 //임포트 사용 항목 외 삭제요망
 

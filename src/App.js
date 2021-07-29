@@ -10,7 +10,7 @@ import { history } from './redux/configStore';
 import { userActions } from './redux/modules/user';
 import { useDispatch } from 'react-redux';
 
-//TOKEN
+// TOKEN
 import { getToken } from './common/token';
 
 // STYLE

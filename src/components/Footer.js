@@ -17,37 +17,29 @@ const Footer = () => {
     
     return (
       <React.Fragment>
-        <Grid width="100%" height="10vh" bg="skyblue" style={{position:"fixed", bottom:"0",zIndex:"100", minHeight: "70px", maxHeight: "100px"}}>
+        {/* <Grid width="100%" height="10vh" bg="skyblue" style={{position:"fixed", bottom:"0",zIndex:"1", minHeight: "70px", maxHeight: "100px", alignItem: "center"}}> */}
+        <div style={{width:"100%",height:"10vh",backgroundColor:"skyblue", position:"fixed", bottom:"0",zIndex:"1", minHeight: "70px", maxHeight: "100px", alignItem: "center"}}>
           <Menu>
-            <thead>
-              <tr>
-                <th><Text clickEvent={() => { history.push('/'); }} style={{ cursor: "pointer" }}>홈버튼</Text></th>
-                <th><Text clickEvent={() => { history.push('/'); }} style={{ cursor: "pointer" }}>모임구하기</Text></th>
-                <th><Text clickEvent={() => { history.push('/'); }} style={{ cursor: "pointer" }}>친구관리</Text></th>
-                <th><Text clickEvent={() => { history.push('/'); }} style={{ cursor: "pointer" }}>대화방</Text></th>
-                <th><Text clickEvent={() => { history.push('/mypage'); }} style={{ cursor: "pointer" }}>마이페이지</Text></th>
-              </tr>
-            </thead>
+            <Text hoverWeight='bold' margin="auto" clickEvent={() => { history.push('/'); }} style={{ cursor: "pointer" }}>홈버튼</Text>
+            <Text hoverWeight='bold' margin="auto" clickEvent={() => { history.push('/'); }} style={{ cursor: "pointer" }}>모임구하기</Text>
+            <Text hoverWeight='bold' margin="auto" clickEvent={() => { history.push('/'); }} style={{ cursor: "pointer" }}>친구관리</Text>
+            <Text hoverWeight='bold' margin="auto" clickEvent={() => { history.push('/'); }} style={{ cursor: "pointer" }}>대화방</Text>
+            <Text hoverWeight='bold' margin="auto" clickEvent={() => { history.push('/mypage'); }} style={{ cursor: "pointer" }}>마이페이지</Text>
           </Menu>
-        </Grid>
+        </div>    
+        {/* </Grid> */}
       </React.Fragment>
     );
 };
 
 
-const Menu = styled.table`
-    width: 100%;
-<<<<<<< Updated upstream
-    z-index: 1;
-    position: fixed;
-    bottom: 0;
-    padding: 10pxg;
-=======
-    padding: 10px;
-    max-width: 800px;
-    margin: auto;
->>>>>>> Stashed changes
-    //styled component use
+const Menu = styled.div`
+  display: flex;
+  width: 100%;
+  padding: 10px;
+  max-width: 800px;
+  margin:auto;
+  //styled component use
 `;
 
 export default Footer;

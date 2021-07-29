@@ -23,7 +23,6 @@ import theme from './common/style';
 import { Grid } from './elements/index';
 
 // COMPONENTS
-import Permit from './components/Permit';
 import Footer from './components/Footer';
 
 // PAGES
@@ -77,13 +76,13 @@ function App() {
   //   </ThemeProvider >
   // );
   return (
-    <ConnectedRouter history={history} style={{ position: "relative", zIndex: "8" }}>
-          <Route exact path="/" component={Main} />
-          <Route path="/login" exact component={Login} />
-          <Route path="/signup" exact component={Signup} />
-          <Route path="/mypage" exact component={Mypage} />
-        </ConnectedRouter>
-  );
+    <ConnectedRouter history={history}>
+      <Route exact path="/" component={Main} />
+      <Route path="/login" exact component={Login} />
+      <Route path="/signup" exact component={Signup} />
+      <Route path="/mypage" exact component={Mypage} />
+    </ConnectedRouter>
+  )
 }
 
 export default App;

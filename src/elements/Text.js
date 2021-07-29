@@ -18,7 +18,7 @@ const TextStyle = styled.p`
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 7;
     &:hover {
-    font-weight: ${(props) => props.hoverweight};
+    font-weight: ${(props) => props.hoverWeight};
     }
 `;
 

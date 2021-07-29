@@ -1,5 +1,5 @@
 //Library
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 
 //Material-Ui
@@ -8,10 +8,14 @@ import Modal from '@material-ui/core/Modal';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 //Elements
-import { AddButton, Button, Dropdown, Grid, Image, Input, Text, Title } from "../elements/index";
+import { AddButton, Button, Dropdown, Grid, LazyImage, Input, Text, Title } from "../elements/index";
 
 //History
 import { history } from "../redux/configStore";
+import { useSelector, useDispatch } from 'react-redux';
+
+//DB
+import { profileActions } from '../redux/modules/Mypage';
 
 //Components
 import Footer from "../components/Footer";
@@ -20,6 +24,14 @@ import SimpleModal from "./Mymodal";
 //임포트 사용 항목 외 삭제요망
 
 const Page = () => {
+    
+  const dispatch = useDispatch();
+
+  useEffect(() => { dispatch(profileActions.getProfilesDB()) }, [])
+
+  const ProfileList = useSelector(state => state.profile.list)
+
+  console.log(ProfileList)
     
     
     return (

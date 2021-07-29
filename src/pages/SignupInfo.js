@@ -148,7 +148,7 @@ const SignupInfo = (props) => {
         }}
       >
         <Title fontSize="35px" textAlign="center" margin="30px 0px 15px 0px">
-          LOGO
+        <span style={{ cursor: "pointer" }}>LOGO</span>
         </Title>
         <Grid padding="16px" bg="#EFEFEF">
           <Title 
@@ -157,7 +157,7 @@ const SignupInfo = (props) => {
                 textAlign="center">
                 회원정보 입력</Title>
           <Grid padding="5px 0px 8px"
-                width="20vw"
+                width="10vw"
                 margin="auto">
           <Image src="https://i.imgur.com/ViFAD8Z.png"/>
           </Grid>
@@ -189,6 +189,7 @@ const SignupInfo = (props) => {
               height="auto"
               padding="16px 0"
               fontSize="13px"
+              bg="#A7AAAD"
               clickEvent={nickname}
             >
               중복 확인
@@ -211,6 +212,7 @@ const SignupInfo = (props) => {
               width="100%"
               height="auto"
               padding="12px 0"
+              bg="#A7AAAD"
               clickEvent={signup}
             >
               완료

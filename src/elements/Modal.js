@@ -86,7 +86,7 @@ export default function SimpleModal() {
       <div>
       <KakaoLogin onClick={authorization}/>
       </div> */}
-      <Terms/>
+      <Terms handleClose={handleClose}/>
       </Wrapper>
     </div>
   );
@@ -107,9 +107,9 @@ export default function SimpleModal() {
               hoverColor="#ccc"
               color="inherit"
               onClick={handleOpen}
-              clickEvent={() => {
-                history.push("/signup/terms");
-              }}
+              // clickEvent={() => {
+              //   history.push("/signup/terms");
+              // }}
             >
               <CheckBox onChange={onChange} checked={check}>
                 약관에 동의합니다.

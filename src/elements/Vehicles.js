@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-// import "../Signup.scss";
-// import "../signupComponent/Vehicles.scss";
+import "../Signup.scss";
+import "../Vehicles.scss";
 
 class Vehicles extends Component {
   render() {

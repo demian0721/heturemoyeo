@@ -156,7 +156,9 @@ const SignupInfo = (props) => {
                 margin="5px"
                 textAlign="center">
                 회원정보 입력</Title>
-          <Grid padding="5px 0px 8px">
+          <Grid padding="5px 0px 8px"
+                width="20vw"
+                margin="auto">
           <LazyImage src="https://i.imgur.com/ViFAD8Z.png"/>
           </Grid>
           <Grid padding="16px 0px 0px">

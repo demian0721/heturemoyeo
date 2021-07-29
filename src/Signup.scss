@@ -16,7 +16,7 @@
 }
 
 .Signup {
-  width: 100vw;
+  width: 100px;
   position: relative;
   background-color: rgb(244, 244, 244);
   font-family: "Gothic A1", sans-serif;
@@ -29,21 +29,22 @@
   // }
   .signupContainer {
     @include flex-center;
-    padding: 50px 0;
-    margin-top:101px;
+    // padding: 50px 0;
+    // margin-top:101px;
     .signupBoard {
-      width: 555px;
+      width: 300px;
       background-color: $color-white;
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin-left: 156px;
 
       header {
-        padding: 20px 20px;
-        width: 555px;
-        height: 114px;
+        padding: 10px 10px;
+        width: 300px;
+        height: 14px;
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         span {
           font-size: 51px;
           font-family: "Raleway", sans-serif;
@@ -52,7 +53,7 @@
         }
       }
       .joinInfoBoard {
-        border-top: 2px solid rgb(244, 244, 244);
+        // border-top: 2px solid rgb(244, 244, 244);
         .inputSection {
           padding: 20px 20px 10px 20px;
           margin-bottom: 20px;

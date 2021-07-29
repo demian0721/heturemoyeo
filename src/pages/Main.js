@@ -7,9 +7,14 @@ import { Transition } from '@headlessui/react'
 // COMPONENTS
 import UserOverlay from '../components/UserOverlay';
 import Footer from '../components/Footer';
+import MyLocation from '../components/MyLocation';
 
 // ELEMENTS
-import { Grid, Button, Title, Text, AddButton } from '../elements/index';
+import { Grid, Button, Title, Text } from '../elements/index';
+import { map } from 'lodash';
+
+// MATERIAL-UI
+import MyLocationIcon from '@material-ui/icons/MyLocation';
 
 const Main = () => {
     const [markers] = useState([])
@@ -52,9 +57,14 @@ const Main = () => {
         }
     }, [ref, isOpen])
 
+    // const panTo = (x, y) => {
+    //     const moveLatLon = new kakao.maps.LatLng(x, y)
+    //     map.panTo(moveLatLon)
+    // }
+
     return (
         <>
-            <div className='container'>
+            <div className='container'> {/* 맵 영역 생성 */}
                 <div
                     id='map'
                     className='h-auto w-auto'
@@ -65,6 +75,7 @@ const Main = () => {
                         maxHeight: '100vh'
                     }}
                 />
+                {/* 오버레이 */}
                 <Transition
                     show={isOpen}
                     enter='transition ease-out duration-100'
@@ -89,8 +100,27 @@ const Main = () => {
                         </div>
                     </div>
                 </Transition>
+                <MyLocation/>
                 <Footer />
             </div>
+            {/* <Grid
+                style={{ position: 'fixed', top: '10%', left: '3%', zIndex: 99 }}
+                width="auto"
+                height="auto"
+                overflow="visible"
+            >
+                <Button
+                    shadow="rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;"
+                    padding="12px"
+                    margin="0 0 10px"
+                    radius="100%"
+                    clickEvent={() =>
+                        window.location.reload(),
+                        console.log('내 위치 찾기!')}
+                >
+                    <MyLocationIcon />
+                </Button>
+            </Grid> */}
         </>
     )
 }

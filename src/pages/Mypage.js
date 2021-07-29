@@ -18,16 +18,16 @@ import ProfileEdit from "../components/ProfileEdit";
 //임포트 사용 항목 외 삭제요망
 
 const Mypage = () => {
-    
-    
+
+
     return (
-      <React.Fragment>
-          <Header />
-          <Page/>
-          {/* <Profile/> */}
-          {/* <ProfileEdit/> */}
-          <Footer />
-      </React.Fragment>
+        <React.Fragment>
+            <Header />
+            <Page />
+            {/* <Profile/> */}
+            {/* <ProfileEdit/> */}
+            <Footer />
+        </React.Fragment>
     );
 };
 

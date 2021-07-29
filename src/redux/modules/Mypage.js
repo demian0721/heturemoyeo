@@ -1,5 +1,6 @@
-import instance from "../../common/axios";
-import axios from 'axios';
+// AXIOS
+import instance from '../../common/axios';
+
 
 // FUNCTION
 import { setToken, removeToken } from '../../common/token';
@@ -21,14 +22,11 @@ const initialState = {
 // MIDDLEWARE
 const getProfilesDB = () => {
   return function (dispatch) {
-    axios.get('http://astraios.shop:4001/api/user/me', {
-      headers: {
-        // 'Authorization':`Bearer ${localStorage.getItem("token")}`
-      }
+    instance
+    .get('/api/user/me', {
     })
       .then((res) => {
         console.log(res);
-        // setToken(res.data.token);
         dispatch(getProfiles(res.data.result));
       })
       .catch((error) => {

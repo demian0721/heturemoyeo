@@ -76,7 +76,6 @@ function App() {
   //   </ThemeProvider >
   // );
   return (
-<<<<<<< Updated upstream
     <ConnectedRouter history={history}>
       <Route exact path="/" component={Main} />
       <Route path="/login" exact component={Login} />
@@ -84,16 +83,6 @@ function App() {
       <Route path="/mypage" exact component={Mypage} />
     </ConnectedRouter>
   )
-=======
-    <ConnectedRouter history={history} style={{ position: "relative", zIndex: "8" }}>
-          <Route exact path="/" component={Main} />
-          <Route path="/login" exact component={Login} />
-          <Route path="/signup" exact component={Signup} />
-          <Route path="/signup/info" exact component={SignupInfo} />
-          <Route path="/mypage" exact component={Mypage} />
-        </ConnectedRouter>
-  );
->>>>>>> Stashed changes
 }
 
 export default App;

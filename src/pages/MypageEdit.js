@@ -28,7 +28,7 @@ const MypageEdit = () => {
 };
 
 
-const Style = styled.div` g
+const Style = styled.div` 
     padding-top:100px;
     align-items: center;
     margin-top: 10vh;

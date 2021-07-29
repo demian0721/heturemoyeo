@@ -2,6 +2,7 @@
 import React, { useEffect } from 'react';
 import { ConnectedRouter } from 'connected-react-router';
 import { Route } from 'react-router-dom';
+import styled from 'styled-components';
 
 // HISTORY
 import { history } from './redux/configStore';
@@ -27,7 +28,7 @@ import { Main, Login, Signup, SignupInfo, Mypage, MypageEdit } from './pages/ind
 
 //임포트 사용 항목 외 삭제요망
 
-const template = () => {
+const Template = () => {
     
     
     return (

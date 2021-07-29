@@ -7,7 +7,7 @@ import Modal from '@material-ui/core/Modal';
 import { Autorenew } from '@material-ui/icons';
 
 //Elements
-import { Grid, Button, CheckBox } from "./index";
+import { Grid, Button, CheckBox } from "../elements/index";
 
 //HISTORY
 import { history } from "../redux/configStore";
@@ -79,13 +79,6 @@ export default function SimpleModal() {
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <Wrapper>
-      {/* <h2 id="simple-modal-title" style={{fontSize: "30px"}}>로그인</h2>
-      <p id="simple-modal-description" style={{fontSize: "16px", color: "#555555", fontWeight: "bold"}}>
-        로그인 하면 가고싶은 식당을<br/>저장할 수 있어요
-      </p>
-      <div>
-      <KakaoLogin onClick={authorization}/>
-      </div> */}
       <Terms handleClose={handleClose}/>
       </Wrapper>
     </div>
@@ -107,17 +100,13 @@ export default function SimpleModal() {
               hoverColor="#ccc"
               color="inherit"
               onClick={handleOpen}
-              // clickEvent={() => {
-              //   history.push("/signup/terms");
-              // }}
             >
               <CheckBox onChange={onChange} checked={check}>
                 약관에 동의합니다.
               </CheckBox>
             </Button>
           </Grid>
-      {/* <AvatarLogin onClick={handleOpen}
-      src="https://mangoplate.s3.ap-northeast-2.amazonaws.com/login_avatarimage.png"/> */}
+      
       <Modal
         open={open}
         onClose={handleClose}
@@ -129,24 +118,7 @@ export default function SimpleModal() {
     </div>
   );
 }
-// const AvatarLogin = styled.img`
-//     width: 36px;
-//     height: 36px;
-//     cursor: pointer;
-//     `;
 
-// const KakaoLogin = styled.button`
-//     margin-top: 15px;
-//     width: 256px;
-//     height: 51px;
-//     border-radius: 50px;
-//     border: 0px;
-//     background-position: center;
-//     background-size: cover;
-//     background-repeat: no-repeat;
-//     background-image: url("https://mangoplate.s3.ap-northeast-2.amazonaws.com/kakaotalklogin_btn-removebg-preview.png");
-//     cursor: pointer;
-//     `;
 const Wrapper = styled.div`
     /* text-align: center;
     overflow: hidden; */

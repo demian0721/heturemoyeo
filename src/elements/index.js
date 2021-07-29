@@ -8,6 +8,5 @@ import Dropdown from'./Dropdown';
 import CheckBox from'./CheckBox';
 import Toggle from'./Toggle';
 import Vehicles from'./Vehicles';
-import Modal from "./Modal";
 
-export { Button, Dropdown, Grid, Image, Input, Text, Title, CheckBox, Toggle, Vehicles, Modal };
+export { Button, Dropdown, Grid, Image, Input, Text, Title, CheckBox, Toggle, Vehicles};

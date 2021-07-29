@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { ConnectedRouter } from 'connected-react-router';
 import { Route } from 'react-router-dom';
-import styled from 'styled-components';
+import styled from "styled-components";
 
 // HISTORY
 import { history } from './redux/configStore';

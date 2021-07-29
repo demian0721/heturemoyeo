@@ -5,7 +5,7 @@ import { css } from "styled-components";
 
 //Elements
 import { Text, Title, Input, Grid, Button } from "../elements";
-import SimpleModal from "../elements/Modal";
+import SimpleModal from "../components/TermsModal";
 
 //HISTORY
 import { history } from "../redux/configStore";

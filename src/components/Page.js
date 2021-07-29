@@ -8,7 +8,7 @@ import Modal from '@material-ui/core/Modal';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 //Elements
-import { AddButton, Button, Dropdown, Grid, LazyImage, Input, Text, Title } from "../elements/index";
+import { AddButton, Button, Dropdown, Grid, Image, Input, Text, Title } from "../elements/index";
 
 //History
 import { history } from "../redux/configStore";
@@ -27,7 +27,7 @@ const Page = () => {
           <Grid  width="50vw" height="100%" maxWidth="500px" minWidth="250px" margin="auto" style={{}}>
             <Grid id="profile" is_flex>
               <Grid width="20vw" maxWidth="150px" minWidth="30px" margin="auto auto 30px" style={{display:"block", borderRadius:"50%"}}>
-                  <LazyImage src="https://i.imgur.com/ViFAD8Z.png"/>
+                  <Image src="https://i.imgur.com/ViFAD8Z.png"/>
               </Grid>
               <Grid padding="20px">
                 <Grid is_flex>

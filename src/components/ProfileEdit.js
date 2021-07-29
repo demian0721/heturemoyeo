@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import styled from "styled-components";
 
 //Elements
-import { AddButton, Button, Dropdown, Grid, LazyImage, Input, Text, Title } from "../elements/index";
+import { AddButton, Button, Dropdown, Grid, Image, Input, Text, Title } from "../elements/index";
 
 //History
 import { history } from "../redux/configStore";
@@ -21,7 +21,7 @@ const ProfileEdit = () => {
           <Grid  width="50vw" height="100%" maxWidth="500px" minWidth="250px" margin="auto" style={{}}>
             <Grid id="profile"></Grid>
             <Grid width="15vw" maxWidth="150px" minWidth="50px" margin="auto auto 30px" style={{display:"block", borderRadius:"50%"}}>
-                <LazyImage src="https://i.imgur.com/ViFAD8Z.png" style={{position:'absolute',zIndex:1}}/>
+                <Image src="https://i.imgur.com/ViFAD8Z.png" style={{position:'absolute',zIndex:1}}/>
                 <Text style={{position:'relative',zIndex:2}}>이미지 수정</Text>
             </Grid>
             {/* <Text margin="20px 0px 0px 0px">비밀번호</Text> */}

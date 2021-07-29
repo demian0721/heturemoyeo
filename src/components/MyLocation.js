@@ -10,7 +10,7 @@ import MyLocationIcon from '@material-ui/icons/MyLocation';
 const MyLocation = (props) => {
     return (
         < Grid
-            style={{ position: 'fixed', top: '10%', left: '3%', zIndex: 99 }
+            style={{ position: 'fixed', top: '8%', left: '3%', zIndex: 99 }
             }
             width="auto"
             height="auto"

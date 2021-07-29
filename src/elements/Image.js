@@ -10,16 +10,16 @@ const ImageStyle = styled.img`
     width: ${(props) => props.width};
 `;
 
-const LazyImage = ({ clickEvent, ...props }) => {
+const Image = ({ clickEvent, ...props }) => {
     const { src, alt } = props;
 
     if (src) return <ImageStyle onClick={clickEvent} src={src} alt={alt} />;
     else return null;
 };
 
-LazyImage.defaultProps = {
+Image.defaultProps = {
     clickEvent: () => {},
     width: 'auto',
 };
 
-export default LazyImage;
+export default Image;

@@ -5,6 +5,7 @@ import { css } from 'styled-components';
 import { Transition } from '@headlessui/react'
 
 // COMPONENTS
+import Header from '../components/Header';
 import UserOverlay from '../components/UserOverlay';
 import Footer from '../components/Footer';
 import MyLocation from '../components/MyLocation';
@@ -64,6 +65,7 @@ const Main = () => {
 
     return (
         <>
+        <Header/>
             <div className='container'> {/* 맵 영역 생성 */}
                 <div
                     id='map'
@@ -100,9 +102,9 @@ const Main = () => {
                         </div>
                     </div>
                 </Transition>
-                <MyLocation/>
-                <Footer />
             </div>
+            <MyLocation />
+            <Footer />
             {/* <Grid
                 style={{ position: 'fixed', top: '10%', left: '3%', zIndex: 99 }}
                 width="auto"

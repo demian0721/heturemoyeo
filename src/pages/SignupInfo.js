@@ -4,7 +4,7 @@ import _ from "lodash";
 import { css } from "styled-components";
 
 //Elements
-import { Text, Title, Input, Grid, Button, LazyImage } from "../elements";
+import { Text, Title, Input, Grid, Button, Image } from "../elements";
 
 //HISTORY
 import { history } from "../redux/configStore";
@@ -159,7 +159,7 @@ const SignupInfo = (props) => {
           <Grid padding="5px 0px 8px"
                 width="20vw"
                 margin="auto">
-          <LazyImage src="https://i.imgur.com/ViFAD8Z.png"/>
+          <Image src="https://i.imgur.com/ViFAD8Z.png"/>
           </Grid>
           <Grid padding="16px 0px 0px">
             <Text

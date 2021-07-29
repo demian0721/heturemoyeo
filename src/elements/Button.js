@@ -39,7 +39,7 @@ Button.defaultProps = {
     height: 'auto',
     fontSize: '16px',
     color: '#fff',
-    padding: 0,
+    padding: 10,
     bg: '#333333',
     hoverBg: '#f3f3f3',
     hoverColor: '#000',

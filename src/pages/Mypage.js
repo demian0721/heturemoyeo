@@ -10,6 +10,10 @@ import { history } from "../redux/configStore";
 
 //Components
 import Footer from "../components/Footer";
+import Header from "../components/Header";
+import Page from "../components/Page";
+import Profile from "../components/Profile";
+import ProfileEdit from "../components/ProfileEdit";
 
 //임포트 사용 항목 외 삭제요망
 
@@ -17,19 +21,23 @@ const Mypage = () => {
     
     
     return (
-        <React.Fragment>
-            <Style>동해물과 백두산이 마르고닳도록</Style>
-            rkrkrk
-            <Footer/>
-        </React.Fragment>
-        )
+      <React.Fragment>
+          <Header />
+          <Page/>
+          {/* <Profile/> */}
+          <Footer />
+      </React.Fragment>
+    );
 };
 
 
 const Style = styled.div`
+    padding-top:100px;
+    align-items: center;
+    margin-top: 10vh;
+    width: 100vw;
     //styled component use
-    background-color: red;
-    width: 500px;
+    /* background-color: red; */
 `;
 
 export default Mypage;

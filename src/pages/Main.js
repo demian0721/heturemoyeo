@@ -14,6 +14,12 @@ import { Grid, Button, Title, Text, AddButton } from '../elements/index';
 const Main = () => {
     const [markers] = useState([])
     const [isOpen, setIsOpen] = useState(false)
+    const ref = useRef()
+
+    const position = {
+        x: 37.5668998,
+        y: 126.9345105
+    }
 
     const addMarker = useCallback((map, position) => {
         const marker = new kakao.maps.Marker({ position })
@@ -26,11 +32,6 @@ const Main = () => {
         return marker
     }, [])
 
-    const position = {
-        x: 37.5668998,
-        y: 126.9345105
-    }
-
     useEffect(() => {
         const container = document.getElementById('map')
         const options = {
@@ -40,8 +41,6 @@ const Main = () => {
         const map = new kakao.maps.Map(container, options)
         addMarker(map, new kakao.maps.LatLng(position.x, position.y))
     }, [])
-
-    const ref = useRef()
 
     useEffect(() => {
         const handleClickedOutSide = (event) => {
@@ -74,15 +73,18 @@ const Main = () => {
                     leave='transition ease-in duration-75'
                     leaveFrom='transform opacity-100'
                     leaveTo='transform opacity-0'
-                    className='z-50 absolute left-0 right-0 bottom-0 border border-gray-300 rounded-t-lg bg-white py-4 topDropShadow'
+                    className='absolute left-0 right-0 bottom-0 border border-gray-300 rounded-t-lg bg-white py-4 topDropShadow'
+                    style={{ zIndex: 2 }}
                 >
                     <div ref={ref} className='container mx-auto px-4'>
                         <div id='overlay--author__status' className='block'>
                             <UserOverlay
+                                isOpen={isOpen}
                                 username='마왕'
                                 userStatus='아 배고프다...'
                                 userHashTag='#코딩 #배고파 #^_^'
                                 userSchedule='Visual Studio Code 참여중'
+                                userRating={66}
                             />
                         </div>
                     </div>

@@ -15,11 +15,11 @@ import { useDispatch } from "react-redux";
 const LogIn = (props) => {
   const dispatch = useDispatch();
 
-  const [userInfo, setUserInfo] = useState({ loginid: "", password: "" });
+  const [userInfo, setUserInfo] = useState({ email: "", password: "" });
   const [warningText, setWarningText] = useState("");
 
   const login = () => {
-    if (!userInfo.loginid) {
+    if (!userInfo.email) {
       setWarningText("이메일이 입력되지 않았습니다.");
       return;
     }
@@ -64,7 +64,7 @@ const LogIn = (props) => {
             <Input
               placeholder="이메일"
               changeEvent={(event) => {
-                setUserInfo({ ...userInfo, loginid: event.target.value });
+                setUserInfo({ ...userInfo, email: event.target.value });
               }}
               padding="14px 17px"
               keyPress={(event) => {

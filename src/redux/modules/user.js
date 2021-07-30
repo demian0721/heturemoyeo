@@ -50,7 +50,7 @@ const loginAction = (user) => {
             .then((res) => {
                 const userInfo = {
                     userId: res.data.userId,
-                    nickname: user.nickname,
+                    // nickname: user.nickname,
                 };
 
                 dispatch(checkAuthDB(userInfo));

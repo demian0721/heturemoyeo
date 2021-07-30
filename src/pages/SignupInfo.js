@@ -205,9 +205,10 @@ const SignupInfo = (props) => {
             <Input
               placeholder="#관심사1 #관심사2 ..."
               padding="14px 17px"
+              margin="0px 0px 30px 0px"
             />
           </Grid>
-          <Grid padding="16px 0px">
+          <Grid padding="5px 0px">
             <Button
               width="100%"
               height="auto"

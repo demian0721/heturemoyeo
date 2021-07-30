@@ -35,13 +35,6 @@ export class Terms extends Component {
     };
   }
 
-  //   handleInput = (e) => {
-  //     e.preventDefault();
-  //     this.setState({
-  //       [e.target.name]: e.target.value,
-  //     });
-  //   };
-
   selectAll = async (e) => {
     let targets = document.querySelectorAll(".checkedBox");
     console.log(targets);
@@ -68,115 +61,36 @@ export class Terms extends Component {
     target.checked = this.state.allCheck ? true : false;
   }
 
-  //   handleLogin = (e) => {
-  //     e.preventDefault();
-  //     fetch(API, {
-  //       method: "POST",
-  //       body: JSON.stringify({
-  //         name: this.state.name,
-  //         email: this.state.email,
-  //         password: this.state.password,
-  //       }),
-  //     })
-  //       .then((response) => response.json())
-  //       .then((result) => {
-  //     console.log("=============");
-  //     console.log("백엔드 응답 메세지 :", result);
-  //     if (result.message === "SUCCESS") {
-  //       this.props.history.push("/");
-  //     }
-  //   });
-  //   };
 
   render() {
-    console.log(this.props)
-    // console.log(this.state.name);
+    // console.log(this.props)
     return (
       <div>
-        <Grid
-          
-          width="300px"
-          // is_flex="space-between"
-          margin=" 0px 0px 0px -31px"
-          padding="5px 20px 5px 20px"
-          // shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-          tabletStyle={() => {
-            return css`
-              width: 95%;
-            `;
-          }}
-          mobileStyle={() => {
-            return css`
-              padding: 15px 20px;
-              width: 100%;
-            `;
-          }}
-        >
-          {/* <Title fontSize="35px" textAlign="center">
-            LOGO
-          </Title> */}
-
+        <div style={{ paddingTop: "110px" }} />
+      <Grid
+        width="360px"
+        margin="50px auto"
+        padding="15px 40px 50px"
+        shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+        tabletStyle={() => {
+          return css`
+            width: 95%;
+          `;
+        }}
+        mobileStyle={() => {
+          return css`
+            padding: 15px 20px;
+            width: 100%;
+          `;
+        }}
+      >
+        <Grid padding="18px">
           <div className="Signup">
             <div className="signupContainer">
               <div className="signupBoard">
                 <header></header>
+
                 <div className="joinInfoBoard">
-                  {/* <section className="inputSection">
-                <form>
-                  <input
-                    name="email"
-                    onChange={this.handleInput}
-                    type="text"
-                    className="emailInput"
-                    required
-                    placeholder="Email Address"
-                  />
-                  <span
-                    name="inputSign"
-                    className={
-                      this.state.email.includes("@")
-                        ? "emailMessage"
-                        : "warningMessage"
-                    }
-                  >
-                    이메일 주소를 입력하세요.
-                  </span>
-                  <input
-                    name="name"
-                    onChange={this.handleInput}
-                    type="text"
-                    className="nameInput"
-                    required
-                    placeholder="Name"
-                  />
-                  <span
-                    className={
-                      this.state.name.length > 1
-                        ? "nameMessage "
-                        : "warningMessage"
-                    }
-                  >
-                    이름을 입력하세요.
-                  </span>
-                  <input
-                    name="password"
-                    onChange={this.handleInput}
-                    type="password"
-                    className="passwordInput"
-                    required
-                    placeholder="Password"
-                  />
-                  <span
-                    className={
-                      this.state.password.length > 7
-                        ? "passwordMessage "
-                        : "warningMessage"
-                    }
-                  >
-                    비밀번호를 입력하세요.
-                  </span>
-                </form>
-              </section> */}
                   <section className="infoSection">
                     <div className="joinInfoWrap">
                       <div className="joinInfoTitle">
@@ -275,44 +189,43 @@ export class Terms extends Component {
                           />
                         </Toggle>
                       </div>
-                      {/* <div className="signupBtnWrap">
-                    <button
-                      onClick={this.handleLogin}
-                      className={
-                        this.state.allCheck === true &&
-                        this.state.email.includes("@") &&
-                        this.state.name.length > 1 &&
-                        this.state.password.length > 7
-                          ? "falseBtn signupBtn"
-                          : "falseBtn"
-                      }
-                    >
-                      Sign up
-                    </button>
-                  </div> */}
                     </div>
                   </section>
                 </div>
               </div>
             </div>
           </div>
-          <Grid padding="15px 0px 15px">
+          <Grid padding="15px 0px 5px">
+            <Button
+              width="100%"
+              height="auto"
+              padding="12px 0"
+              bg="#A7AAAD"
+              hoverColor="#ccc"
+              fontSize="15px"
+              clickEvent={() => {
+                history.push("/login");
+              }}
+            >
+              취소
+            </Button>
+          </Grid>
+          <Grid padding="15px 0px 5px">
             <Button
               width="100%"
               height="auto"
               padding="12px 0"
               bg="#A7AAAD"              
               hoverColor="#ccc"
-              //   color="inherit"
-              // clickEvent={() => {
-              //   history.goBack();
-              // }}
-                onClick={() => {
-                  this.props.handleClose()}}
+              fontSize="15px"
+              clickEvent={() => {
+                history.push("/signup");
+              }}
             >
-              확인
+              다음
             </Button>
           </Grid>
+        </Grid>
         </Grid>
       </div>
     );
@@ -320,5 +233,3 @@ export class Terms extends Component {
 }
 
 export default Terms;
-
-

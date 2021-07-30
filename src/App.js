@@ -17,7 +17,7 @@ import { getToken } from './common/token';
 import GlobalStyle from './common/globalStyle';
 
 // PAGES
-import { Main, Login, Signup, SignupInfo, Mypage, MypageEdit } from './pages/index';
+import { Main, Login, Signup, SignupInfo, Mypage, MypageEdit, Terms } from './pages/index';
 
 function App() {
 
@@ -37,6 +37,7 @@ function App() {
     <ConnectedRouter history={history}>
       <Route exact path="/" component={Main} />
       <Route path="/login" exact component={Login} />
+      <Route path="/terms" exact component={Terms} />
       <Route path="/signup" exact component={Signup} />
       <Route path="/signup/info" exact component={SignupInfo} />
       <Route path="/mypage" exact component={Mypage} />

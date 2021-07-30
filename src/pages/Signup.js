@@ -5,7 +5,6 @@ import { css } from "styled-components";
 
 //Elements
 import { Text, Title, Input, Grid, Button } from "../elements";
-import SimpleModal from "../components/TermsModal";
 
 //HISTORY
 import { history } from "../redux/configStore";
@@ -213,7 +212,8 @@ const SignUp = (props) => {
               padding="14px 17px"
             />
           </Grid>
-          <Grid padding="5px 0px 8px">
+          <Grid padding="5px 0px 8px"
+                margin="0px 0px 30px 0px">
             <Text
               fontSize="12px"
               margin="0px"
@@ -235,8 +235,7 @@ const SignUp = (props) => {
               padding="14px 17px"
             />
           </Grid>
-          <SimpleModal />
-          <Grid padding="15px 0px 15px">
+          <Grid padding="5px 0px">
             <Button
               width="100%"
               height="auto"

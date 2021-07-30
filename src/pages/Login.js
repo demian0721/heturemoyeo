@@ -131,7 +131,7 @@ const LogIn = (props) => {
               // color="inherit"
               fontSize="15px"
               clickEvent={() => {
-                history.push("/signup");
+                history.push("/terms");
               }}
             >
               회원가입

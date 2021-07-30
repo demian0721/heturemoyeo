@@ -1,4 +1,4 @@
-// signup font
+// TERMS FONT
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@200&family=Roboto:wght@100;300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Gothic+A1:wght@100;200;300;400;500;600;700&family=Nanum+Gothic:wght@400;700&display=swap");
 @import "./common.scss";
@@ -29,8 +29,6 @@
   // }
   .signupContainer {
     @include flex-center;
-    // padding: 50px 0;
-    // margin-top:101px;
     .signupBoard {
       width: 300px;
       background-color: $color-white;
@@ -87,6 +85,8 @@
         .infoSection {
           width: inherit;
           padding: 0 20px;
+          margin-right: 10px;
+          margin-bottom: 50px;
           .joinInfoWrap {
             width: inherit;
             .joinInfoTitle {

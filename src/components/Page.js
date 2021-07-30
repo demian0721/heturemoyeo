@@ -1,5 +1,5 @@
 //Library
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled from "styled-components";
 
 //Material-Ui
@@ -8,7 +8,7 @@ import Modal from '@material-ui/core/Modal';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 //Elements
-import { AddButton, Button, Dropdown, Grid, Image, Input, Text, Title } from "../elements/index";
+import { Button, Grid, Image, Title } from "../elements/index";
 
 //History
 import { history } from "../redux/configStore";

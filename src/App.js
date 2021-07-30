@@ -26,11 +26,11 @@ function App() {
 
   useEffect(() => {
     if (token) {
-      // dispatch(userActions.checkAuthDB());
+      dispatch(userActions.myInfoDB());
       dispatch(userActions.logInCheck(token));
     }
   }, []);
-
+  
   return (
     <>
     <GlobalStyle/>

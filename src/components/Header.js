@@ -1,9 +1,8 @@
 //Library
-import React, { useState } from 'react';
-import styled from "styled-components";
+import React from 'react';
 
 //Elements
-import { Button, Dropdown, Grid, Image, Input, Text, Title } from "../elements/index";
+import { Grid, Text } from "../elements/index";
 
 //History
 import { history } from "../redux/configStore";

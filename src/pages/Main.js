@@ -37,6 +37,10 @@ const Main = () => {
         })
         return marker
     }, [])
+    
+    // const mapMove = () => {
+    //     kakao.maps.event.addListener(map, 'dragstart', function() { // do something })
+    // }
 
     useEffect(() => {
         const container = document.getElementById('map')

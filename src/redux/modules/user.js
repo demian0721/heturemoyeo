@@ -9,13 +9,13 @@ import { produce } from 'immer';
 import { setToken, removeToken } from '../../common/token';
 
 // ACTION
-const DID_I_WRITE = 'DID_I_WRITE';
+const MY_INFO = 'MY_INFO';
 const LOG_IN = 'LOG_IN';
 const LOG_OUT = 'LOG_OUT';
 const CHECK_DUP = 'CHECK_DUP';
 
 // ACTION CREATORS
-const checkDidIWrite = createAction(DID_I_WRITE, (userInfo) => ({ userInfo }));
+const myInfo = createAction(MY_INFO, (userInfo) => ({ userInfo }));
 const logIn = createAction(LOG_IN, (token) => ({ token }));
 const logOut = createAction(LOG_OUT);
 const checkDup = createAction(CHECK_DUP, (nickname) => ({ nickname }));
@@ -30,12 +30,13 @@ const initialState = {
 };
 
 // MIDDLEWARE
-const checkAuthDB = () => {
+const myInfoDB = () => {
     return function (dispatch) {
         instance
             .post('/api/user/me')
             .then((res) => {
-                dispatch(checkAuthDB(res.data));
+                console.log(res)
+                dispatch(myInfo(res.data));
             })
             .catch((error) => {
                 console.error(error);
@@ -48,13 +49,8 @@ const loginAction = (user) => {
         instance
             .post('/api/login', user)
             .then((res) => {
-                const userInfo = {
-                    userId: res.data.userId,
-                    // nickname: user.nickname,
-                };
-
-                dispatch(checkAuthDB(userInfo));
                 dispatch(logIn(res.data.token));
+                dispatch(myInfoDB());
 
                 setToken(res.data.token);
 
@@ -106,7 +102,7 @@ const signupDB = (id, pwd, pwdCheck, name, address) => {
 // REDUCER
 export default handleActions(
     {
-        [DID_I_WRITE]: (state, action) =>
+        [MY_INFO]: (state, action) =>
             produce(state, (draft) => {
                 draft.userId = action.payload.userInfo.userId;
                 draft.nickname = action.payload.userInfo.nickname;
@@ -140,7 +136,7 @@ const userActions = {
     logInCheck,
     logOut,
     loginAction,
-    checkAuthDB,
+    myInfoDB,
     signupDB,
     nickCheck,
 };

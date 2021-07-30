@@ -6,7 +6,7 @@ import { getToken } from './token';
 
 const instance = axios.create({
     baseURL: 'http://astraios.shop:4001/',
-    headers: {authorization: `Bearer ${getToken()}`},
+    headers: {authorization: `${getToken('token')}`},
 });
 
 // instance.interceptors.request.use((config) => {

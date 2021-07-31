@@ -32,10 +32,15 @@ const useStyles = makeStyles((theme) => ({
 export default function SimpleModal(props) {
   const [status, setStatus] = React.useState();
 
+  if (status!=props.status){
+    setStatus(props.status);
+  }
+
   const changeStatus = (n) => {
     setStatus(n.target.value);
     console.log(n)
   };
+
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);

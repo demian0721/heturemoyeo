@@ -56,7 +56,7 @@ const Page = () => {
               <Button width="100%" padding="10px" margin="5px auto" display="block" style={{minWidth:"100px"}} clickEvent={() => {
                             dispatch(userActions.logOut());
                             history.push('/login');
-                        }}햐>로그아웃</Button>
+                        }}>로그아웃</Button>
             </div>
           </Grid>
           

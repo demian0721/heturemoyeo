@@ -3,8 +3,6 @@ import React, { useEffect } from 'react';
 import styled from "styled-components";
 
 //Material-Ui
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 //Elements
@@ -15,10 +13,9 @@ import { history } from "../redux/configStore";
 import { useSelector, useDispatch } from 'react-redux';
 
 //DB
-import { profileActions } from '../redux/modules/myPage';
+import { userActions } from '../redux/modules/user';
 
 //Components
-import Footer from "../components/Footer";
 import SimpleModal from "./Mymodal";
 
 //임포트 사용 항목 외 삭제요망
@@ -27,34 +24,33 @@ const Page = () => {
     
   const dispatch = useDispatch();
 
-  useEffect(() => { dispatch(profileActions.getProfilesDB()) }, [])
+  useEffect(() => {dispatch(userActions.myInfoDB()) }, [])
 
-  const ProfileList = useSelector(state => state.myPage.list)
-
-  console.log(ProfileList)
-    
+  const userlist = useSelector(state => state.user)
+  let link = `http://astraios.shop:4001/${userlist.profileImg}`;
     
     return (
         <Style>
           <Grid  width="50vw" height="100%" maxWidth="500px" minWidth="250px" margin="auto" style={{}}>
             <Grid id="profile" is_flex>
               <Grid width="20vw" maxWidth="150px" minWidth="30px" margin="auto auto 30px" style={{display:"block", borderRadius:"50%"}}>
-                  <Image src="https://i.imgur.com/ViFAD8Z.png"/>
+                  <Image src={link}/>
               </Grid>
               <Grid padding="20px">
                 <Grid is_flex>
-                  <Title onClick={() => { history.push('/mypageedit'); }} style={{cursor:"default"}}>닉네임</Title>
+                  <Title onClick={() => { history.push('/mypageedit'); }} style={{cursor:"default"}}>{userlist.nickname}</Title>
                   <ArrowForwardIosIcon onClick={() => { history.push('/mypageedit'); }}/>
                 </Grid>
-                <SimpleModal />
+                <SimpleModal status={userlist.statusMessage}/>
               </Grid>
             </Grid>
-            
-            {/* <Text margin="20px 0px 0px 0px">비밀번호</Text> */}
-            {/* <Input placeholder="비밀번호" width="100%" margin="10px auto" style={{display:"block"}}></Input> */}          
-            <div style={{alignItems:"center"}}>
+              <div style={{alignItems:"center"}}>
               <Button width="100%" padding="10px" margin="5px auto" display="block" style={{minWidth:"100px"}}>내 모임들</Button>
-              <Button width="100%" padding="10px" margin="5px auto" display="block" hoverColor="false" hoverBg="false" style={{minWidth:"100px"}}>취향1, 취향2</Button>
+              <Button width="100%" padding="10px" margin="5px auto" display="block" hoverColor="false" hoverBg="false" style={{minWidth:"100px"}}>
+                <div style={{display:"flex", justifyContent:"center"}}>{userlist.likeItem.map((l) => {
+                  return <div style={{margin:"0px 5px", backgroundColor:"#0055FF", color:"white", borderRadius:"5px", padding:"5px"}}>{l}</div> 
+                })}</div>
+              </Button>
               <Button width="100%" padding="10px" margin="5px auto" display="block" style={{minWidth:"100px"}}>설정</Button>
               <Button width="100%" padding="10px" margin="5px auto" display="block" style={{minWidth:"100px"}}>로그아웃</Button>
             </div>

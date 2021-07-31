@@ -3,7 +3,6 @@ import instance from '../../common/axios';
 
 
 // FUNCTION
-import { setToken, removeToken } from '../../common/token';
 
 // REDUX
 

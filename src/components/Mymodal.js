@@ -28,7 +28,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleModal() {
+
+export default function SimpleModal(props) {
+  const [status, setStatus] = React.useState();
+
+  const changeStatus = (n) => {
+    setStatus(n.target.value);
+    console.log(n)
+  };
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
@@ -44,17 +51,15 @@ export default function SimpleModal() {
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <h2 id="simple-modal-title">Your Status Message</h2>
-      <p id="simple-modal-description">
-        상태메세지가 뜹니다 여기서 변경도 해야함 
-      </p>
+      <input style={{width:"100%"}} type="textarea" rows="4" id="status" label="status" value={props.status}
+      onChange={changeStatus}></input>
     </div>
   );
 
   return (
     <div>
       <text onClick={handleOpen}>
-        상태 메세지
+      <span style={{color:"blue", fontSize:"small"}}>(상태메세지 수정)</span> {props.status} 
       </text>
       <Modal
         open={open}

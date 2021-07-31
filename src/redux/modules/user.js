@@ -105,7 +105,12 @@ export default handleActions(
         [MY_INFO]: (state, action) =>
             produce(state, (draft) => {
                 draft.userId = action.payload.userInfo.userId;
+                draft.email = action.payload.userInfo.email;
+                draft.name = action.payload.userInfo.name;
                 draft.nickname = action.payload.userInfo.nickname;
+                draft.profileImg = action.payload.userInfo.profileImg;
+                draft.statusMessage = action.payload.userInfo.statusMessage;
+                draft.likeItem = action.payload.userInfo.likeItem;
             }),
 
         [LOG_IN]: (state, action) =>

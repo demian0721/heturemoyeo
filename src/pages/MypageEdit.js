@@ -1,12 +1,10 @@
 //Library
-import React, { useState } from 'react';
+import React from 'react';
 import styled from "styled-components";
 
 //Elements
-import { AddButton, Button, Dropdown, Grid, LazyImage, Input, Text, Title } from "../elements/index";
 
 //History
-import { history } from "../redux/configStore";
 
 //Components
 import Footer from "../components/Footer";

@@ -14,7 +14,7 @@ import { userActions } from "../redux/modules/user";
 import { useDispatch, useSelector } from "react-redux";
 
 //VALIDATION
-import { idVal, pwdVal } from "../common/validation";
+import { nickVal } from "../common/validation";
 
 const SignupInfo = (props) => {
   const dispatch = useDispatch();
@@ -23,107 +23,64 @@ const SignupInfo = (props) => {
 
   const debounce = _.debounce((value, setValue) => setValue(value), 300);
 
-  const [id, setId] = React.useState("");
-  const [pwd, setPwd] = React.useState("");
-  const [pwdCheck, setPwdCheck] = React.useState("");
-  const [idConfirm, setIdConfirm] = React.useState("");
-  const [pwdConfirm, setPwdConfirm] = React.useState("");
-  const [pwdCheckConfirm, setPwdCheckConfirm] = React.useState("");
-  const [idWarning, setIdWarColor] = React.useState("red");
-  const [pwdWarning, setPwdWarColor] = React.useState("red");
-  const [pwdCheckWarning, setPwdCheckWarColor] = React.useState("red");
-  const [name, setName] = React.useState("");
-  const [nameConfirm, setNameConfirm] = React.useState("");
-  const [nameWarning, setNameWarColor] = React.useState("red");
-  const [address, setAddress] = React.useState("");
-  const [addressConfirm, setAddressConfirm] = React.useState("");
-  const [addressWarning, setAddressWarColor] = React.useState("red");
+  const [nickname, setNickname] = React.useState("");
+  const [statusMessage, setStatusMessage] = React.useState("");
+  const [nicknameConfirm, setNicknameConfirm] = React.useState("");
+  const [nicknameWarning, setNicknameWarColor] = React.useState("red");
+  console.log(nickname);
+  console.log(statusMessage);
+  const tempInfo = useSelector((state) => state.user.tempInfo);
+  // const {id, pwd, name} = tempInfo;
+  const id = tempInfo?.id;
+  const pwd = tempInfo?.pwd;
+  const name = tempInfo?.name;
+  const profileImg = "";
+  const likeItem = ["",""];
 
-  const checkID = (val) => {
+  console.log(tempInfo);
+
+  console.log(id, pwd, name);
+  React.useEffect(() => {
+    if (!tempInfo){
+      history.push("/signup");
+    }
+  }, [])
+  const checkNickname = (val) => {
     if (val === "") {
-      setIdWarColor("red");
-      setIdConfirm("아이디가 입력되지 않았습니다.");
+      setNicknameWarColor("red");
+      setNicknameConfirm("닉네임이 입력되지 않았습니다.");
       return;
     }
-    if (!idVal(val)) {
-      setIdWarColor("red");
-      setIdConfirm("아이디가 형식에 맞지 않습니다. (영어, 알파벳 4~20자)");
+    if (!nickVal(val)) {
+      setNicknameWarColor("red");
+      setNicknameConfirm("닉네임이 형식에 맞지 않습니다.");
       return;
     }
 
-    setIdWarColor("green");
-    setIdConfirm("중복 검사를 해주세요");
-  };
-
-  const checkPWD = (val) => {
-    if (val === "") {
-      setPwdWarColor("red");
-      setPwdConfirm("패스워드가 입력되지 않았습니다.");
-      return;
-    }
-    if (!pwdVal(val)) {
-      setPwdWarColor("red");
-      setPwdConfirm("패스워드가 형식에 맞지 않습니다. (영어, 알파벳 6~30자)");
-      return;
-    }
-    setPwdWarColor("green");
-    setPwdConfirm("사용가능한 패스워드 입니다.");
-  };
-
-  const checkPWD2nd = (val) => {
-    if (val === "") {
-      setPwdCheckWarColor("red");
-      setPwdCheckConfirm("패스워드 확인란이 입력되지 않았습니다.");
-      return;
-    }
-    if (val.length < 6) {
-      setPwdCheckWarColor("red");
-      setPwdCheckConfirm("");
-      return;
-    }
-    if (val !== pwd) {
-      setPwdCheckWarColor("red");
-      setPwdCheckConfirm("입력된 패스워드가 서로 다릅니다.");
-      return;
-    }
-    setPwdCheckWarColor("green");
-    setPwdCheckConfirm("패스워드가 올바르게 입력되었습니다.");
-  };
-
-  const checkName = (val) => {
-    if (val === "") {
-      setNameWarColor("red");
-      setNameConfirm("성함이 입력되지 않았습니다.");
-      return;
-    }
-    setNameWarColor("green");
-    setNameConfirm("해당 성함으로 주문됩니다.");
+    setNicknameWarColor("green");
+    setNicknameConfirm("중복 검사를 해주세요");
   };
 
   const signup = () => {
-    if (
-      !(
-        dupState &&
-        idWarning === "green" &&
-        pwdWarning === "green" &&
-        pwdCheckWarning === "green" &&
-        nameWarning === "green" &&
-        addressWarning === "green"
-      )
-    )
-      return window.alert(
-        "입력되지 않은 항목이 있습니다. 다시 확인하여 주세요."
-      );
+    // if (
+    //   !(
+    //     dupState &&
+    //     nicknameWarning === "green" 
+    //   )
+    // )
+    //   return window.alert(
+    //     "입력되지 않은 항목이 있습니다. 다시 확인하여 주세요."
+    //   );
 
-    dispatch(userActions.signupDB(id, pwd, pwdCheck, name, address));
+  userActions.signupDB(id, name, nickname, pwd, pwd, profileImg, statusMessage, likeItem); 
 
     window.alert("회원가입이 완료되었습니다. 다시 로그인해 주세요.");
     history.push("/login");
   };
 
-  const nickname = () => {
-    dispatch(userActions.nickCheck(id));
-    setIdConfirm("");
+  const nicknamedup = () => {
+    dispatch(userActions.nickCheck(nickname));
+    setNicknameConfirm("");
   };
 
   return (
@@ -131,7 +88,6 @@ const SignupInfo = (props) => {
       <div style={{ paddingTop: "110px" }} />
       <Grid
         width="360px"
-        // is_flex="space-between"
         margin="50px auto"
         padding="5px 40px 41.2px"
         shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
@@ -165,21 +121,21 @@ const SignupInfo = (props) => {
             <Text
               fontSize="12px"
               margin="0px"
-              color={idWarning}
+              color={nicknameWarning}
               lineHeight="2"
               textIndent="15px"
             >
-              {idConfirm}
+              {nicknameConfirm}
             </Text>
           </Grid>
           <Grid is_flex padding="0px 0px 8px">
             <Input
               placeholder="닉네임을 입력해주세요."
               changeEvent={(event) => {
-                setId(event.target.value);
+                setNickname(event.target.value);
               }}
               keyUp={(event) => {
-                debounce(event.target.value, checkID);
+                debounce(event.target.value, checkNickname);
               }}
               padding="14px 17px"
             />
@@ -190,7 +146,7 @@ const SignupInfo = (props) => {
               padding="16px 0"
               fontSize="13px"
               bg="#A7AAAD"
-              clickEvent={nickname}
+              clickEvent={nicknamedup}
             >
               중복 확인
             </Button>
@@ -199,6 +155,9 @@ const SignupInfo = (props) => {
             <Input
               placeholder="상태메세지를 입력해주세요."
               padding="14px 17px"
+              changeEvent={(event) => {
+                setStatusMessage(event.target.value);
+              }}
             />
           </Grid>
           <Grid padding="5px 0px 8px">

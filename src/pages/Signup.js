@@ -14,15 +14,18 @@ import { userActions } from "../redux/modules/user";
 import { useDispatch, useSelector } from "react-redux";
 
 //VALIDATION
-import { idVal, pwdVal } from "../common/validation";
+import { idVal, pwdVal, nameVal } from "../common/validation";
 
 const SignUp = (props) => {
   const dispatch = useDispatch();
-
   const dupState = useSelector((state) => state.user.is_check);
-
   const debounce = _.debounce((value, setValue) => setValue(value), 300);
-
+  const signupNext = () => {
+    const userInfo = {id, pwd, name}
+    console.log(userInfo);
+    dispatch(userActions.tempSave(userInfo))
+    history.push("/signup/info");
+  }
   const [id, setId] = React.useState("");
   const [pwd, setPwd] = React.useState("");
   const [pwdCheck, setPwdCheck] = React.useState("");
@@ -35,7 +38,7 @@ const SignUp = (props) => {
   const [name, setName] = React.useState("");
   const [nameConfirm, setNameConfirm] = React.useState("");
   const [nameWarning, setNameWarColor] = React.useState("red");
-
+  // console.log(id, pwd, name);
   const checkID = (val) => {
     if (val === "") {
       setIdWarColor("red");
@@ -49,28 +52,28 @@ const SignUp = (props) => {
     }
 
     setIdWarColor("green");
-    setIdConfirm("중복 검사를 해주세요");
+    setIdConfirm("중복 검사를 해주세요.");
   };
 
   const checkPWD = (val) => {
     if (val === "") {
       setPwdWarColor("red");
-      setPwdConfirm("패스워드가 입력되지 않았습니다.");
+      setPwdConfirm("비밀번호가 입력되지 않았습니다.");
       return;
     }
     if (!pwdVal(val)) {
       setPwdWarColor("red");
-      setPwdConfirm("패스워드가 형식에 맞지 않습니다. (영어, 알파벳 6~30자)");
+      setPwdConfirm("비밀번호는 영문과 숫자, 특수문자를 각 1자 이상 포함해주세요.(8~20자) ");
       return;
     }
     setPwdWarColor("green");
-    setPwdConfirm("사용가능한 패스워드 입니다.");
+    setPwdConfirm("사용가능한 비밀번호 입니다.");
   };
 
   const checkPWD2nd = (val) => {
     if (val === "") {
       setPwdCheckWarColor("red");
-      setPwdCheckConfirm("패스워드 확인란이 입력되지 않았습니다.");
+      setPwdCheckConfirm("비밀번호 확인란이 입력되지 않았습니다.");
       return;
     }
     if (val.length < 6) {
@@ -80,11 +83,11 @@ const SignUp = (props) => {
     }
     if (val !== pwd) {
       setPwdCheckWarColor("red");
-      setPwdCheckConfirm("입력된 패스워드가 서로 다릅니다.");
+      setPwdCheckConfirm("입력된 비밀번호가 서로 다릅니다.");
       return;
     }
     setPwdCheckWarColor("green");
-    setPwdCheckConfirm("패스워드가 올바르게 입력되었습니다.");
+    setPwdCheckConfirm("비밀번호가 올바르게 입력되었습니다.");
   };
 
   const checkName = (val) => {
@@ -93,12 +96,17 @@ const SignUp = (props) => {
       setNameConfirm("성함이 입력되지 않았습니다.");
       return;
     }
+    if (!nameVal(val)) {
+      setNameWarColor("red");
+      setNameConfirm("성함을 정확히 입력해주세요.");
+      return;
+    }
     setNameWarColor("green");
     setNameConfirm("해당 성함으로 저장됩니다.");
   };
 
   const nickname = () => {
-    dispatch(userActions.nickCheck(id));
+    dispatch(userActions.emailCheck(id));
     setIdConfirm("");
   };
 
@@ -134,7 +142,6 @@ const SignUp = (props) => {
           <Title fontSize="18px" margin="5px">
             회원가입
           </Title>
-
           <Grid padding="16px 0px 0px">
             <Text
               fontSize="12px"
@@ -142,7 +149,7 @@ const SignUp = (props) => {
               color={idWarning}
               lineHeight="2"
               textIndent="15px"
-            >
+              >
               {idConfirm}
             </Text>
           </Grid>
@@ -197,6 +204,7 @@ const SignUp = (props) => {
               color={pwdWarning}
               lineHeight="2"
               textIndent="15px"
+
             >
               {pwdConfirm}
             </Text>
@@ -242,9 +250,8 @@ const SignUp = (props) => {
               padding="12px 0"
               bg="#A7AAAD"
               hoverColor="#ccc"
-              clickEvent={() => {
-                history.push("/signup/info");
-              }}
+              clickEvent={signupNext}
+              disabled={!id || !pwd || !name || !(pwd===pwdCheck)}
             >
               다음
             </Button>

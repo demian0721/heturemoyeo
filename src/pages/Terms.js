@@ -24,9 +24,9 @@ export class Terms extends Component {
   constructor() {
     super();
     this.state = {
-      email: "@",
-      name: "ab",
-      password: "12345678",
+      // email: "@",
+      // name: "ab",
+      // password: "12345678",
       inputSign: false,
       allCheck: false,
       firstCheck: false,
@@ -200,6 +200,22 @@ export class Terms extends Component {
               width="100%"
               height="auto"
               padding="12px 0"
+              bg="#A7AAAD"              
+              hoverColor="#ccc"
+              fontSize="15px"
+              clickEvent={() => {
+                history.push("/signup");
+              }}
+              disabled={!this.state.allCheck}
+            >
+              다음
+            </Button>
+          </Grid>
+          <Grid padding="15px 0px 5px">
+            <Button
+              width="100%"
+              height="auto"
+              padding="12px 0"
               bg="#A7AAAD"
               hoverColor="#ccc"
               fontSize="15px"
@@ -208,21 +224,6 @@ export class Terms extends Component {
               }}
             >
               취소
-            </Button>
-          </Grid>
-          <Grid padding="15px 0px 5px">
-            <Button
-              width="100%"
-              height="auto"
-              padding="12px 0"
-              bg="#A7AAAD"              
-              hoverColor="#ccc"
-              fontSize="15px"
-              clickEvent={() => {
-                history.push("/signup");
-              }}
-            >
-              다음
             </Button>
           </Grid>
         </Grid>

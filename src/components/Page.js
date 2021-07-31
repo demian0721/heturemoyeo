@@ -11,6 +11,7 @@ import { Button, Grid, Image, Title } from "../elements/index";
 //History
 import { history } from "../redux/configStore";
 import { useSelector, useDispatch } from 'react-redux';
+import { getToken } from '../common/token';
 
 //DB
 import { userActions } from '../redux/modules/user';
@@ -21,7 +22,7 @@ import SimpleModal from "./Mymodal";
 //임포트 사용 항목 외 삭제요망
 
 const Page = () => {
-    
+  useEffect(() => { if (!getToken()) { history.replace('/login'); } }, []);    
   const dispatch = useDispatch();
 
   useEffect(() => {dispatch(userActions.myInfoDB()) }, [])
@@ -48,9 +49,9 @@ const Page = () => {
               <div style={{alignItems:"center"}}>
               <Button width="100%" padding="10px" margin="5px auto" display="block" style={{minWidth:"100px"}}>내 모임들</Button>
               <Button width="100%" padding="10px" margin="5px auto" display="block" hoverColor="false" hoverBg="false" style={{minWidth:"100px"}}>
-                {/* <div style={{display:"flex", justifyContent:"center"}}>{userlist.likeItem.map((l) => {
+                <div style={{display:"flex", justifyContent:"center"}}>{userlist.likeItem.map((l) => {
                   return <div style={{margin:"0px 5px", backgroundColor:"#0055FF", color:"white", borderRadius:"5px", padding:"5px"}}>{l}</div> 
-                })}</div> */}
+                })}</div>
               </Button>
               <Button width="100%" padding="10px" margin="5px auto" display="block" style={{minWidth:"100px"}}>설정</Button>
               <Button width="100%" padding="10px" margin="5px auto" display="block" style={{minWidth:"100px"}} clickEvent={() => {

@@ -1,5 +1,5 @@
 //Library
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 
 //Elements
@@ -7,6 +7,11 @@ import { AddButton, Button, Dropdown, Grid, Image, Input, Text, Title } from "..
 
 //History
 import { history } from "../redux/configStore";
+import { useSelector, useDispatch } from 'react-redux';
+import { getToken } from '../common/token';
+
+//DB
+import { userActions } from '../redux/modules/user';
 
 //Components
 import Footer from "./Footer";
@@ -14,7 +19,14 @@ import Footer from "./Footer";
 //임포트 사용 항목 외 삭제요망
 
 const ProfileEdit = () => {
-    
+  useEffect(() => { if (!getToken()) { history.replace('/login'); } }, []);    
+  const dispatch = useDispatch();
+
+  useEffect(() => {dispatch(userActions.myInfoDB()) }, [])
+
+  // const userlist = 
+  const userlist = useSelector(state => state.user)
+  let link = `http://astraios.shop:4001/${userlist.profileImg}`;
     
     return (
         <Style>
@@ -25,12 +37,12 @@ const ProfileEdit = () => {
                 <Text style={{position:'relative',zIndex:2}}>이미지 수정</Text>
             </Grid>
             {/* <Text margin="20px 0px 0px 0px">비밀번호</Text> */}
-            <Input placeholder="닉네임 수정" width="100%" margin="10px auto" style={{display:"block"}}></Input>
+            <Input placeholder="닉네임 수정" width="100%" margin="10px auto" style={{display:"block"}} value={userlist.nickname}></Input>
             <Input placeholder="기존 비밀번호" width="100%" margin="10px auto" style={{display:"block"}}></Input>
             <Input placeholder="새 비밀번호" width="100%" margin="10px auto" style={{display:"block"}}></Input>
             <Input placeholder="새 비밀번호 확인" width="100%" margin="10px auto" style={{display:"block"}}></Input>
-            <Input placeholder="취향" width="100%" margin="10px auto" style={{display:"block"}}></Input>
-            <Button width="40%" padding="10px" margin="25px auto" display="block" style={{minWidth:"100px"}}>확인</Button>
+            <Input placeholder="취향" width="100%" margin="10px auto" style={{display:"block"}} value={userlist.likeItem}></Input>
+            <Button width="40%" padding="10px" margin="25px auto" display="block" style={{minWidth:"100px"}} clickEvent={() => { history.push('/mypage'); }}>확인</Button>
           </Grid>
         </Style>
         )

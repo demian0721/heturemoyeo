@@ -30,11 +30,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function SimpleModal(props) {
-  const [status, setStatus] = React.useState();
-
-  if (status!=props.status){
-    setStatus(props.status);
-  }
+  const [status, setStatus] = React.useState(props.status);
 
   const changeStatus = (n) => {
     setStatus(n.target.value);
@@ -56,8 +52,9 @@ export default function SimpleModal(props) {
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <input style={{width:"100%"}} type="textarea" rows="4" id="status" label="status" value={props.status}
+      <input style={{width:"100%"}} type="textarea" rows='4' id="status" label="status" value={status}
       onChange={changeStatus}></input>
+      <button style={{backgroundColor:"skyblue", border:"1px solid navy", padding:"3px", marginTop:"5px", borderRadius:"5px"}}>수정 완료</button>
     </div>
   );
 

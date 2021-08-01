@@ -6,7 +6,7 @@ import styled from "styled-components";
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 //Elements
-import { Button, Grid, Image, Title } from "../elements/index";
+import { Button, Grid, Image, Title, Text } from "../elements/index";
 
 //History
 import { history } from "../redux/configStore";
@@ -22,10 +22,19 @@ import SimpleModal from "./Mymodal";
 //임포트 사용 항목 외 삭제요망
 
 const Page = () => {
-  useEffect(() => { if (!getToken()) { history.replace('/login'); } }, []);    
   const dispatch = useDispatch();
 
   useEffect(() => {dispatch(userActions.myInfoDB()) }, [])
+  
+  useEffect(() => { if (!getToken()) { history.replace('/login'); } }, []);    
+  // const is_login = useSelector((state)=>state.user.is_login);
+  
+  // if(!is_login){
+  //   <Grid>
+  //     <Text>로그인 후, 글을 작성할 수 있습니다.</Text>
+  //     <Button clickEvent={() => { history.replace('/login'); }}>로그인하러 가기</Button>
+  //   </Grid>
+  // }
 
   // const userlist = 
   const userlist = useSelector(state => state.user)

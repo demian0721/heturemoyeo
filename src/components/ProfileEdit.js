@@ -19,14 +19,42 @@ import Footer from "./Footer";
 //임포트 사용 항목 외 삭제요망
 
 const ProfileEdit = () => {
-  useEffect(() => { if (!getToken()) { history.replace('/login'); } }, []);    
+
   const dispatch = useDispatch();
 
   useEffect(() => {dispatch(userActions.myInfoDB()) }, [])
 
-  // const userlist = 
+  useEffect(() => { if (!getToken()) { history.replace('/login'); } }, []);    
+  // const is_login = useSelector((state)=>state.user.is_login);
+  
+  // if(!is_login){
+  //   <Grid>
+  //     <Text>로그인 후, 글을 작성할 수 있습니다.</Text>
+  //     <Button clickEvent={() => { history.replace('/login'); }}>로그인하러 가기</Button>
+  //   </Grid>
+  // }
+  
   const userlist = useSelector(state => state.user)
   let link = `http://astraios.shop:4001/${userlist.profileImg}`;
+
+  const [nickname, setNickname] = React.useState(userlist.nickname);
+
+  console.log(nickname)
+
+  const changeNickname = (e) => {setNickname(e.target.value);}
+
+  const infos = {
+    nickname: nickname,
+    // password: password,
+    // newpassword: newpassword,
+    // confirm: confirm,
+    // profileImg: profileImg,
+    // likeItem: likeItem,
+  }
+
+  const editInfos = () => {
+    dispatch(userActions.editInfos(infos));
+  }
     
     return (
         <Style>
@@ -37,12 +65,12 @@ const ProfileEdit = () => {
                 <Text style={{position:'relative',zIndex:2}}>이미지 수정</Text>
             </Grid>
             {/* <Text margin="20px 0px 0px 0px">비밀번호</Text> */}
-            <Input placeholder="닉네임 수정" width="100%" margin="10px auto" style={{display:"block"}} value={userlist.nickname}></Input>
+            <Input changeEvent={changeNickname} placeholder="닉네임 수정" width="100%" margin="10px auto" style={{display:"block"}} value={nickname}></Input>
             <Input placeholder="기존 비밀번호" width="100%" margin="10px auto" style={{display:"block"}}></Input>
             <Input placeholder="새 비밀번호" width="100%" margin="10px auto" style={{display:"block"}}></Input>
             <Input placeholder="새 비밀번호 확인" width="100%" margin="10px auto" style={{display:"block"}}></Input>
             <Input placeholder="취향" width="100%" margin="10px auto" style={{display:"block"}} value={userlist.likeItem}></Input>
-            <Button width="40%" padding="10px" margin="25px auto" display="block" style={{minWidth:"100px"}} clickEvent={() => { history.push('/mypage'); }}>확인</Button>
+            <Button width="40%" padding="10px" margin="25px auto" display="block" style={{minWidth:"100px"}} clickEvent={editInfos}>확인</Button>
           </Grid>
         </Style>
         )

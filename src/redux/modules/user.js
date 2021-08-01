@@ -7,6 +7,7 @@ import { produce } from "immer";
 
 // FUNCTION
 import { setToken, removeToken } from "../../common/token";
+import { DraftsTwoTone } from "@material-ui/icons";
 
 // ACTION
 const MY_INFO = "MY_INFO";
@@ -15,6 +16,7 @@ const LOG_OUT = "LOG_OUT";
 const CHECK_DUP_EMAIL = "CHECK_DUP_EMAIL";
 const CHECK_DUP_NICKNAME = "CHECK_DUP_NICKNAME";
 const TEMP_SAVE = "TEMP_SAVE";
+const EDIT_INFO = "EDIT_INFO"
 
 // ACTION CREATORS
 const myInfo = createAction(MY_INFO, (userInfo) => ({ userInfo }));
@@ -27,6 +29,7 @@ const checkDupNick = createAction(CHECK_DUP_NICKNAME, (is_check_nickname) => ({
   is_check_nickname,
 }));
 const tempSave = createAction(TEMP_SAVE, (tempInfo) => ({ tempInfo }));
+const editInfo = createAction(EDIT_INFO, (editInfo)=>({editInfo}));
 
 // INITIAL STATE
 const initialState = {
@@ -47,6 +50,22 @@ const myInfoDB = () => {
       .then((res) => {
         console.log(res);
         dispatch(myInfo(res.data));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+};
+
+const editInfos = (doc) => {
+  return function (dispatch, getState, { history }) {
+    instance
+      .put("/api/user")
+      .then((res) => {
+        console.log(res);
+        dispatch(editInfo(res.data));
+        setToken(res.data.token);
+        history.replace("/mypage");
       })
       .catch((error) => {
         console.error(error);
@@ -196,6 +215,15 @@ export default handleActions(
       produce(state, (draft) => {
         draft.tempInfo = action.payload.tempInfo;
       }),
+    [EDIT_INFO]: (state,action)=>
+      produce(state, (draft) => {
+        draft.nickname=action.payload.infos.nickname;
+        draft.password=action.payload.infos.password;
+        draft.newpassword=action.payload.infos.newpassword;
+        draft.confirm=action.payload.infos.confirm;
+        draft.profileImg=action.payload.infos.profileImg;
+        draft.likeItem=action.payload.infos.likeItem;
+      }),
   },
   initialState
 );
@@ -210,6 +238,7 @@ const userActions = {
   emailCheck,
   nickCheck,
   tempSave,
+  editInfos,
 };
 
 export { userActions };

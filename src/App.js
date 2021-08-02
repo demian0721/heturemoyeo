@@ -29,7 +29,7 @@ function App() {
       dispatch(userActions.myInfoDB());
       dispatch(userActions.logInCheck(token));
     } else {
-      if (!token && window.location.pathname !== '/login') {
+      if (!token && !['/login', '/signup', '/signup/info', '/terms'].includes(window.location.pathname)) {
         alert('로그인이 필요한 서비스입니다!')
         return window.location.href = '/login'
       }

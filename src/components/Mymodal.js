@@ -2,6 +2,13 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 
+
+import { useSelector, useDispatch } from 'react-redux';
+
+//DB
+import { userActions } from '../redux/modules/user';
+
+
 function rand() {
   return Math.round(Math.random() * 20) - 10;
 }
@@ -30,12 +37,18 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function SimpleModal(props) {
-  const [status, setStatus] = React.useState(props.status);
+  const [statusMessage, setStatus] = React.useState(props.status);
+
+  const dispatch = useDispatch();
 
   const changeStatus = (n) => {
     setStatus(n.target.value);
     console.log(n)
   };
+
+  const editStatusMsg = () => {
+    dispatch(userActions.editStatusMsg({"statusMessage":statusMessage}));
+  }
 
   const classes = useStyles();
   // getModalStyle is not a pure function, we roll the style only on the first render
@@ -52,9 +65,9 @@ export default function SimpleModal(props) {
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
-      <input style={{width:"100%"}} type="textarea" rows='4' id="status" label="status" value={status}
+      <input style={{width:"100%"}} type="textarea" rows='4' id="status" label="status" value={statusMessage}
       onChange={changeStatus}></input>
-      <button style={{backgroundColor:"skyblue", border:"1px solid navy", padding:"3px", marginTop:"5px", borderRadius:"5px"}}>수정 완료</button>
+      <button style={{backgroundColor:"skyblue", border:"1px solid navy", padding:"3px", marginTop:"5px", borderRadius:"5px"}} onClick={editStatusMsg}>수정 완료</button>
     </div>
   );
 

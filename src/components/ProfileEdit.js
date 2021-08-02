@@ -15,6 +15,7 @@ import { userActions } from '../redux/modules/user';
 
 //Components
 import Footer from "./Footer";
+import { concat } from 'lodash';
 
 //임포트 사용 항목 외 삭제요망
 
@@ -37,16 +38,21 @@ const ProfileEdit = () => {
   const userlist = useSelector(state => state.user)
   let link = `http://astraios.shop:4001/${userlist.profileImg}`;
 
-  const [editInfo, setInfos] = React.useState({nickname:userlist.nickname, password:userlist.password,newpassword:"",confirm:"",profileImg:userlist.profileImg,likeItem:userlist.likeItem});
+  const [editInfo, setInfos] = React.useState({
+    nickname: userlist.nickname,
+    password: userlist.password,
+    newpassword: "",
+    confirm: "",
+    profileImg: userlist.profileImg,
+    likeItem: userlist.likeItem,
+  });
 
-  console.log(editInfo)
-
-  const changeNickname = (e) => {setInfos({ ...editInfo, nickname: e.target.value});}
+  const changeNickname = (e) => {setInfos({ ...editInfo, nickname: e.target.value}); console.log(e.target.value)}
   const changePassword = (e) => {setInfos({ ...editInfo, password: e.target.value});}
   const changeNewpassword = (e) => {setInfos({ ...editInfo, newpassword: e.target.value});}
   const changeConfirm = (e) => {setInfos({ ...editInfo, confirm: e.target.value});}
   const changeProfileImg = (e) => {setInfos({ ...editInfo, profileImg: e.target.value});}
-  const changeLikeItem = (e) => {setInfos({ ...editInfo, likeItem: e.target.value});}
+  const changeLikeItem = (e) => {setInfos({ ...editInfo, likeItem: e.target.value.split(',')}); console.log(e.target.value)}
 
   const editInfos = () => {
     dispatch(userActions.editInfos(editInfo));
@@ -60,13 +66,13 @@ const ProfileEdit = () => {
                 <Image src="https://i.imgur.com/ViFAD8Z.png" style={{position:'absolute',zIndex:1}}/>
                 <Text style={{position:'relative',zIndex:2}}>이미지 수정</Text>
             </Grid>
-            {/* <Text margin="20px 0px 0px 0px">비밀번호</Text> */}
+            {/* <Text margin="20px 0px 0px 0px" fontSize='small'>비밀번호</Text> */}
             <Input changeEvent={changeNickname} placeholder="닉네임 수정" width="100%" margin="10px auto" style={{display:"block"}} value={editInfo.nickname}></Input>
             <Input changeEvent={changePassword} value={editInfo.password} placeholder="기존 비밀번호" width="100%" margin="10px auto" style={{display:"block"}}></Input>
             <Input changeEvent={changeNewpassword} value={editInfo.newpassword} placeholder="새 비밀번호" width="100%" margin="10px auto" style={{display:"block"}}></Input>
             <Input changeEvent={changeConfirm} value={editInfo.confirm} placeholder="새 비밀번호 확인" width="100%" margin="10px auto" style={{display:"block"}}></Input>
-            <Input changeEvent={changeLikeItem} value={editInfo.likeItem} placeholder="취향" width="100%" margin="10px auto" style={{display:"block"}} value={userlist.likeItem}></Input>
-            <Button width="40%" padding="10px" margin="25px auto" display="block" style={{minWidth:"100px"}} clickEvent={editInfos()}>확인</Button>
+            <Input changeEvent={changeLikeItem} value={editInfo.likeItem} placeholder="취향" width="100%" margin="10px auto" style={{display:"block"}}></Input>
+            <Button width="40%" padding="10px" margin="25px auto" display="block" style={{minWidth:"100px"}} clickEvent={editInfos}>확인</Button>
           </Grid>
         </Style>
         )

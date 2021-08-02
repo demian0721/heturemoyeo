@@ -16,7 +16,8 @@ const LOG_OUT = "LOG_OUT";
 const CHECK_DUP_EMAIL = "CHECK_DUP_EMAIL";
 const CHECK_DUP_NICKNAME = "CHECK_DUP_NICKNAME";
 const TEMP_SAVE = "TEMP_SAVE";
-const EDIT_INFO = "EDIT_INFO"
+const EDIT_INFO = "EDIT_INFO";
+const EDIT_STATUS = "EDIT_STATUS";
 
 // ACTION CREATORS
 const myInfo = createAction(MY_INFO, (userInfo) => ({ userInfo }));
@@ -30,6 +31,7 @@ const checkDupNick = createAction(CHECK_DUP_NICKNAME, (is_check_nickname) => ({
 }));
 const tempSave = createAction(TEMP_SAVE, (tempInfo) => ({ tempInfo }));
 const editInfo = createAction(EDIT_INFO, (editInfo)=>({editInfo}));
+const editStatus = createAction(EDIT_STATUS, (editStatus)=>({editStatus}));
 
 // INITIAL STATE
 const initialState = {
@@ -58,22 +60,35 @@ const myInfoDB = () => {
 };
 
 const editInfos = (doc) => {
-  return function (dispatch, getState, { history }) {
+  return function (dispatch, { history }) {
+    console.log(doc)
     instance
       .put("/api/user", doc)
       .then((res) => {
-        console.log(res);
-
         dispatch(editInfo(res.data));
-        setToken(res.data.token);
-        
         history.replace("/mypage");
       })
       .catch((error) => {
-        console.error(error);
+        console.error(error,"에러");
       });
   };
 };
+
+const editStatusMsg = (doc) => {
+  return function (dispatch, { history }) {
+    console.log(doc)
+    instance
+      .put("/api/user/status", doc)
+      .then((res) => {
+        dispatch(editInfo(res.data));
+        history.replace("/mypage");
+      })
+      .catch((error) => {
+        console.error(error,"에러");
+      });
+  };
+};
+
 
 const loginAction = (user) => {
   return function (dispatch, getState, { history }) {
@@ -226,6 +241,11 @@ export default handleActions(
         draft.profileImg=action.payload.infos.profileImg;
         draft.likeItem=action.payload.infos.likeItem;
       }),
+
+    [EDIT_INFO]: (state,action)=>
+    produce(state, (draft) => {
+      draft.statusMessage=action.payload.statusMessage;
+    }),
   },
   initialState
 );
@@ -241,6 +261,7 @@ const userActions = {
   nickCheck,
   tempSave,
   editInfos,
+  editStatusMsg,
 };
 
 export { userActions };

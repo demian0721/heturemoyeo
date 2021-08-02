@@ -21,8 +21,12 @@ const SignUp = (props) => {
   const dupState = useSelector((state) => state.user.is_check);
   const debounce = _.debounce((value, setValue) => setValue(value), 300);
   const signupNext = () => {
+    // if (id === ""|| pwd === ""|| name === "") 
+    //   return window.alert(
+    //     "입력하지 않은 항목이 있습니다."
+    //     );
+    
     const userInfo = {id, pwd, name}
-    console.log(userInfo);
     dispatch(userActions.tempSave(userInfo))
     history.push("/signup/info");
   }
@@ -106,6 +110,10 @@ const SignUp = (props) => {
   };
 
   const nickname = () => {
+    if (id === "") {
+      window.alert("이메일이 입력되지 않았습니다.");
+      return;
+    }
     dispatch(userActions.emailCheck(id));
     setIdConfirm("");
   };

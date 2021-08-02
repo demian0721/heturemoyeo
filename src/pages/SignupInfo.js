@@ -79,6 +79,10 @@ const SignupInfo = (props) => {
   };
 
   const nicknamedup = () => {
+    if (nickname === "") {
+      window.alert("닉네임이 입력되지 않았습니다.");
+      return;
+    }
     dispatch(userActions.nickCheck(nickname));
     setNicknameConfirm("");
   };
@@ -174,6 +178,7 @@ const SignupInfo = (props) => {
               padding="12px 0"
               bg="#A7AAAD"
               clickEvent={signup}
+              disabled={!nickname || !statusMessage}
             >
               완료
             </Button>

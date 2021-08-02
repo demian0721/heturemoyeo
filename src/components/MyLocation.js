@@ -7,10 +7,10 @@ import { Grid, Button } from '../elements'
 // MATERIAL-UI
 import MyLocationIcon from '@material-ui/icons/MyLocation';
 
-const MyLocation = (props) => {
+const MyLocation = ({ clickEvent, ...props }) => {
     return (
         < Grid
-            style={{ position: 'fixed', top: '8%', left: '3%', zIndex: 99 }
+            style={{ position: 'fixed', top: '8%', left: '8%', zIndex: 99 }
             }
             width="auto"
             height="auto"
@@ -21,8 +21,7 @@ const MyLocation = (props) => {
                 padding="12px"
                 margin="0 0 10px"
                 radius="100%"
-                clickEvent={() =>
-                    window.location.reload()}
+                {...clickEvent}
             >
                 <MyLocationIcon />
             </Button>
@@ -31,6 +30,8 @@ const MyLocation = (props) => {
     )
 }
 
-MyLocation.defaultProps = {};
+MyLocation.defaultProps = {
+    clickEvent: () => {}
+};
 
 export default MyLocation

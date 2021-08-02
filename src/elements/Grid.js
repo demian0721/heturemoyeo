@@ -29,6 +29,7 @@ Grid.defaultProps = {
 };
 
 const GridBox = styled.div`
+    position: ${(props) => props.position};
     ${(props) => (props.is_flex ? `display: flex; justify-content: ${props.is_flex};` : '')};
     align-items: ${(props) => props.verSort};
     width: ${(props) => props.width};

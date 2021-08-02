@@ -60,11 +60,13 @@ const myInfoDB = () => {
 const editInfos = (doc) => {
   return function (dispatch, getState, { history }) {
     instance
-      .put("/api/user")
+      .put("/api/user", doc)
       .then((res) => {
         console.log(res);
+
         dispatch(editInfo(res.data));
         setToken(res.data.token);
+        
         history.replace("/mypage");
       })
       .catch((error) => {

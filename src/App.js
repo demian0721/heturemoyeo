@@ -17,7 +17,7 @@ import { getToken } from './common/token';
 import GlobalStyle from './common/globalStyle';
 
 // PAGES
-import { Main, Login, Signup, SignupInfo, Mypage, MypageEdit, Terms } from './pages/index';
+import { Main, Login, Signup, SignupInfo, Mypage, MypageEdit, Terms, PostList, PostDetail, PostWrite, PostModify } from './pages/index';
 
 function App() {
 
@@ -42,6 +42,10 @@ function App() {
       <Route path="/signup/info" exact component={SignupInfo} />
       <Route path="/mypage" exact component={Mypage} />
       <Route path="/mypageedit" exact component={MypageEdit} />
+      <Route path="/postlist" exact component={PostList} />
+      <Route path="/postdetail" exact component={PostDetail} />
+      <Route path="/postwrite" exact component={PostWrite} />
+      <Route path="/postmodify" exact component={PostModify} />
     </ConnectedRouter>
     </>
   )

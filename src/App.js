@@ -1,7 +1,7 @@
 // LIBRARY
 import React, { useEffect } from 'react';
 import { ConnectedRouter } from 'connected-react-router';
-import { Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 // HISTORY
 import { history } from './redux/configStore';
@@ -28,12 +28,28 @@ function App() {
     if (token) {
       dispatch(userActions.myInfoDB());
       dispatch(userActions.logInCheck(token));
+    } else {
+      if (!token && window.location.pathname !== '/login') {
+        alert('로그인이 필요한 서비스입니다!')
+        return window.location.href = '/login'
+      }
     }
   }, []);
   
   return (
     <>
-    <GlobalStyle/>
+      <GlobalStyle/>
+      {/* <Router>
+        <Switch>
+          <Route exact path="/" component={Main} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/terms" exact component={Terms} />
+          <Route path="/signup" exact component={Signup} />
+          <Route path="/signup/info" exact component={SignupInfo} />
+          <Route path="/mypage" exact component={Mypage} />
+          <Route path="/mypageedit" exact component={MypageEdit} />
+        </Switch>
+      </Router> */}
     <ConnectedRouter history={history}>
       <Route exact path="/" component={Main} />
       <Route path="/login" exact component={Login} />

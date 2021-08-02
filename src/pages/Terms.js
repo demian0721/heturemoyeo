@@ -4,16 +4,7 @@ import { css } from "styled-components";
 import "../Signup.scss";
 
 //Elements
-import {
-  Text,
-  Title,
-  Input,
-  Grid,
-  Button,
-  CheckBox,
-  Toggle,
-  Vehicles,
-} from "../elements";
+import { Text, Title, Input, Grid, Button, CheckBox, Toggle, Vehicles } from "../elements";
 
 //HISTORY
 import { history } from "../redux/configStore";

@@ -50,7 +50,6 @@ const myInfoDB = () => {
     instance
       .post("/api/user/me")
       .then((res) => {
-        console.log(res);
         dispatch(myInfo(res.data));
       })
       .catch((error) => {
@@ -65,7 +64,6 @@ const editInfos = (doc) => {
     instance
       .put("/api/user", doc)
       .then((res) => {
-        dispatch(editInfo(res.data));
         history.replace("/mypage");
       })
       .catch((error) => {
@@ -81,9 +79,8 @@ const editStatusMsg = (doc) => {
       .put("/api/user/status", doc)
       .then((res) => {
         dispatch(editInfo(res.data));
-        history.replace("/mypage");
       })
-      .catch((error) => {
+        .catch((error) => {
         console.error(error,"에러");
       });
   };
@@ -95,11 +92,9 @@ const loginAction = (user) => {
     instance
       .post("/api/login", user)
       .then((res) => {
+        setToken(res.data.token);
         dispatch(logIn(res.data.token));
         dispatch(myInfoDB());
-
-        setToken(res.data.token);
-
         history.push("/");
       })
       .catch((error) => {
@@ -123,7 +118,6 @@ const emailCheck = (id) => {
     .post("/api/sign/email", { email: id })
     .then((res) => {
       dispatch(checkDupEmail(true));
-      console.log(res);
       window.alert("사용 가능한 이메일입니다.");
     })
     .catch((error) => {
@@ -139,7 +133,6 @@ const nickCheck = (nick) => {
     .post("/api/sign/nickname", { nickname: nick })
     .then((res) => {
       dispatch(checkDupNick(true));
-      console.log(res);
       window.alert("사용 가능한 닉네임입니다.");
     })
     .catch((error) => {
@@ -182,7 +175,6 @@ const signupDB = (
       likeItem: [],
     })
     .then((res) => {
-      console.log(res);
     })
     .catch((error) => {
       console.log(error);

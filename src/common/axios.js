@@ -6,15 +6,14 @@ import { getToken } from './token';
 
 const instance = axios.create({
     baseURL: 'http://astraios.shop:4001/',
-    headers: {authorization: `${getToken('token')}`},
 });
 
-// instance.interceptors.request.use((config) => {
-//     config.headers['Content-Type'] = 'application/json; charset=utf-8';
-//     config.headers['X-Requested-With'] = 'XMLHttpRequest';
-//     config.headers['Accept'] = '*/*';
-//     config.headers['authorization'] = `Bearer ${getToken()}`;
-//     return config;
-// });
+instance.interceptors.request.use((config) => {
+    config.headers['Content-Type'] = 'application/json; charset=utf-8';
+    config.headers['X-Requested-With'] = 'XMLHttpRequest';
+    config.headers['Accept'] = '*/*';
+    config.headers['authorization'] = `${getToken()}`;
+    return config;
+});
 
 export default instance;

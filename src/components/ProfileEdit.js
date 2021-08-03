@@ -137,21 +137,27 @@ const ProfileEdit = () => {
   const checkNPWD2 = (val) => {
     if (val === "") {
       setNPwd2WarColor("red");
-      setNPwd2Notice("비밀번호 확인란이 입력되지 않았습니다.");
+      setNPwd2Notice("새 비밀번호 확인란이 입력되지 않았습니다.");
       return;
     }
-    if (val.length < 6) {
-      setNPwd2WarColor("red");
-      setNPwd2Notice("");
-      return;
-    }
+    
+    // if (val.length < 6) {
+    //   setNPwd2WarColor("red");
+    //   setNPwd2Notice("비밀번호");
+    //   return;
+    // }
     if (val !== editInfo.newpassword) {
       setNPwd2WarColor("red");
       setNPwd2Notice("입력된 비밀번호가 서로 다릅니다.");
       return;
     }
+    // if (!pwdVal(val)) {
+    //   setNPwd2WarColor("red");
+    //   setNPwd2Notice("비밀번호는 영문과 숫자, 특수문자를 각 1자 이상 포함해주세요.(8~20자) ");
+    //   return;
+    // }
     setNPwd2WarColor("green");
-    setNPwd2Notice("비밀번호가 올바르게 입력되었습니다.");
+    setNPwd2Notice("새 비밀번호가 올바르게 입력되었습니다.");
   };
     
     return (
@@ -186,8 +192,8 @@ const ProfileEdit = () => {
             { show ? <Input margin="0px" keyUp={(event) => {debounce(event.target.value, checkNPWD1);}}  changeEvent={changeNewpassword} value={editInfo.newpassword} placeholder="새 비밀번호" width="100%" margin="10px auto" style={{display:"block"}}/> : null }
             { show ? <Text fontSize="12px" margin="0px" color={npwd2Warning} lineHeight="1" textIndent="0px">{npwd2Notice}</Text> : null }
             { show ? <Input margin="0px" keyUp={(event) => {debounce(event.target.value, checkNPWD2);}}  changeEvent={changeConfirm} value={editInfo.confirm} placeholder="새 비밀번호 확인" width="100%" margin="10px auto" style={{display:"block"}}/> : null }
-            <Input changeEvent={changeLikeItem} value={editInfo.likeItem} placeholder="취향" width="100%" margin="10px auto" style={{display:"block"}}/>
-            <Button width="40%" padding="10px" margin="25px auto" display="block" style={{minWidth:"100px"}} clickEvent={editInfos}>확인</Button>
+            <Input changeEvent={changeLikeItem} value={editInfo.likeItem} placeholder="취향" width="100%" margin="15px auto" style={{display:"block"}}/>
+            <Button width="40%" padding="15px" margin="20px auto" display="block" style={{minWidth:"100px"}} clickEvent={editInfos}>확인</Button>
           </Grid>
         </Style>
         )

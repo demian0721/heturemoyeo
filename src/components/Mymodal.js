@@ -74,7 +74,8 @@ export default function SimpleModal(props) {
   return (
     <div>
       <text onClick={handleOpen}>
-      <span style={{color:"blue", fontSize:"small"}}>(상태메세지 수정)</span> {props.status} 
+      <span style={{color:"blue", fontSize:"small"}}>(상태메세지 수정)</span>
+      <p>{props.status}</p>
       </text>
       <Modal
         open={open}

@@ -1,7 +1,9 @@
 // LIBRARY
 import React, { useEffect } from 'react';
 import { ConnectedRouter } from 'connected-react-router';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil'
+import { useSelector } from 'react-redux'
 
 // HISTORY
 import { history } from './redux/configStore';
@@ -26,8 +28,9 @@ function App() {
 
   useEffect(() => {
     if (token) {
-      dispatch(userActions.myInfoDB());
-      dispatch(userActions.logInCheck(token));
+      dispatch(userActions.logInCheck(token))
+      dispatch(userActions.myInfoDB())
+      dispatch(userActions.relationDB())
     } else {
       if (!token && !['/login', '/signup', '/signup/info', '/terms'].includes(window.location.pathname)) {
         alert('로그인이 필요한 서비스입니다!')
@@ -35,10 +38,10 @@ function App() {
       }
     }
   }, []);
-  
+
   return (
     <>
-      <GlobalStyle/>
+      <GlobalStyle />
       {/* <Router>
         <Switch>
           <Route exact path="/" component={Main} />
@@ -50,19 +53,20 @@ function App() {
           <Route path="/mypageedit" exact component={MypageEdit} />
         </Switch>
       </Router> */}
-    <ConnectedRouter history={history}>
-      <Route exact path="/" component={Main} />
-      <Route path="/login" exact component={Login} />
-      <Route path="/terms" exact component={Terms} />
-      <Route path="/signup" exact component={Signup} />
-      <Route path="/signup/info" exact component={SignupInfo} />
-      <Route path="/mypage" exact component={Mypage} />
-      <Route path="/mypageedit" exact component={MypageEdit} />
-      <Route path="/postlist" exact component={PostList} />
-      <Route path="/postdetail" exact component={PostDetail} />
-      <Route path="/postwrite" exact component={PostWrite} />
-      <Route path="/postmodify" exact component={PostModify} />
-    </ConnectedRouter>
+      <ConnectedRouter history={history}>
+        <Route exact path="/" component={Main} />
+        <Route path="/login" exact component={Login} />
+        <Route path="/terms" exact component={Terms} />
+        <Route path="/signup" exact component={Signup} />
+        <Route path="/signup/info" exact component={SignupInfo} />
+        <Route path="/mypage" exact component={Mypage} />
+        <Route path="/mypageedit" exact component={MypageEdit} />
+        <Route path="/postlist" exact component={PostList} />
+        <Route path="/postdetail" exact component={PostDetail} />
+        <Route path="/postwrite" exact component={PostWrite} />
+        <Route path="/postmodify" exact component={PostModify} />
+        {/* <Route component={NotFound} /> */}
+      </ConnectedRouter>
     </>
   )
 }

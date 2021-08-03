@@ -4,7 +4,10 @@ import React, { useEffect, useState, useRef } from 'react'
 import _ from "lodash";
 import { Transition } from '@headlessui/react'
 import { geolocated, geoPropTypes } from 'react-geolocated'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
+
+// REDUX
+import { userActions } from "../redux/modules/user";
 
 // COMMON
 import socket from '../common/socket'
@@ -21,18 +24,41 @@ import { Grid, Button, Input } from '../elements/index';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
 
 const Main = (props) => {
+    const dispatch = useDispatch();
     const [geolocationMarker, setGeolocationMarker] = useState(false)
     const [markers, setMarkers] = useState([])
     const [isOpen, setIsOpen] = useState(false)
-    const [userId, setUserId] = useState(null)
     const [userData, setUserData] = useState({})
     const debounce = _.debounce((value, setValue) => setValue(value), 300)
     const ref = useRef()
+
+    const [exampleData, setExampleData] = useState({
+        nickname: 'example, nickname',
+        rating: 100,
+        statusMessage: 'example, statusMessage',
+        likeItem: ['example, hashTags'],
+        profileImg: 'https://spartacodingclub.kr/static/v5/images/rtan/rtan_thumb_20-min.png',
+        scheduleTitle: 'example, scheduleTitle',
+        scheduleCount: 3,
+        isFriend: false,
+    })
+
+    const markerImageObj = {
+        me: 'https://cdn.discordapp.com/emojis/636204464809836546.png?v=1',
+        sameSchedule: 'https://cdn.discordapp.com/emojis/636204456345862204.png?v=1',
+        friend: 'https://cdn.discordapp.com/emojis/686639764023017501.png?v=1',
+        anonymous: 'https://cdn.discordapp.com/emojis/686639764023017501.png?v=1'
+    }
+
+    // 로그인 후, 유저 데이터
+    const getUserData = useSelector(state => state.user)
+    const myFriends = useSelector((state) => state.user.friendUsers)
+    const mySchedules = useSelector((state) => state.user.scheduleUsers)
+    // 마커 클릭 이벤트 (바깥 영역 클릭 시 오버레이 닫기)
     const useOutsideClick = (ref, handler) => {
         useEffect(() => {
             const listener = (event) => {
-                if (!ref?.current || (ref && ref?.current?.contains?.(event.target)))
-                    return; handler(event);
+                if (!ref?.current || (ref && ref?.current?.contains?.(event.target))) return; handler(event);
             };
             document.addEventListener('mousedown', listener);
             return () => { document.removeEventListener('mousedown', listener) }
@@ -40,48 +66,109 @@ const Main = (props) => {
     }
     useOutsideClick(ref, () => setIsOpen(false))
 
-    const exampleData = {
-        nickname: 'example, nickname',
-        rating: 100,
-        statusMessage: 'example, statusMessage',
-        hashTags: ['example, hashTags'],
-        profileImage: 'https://spartacodingclub.kr/static/v5/images/rtan/rtan_thumb_20-min.png',
-        scheduleTitle: 'example, scheduleTitle',
-        scheduleCount: 3,
-        isFriend: false,
+    const getUserDataFromUserId = (userId, isFriend, isSameSchedule, isMe) => {
+        let data = exampleData
+        if (isMe) data = getUserData
+        if (isFriend) {
+            dispatch(userActions.targetFriendDB(userId)) // <-
+        }
+        if (isSameSchedule) {
+            dispatch(userActions.targetPostDB(userId)) // <-
+        }
+        if (!isFriend && !isSameSchedule && !isMe) {
+            dispatch(userActions.targetAllDB(userId)) // <-
+        }
+        console.log(data)
+        return data
     }
 
-    const markerEventListener = (userId) => {
+    // My Location 버튼 (내위치 찾기)
+    const panTo = (lat, lng) => global?.map?.panTo(new kakao.maps.LatLng(lat, lng))
+
+    // 마커 클릭 이벤트 (마커 클릭 시 오버레이 열기)
+    const markerEventListener = (markerData) => {
         if (!isOpen) {
             setIsOpen(true)
-            setUserId(userId)
-            setUserData(exampleData)
+            console.log(markerData)
+            panTo(markerData.position.getLat(), markerData.position.getLng())
+            markerData.setImage(new kakao.maps.MarkerImage(
+                markerData.markerImage.url,
+                new kakao.maps.Size(32, 32),
+                new kakao.maps.Point(30, 31)
+            ))
+            const data = getUserDataFromUserId(markerData.userId, markerData.isFriend, markerData.isSameSchedule, markerData.isMe)
+            setUserData(data)
         } else setIsOpen(false)
     }
 
-    // 마커 생성 및 클릭이벤트 부여하기 (오버레이 보이기/숨기기)
+    /**
+     * Marker Color set
+     * - Red: Me
+     * - Blue: Friend
+     * - Yellow: Same schedule
+     * - Gray: Anonymous
+     */
+    // 마커 생성 및 생성되는 마커에 클릭이벤트 부여하기
     const addMarker = (map, markerUserId, position) => {
-        const marker = new kakao.maps.Marker({ position })
+        const myUserId = getUserData?.userId
+        let isFriend, isSameSchedule, isMe, isMarkerImage
+        // markerUserId = Number(markerUserId)
+        markerUserId = String(markerUserId)
+        if (myFriends?.includes(markerUserId) && mySchedules?.includes(markerUserId) && String(myUserId) !== markerUserId) {
+            // isFriend: true | isSameSchedules: true | isMe: false
+            isFriend = true
+            isSameSchedule = true
+            isMe = false
+            isMarkerImage = markerImageObj.sameSchedule
+        } else if (myFriends?.includes(markerUserId) && !mySchedules?.includes(markerUserId) && String(myUserId) !== markerUserId) {
+            // isFriend: true | isSameSchedules: false | isMe: false
+            isFriend = true
+            isSameSchedule = false
+            isMe = false
+            isMarkerImage = markerImageObj.friend
+        } else if (!myFriends?.includes(markerUserId) && mySchedules?.includes(markerUserId) && String(myUserId) !== markerUserId) {
+            // isFriend: false | isSameSchedules: true | isMe: false
+            isFriend = false
+            isSameSchedule = true
+            isMe = false
+            isMarkerImage = markerImageObj.sameSchedule
+        } else if (!myFriends?.includes(markerUserId) && !mySchedules?.includes(markerUserId) && String(myUserId) === markerUserId) {
+            // isFriend: false | isSameSchedules: false | isMe: true
+            isFriend = false
+            isSameSchedule = false
+            isMe = true
+            isMarkerImage = markerImageObj.me
+        } else {
+            // isFriend: false | isSameSchedules: false | isMe: false
+            isFriend = false
+            isSameSchedule = false
+            isMe = false
+            isMarkerImage = markerImageObj.anonymous
+        }
+        const markerSize = new kakao.maps.Size(24, 24)
+        const markerImageOptions = { offset: new kakao.maps.Point(23, 23) }
+        const markerImage = new kakao.maps.MarkerImage(isMarkerImage, markerSize, markerImageOptions)
+        const marker = new kakao.maps.Marker({ position, image: markerImage })
         marker.setMap(map)
-        marker.userId = markerUserId
-        marker.position = position
-        kakao.maps.event.addListener(marker, 'click', () => markerEventListener(markerUserId))
+        Object.assign(marker, {
+            userId: markerUserId,
+            isFriend,
+            isSameSchedule,
+            isMe,
+            position,
+            markerImage: {
+                url: isMarkerImage,
+                size: markerSize,
+                options: markerImageOptions
+            }
+        })
+        kakao.maps.event.addListener(marker, 'click', () => markerEventListener(marker))
         markers.push(marker)
         return marker
     }
 
-    // My Location 버튼 (내위치 찾기)
-    const panTo = (lat, lng) => {
-        console.log(`Reset viewPoint to My Location (Latitude: ${lat} & Longitude: ${lng})`)
-        global?.map?.panTo(new kakao.maps.LatLng(lat, lng))
-        // global?.map?.setLevel(3, { animate: { duration: 500 } })
-    }
-
     // 로그인 하면 내 위치를 소켓으로 전송하는 부분?
-    const sendUserLocation = (userId, lat, lng) => {
-        console.log(`Send UserLocation: ${userId}, ${lat}, ${lng}`)
-        socket.emit('latlng', { userId, lat, lng })
-    }
+    const sendUserLocation = (userId, lat, lng) => socket.emit('latlng', { userId, lat, lng })
 
     // 인풋박스에서 임의의 마커 추가해보기. (소켓통신)
     const submitAddMarker = () => {
@@ -97,9 +184,6 @@ const Main = (props) => {
         locationLat.value = ''
         locationLng.value = ''
     }
-
-    // 로그인 후, 유저 데이터
-    const getUserData = useSelector(state => state.user)
 
     // 카카오맵 생성하기
     useEffect(() => {
@@ -120,8 +204,7 @@ const Main = (props) => {
     }
 
     const userLocationListener = (data) => {
-        console.log(markers)
-        console.log(markers.map(el => ({ userId: el.userId, position: el.position })))
+        // console.log(markers.map(el => ({ userId: el.userId, position: el.position })))
         markers.map(el => el.setMap(null))
         markers.splice(0, markers.length)
         setMarkers([])
@@ -133,20 +216,21 @@ const Main = (props) => {
     }
 
     useEffect(() => {
+        if (!geolocationMarker) return
         socket.on('userLocation', userLocationListener)
         return () => {
             console.log('clearing socket.io events...')
             socket.removeEventListener('userLocation', userLocationListener)
             socket.off('userLocation', userLocationListener)
         }
-    }, [])
+    }, [myFriends, mySchedules, geolocationMarker])
 
     return (
         <>
             {
                 sessionStorage.token && <>
                     <Grid><Header /></Grid>
-                    <div className='container'> {/* 맵 영역 생성 */}
+                    <div className='container'>
                         <div className='absolute left-0 right-0 inline-flex' style={{ zIndex: 20 }}>
                             <Input id='input__userId' placeholder='userId' />
                             <Input id='input__location--lat' placeholder='Lat' />
@@ -155,6 +239,7 @@ const Main = (props) => {
                                 Add Marker
                             </div>
                         </div>
+                        {/* kakao 맵 생성 */}
                         <div
                             id='map'
                             className='h-auto w-auto'
@@ -179,15 +264,18 @@ const Main = (props) => {
                         >
                             <div ref={ref} className='container mx-auto px-4'>
                                 <div id='overlay--author__status' className='block'>
+                                    {/* API UserData 요청 시, Rating 값 불러오기 */}
                                     <UserOverlay
                                         isOpen={isOpen}
-                                        username={userData?.nickname}
-                                        userStatus={userData?.statusMessage}
-                                        userHashTag={userData?.hashTags}
+                                        // isMe={userData?.isMe}
+                                        // name={userData?.name}
+                                        nickname={userData?.nickname}
+                                        userStatusMessage={userData?.statusMessage}
+                                        userLikeItem={userData?.likeItem}
                                         userSchedule={userData?.scheduleTitle}
-                                        profileImage={userData?.profileImage}
+                                        profileImage={userData?.profileImg ?? 'https://spartacodingclub.kr/static/v5/images/rtan/rtan_thumb_20-min.png'}
                                         scheduleCount={userData?.scheduleCount}
-                                        userRating={userData?.rating}
+                                        userRating={userData?.rating ?? 70}
                                     />
                                 </div>
                             </div>

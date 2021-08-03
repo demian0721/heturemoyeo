@@ -49,9 +49,10 @@ const UserOverlay = ({ children, ...props }) => {
       </div>
       }
       <div className='block pl-4'>
-        { props?.username && <div className='font-bold text-lg lg:text-2xl'>{props.username}</div> }
-        { props?.userStatus &&<div className='font-medium text-sm lg:text-base'>{props.userStatus}</div> }
-        { props?.userHashTag && <div className='font-normal text-xs py-1 lg:text-sm'>{props.userHashTag.join(' ')}</div> }
+        { props?.nickname && <div className='font-bold text-lg lg:text-2xl'>{props.nickname}</div> }
+        {/* { props?.isMe && props?.name && <div className='font-semibold text-sm lg:text-base'>{props?.name}</div> } */}
+        { props?.userStatusMessage &&<div className='font-medium text-sm lg:text-base'>{props.userStatusMessage }</div> }
+        { props?.userLikeItem && <div className='font-normal text-xs py-1 lg:text-sm'>{props.userLikeItem.join(' ')}</div> }
         { props?.userSchedule && <div className='font-semibold text-sm lg:text-base'>{props.userSchedule}</div> }
       </div>
     </div>

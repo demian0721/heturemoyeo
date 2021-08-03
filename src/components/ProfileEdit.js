@@ -30,7 +30,6 @@ const ProfileEdit = () => {
   useEffect(() => { if (!getToken()) { history.replace('/login'); } }, []);    
   
   const userlist = useSelector(state => state.user)
-  let link = `http://astraios.shop:4001/${userlist.profileImg}`;
 
   const [editInfo, setInfos] = React.useState({
     nickname: userlist.nickname,
@@ -165,7 +164,7 @@ const ProfileEdit = () => {
           <Grid  width="50vw" height="100%" maxWidth="500px" minWidth="250px" margin="auto" style={{}}>
             <Grid id="profile"></Grid>
             <Grid width="15vw" maxWidth="150px" minWidth="50px" margin="auto auto 30px" style={{display:"block", borderRadius:"50%"}}>
-                <Image src="https://i.imgur.com/ViFAD8Z.png" style={{position:'absolute',zIndex:1}}/>
+                <Image src={userlist.profileImg} style={{position:'absolute',zIndex:1}}/>
                 <Text style={{position:'relative',zIndex:2}}>이미지 수정</Text>
             </Grid>
             {/* <Text margin="20px 0px 0px 0px" fontSize='small'>비밀번호</Text> */}

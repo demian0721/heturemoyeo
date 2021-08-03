@@ -7,11 +7,13 @@ import { produce } from "immer";
 
 // FUNCTION
 import { setToken, removeToken } from "../../common/token";
-import { DraftsTwoTone } from "@material-ui/icons";
 
 // ACTION
 const MY_INFO = "MY_INFO";
-const RELATION = "RELATION"
+const RELATION = "RELATION";
+const TARGET_ALL = "TARGET_ALL"
+const TARGET_FRIEND = "TARGET_FRIEND"
+const TARGET_POST = "TARGET_POST"
 const LOG_IN = "LOG_IN";
 const LOG_OUT = "LOG_OUT";
 const CHECK_DUP_EMAIL = "CHECK_DUP_EMAIL";
@@ -23,6 +25,9 @@ const EDIT_STATUS = "EDIT_STATUS";
 // ACTION CREATORS
 const myInfo = createAction(MY_INFO, (userInfo) => ({ userInfo }));
 const relation = createAction(RELATION, (user) => ({ user }))
+const targetAll = createAction(TARGET_ALL, (user) => ({ user }))
+const targetFriend = createAction(TARGET_FRIEND, (user) => ({ user }))
+const targetPost = createAction(TARGET_POST, (user) => ({ user }))
 const logIn = createAction(LOG_IN, (token) => ({ token }));
 const logOut = createAction(LOG_OUT);
 const checkDupEmail = createAction(CHECK_DUP_EMAIL, (is_check_email) => ({ is_check_email }));
@@ -92,6 +97,45 @@ const relationDB = () => {
       .post("/api/user/myusers")
       .then((res) => {
         dispatch(relation(res.data));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+};
+
+const targetAllDB = (userId) => {
+  return function (dispatch) {
+    instance
+      .post("/api/user/target/all", userId)
+      .then((res) => {
+        dispatch(targetAll(res.data));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+};
+
+const targetFriendDB = (userId) => {
+  return function (dispatch) {
+    instance
+      .post("/api/user/target/friend", userId)
+      .then((res) => {
+        dispatch(targetFriend(res.data));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+};
+
+const targetPostDB = (userId) => {
+  return function (dispatch) {
+    instance
+      .post("/api/user/target/post", userId)
+      .then((res) => {
+        dispatch(targetPost(res.data));
       })
       .catch((error) => {
         console.error(error);
@@ -170,12 +214,6 @@ export default handleActions(
   {
     [MY_INFO]: (state, action) =>
       produce(state, (draft) => {
-        draft.friendUsers = action.payload.friendUsers;
-        draft.scheduleUsers = action.payload.scheduleUsers;
-      }),
-
-      [RELATION]: (state, action) =>
-      produce(state, (draft) => {
         draft.userId = action.payload.userInfo.userId;
         draft.email = action.payload.userInfo.email;
         draft.name = action.payload.userInfo.name;
@@ -183,6 +221,51 @@ export default handleActions(
         draft.profileImg = action.payload.userInfo.profileImg;
         draft.statusMessage = action.payload.userInfo.statusMessage;
         draft.likeItem = action.payload.userInfo.likeItem;
+      }),
+
+    [RELATION]: (state, action) =>
+      produce(state, (draft) => {
+        draft.friendUsers = action.payload.friendUsers;
+        draft.scheduleUsers = action.payload.scheduleUsers;
+      }),
+
+      [TARGET_ALL]: (state, action) =>
+      produce(state, (draft) => {
+        draft.userId = action.payload.userInfo.userId;
+        draft.nickname = action.payload.userInfo.nickname;
+        draft.rating = action.payload.userInfo.rating;
+        draft.profileImg = action.payload.userInfo.profileImg;
+        draft.statusMessage = action.payload.userInfo.statusMessage;
+        draft.likeItem = action.payload.userInfo.likeItem;
+        draft.scheduleCount = action.payload.userInfo.scheduleCount;
+        draft.scheduleTitle = action.payload.userInfo.scheduleTitle;
+        draft.isFriend = action.payload.userInfo.isFriend;
+      }),
+
+      [TARGET_FRIEND]: (state, action) =>
+      produce(state, (draft) => {
+        draft.userId = action.payload.userInfo.userId;
+        draft.nickname = action.payload.userInfo.nickname;
+        draft.rating = action.payload.userInfo.rating;
+        draft.profileImg = action.payload.userInfo.profileImg;
+        draft.statusMessage = action.payload.userInfo.statusMessage;
+        draft.likeItem = action.payload.userInfo.likeItem;
+        draft.scheduleCount = action.payload.userInfo.scheduleCount;
+        draft.scheduleTitle = action.payload.userInfo.scheduleTitle;
+        draft.isFriend = action.payload.userInfo.isFriend;
+      }),
+
+      [TARGET_POST]: (state, action) =>
+      produce(state, (draft) => {
+        draft.userId = action.payload.userInfo.userId;
+        draft.nickname = action.payload.userInfo.nickname;
+        draft.rating = action.payload.userInfo.rating;
+        draft.profileImg = action.payload.userInfo.profileImg;
+        draft.statusMessage = action.payload.userInfo.statusMessage;
+        draft.likeItem = action.payload.userInfo.likeItem;
+        draft.scheduleCount = action.payload.userInfo.scheduleCount;
+        draft.scheduleTitle = action.payload.userInfo.scheduleTitle;
+        draft.isFriend = action.payload.userInfo.isFriend;
       }),
 
     [LOG_IN]: (state, action) =>
@@ -237,8 +320,14 @@ const userActions = {
   logOut,
   loginAction,
   myInfoDB,
+  targetAll,
+  targetFriend,
+  targetPost,
   relation,
   relationDB,
+  targetAllDB,
+  targetFriendDB,
+  targetPostDB,
   signupDB,
   emailCheck,
   nickCheck,

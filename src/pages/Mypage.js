@@ -25,15 +25,5 @@ const Mypage = () => {
     );
 };
 
-
-const Style = styled.div`
-    padding-top:100px;
-    align-items: center;
-    margin-top: 10vh;
-    width: 100vw;
-    //styled component use
-    /* background-color: red; */
-`;
-
 export default Mypage;
 

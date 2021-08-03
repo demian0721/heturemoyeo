@@ -11,6 +11,7 @@ import { DraftsTwoTone } from "@material-ui/icons";
 
 // ACTION
 const MY_INFO = "MY_INFO";
+const RELATION = "RELATION"
 const LOG_IN = "LOG_IN";
 const LOG_OUT = "LOG_OUT";
 const CHECK_DUP_EMAIL = "CHECK_DUP_EMAIL";
@@ -21,17 +22,14 @@ const EDIT_STATUS = "EDIT_STATUS";
 
 // ACTION CREATORS
 const myInfo = createAction(MY_INFO, (userInfo) => ({ userInfo }));
+const relation = createAction(RELATION, (user) => ({ user }))
 const logIn = createAction(LOG_IN, (token) => ({ token }));
 const logOut = createAction(LOG_OUT);
-const checkDupEmail = createAction(CHECK_DUP_EMAIL, (is_check_email) => ({
-  is_check_email,
-}));
-const checkDupNick = createAction(CHECK_DUP_NICKNAME, (is_check_nickname) => ({
-  is_check_nickname,
-}));
+const checkDupEmail = createAction(CHECK_DUP_EMAIL, (is_check_email) => ({ is_check_email }));
+const checkDupNick = createAction(CHECK_DUP_NICKNAME, (is_check_nickname) => ({ is_check_nickname }));
 const tempSave = createAction(TEMP_SAVE, (tempInfo) => ({ tempInfo }));
-const editInfo = createAction(EDIT_INFO, (editInfo)=>({editInfo}));
-const editStatus = createAction(EDIT_STATUS, (editStatus)=>({editStatus}));
+const editInfo = createAction(EDIT_INFO, (editInfo) => ({ editInfo }));
+const editStatus = createAction(EDIT_STATUS, (editStatus) => ({ editStatus }));
 
 // INITIAL STATE
 const initialState = {
@@ -42,6 +40,8 @@ const initialState = {
   userId: null,
   nickname: null,
   tempInfo: null,
+  friendUsers: [],
+  scheduleUsers: [],
 };
 
 // MIDDLEWARE
@@ -67,7 +67,7 @@ const editInfos = (doc) => {
         history.replace("/mypage");
       })
       .catch((error) => {
-        console.error(error,"에러");
+        console.error(error, "에러");
       });
   };
 };
@@ -80,12 +80,24 @@ const editStatusMsg = (doc) => {
       .then((res) => {
         dispatch(editInfo(res.data));
       })
-        .catch((error) => {
-        console.error(error,"에러");
+      .catch((error) => {
+        console.error(error, "에러");
       });
   };
 };
 
+const relationDB = () => {
+  return function (dispatch) {
+    instance
+      .post("/api/user/myusers")
+      .then((res) => {
+        dispatch(relation(res.data));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+};
 
 const loginAction = (user) => {
   return function (dispatch, getState, { history }) {
@@ -114,66 +126,37 @@ const logInCheck = (token) => {
 
 const emailCheck = (id) => {
   return function (dispatch) {
-  instance
-    .post("/api/sign/email", { email: id })
-    .then((res) => {
-      dispatch(checkDupEmail(true));
-      window.alert("사용 가능한 이메일입니다.");
-    })
-    .catch((error) => {
-      dispatch(checkDupEmail(false));
-      window.alert("이미 존재하는 이메일입니다.");
-    });
+    instance
+      .post("/api/sign/email", { email: id })
+      .then((res) => {
+        dispatch(checkDupEmail(true));
+        window.alert("사용 가능한 이메일입니다.");
+      })
+      .catch((error) => {
+        dispatch(checkDupEmail(false));
+        window.alert("이미 존재하는 이메일입니다.");
+      });
   };
 };
 
 const nickCheck = (nick) => {
   return function (dispatch) {
-  instance
-    .post("/api/sign/nickname", { nickname: nick })
-    .then((res) => {
-      dispatch(checkDupNick(true));
-      window.alert("사용 가능한 닉네임입니다.");
-    })
-    .catch((error) => {
-      dispatch(checkDupNick(false));
-      window.alert("이미 존재하는 닉네임입니다.");
-    });
+    instance
+      .post("/api/sign/nickname", { nickname: nick })
+      .then((res) => {
+        dispatch(checkDupNick(true));
+        window.alert("사용 가능한 닉네임입니다.");
+      })
+      .catch((error) => {
+        dispatch(checkDupNick(false));
+        window.alert("이미 존재하는 닉네임입니다.");
+      });
   };
 };
 
-const signupDB = (
-  email,
-  name,
-  nickname,
-  password,
-  confirm,
-  profileImg,
-  statusMessage,
-  likeItem
-) => {
-  // return function () {
-  console.log(
-    email,
-    name,
-    nickname,
-    password,
-    confirm,
-    profileImg,
-    statusMessage,
-    likeItem
-  );
+const signupDB = (email, name, nickname, password, confirm, profileImg, statusMessage, likeItem) => {
   instance
-    .post("/api/sign/", {
-      email,
-      name,
-      nickname,
-      password,
-      confirm,
-      profileImg,
-      statusMessage,
-      likeItem: [],
-    })
+    .post("/api/sign/", { email, name, nickname, password, confirm, profileImg, statusMessage, likeItem: [] })
     .then((res) => {
     })
     .catch((error) => {
@@ -186,6 +169,12 @@ const signupDB = (
 export default handleActions(
   {
     [MY_INFO]: (state, action) =>
+      produce(state, (draft) => {
+        draft.friendUsers = action.payload.friendUsers;
+        draft.scheduleUsers = action.payload.scheduleUsers;
+      }),
+
+      [RELATION]: (state, action) =>
       produce(state, (draft) => {
         draft.userId = action.payload.userInfo.userId;
         draft.email = action.payload.userInfo.email;
@@ -224,20 +213,20 @@ export default handleActions(
       produce(state, (draft) => {
         draft.tempInfo = action.payload.tempInfo;
       }),
-    [EDIT_INFO]: (state,action)=>
+    [EDIT_INFO]: (state, action) =>
       produce(state, (draft) => {
-        draft.nickname=action.payload.infos.nickname;
-        draft.password=action.payload.infos.password;
-        draft.newpassword=action.payload.infos.newpassword;
-        draft.confirm=action.payload.infos.confirm;
-        draft.profileImg=action.payload.infos.profileImg;
-        draft.likeItem=action.payload.infos.likeItem;
+        draft.nickname = action.payload.infos.nickname;
+        draft.password = action.payload.infos.password;
+        draft.newpassword = action.payload.infos.newpassword;
+        draft.confirm = action.payload.infos.confirm;
+        draft.profileImg = action.payload.infos.profileImg;
+        draft.likeItem = action.payload.infos.likeItem;
       }),
 
-    [EDIT_INFO]: (state,action)=>
-    produce(state, (draft) => {
-      draft.statusMessage=action.payload.statusMessage;
-    }),
+    [EDIT_INFO]: (state, action) =>
+      produce(state, (draft) => {
+        draft.statusMessage = action.payload.statusMessage;
+      }),
   },
   initialState
 );
@@ -248,12 +237,15 @@ const userActions = {
   logOut,
   loginAction,
   myInfoDB,
+  relation,
+  relationDB,
   signupDB,
   emailCheck,
   nickCheck,
   tempSave,
   editInfos,
   editStatusMsg,
+  editStatus,
 };
 
 export { userActions };

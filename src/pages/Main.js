@@ -74,7 +74,7 @@ const Main = (props) => {
     const panTo = (lat, lng) => {
         console.log(`Reset viewPoint to My Location (Latitude: ${lat} & Longitude: ${lng})`)
         global?.map?.panTo(new kakao.maps.LatLng(lat, lng))
-        global?.map?.setLevel(3, { animate: { duration: 500 } })
+        // global?.map?.setLevel(3, { animate: { duration: 500 } })
     }
 
     // 로그인 하면 내 위치를 소켓으로 전송하는 부분?

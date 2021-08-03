@@ -1,17 +1,31 @@
 //LIBRARY
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { css } from "styled-components";
-import TodayIcon from '@material-ui/icons/Today';
+import TodayIcon from "@material-ui/icons/Today";
+import { useSelector, useDispatch } from "react-redux";
+
+// REDUX
+import { postActions } from "../redux/modules/post";
 
 //ELEMENTS
 import { Grid, Input, Button } from "../elements/index";
 
+//HISTORY
+import { history } from "../redux/configStore";
+
 //COMPONENTS
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import PostGroupCard from "../components/PostGroupCard";
 
-const PostList = () => {
+const PostList = (props) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(postActions.getPostsDB());
+  }, []);
+  const PostList = useSelector((state) => state.post.list);
+
   return (
     <React.Fragment>
       <Grid>
@@ -36,10 +50,16 @@ const PostList = () => {
         }}
       >
         <Grid padding="18px" bg="#EFEFEF">
-          <Grid padding="8px 0px" style={{display:"flex"}}>
-            <Input placeholder="제목, 내용, 태그, 또는 날짜" />
-            <TodayIcon color="action"/>
+          <Grid
+            padding="8px 8px"
+            is_flex
+            bg="white"
+            style={{ border: "1px solid #ccc", justifyContent:"space-between", marginBottom:"10px" }}
+          >
+            <input placeholder="제목, 내용, 태그 또는 날짜" />
+            <TodayIcon color="action" />
           </Grid>
+
           <Buttonset>
             <Grid padding="5px 0px 0px 0px">
               <Button
@@ -67,72 +87,28 @@ const PostList = () => {
               </Button>
             </Grid>
           </Buttonset>
-          <PostCard>
-              <Table>
-                  <tr>
-                      <Th>제목</Th>
-                      <Td>함께 뛸 러너 모집!</Td>
-                  </tr>
-                  <tr>
-                      <Th>인원</Th>
-                      <Td>4명</Td>
-                  </tr>
-                  <tr>
-                      <Th>날짜</Th>
-                      <Td>2021년 8월 2일</Td>
-                  </tr>
-                  <tr>
-                      <Th>장소</Th>
-                      <Td>잠실역 3번 출구</Td>
-                  </tr>
-              </Table>
-              <PlaceImg />
-          </PostCard>
-          <PostCard>
-              <Table>
-                  <tr>
-                      <Th>제목</Th>
-                      <Td>함께 뛸 러너 모집!</Td>
-                  </tr>
-                  <tr>
-                      <Th>인원</Th>
-                      <Td>4명</Td>
-                  </tr>
-                  <tr>
-                      <Th>날짜</Th>
-                      <Td>2021년 8월 2일</Td>
-                  </tr>
-                  <tr>
-                      <Th>장소</Th>
-                      <Td>잠실역 3번 출구</Td>
-                  </tr>
-              </Table>
-              <PlaceImg />
-          </PostCard>
-          <PostCard>
-              <Table>
-                  <tr>
-                      <Th>제목</Th>
-                      <Td>함께 뛸 러너 모집!</Td>
-                  </tr>
-                  <tr>
-                      <Th>인원</Th>
-                      <Td>4명</Td>
-                  </tr>
-                  <tr>
-                      <Th>날짜</Th>
-                      <Td>2021년 8월 2일</Td>
-                  </tr>
-                  <tr>
-                      <Th>장소</Th>
-                      <Td>잠실역 3번 출구</Td>
-                  </tr>
-              </Table>
-              <PlaceImg />
-          </PostCard>
-          <AddButton>
-            추가하기 <br/> (글쓰기버튼) 
-          </AddButton>
+
+          {PostList.map((l, index) => {
+            return <PostGroupCard key={l.id} idx={index} {...l} />;
+          })}
+
+          <Grid padding="5px 0px">
+            <Button
+              width="60px"
+              height="60px"
+              bg="#A7AAAD"
+              color="black"
+              radius="50px"
+              //    borderColor="1px solid black"
+              fontSize="10px"
+              clickEvent={() => {
+                history.push("/postwrite");
+              }}
+              style={{ cursor: "pointer", float: "right" }}
+            >
+              추가하기 <br /> (글쓰기버튼)
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
       <Grid>
@@ -142,25 +118,25 @@ const PostList = () => {
   );
 };
 
-const Td = styled.td`
-  padding-left: 5px;  
-`;
-const Th = styled.th`
-  padding-right: 5px;
-`;
-const Table = styled.table`
-  margin: 5px;
-`;
+// const Td = styled.td`
+//   padding-left: 5px;
+// `;
+// const Th = styled.th`
+//   padding-right: 5px;
+// `;
+// const Table = styled.table`
+//   margin: 5px;
+// `;
 
-const AddButton = styled.button`
-  width: 60px;
-  height: 60px;
-  background-color: #A7AAAD;
-  border-radius: 50px;
-  border: 1px solid black;
-  float: right;
-  font-size: 10px;
-`;
+// const WriteButton = styled.button`
+//   width: 60px;
+//   height: 60px;
+//   background-color: #A7AAAD;
+//   border-radius: 50px;
+//   border: 1px solid black;
+//   float: right;
+//   font-size: 10px;
+// `;
 
 const Buttonset = styled.div`
   margin: 0 auto;
@@ -168,20 +144,20 @@ const Buttonset = styled.div`
   display: flex;
 `;
 
-const PlaceImg = styled.img`
-  width: 80px;
-  height: 80px;
-  margin: 10px;
-  background-color: white;
-`;
+// const PlaceImg = styled.img`
+//   width: 85px;
+//   height: 85px;
+//   margin: 5px;
+//   background-color: white;
+// `;
 
-const PostCard = styled.div`
-  display: flex;
-  justify-content: space-between;
-  background-color: #A7AAAD;
-  padding: 5px;
-  margin: 15px auto;
-  font-size: 12px;
-`;
+// const PostCard = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+//   background-color: #A7AAAD;
+//   padding: 5px;
+//   margin: 15px auto;
+//   font-size: 12px;
+// `;
 
 export default PostList;

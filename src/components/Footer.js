@@ -22,7 +22,7 @@ const Footer = () => {
             clickEvent={() => { history.push('/'); }}
             style={{ cursor: "pointer" }}>홈버튼</Text>
             <Text hoverWeight='bold' margin="auto"
-            clickEvent={() => { history.push('/'); }}
+            clickEvent={() => { history.push('/postlist'); }}
             style={{ cursor: "pointer" }}>모임구하기</Text>
             <Text hoverWeight='bold' margin="auto"
             clickEvent={() => { history.push('/'); }}

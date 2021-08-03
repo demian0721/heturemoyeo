@@ -87,6 +87,19 @@ const SignupInfo = (props) => {
     setNicknameConfirm("");
   };
 
+  // const userlist = useSelector(state => state.user)
+
+  // const [editInfo, setInfos] = React.useState({
+  //   nickname: userlist.nickname,
+  //   password: "",
+  //   newpassword: "",
+  //   confirm: "",
+  //   profileImg: userlist.profileImg,
+  //   likeItem: userlist.likeItem,
+  // });
+
+  // const writeLikeItem = (e) => {setInfos({ ...editInfo, likeItem: e.target.value.split(',')}); console.log(e.target.value)}
+
   return (
     <React.Fragment>
       <div style={{ paddingTop: "110px" }} />
@@ -166,7 +179,7 @@ const SignupInfo = (props) => {
           </Grid>
           <Grid padding="5px 0px 8px">
             <Input
-              placeholder="#관심사1 #관심사2 ..."
+              placeholder="관심사1, 관심사2"
               padding="14px 17px"
               margin="0px 0px 30px 0px"
             />

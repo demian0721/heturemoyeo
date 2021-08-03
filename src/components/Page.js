@@ -26,7 +26,7 @@ const Page = () => {
 
   useEffect(() => { dispatch(userActions.myInfoDB()) }, [])
   
-  useEffect(() => { if (!getToken()) { history.replace('/login'); } }, []);    
+  useEffect(() => { if (!getToken()) {  history.replace('/login');} }, []);    
   // const is_login = useSelector((state)=>state.user.is_login);
   
   // if(!is_login){

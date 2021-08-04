@@ -9,8 +9,7 @@ const getPosts = (posts) => ({ type: GET_POST, posts });
 
 // INITIAL STATE
 const initialState = {
-  list: 
-  [],
+  list:  [],
 };
 
 // MIDDLEWARE

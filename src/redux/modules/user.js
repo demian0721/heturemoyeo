@@ -47,7 +47,8 @@ const initialState = {
   tempInfo: null,
   friendUsers: null,
   scheduleUsers: null,
-  relation: null
+  relation: null,
+
 };
 
 // MIDDLEWARE
@@ -108,9 +109,9 @@ const relationDB = () => {
 const targetAllDB = (userId) => {
   return function (dispatch) {
     instance
-      .get("/api/user/target/all", userId)
+      .get(`/api/user/target/all?userId=${userId}`)
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         dispatch(targetAll(res.data));
       })
       .catch((error) => {
@@ -122,9 +123,9 @@ const targetAllDB = (userId) => {
 const targetFriendDB = (userId) => {
   return function (dispatch) {
     instance
-      .get("/api/user/target/friend", userId)
+    .get(`/api/user/target/friend?userId=${userId}`)
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         dispatch(targetFriend(res.data));
       })
       .catch((error) => {
@@ -136,9 +137,9 @@ const targetFriendDB = (userId) => {
 const targetPostDB = (userId) => {
   return function (dispatch) {
     instance
-      .get("/api/user/target/post", userId)
+    .get(`/api/user/target/post?userId=${userId}`)
       .then((res) => {
-        console.log(res)
+        // console.log(res)
         dispatch(targetPost(res.data));
       })
       .catch((error) => {
@@ -236,38 +237,38 @@ export default handleActions(
 
       [TARGET_ALL]: (state, action) =>
       produce(state, (draft) => {
-        draft.nickname = action.payload.nickname;
-        draft.rating = action.payload.rating;
-        draft.profileImg = action.payload.profileImg;
-        draft.statusMessage = action.payload.statusMessage;
-        draft.likeItem = action.payload.likeItem;
-        draft.scheduleCount = action.payload.scheduleCount;
-        draft.scheduleTitle = action.payload.scheduleTitle;
-        draft.isFriend = action.payload.isFriend;
+        draft.nickname = action.payload.userInfo.nickname;
+        draft.rating = action.payload.userInfo.rating;
+        draft.profileImg = action.payload.userInfo.profileImg;
+        draft.statusMessage = action.payload.userInfo.statusMessage;
+        draft.likeItem = action.payload.userInfo.likeItem;
+        draft.scheduleCount = action.payload.userInfo.scheduleCount;
+        draft.scheduleTitle = action.payload.userInfo.scheduleTitle;
+        draft.isFriend = action.payload.userInfo.isFriend;
       }),
 
       [TARGET_FRIEND]: (state, action) =>
       produce(state, (draft) => {
-        draft.nickname = action.payload.nickname;
-        draft.rating = action.payload.rating;
-        draft.profileImg = action.payload.profileImg;
-        draft.statusMessage = action.payload.statusMessage;
-        draft.likeItem = action.payload.likeItem;
-        draft.scheduleCount = action.payload.scheduleCount;
-        draft.scheduleTitle = action.payload.scheduleTitle;
-        draft.isFriend = action.payload.isFriend;
+        draft.nickname = action.payload.userInfo.nickname;
+        draft.rating = action.payload.userInfo.rating;
+        draft.profileImg = action.payload.userInfo.profileImg;
+        draft.statusMessage = action.payload.userInfo.statusMessage;
+        draft.likeItem = action.payload.userInfo.likeItem;
+        draft.scheduleCount = action.payload.userInfo.scheduleCount;
+        draft.scheduleTitle = action.payload.userInfo.scheduleTitle;
+        draft.isFriend = action.payload.userInfo.isFriend;
       }),
 
       [TARGET_POST]: (state, action) =>
       produce(state, (draft) => {
-        draft.nickname = action.payload.nickname;
-        draft.rating = action.payload.rating;
-        draft.profileImg = action.payload.profileImg;
-        draft.statusMessage = action.payload.statusMessage;
-        draft.likeItem = action.payload.likeItem;
-        draft.scheduleCount = action.payload.scheduleCount;
-        draft.scheduleTitle = action.payload.scheduleTitle;
-        draft.isFriend = action.payload.isFriend;
+        draft.nickname = action.payload.userInfo.nickname;
+        draft.rating = action.payload.userInfo.rating;
+        draft.profileImg = action.payload.userInfo.profileImg;
+        draft.statusMessage = action.payload.userInfo.statusMessage;
+        draft.likeItem = action.payload.userInfo.likeItem;
+        draft.scheduleCount = action.payload.userInfo.scheduleCount;
+        draft.scheduleTitle = action.payload.userInfo.scheduleTitle;
+        draft.isFriend = action.payload.userInfo.isFriend;
       }),
 
     [LOG_IN]: (state, action) =>

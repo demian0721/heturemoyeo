@@ -28,7 +28,9 @@ const Main = (props) => {
     const [geolocationMarker, setGeolocationMarker] = useState(false)
     const [markers, setMarkers] = useState([])
     const [isOpen, setIsOpen] = useState(false)
+    const [userId, setUserId] = useState(null)
     const [userData, setUserData] = useState({})
+    // const [callUserData, setCallUserData] = useState({})
     const debounce = _.debounce((value, setValue) => setValue(value), 300)
     const ref = useRef()
 
@@ -52,8 +54,9 @@ const Main = (props) => {
 
     // 로그인 후, 유저 데이터
     const getUserData = useSelector(state => state.user)
-    const myFriends = useSelector((state) => state.user.friendUsers)
-    const mySchedules = useSelector((state) => state.user.scheduleUsers)
+    const myFriends = useSelector(state => state.user.friendUsers)
+    const mySchedules = useSelector(state => state.user.scheduleUsers)
+
     // 마커 클릭 이벤트 (바깥 영역 클릭 시 오버레이 닫기)
     const useOutsideClick = (ref, handler) => {
         useEffect(() => {
@@ -66,21 +69,68 @@ const Main = (props) => {
     }
     useOutsideClick(ref, () => setIsOpen(false))
 
-    const getUserDataFromUserId = (userId, isFriend, isSameSchedule, isMe) => {
-        let data = exampleData
-        if (isMe) data = getUserData
-        if (isFriend) {
-            dispatch(userActions.targetFriendDB(userId)) // <-
+    const getUserDataFromAPI = (userId, isFriend, isSameSchedule, isMe) => {
+        if (isMe) return getUserData
+        if (isFriend && !isSameSchedule && !isMe) {
+            dispatch(userActions.targetFriendDB(userId))
+            setUserData({
+                nickname: getUserData.nickname,
+                rating: getUserData.rating,
+                profileImg: getUserData.profileImg,
+                statusMessage: getUserData.statusMessage,
+                likeItem: getUserData.likeItem,
+                scheduleCount: getUserData.scheduleCount,
+                scheduleTitle: getUserData.scheduleTitle,
+                isFriend: getUserData.isFriend,
+            })
+            return getUserData
         }
-        if (isSameSchedule) {
-            dispatch(userActions.targetPostDB(userId)) // <-
+        if (!isFriend && isSameSchedule && !isMe) {
+            dispatch(userActions.targetPostDB(userId))
+            setUserData({
+                nickname: getUserData.nickname,
+                rating: getUserData.rating,
+                profileImg: getUserData.profileImg,
+                statusMessage: getUserData.statusMessage,
+                likeItem: getUserData.likeItem,
+                scheduleCount: getUserData.scheduleCount,
+                scheduleTitle: getUserData.scheduleTitle,
+                isFriend: getUserData.isFriend,
+            })
+            return getUserData
+        }
+        if (isFriend && isSameSchedule && !isMe) {
+            dispatch(userActions.targetPostDB(userId))
+            setUserData({
+                nickname: getUserData.nickname,
+                rating: getUserData.rating,
+                profileImg: getUserData.profileImg,
+                statusMessage: getUserData.statusMessage,
+                likeItem: getUserData.likeItem,
+                scheduleCount: getUserData.scheduleCount,
+                scheduleTitle: getUserData.scheduleTitle,
+                isFriend: getUserData.isFriend,
+            })
+            return getUserData
         }
         if (!isFriend && !isSameSchedule && !isMe) {
-            dispatch(userActions.targetAllDB(userId)) // <-
+            dispatch(userActions.targetAllDB(userId))
+            setUserData({
+                nickname: getUserData.nickname,
+                rating: getUserData.rating,
+                profileImg: getUserData.profileImg,
+                statusMessage: getUserData.statusMessage,
+                likeItem: getUserData.likeItem,
+                scheduleCount: getUserData.scheduleCount,
+                scheduleTitle: getUserData.scheduleTitle,
+                isFriend: getUserData.isFriend,
+            })
+            return getUserData
         }
-        console.log(data)
-        return data
+        return exampleData
     }
+
+    const getUserDataFromUserId = async (userId, isFriend, isSameSchedule, isMe) => getUserDataFromAPI(userId, isFriend, isSameSchedule, isMe)
 
     // My Location 버튼 (내위치 찾기)
     const panTo = (lat, lng) => global?.map?.panTo(new kakao.maps.LatLng(lat, lng))
@@ -89,15 +139,16 @@ const Main = (props) => {
     const markerEventListener = (markerData) => {
         if (!isOpen) {
             setIsOpen(true)
-            console.log(markerData)
+            // console.log(markerData)
             panTo(markerData.position.getLat(), markerData.position.getLng())
             markerData.setImage(new kakao.maps.MarkerImage(
                 markerData.markerImage.url,
                 new kakao.maps.Size(32, 32),
                 new kakao.maps.Point(30, 31)
             ))
-            const data = getUserDataFromUserId(markerData.userId, markerData.isFriend, markerData.isSameSchedule, markerData.isMe)
-            setUserData(data)
+            const result = getUserDataFromAPI(markerData.userId, markerData.isFriend, markerData.isSameSchedule, markerData.isMe)
+            setUserData(result)
+            // setUserData(data)
         } else setIsOpen(false)
     }
 
@@ -200,6 +251,7 @@ const Main = (props) => {
     if (!props.isGeolocationEnabled) alert('해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!')
     if (props.isGeolocationAvailable && props.isGeolocationEnabled && props?.coords && !!getUserData?.userId && !geolocationMarker) {
         setGeolocationMarker(true)
+        setUserId(getUserData.userId)
         sendUserLocation(getUserData.userId, props.coords.latitude, props.coords.longitude)
     }
 

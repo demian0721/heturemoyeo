@@ -9,7 +9,7 @@ import styled from "styled-components";
 //Components
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import Page from "../components/Page";
+import MyPage from "../components/MyPage";
 
 //임포트 사용 항목 외 삭제요망
 
@@ -19,7 +19,7 @@ const Mypage = () => {
     return (
         <React.Fragment>
             <Header />
-            <Page />
+            <MyPage />
             <Footer />
         </React.Fragment>
     );

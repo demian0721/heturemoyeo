@@ -12,12 +12,34 @@ import { Button, Grid, Image, Input, Text, Title } from "../elements/index";
 //COMPONENTS
 import Header from "../components/Header";
 
+
 const PostDetail = (props) => {
   const postId = props.match.params.postid;
   const dispatch = useDispatch();
   useEffect(() => {dispatch(postActions.postDetailInfo(postId)); }, []);
 
+  // const [postDetails, setDetails] = React.useState({
+  //   title: "방탈출 카페 인원 급구중 마이크필수?",
+  //   postImg: "https://wwww.mmmmmm",
+  //   content: "안녕하세요 방입니다. 이니셜 스테이트",
+  //   nickname:"닉네임",
+  //   rating: 70,
+  //   statusMessage: "나는 게임이 하고싶다.",
+  //   currentMember: 2,
+  //   maxMember:5,
+  //   startDate: "2021-03-21 00:00:00",
+  //   endDate: "2021-03-21 00:00:00",
+  //   place: "강원도 둔둔리 둔둔초등학교",
+  //   bring: "3등분",
+  //   tag: ["방탈출", "마이크필수","대구시"] 
+  // });
+
   const postDetails = useSelector((state) => state.post.postDetail);
+
+  // setDetails(useSelector((state) => state.post.postDetail));
+  // const Detail = useSelector((state) => state.post.postDetail);
+  // console.log('디테일',Detail.title);
+  // useEffect(() => {setDetails({...postDetails,title: Detail.title}); }, []);
 
   return (
     <React.Fragment>
@@ -44,7 +66,7 @@ const PostDetail = (props) => {
           </PostCard>
           <PostCard>
             <Title fontSize="small">구성인원</Title>
-            <Text color="black" margin="0px 10px" fontSize="smaller">{postDetails.maxMember}</Text>
+            <Text color="black" margin="0px 10px" fontSize="smaller">{postDetails.maxMember}명</Text>
           </PostCard>
           <PostCard>
             <Title fontSize="small">시작시간</Title>

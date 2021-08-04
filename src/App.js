@@ -61,6 +61,7 @@ function App() {
         <Route path="/signup/info" exact component={SignupInfo} />
         <Route path="/mypage" exact component={Mypage} />
         <Route path="/mypageedit" exact component={MypageEdit} />
+        <Route path="/profile:userid" exact component={MProfile} />
         <Route path="/postlist" exact component={PostList} />
         <Route path="/postlist/my" exact component={PostListMy} />
         <Route path="/postdetail:postid" exact component={PostDetail} />

@@ -1,14 +1,19 @@
 // AXIOS
 import instance from "../../common/axios";
 
+// REDUX-ACTIONS & IMMER
+import { createAction, handleActions } from "redux-actions";
+
 // ACTION
 const GET_POST = "GET_POST";
 const GET_MORE_POST = "GET_MORE_POST";
+const POST_DETAIL = "POST_DETAIL";
 // const GET_MY_POST = "GET_MY_POST";
 
 // ACTION CREATOR
 const getPosts = (posts, start) => ({ type: GET_POST, posts, start });
 const getMorePosts = (posts, start) => ({ type: GET_MORE_POST, posts, start });
+const postDetail = createAction(POST_DETAIL,(postDetail)=>({postDetail}));
 // const getMyPosts = (posts, start) => ({ type: GET_MY_POST, posts, start });
 
 // INITIAL STATE
@@ -62,6 +67,20 @@ const getMorePostsDB = (limit = 5) => {
   };
 };
 
+const postDetailInfo = (postId) => {
+  return function( dispatch ){
+    instance
+      .get("/api/post", postId)
+      .then((res) => {
+        console.log(res);
+        dispatch(postDetail(res.data));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+};
+
 // const getMyPostsDB = () => {
 //     return function (dispatch) {
 //       instance
@@ -85,6 +104,8 @@ function post(state = initialState, action) {
       return { ...state, list: [...state.list, ...action.posts], start: action.start };
     // case GET_MY_POST:
     //   return { ...state, list: action.posts, start: action.start };
+    case POST_DETAIL:
+      return { ...state, postDetail: action.postDetail };
     default:
       return state;
   }
@@ -99,4 +120,5 @@ export const postActions = {
   getPostsDB,
   // getMyPostsDB,
   getMorePostsDB,
+  postDetailInfo,
 };

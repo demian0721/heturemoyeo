@@ -1,16 +1,23 @@
 //LIBRARY
-import React from "react";
-import styled from "styled-components";
-import { css } from "styled-components";
+import React, { useEffect } from 'react';
+import styled, {css} from "styled-components";
+import { useSelector, useDispatch } from 'react-redux';
+
+//Redux
+import {postActions} from '../redux/modules/post';
 
 //ELEMENTS
-import { Grid } from "../elements/index";
+import { Button, Grid, LazyImage, Input, Text, Title } from "../elements/index";
 
 //COMPONENTS
 import Header from "../components/Header";
 
 const PostDetail = (props) => {
-  console.log(props)
+  const postId = props.match.params.postid;
+  const dispatch = useDispatch();
+  
+  useEffect(() => {dispatch(postActions.postDetailInfo({"postId":postId})) }, [])
+
 
   return (
     <React.Fragment>

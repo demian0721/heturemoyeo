@@ -59,8 +59,7 @@ const myInfoDB = () => {
 };
 
 const editInfos = (doc) => {
-  return function (dispatch, { history }) {
-    console.log(doc)
+  return function ({ history }) {
     instance
       .put("/api/user", doc)
       .then((res) => {
@@ -74,7 +73,7 @@ const editInfos = (doc) => {
 };
 
 const editStatusMsg = (doc) => {
-  return function (dispatch, { history }) {
+  return function (dispatch) {
     console.log(doc)
     instance
       .put("/api/user/status", doc)

@@ -26,7 +26,6 @@ const PostList = (props) => {
     dispatch(postActions.getPostsDB());
   }, []);
   const PostList = useSelector((state) => state.post.list);
-
   return (
     <React.Fragment>
       <Grid>
@@ -64,7 +63,7 @@ const PostList = (props) => {
           <PostListButton/>
 
           {PostList.map((l, index) => {
-            return <PostListCard key={l.id} idx={index} {...l} />;
+            return <PostListCard key={l.postId} idx={index} {...l} />;
           })}
 
           <Grid padding="5px 0px">

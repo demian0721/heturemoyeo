@@ -21,7 +21,7 @@ import SimpleModal from "./Mymodal";
 
 //임포트 사용 항목 외 삭제요망
 
-const Page = () => {
+const MyPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => { dispatch(userActions.myInfoDB()) }, [])
@@ -84,4 +84,4 @@ const Style = styled.div`
     //styled component use
 `;
 
-export default Page;
+export default MyPage;

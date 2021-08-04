@@ -1,40 +1,57 @@
 // LIBRARY
-import React, { useEffect } from 'react';
-import { ConnectedRouter } from 'connected-react-router';
-import { Route } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from "react";
+import { ConnectedRouter } from "connected-react-router";
+import { Route } from "react-router-dom";
 
 // HISTORY
-import { history } from './redux/configStore';
+import { history } from "./redux/configStore";
 
 // REDUX
-import { userActions } from './redux/modules/user';
-import { useDispatch } from 'react-redux';
+import { userActions } from "./redux/modules/user";
+import { useDispatch } from "react-redux";
 
 // TOKEN
-import { getToken } from './common/token';
+import { getToken } from "./common/token";
 
 // STYLE
-import GlobalStyle from './common/globalStyle';
+import GlobalStyle from "./common/globalStyle";
 
 // PAGES
-import { Main, Login, Signup, SignupInfo, Mypage, MypageEdit, Terms, PostList, PostDetail, PostWrite, PostModify, PostListMy, MProfile } from './pages/index';
+import {
+  Main,
+  Login,
+  Signup,
+  SignupInfo,
+  Mypage,
+  MypageEdit,
+  Terms,
+  PostList,
+  PostDetail,
+  PostWrite,
+  PostModify,
+  PostListMy,
+  ChatList,
+  MProfile,
+} from "./pages/index";
 
 function App() {
-
   const dispatch = useDispatch();
   const token = getToken();
 
   useEffect(() => {
     if (token) {
-      dispatch(userActions.logInCheck(token))
-      dispatch(userActions.myInfoDB())
-      dispatch(userActions.relationDB())
+      dispatch(userActions.logInCheck(token));
+      dispatch(userActions.myInfoDB());
+      dispatch(userActions.relationDB());
     } else {
-      if (!token && !['/login', '/signup', '/signup/info', '/terms'].includes(window.location.pathname)) {
-        alert('로그인이 필요한 서비스입니다!')
-        return window.location.href = '/login'
+      if (
+        !token &&
+        !["/login", "/signup", "/signup/info", "/terms"].includes(
+          window.location.pathname
+        )
+      ) {
+        alert("로그인이 필요한 서비스입니다!");
+        return (window.location.href = "/login");
       }
     }
   }, []);
@@ -67,10 +84,11 @@ function App() {
         <Route path="/postdetail:postid" exact component={PostDetail} />
         <Route path="/postwrite" exact component={PostWrite} />
         <Route path="/postmodify" exact component={PostModify} />
+        <Route path="/chat" exact component={ChatList} />
         {/* <Route component={NotFound} /> */}
       </ConnectedRouter>
     </>
-  )
+  );
 }
 
 export default App;

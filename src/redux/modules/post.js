@@ -30,7 +30,6 @@ const getPostsDB = (limit = 5) => {
     instance
       .get(`/api/post/posts?start=0&limit=${limit + 1}`)
       .then((res) => {
-        console.log(res);
         if (res.data.length < limit + 1) {
           dispatch(getPosts(res.data, null));
           return;
@@ -55,7 +54,6 @@ const getMorePostsDB = (limit = 5) => {
     instance
       .get(`/api/post/posts?start=${start}&limit=${limit + 1}`)
       .then((res) => {
-        console.log(res);
         if (res.data.result.length < limit + 1) {
           dispatch(getMorePosts(res.data.result, null));
           return;
@@ -94,7 +92,7 @@ const getMyPostsDB = () => {
       instance
         .get(`/api/post/posts/my`)
         .then((res) => {
-          console.log(res);
+        //   console.log(res);
           dispatch(getMyPosts(res.data));
         })
         .catch((error) => {

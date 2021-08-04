@@ -44,7 +44,7 @@ const PostWrite = (props) => {
   //   setTitle(e.target.value);
   // }
   const addPost = () => {
-    console.log(title, content, maxMember, startDate, endDate, place, bring, tag);
+    // console.log(title, content, maxMember, startDate, endDate, place, bring, tag);
     // const post = {
     //   title: title_ref.current.value,
     //   content: content_ref.current.value,

@@ -15,7 +15,7 @@ const PostListCard = (props) => {
     <React.Fragment>
       <PostCard>
         <Grid margin="5px" width="60%"
-        _onClick={() => { history.push('/postdetail'+props.idx); }}>
+        _onClick={() => { history.push('/postdetail'+props.postId); }}>
           <Text fontSize="12px" fontWeight="bold" color="black" marginTop="5px">
             제목
             <span style={{ fontWeight: "normal", marginLeft: "10px" }}>

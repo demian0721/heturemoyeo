@@ -178,6 +178,7 @@ export default handleActions(
         draft.profileImg = action.payload.userInfo.profileImg;
         draft.statusMessage = action.payload.userInfo.statusMessage;
         draft.likeItem = action.payload.userInfo.likeItem;
+        draft.rating = action.payload.userInfo.rating
       }),
 
     [RELATION]: (state, action) =>

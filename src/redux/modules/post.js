@@ -70,12 +70,12 @@ const getMorePostsDB = (limit = 5) => {
 };
 
 const postDetailInfo = (postId) => {
-  return function( dispatch ){
+  return function (dispatch) {
     instance
-      .get('/api/post', {
+      .get("/api/post", {
         params: {
-          "postId": postId
-        }
+          postId: postId,
+        },
       })
       .then((res) => {
         console.log(res);
@@ -88,23 +88,32 @@ const postDetailInfo = (postId) => {
 };
 
 const getMyPostsDB = () => {
-    return function (dispatch) {
-      instance
-        .get(`/api/post/posts/my`)
-        .then((res) => {
+  return function (dispatch) {
+    instance
+      .get(`/api/post/posts/my`)
+      .then((res) => {
         //   console.log(res);
-          dispatch(getMyPosts(res.data));
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
+        dispatch(getMyPosts(res.data));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
+};
 
-  const addPostDB = (title, content, maxMember, startDate, endDate, place, bring, tag) => {
-    return function (dispatch, getState, {history}) {
+const addPostDB = (
+  title,
+  content,
+  maxMember,
+  startDate,
+  endDate,
+  place,
+  bring,
+  tag
+) => {
+  return function (dispatch, getState, { history }) {
     //   const imgFile = getState().image.file;
-  
+
     //   if (imgFile.length) {
     //     dispatch(
     //       imgActions.uploadImageDB(() => {
@@ -113,12 +122,12 @@ const getMyPostsDB = () => {
     //           ...post,
     //           img: imgUrl,
     //         };
-  
+
     //         instance
     //           .post('/api/post', { ...postInfo })
     //           .then((res) => {
     //             const userInfo = getState().user;
-  
+
     //             const newPost = {
     //               ...postInfo,
     //               ...userInfo,
@@ -128,7 +137,7 @@ const getMyPostsDB = () => {
     //               follow: 'N',
     //               createdAt: moment(),
     //             };
-  
+
     //             dispatch(addPost(newPost));
     //             dispatch(imgActions.setInitialState());
     //           })
@@ -137,19 +146,27 @@ const getMyPostsDB = () => {
     //           });
     //       })
     //     );
-  
+
     //     return;
     //   }
-  
-      const postInfo = {
-        title, content, maxMember, startDate, endDate, place, bring, tag, postImg: "",
-          };
-  
-      instance
-        .post('/api/post', { ...postInfo })
-        .then((res) => {
+
+    const postInfo = {
+      title,
+      content,
+      maxMember,
+      startDate,
+      endDate,
+      place,
+      bring,
+      tag,
+      postImg: "",
+    };
+
+    instance
+      .post("/api/post", { ...postInfo })
+      .then((res) => {
         //   const userInfo = getState().user;
-  
+
         //   const newPost = {
         //     ...postInfo,
         //     ...userInfo,
@@ -159,16 +176,16 @@ const getMyPostsDB = () => {
         //     follow: 'N',
         //     createdAt: moment(),
         //   };
-            
-            window.alert('게시글 작성이 완료되었습니다.');
-            dispatch(addPost( res.data ));
+
+        window.alert("게시글 작성이 완료되었습니다.");
+        dispatch(addPost(res.data));
         //   dispatch(imgActions.setInitialState());
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    };
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
+};
 
 // REDUCER
 function post(state = initialState, action) {
@@ -177,7 +194,11 @@ function post(state = initialState, action) {
       return { ...state, list: action.posts, start: action.start };
 
     case GET_MORE_POST:
-      return { ...state, list: [...state.list, ...action.posts], start: action.start };
+      return {
+        ...state,
+        list: [...state.list, ...action.posts],
+        start: action.start,
+      };
 
     // case GET_MY_POST:
     //   return { ...state, list: action.posts, start: action.start };

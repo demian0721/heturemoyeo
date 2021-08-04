@@ -29,7 +29,7 @@ const PostList = (props) => {
   return (
     <React.Fragment>
       <Grid>
-        <Header/>
+        <Header />
       </Grid>
 
       <Grid
@@ -54,13 +54,17 @@ const PostList = (props) => {
             padding="8px 8px"
             is_flex
             bg="white"
-            style={{ border: "1px solid #ccc", justifyContent:"space-between", marginBottom:"10px" }}
+            style={{
+              border: "1px solid #ccc",
+              justifyContent: "space-between",
+              marginBottom: "10px",
+            }}
           >
-            <input placeholder="제목, 내용, 태그 또는 날짜"/>
+            <input placeholder="제목, 내용, 태그 또는 날짜" />
             <TodayIcon color="action" />
           </Grid>
 
-          <PostListButton/>
+          <PostListButton />
 
           {PostList.map((l, index) => {
             return <PostListCard key={l.postId} idx={index} {...l} />;
@@ -79,13 +83,13 @@ const PostList = (props) => {
               }}
               style={{ cursor: "pointer", float: "right" }}
             >
-              추가하기 <br/> (글쓰기버튼)
+              추가하기 <br /> (글쓰기버튼)
             </Button>
           </Grid>
         </Grid>
       </Grid>
       <Grid>
-        <Footer/>
+        <Footer />
       </Grid>
     </React.Fragment>
   );

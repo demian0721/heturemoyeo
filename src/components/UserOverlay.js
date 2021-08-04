@@ -13,7 +13,7 @@ const UserOverlay = ({ children, ...props }) => {
       {
         props?.profileImage && <div className='relative justify-center'>
         <div id='userProfile-Image'>
-          <div className='fixed rounded-full container mx-auto w-20 h-20' style={{
+          <div className={`${props?.userRating ? 'fixed' : 'block'} rounded-full container mx-auto w-20 h-20`} style={{
             zIndex: -1,
             textAlign: 'center',
             backgroundImage: `url('${props.profileImage}')`,

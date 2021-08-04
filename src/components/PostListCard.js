@@ -14,8 +14,13 @@ const PostListCard = (props) => {
   return (
     <React.Fragment>
       <PostCard>
-        <Grid margin="5px" width="60%"
-        _onClick={() => { history.push('/postdetail'+props.postId); }}>
+        <Grid
+          margin="5px"
+          width="60%"
+          _onClick={() => {
+            history.push("/postdetail" + props.postId);
+          }}
+        >
           <Text fontSize="12px" fontWeight="bold" color="black" marginTop="5px">
             제목
             <span style={{ fontWeight: "normal", marginLeft: "10px" }}>
@@ -25,7 +30,7 @@ const PostListCard = (props) => {
           <Text fontSize="12px" fontWeight="bold" color="black" marginTop="5px">
             인원
             <span style={{ fontWeight: "normal", marginLeft: "10px" }}>
-            현재 {props.currentMember} 명/총 {props.maxMember} 명
+              현재 {props.currentMember} 명/총 {props.maxMember} 명
             </span>
           </Text>
           <Text fontSize="12px" fontWeight="bold" color="black" marginTop="5px">
@@ -41,7 +46,7 @@ const PostListCard = (props) => {
             </span>
           </Text>
         </Grid>
-        <PlaceImage/>
+        <PlaceImage />
       </PostCard>
     </React.Fragment>
   );
@@ -57,7 +62,7 @@ const PlaceImage = styled.img`
 const PostCard = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: #A7AAAD;
+  background-color: #a7aaad;
   padding: 5px;
   margin: 15px auto;
   font-size: 12px;

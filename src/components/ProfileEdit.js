@@ -62,8 +62,6 @@ const ProfileEdit = () => {
 
   const editInfos = () => {
     dispatch(userActions.editInfos(editInfo));
-    window.alert('프로필 수정이 완료되었습니다')
-    history.push('/mypageedit');
   }
 
     //닉네임 확인파트
@@ -103,19 +101,15 @@ const ProfileEdit = () => {
     if (!pwdVal(val)) {
       setPwdWarColor("red");
       setPwdNotice(
-        "기존 비밀번호와 일치하지 않습니다."  //양식 체크임
+        "비밀번호는 영문과 숫자, 특수문자를 각 1자 이상 포함해주세요.(8~20자)"  //양식 체크임
       );
       return;
     }
     setPwdWarColor("green");
-    setPwdNotice("비밀번호가 일치합니다.");
+    setPwdNotice(null);
   }
 
-
-  
-  // {editInfo.password}
-
-  //기존 비밀번호 확인파트 (기존 비밀번호 가져와서 대조해야함)
+  //새 비밀번호 확인파트
   const checkNPWD1 = (val) => {
     if (val === "") {
       setNPwd1WarColor("red");
@@ -131,7 +125,7 @@ const ProfileEdit = () => {
     setNPwd1Notice("사용가능한 비밀번호 입니다.");
   };
 
-    //기존 비밀번호 확인파트 (기존 비밀번호 가져와서 대조해야함)
+    //새 비밀번호 재확인파트
 
   const checkNPWD2 = (val) => {
     if (val === "") {
@@ -186,7 +180,7 @@ const ProfileEdit = () => {
             
             <Text fontSize="12px" margin="0px" color={pwdWarning} lineHeight="1" textIndent="0px">{pwdNotice}</Text>
             <Input keyUp={(event) => {debounce(event.target.value, checkPWD);}} changeEvent={changePassword} value={editInfo.password} placeholder="기존 비밀번호" width="100%" margin="10px auto" style={{display:"block"}}></Input>
-            <Text fontSize="small" color="blue" clickEvent={() => { if(show==true){setShow(false);}else{setShow(true);} }}>(비밀번호 변경)</Text>
+            <Text fontSize="small" color="blue" clickEvent={() => { if(show==true){setShow(false);}else{setShow(true); setNPwd2Notice(""); setNPwd1Notice(""); setInfos({...editInfo,newpassword:"", confirm:""}); } }}>(비밀번호 변경)</Text>
             { show ? <Text fontSize="12px" margin="0px" color={npwd1Warning} lineHeight="1" textIndent="0px">{npwd1Notice}</Text> : null }
             { show ? <Input margin="0px" keyUp={(event) => {debounce(event.target.value, checkNPWD1);}}  changeEvent={changeNewpassword} value={editInfo.newpassword} placeholder="새 비밀번호" width="100%" margin="10px auto" style={{display:"block"}}/> : null }
             { show ? <Text fontSize="12px" margin="0px" color={npwd2Warning} lineHeight="1" textIndent="0px">{npwd2Notice}</Text> : null }

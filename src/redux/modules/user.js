@@ -64,10 +64,11 @@ const editInfos = (doc) => {
     instance
       .put("/api/user", doc)
       .then((res) => {
+        window.alert('프로필 수정이 완료되었습니다')
         history.replace("/mypage");
       })
       .catch((error) => {
-        console.error(error, "에러");
+        window.alert("입력된 비밀번호가 올바르지 않습니다.");
       });
   };
 };

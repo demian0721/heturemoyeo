@@ -14,7 +14,7 @@ const GET_MY_POST = "GET_MY_POST";
 // ACTION CREATOR
 const getPosts = (posts, start) => ({ type: GET_POST, posts, start });
 const getMorePosts = (posts, start) => ({ type: GET_MORE_POST, posts, start });
-const postDetail = createAction(POST_DETAIL,(postDetail)=>({postDetail}));
+const postDetail = (postDetail) => ({ type: POST_DETAIL, postDetail });
 const getMyPosts = (posts, start) => ({ type: GET_MY_POST, posts, start });
 // const addPost = (post) => ({ type: ADD_POST, post });
 
@@ -74,7 +74,11 @@ const getMorePostsDB = (limit = 5) => {
 const postDetailInfo = (postId) => {
   return function( dispatch ){
     instance
-      .get("/api/post", postId)
+      .get('/api/post', {
+        params: {
+          "postId": postId
+        }
+      })
       .then((res) => {
         console.log(res);
         dispatch(postDetail(res.data));

@@ -8,13 +8,15 @@ import { createAction, handleActions } from "redux-actions";
 const GET_POST = "GET_POST";
 const GET_MORE_POST = "GET_MORE_POST";
 const POST_DETAIL = "POST_DETAIL";
-// const GET_MY_POST = "GET_MY_POST";
+const GET_MY_POST = "GET_MY_POST";
+// const ADD_POST = "ADD_POST";
 
 // ACTION CREATOR
 const getPosts = (posts, start) => ({ type: GET_POST, posts, start });
 const getMorePosts = (posts, start) => ({ type: GET_MORE_POST, posts, start });
 const postDetail = createAction(POST_DETAIL,(postDetail)=>({postDetail}));
-// const getMyPosts = (posts, start) => ({ type: GET_MY_POST, posts, start });
+const getMyPosts = (posts, start) => ({ type: GET_MY_POST, posts, start });
+// const addPost = (post) => ({ type: ADD_POST, post });
 
 // INITIAL STATE
 const initialState = {
@@ -28,14 +30,15 @@ const getPostsDB = (limit = 5) => {
     instance
       .get(`/api/post/posts?start=0&limit=${limit + 1}`)
       .then((res) => {
-        if (res.data.result.length < limit + 1) {
-          dispatch(getPosts(res.data.result, null));
+        console.log(res);
+        if (res.data.length < limit + 1) {
+          dispatch(getPosts(res.data, null));
           return;
         }
 
-        if (res.data.result.length >= limit + 1) res.data.result.pop();
+        if (res.data.length >= limit + 1) res.data.pop();
 
-        dispatch(getPosts(res.data.result, limit));
+        dispatch(getPosts(res.data, limit));
       })
       .catch((error) => {
         console.error(error);
@@ -52,6 +55,7 @@ const getMorePostsDB = (limit = 5) => {
     instance
       .get(`/api/post/posts?start=${start}&limit=${limit + 1}`)
       .then((res) => {
+        console.log(res);
         if (res.data.result.length < limit + 1) {
           dispatch(getMorePosts(res.data.result, null));
           return;
@@ -81,19 +85,19 @@ const postDetailInfo = (postId) => {
   };
 };
 
-// const getMyPostsDB = () => {
-//     return function (dispatch) {
-//       instance
-//         .get(`/api/post/posts/my`)
-//         .then((res) => {
-//           console.log(res);
-//           dispatch(getMyPosts(res.data.result));
-//         })
-//         .catch((error) => {
-//           console.error(error);
-//         });
-//     };
-//   };
+const getMyPostsDB = () => {
+    return function (dispatch) {
+      instance
+        .get(`/api/post/posts/my`)
+        .then((res) => {
+          console.log(res);
+          dispatch(getMyPosts(res.data));
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
+  };
 
 // REDUCER
 function post(state = initialState, action) {
@@ -115,10 +119,10 @@ export default post;
 
 export const postActions = {
   getPosts,
-  // getMyPosts,
+  getMyPosts,
   getMorePosts,
   getPostsDB,
-  // getMyPostsDB,
+  getMyPostsDB,
   getMorePostsDB,
   postDetailInfo,
 };

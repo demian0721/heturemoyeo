@@ -23,7 +23,7 @@ import PostListButton from "../components/PostListButton";
 const PostListMy = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(postActions.getPostsDB());
+    dispatch(postActions.getMyPostsDB());
   }, []);
   const PostList = useSelector((state) => state.post.list);
 

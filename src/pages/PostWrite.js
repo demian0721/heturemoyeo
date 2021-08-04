@@ -20,21 +20,25 @@ const PostWrite = (props) => {
   const public_ref = React.useRef(null);
   const tag_ref = React.useRef(null);
 
-//   const addPost = () => {
-//     const post = {
-//       title: title_ref.current.value,
-//       name: name_ref.current.value,
-//       contents: contents_ref.current.value,
-//     };
+  // const addPost = () => {
+  //   const post = {
+  //     title: title_ref.current.value,
+  //     contents: contents_ref.current.value,
+  //     starttime: starttime_ref.current.value,
+  //     endtime: endtime_ref.current.value,
+  //     bring: bring_ref.current.value,
+  //     public: public_ref.current.value,
+  //     tag: tag_ref.current.value,
+  //   };
     
-//   dispatch(addBoardFB(post));
-//   props.history.replace('/');
-//   };
+  // dispatch(addBoardFB(post));
+  // props.history.replace('/postlist');
+  // };
 
   return (
     <React.Fragment>
       <Grid>
-        <Header />
+        <Header/>
       </Grid>
 
       <Grid
@@ -124,7 +128,8 @@ const PostWrite = (props) => {
                 />
               </div>
 
-          <EnterButton>
+          <EnterButton
+           >
             <tr>
               <Th>완료</Th>
               <Td></Td>

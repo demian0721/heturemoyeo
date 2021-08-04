@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 // REDUX
 import { userActions } from "../redux/modules/user";
+import { markerActions } from "../redux/modules/marker";
 
 // COMMON
 import socket from '../common/socket'
@@ -19,6 +20,9 @@ import Footer from '../components/Footer';
 
 // ELEMENTS
 import { Grid, Button, Input } from '../elements/index';
+
+// HOOKS
+import useOutsideClick from '../hooks/useOutsideClick'
 
 // MATERIAL-UI
 import MyLocationIcon from '@material-ui/icons/MyLocation';
@@ -34,17 +38,6 @@ const Main = (props) => {
     const debounce = _.debounce((value, setValue) => setValue(value), 300)
     const ref = useRef()
 
-    const [exampleData, setExampleData] = useState({
-        nickname: 'example, nickname',
-        rating: 100,
-        statusMessage: 'example, statusMessage',
-        likeItem: ['example, hashTags'],
-        profileImg: 'https://spartacodingclub.kr/static/v5/images/rtan/rtan_thumb_20-min.png',
-        scheduleTitle: 'example, scheduleTitle',
-        scheduleCount: 3,
-        isFriend: false,
-    })
-
     const markerImageObj = {
         me: 'https://cdn.discordapp.com/emojis/636204464809836546.png?v=1',
         sameSchedule: 'https://cdn.discordapp.com/emojis/636204456345862204.png?v=1',
@@ -56,37 +49,20 @@ const Main = (props) => {
     const getUserData = useSelector(state => state.user)
     const myFriends = useSelector(state => state.user.friendUsers)
     const mySchedules = useSelector(state => state.user.scheduleUsers)
+    const getMarkerData = useSelector(state => state.marker)
+    useEffect(() => { setUserData(getMarkerData) }, [getMarkerData])
 
     // 마커 클릭 이벤트 (바깥 영역 클릭 시 오버레이 닫기)
-    const useOutsideClick = (ref, handler) => {
-        useEffect(() => {
-            const listener = (event) => {
-                if (!ref?.current || (ref && ref?.current?.contains?.(event.target))) return; handler(event);
-            };
-            document.addEventListener('mousedown', listener);
-            return () => { document.removeEventListener('mousedown', listener) }
-        }, [ref, handler])
-    }
     useOutsideClick(ref, () => setIsOpen(false))
 
     const getUserDataFromAPI = (userId, isFriend, isSameSchedule, isMe) => {
         if (isMe) return getUserData
-        if (isFriend && !isSameSchedule && !isMe) {
-            dispatch(userActions.targetFriendDB(userId))
-        }
-        if (!isFriend && isSameSchedule && !isMe) {
-            dispatch(userActions.targetPostDB(userId))
-        }
-        if (isFriend && isSameSchedule && !isMe) {
-            dispatch(userActions.targetPostDB(userId))
-        }
-        if (!isFriend && !isSameSchedule && !isMe) {
-            dispatch(userActions.targetAllDB(userId))
-        }
-        return exampleData
+        if (isFriend && !isSameSchedule && !isMe) dispatch(markerActions.targetFriendDB(userId))
+        if (!isFriend && isSameSchedule && !isMe) dispatch(markerActions.targetPostDB(userId))
+        if (isFriend && isSameSchedule && !isMe) dispatch(markerActions.targetPostDB(userId))
+        if (!isFriend && !isSameSchedule && !isMe) dispatch(markerActions.targetAllDB(userId))
+        return {}
     }
-
-    const getUserDataFromUserId = async (userId, isFriend, isSameSchedule, isMe) => getUserDataFromAPI(userId, isFriend, isSameSchedule, isMe)
 
     // My Location 버튼 (내위치 찾기)
     const panTo = (lat, lng) => global?.map?.panTo(new kakao.maps.LatLng(lat, lng))
@@ -281,7 +257,7 @@ const Main = (props) => {
                                         userStatusMessage={userData?.statusMessage}
                                         userLikeItem={userData?.likeItem}
                                         userSchedule={userData?.scheduleTitle}
-                                        profileImage={userData?.profileImg ?? 'https://spartacodingclub.kr/static/v5/images/rtan/rtan_thumb_20-min.png'}
+                                        profileImage={userData?.profileImg ?? 'https://cdn.discordapp.com/attachments/869177664479567903/871045228159705088/profileBlank.png'}
                                         scheduleCount={userData?.scheduleCount}
                                         userRating={userData?.rating ?? 70}
                                     />

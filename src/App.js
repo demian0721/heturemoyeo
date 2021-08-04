@@ -63,7 +63,7 @@ function App() {
         <Route path="/mypageedit" exact component={MypageEdit} />
         <Route path="/postlist" exact component={PostList} />
         <Route path="/postlist/my" exact component={PostListMy} />
-        <Route path="/postdetail" exact component={PostDetail} />
+        <Route path="/postdetail:idx" exact component={PostDetail} />
         <Route path="/postwrite" exact component={PostWrite} />
         <Route path="/postmodify" exact component={PostModify} />
         {/* <Route component={NotFound} /> */}

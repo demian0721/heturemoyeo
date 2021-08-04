@@ -11,9 +11,6 @@ import { setToken, removeToken } from "../../common/token";
 // ACTION
 const MY_INFO = "MY_INFO";
 const RELATION = "RELATION";
-const TARGET_ALL = "TARGET_ALL"
-const TARGET_FRIEND = "TARGET_FRIEND"
-const TARGET_POST = "TARGET_POST"
 const LOG_IN = "LOG_IN";
 const LOG_OUT = "LOG_OUT";
 const CHECK_DUP_EMAIL = "CHECK_DUP_EMAIL";
@@ -25,9 +22,6 @@ const EDIT_STATUS = "EDIT_STATUS";
 // ACTION CREATORS
 const myInfo = createAction(MY_INFO, (userInfo) => ({ userInfo }));
 const relation = createAction(RELATION, (userInfo) => ({ userInfo }))
-const targetAll = createAction(TARGET_ALL, (userInfo) => ({ userInfo }))
-const targetFriend = createAction(TARGET_FRIEND, (userInfo) => ({ userInfo }))
-const targetPost = createAction(TARGET_POST, (userInfo) => ({ userInfo }))
 const logIn = createAction(LOG_IN, (token) => ({ token }));
 const logOut = createAction(LOG_OUT);
 const checkDupEmail = createAction(CHECK_DUP_EMAIL, (is_check_email) => ({ is_check_email }));
@@ -47,8 +41,7 @@ const initialState = {
   tempInfo: null,
   friendUsers: null,
   scheduleUsers: null,
-  relation: null,
-
+  relation: null
 };
 
 // MIDDLEWARE
@@ -71,10 +64,11 @@ const editInfos = (doc) => {
     instance
       .put("/api/user", doc)
       .then((res) => {
+        window.alert('프로필 수정이 완료되었습니다')
         history.replace("/mypage");
       })
       .catch((error) => {
-        console.error(error, "에러");
+        window.alert("입력된 비밀번호가 올바르지 않습니다.");
       });
   };
 };
@@ -99,48 +93,6 @@ const relationDB = () => {
       .get("/api/user/myusers")
       .then((res) => {
         dispatch(relation(res.data));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-};
-
-const targetAllDB = (userId) => {
-  return function (dispatch) {
-    instance
-      .get(`/api/user/target/all?userId=${userId}`)
-      .then((res) => {
-        // console.log(res)
-        dispatch(targetAll(res.data));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-};
-
-const targetFriendDB = (userId) => {
-  return function (dispatch) {
-    instance
-    .get(`/api/user/target/friend?userId=${userId}`)
-      .then((res) => {
-        // console.log(res)
-        dispatch(targetFriend(res.data));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-};
-
-const targetPostDB = (userId) => {
-  return function (dispatch) {
-    instance
-    .get(`/api/user/target/post?userId=${userId}`)
-      .then((res) => {
-        // console.log(res)
-        dispatch(targetPost(res.data));
       })
       .catch((error) => {
         console.error(error);
@@ -235,42 +187,6 @@ export default handleActions(
         draft.scheduleUsers = action.payload.userInfo.scheduleUsers;
       }),
 
-      [TARGET_ALL]: (state, action) =>
-      produce(state, (draft) => {
-        draft.nickname = action.payload.userInfo.nickname;
-        draft.rating = action.payload.userInfo.rating;
-        draft.profileImg = action.payload.userInfo.profileImg;
-        draft.statusMessage = action.payload.userInfo.statusMessage;
-        draft.likeItem = action.payload.userInfo.likeItem;
-        draft.scheduleCount = action.payload.userInfo.scheduleCount;
-        draft.scheduleTitle = action.payload.userInfo.scheduleTitle;
-        draft.isFriend = action.payload.userInfo.isFriend;
-      }),
-
-      [TARGET_FRIEND]: (state, action) =>
-      produce(state, (draft) => {
-        draft.nickname = action.payload.userInfo.nickname;
-        draft.rating = action.payload.userInfo.rating;
-        draft.profileImg = action.payload.userInfo.profileImg;
-        draft.statusMessage = action.payload.userInfo.statusMessage;
-        draft.likeItem = action.payload.userInfo.likeItem;
-        draft.scheduleCount = action.payload.userInfo.scheduleCount;
-        draft.scheduleTitle = action.payload.userInfo.scheduleTitle;
-        draft.isFriend = action.payload.userInfo.isFriend;
-      }),
-
-      [TARGET_POST]: (state, action) =>
-      produce(state, (draft) => {
-        draft.nickname = action.payload.userInfo.nickname;
-        draft.rating = action.payload.userInfo.rating;
-        draft.profileImg = action.payload.userInfo.profileImg;
-        draft.statusMessage = action.payload.userInfo.statusMessage;
-        draft.likeItem = action.payload.userInfo.likeItem;
-        draft.scheduleCount = action.payload.userInfo.scheduleCount;
-        draft.scheduleTitle = action.payload.userInfo.scheduleTitle;
-        draft.isFriend = action.payload.userInfo.isFriend;
-      }),
-
     [LOG_IN]: (state, action) =>
       produce(state, (draft) => {
         draft.token = action.payload.token;
@@ -323,14 +239,8 @@ const userActions = {
   logOut,
   loginAction,
   myInfoDB,
-  targetAll,
-  targetFriend,
-  targetPost,
   relation,
   relationDB,
-  targetAllDB,
-  targetFriendDB,
-  targetPostDB,
   signupDB,
   emailCheck,
   nickCheck,

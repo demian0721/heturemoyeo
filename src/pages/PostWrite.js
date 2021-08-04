@@ -1,42 +1,76 @@
 //LIBRARY
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { css } from "styled-components";
 import {useDispatch} from "react-redux";
 
+// REDUX
+import { postActions } from "../redux/modules/post";
+
 //ELEMENTS
 import { Grid, Input } from "../elements/index";
 
+//TOKEN
+import { getToken } from '../common/token';
+
+// HISTORY
+import { history } from '../redux/configStore';
+
 //COMPONENTS
 import Header from "../components/Header";
+import Permit from '../components/Permit';
 
 const PostWrite = (props) => {
   const dispatch = useDispatch();
-  const title_ref = React.useRef(null);
-  const contents_ref = React.useRef(null);
-  const starttime_ref = React.useRef(null);
-  const endtime_ref = React.useRef(null);
-  const bring_ref = React.useRef(null);
-  const public_ref = React.useRef(null);
-  const tag_ref = React.useRef(null);
+  const [title, setTitle] = useState(null);
+  const [content, setContent] = useState(null);
+  const [maxMember, setMaxMember] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [place, setPlace] = useState(null);
+  const [bring, setBring] = useState(null);
+  const [tag, setTag] = useState(null);
+  // const title_ref = React.useRef(null);
+  // const content_ref = React.useRef(null);
+  // const maxmember_ref = React.useRef(null);
+  // const starttime_ref = React.useRef(null);
+  // const endtime_ref = React.useRef(null);
+  // const place_ref = React.useRef(null);
+  // const bring_ref = React.useRef(null);
+  // const tag_ref = React.useRef(null);
+  
+  // const changeTitle = (e) => {
+  //   console.log(e.target.value);
+  //   setTitle(e.target.value);
+  // }
+  const addPost = () => {
+    console.log(title, content, maxMember, startDate, endDate, place, bring, tag);
+    // const post = {
+    //   title: title_ref.current.value,
+    //   content: content_ref.current.value,
+    //   maxMember: maxmember_ref.current.value,
+    //   startDate: starttime_ref.current.value,
+    //   endDate: endtime_ref.current.value,
+    //   place: place_ref.current.value,
+    //   bring: bring_ref.current.value,
+    //   tag: tag_ref.current.value,
+    // };
 
-  // const addPost = () => {
-  //   const post = {
-  //     title: title_ref.current.value,
-  //     contents: contents_ref.current.value,
-  //     starttime: starttime_ref.current.value,
-  //     endtime: endtime_ref.current.value,
-  //     bring: bring_ref.current.value,
-  //     public: public_ref.current.value,
-  //     tag: tag_ref.current.value,
-  //   };
-    
-  // dispatch(addBoardFB(post));
-  // props.history.replace('/postlist');
-  // };
+    if (
+      title && content && maxMember && startDate && endDate && place && bring && tag
+  ) {dispatch(postActions.addPostDB(title, content, maxMember, startDate, endDate, place, bring, tag));
+    props.history.replace('/postlist');}
+    else {return window.alert('각 항목은 필수 입력사항 입니다.') }  
+  };
+
+  useEffect(() => {
+    if (!getToken()) {
+        history.replace('/login');
+    }
+}, []);
 
   return (
-    <React.Fragment>
+    <Permit>
       <Grid>
         <Header/>
       </Grid>
@@ -70,7 +104,9 @@ const PostWrite = (props) => {
                   margin="7px 0 7px 0"
                   placeholder="제목"
                   type="text"
-                  ref={title_ref}
+                  changeEvent={(e) => {
+                    setTitle(e.target.value);
+                  }}
                 />
               </div>
               <div>
@@ -78,7 +114,19 @@ const PostWrite = (props) => {
                   margin="7px 0 7px 0"
                   placeholder="내용"
                   type="text"
-                  ref={contents_ref}
+                  changeEvent={(e) => {
+                    setContent(e.target.value);
+                  }}
+                />
+              </div>
+              <div>
+                <Input
+                  margin="7px 0 7px 0"
+                  placeholder="인원수(명)"
+                  type="text"
+                  changeEvent={(e) => {
+                    setMaxMember(e.target.value);
+                  }}
                 />
               </div>
               <div>
@@ -86,7 +134,9 @@ const PostWrite = (props) => {
                   margin="7px 0 7px 0"
                   placeholder="시작시간(연도월일)"
                   type="text"
-                  ref={starttime_ref}
+                  changeEvent={(e) => {
+                    setStartDate(e.target.value);
+                  }}
                 />
               </div>
               <div>
@@ -94,29 +144,35 @@ const PostWrite = (props) => {
                   margin="7px 0 7px 0"
                   placeholder="종료시간(연도월일)"
                   type="text"
-                  ref={endtime_ref}
-                />
-              </div>
-          <EnterButton style={{ display: "block" }}>
-            <tr>
-              <Th>장소(한글 주소로 출력)</Th>
-              <Td></Td>
-            </tr>
-          </EnterButton>
-          <div>
-                <Input
-                  margin="7px 0 7px 0"
-                  placeholder="지참금(문자로 적기)"
-                  type="text"
-                  ref={bring_ref}
+                  changeEvent={(e) => {
+                    setEndDate(e.target.value);
+                  }}
                 />
               </div>
               <div>
                 <Input
                   margin="7px 0 7px 0"
-                  placeholder="공개여부(전체, 잠금)"
+                  placeholder="장소(한글 주소로 출력)"
                   type="text"
-                  ref={public_ref}
+                  changeEvent={(e) => {
+                    setPlace(e.target.value);
+                  }}
+                />
+              </div>
+          {/* <EnterButton style={{ display: "block" }}>
+            <tr>
+              <Th>장소(한글 주소로 출력)</Th>
+              <Td></Td>
+            </tr>
+          </EnterButton> */}
+          <div>
+                <Input
+                  margin="7px 0 7px 0"
+                  placeholder="지참금(문자로 적기)"
+                  type="text"
+                  changeEvent={(e) => {
+                    setBring(e.target.value);
+                  }}
                 />
               </div>
               <div>
@@ -124,12 +180,14 @@ const PostWrite = (props) => {
                   margin="7px 0 7px 0"
                   placeholder="태그설정"
                   type="text"
-                  ref={tag_ref}
+                  changeEvent={(e) => {
+                    setTag(e.target.value);
+                  }}
                 />
               </div>
 
           <EnterButton
-           >
+           onClick={addPost}>
             <tr>
               <Th>완료</Th>
               <Td></Td>
@@ -137,7 +195,7 @@ const PostWrite = (props) => {
           </EnterButton>
         </Grid>
       </Grid>
-    </React.Fragment>
+    </Permit>
   );
 };
 

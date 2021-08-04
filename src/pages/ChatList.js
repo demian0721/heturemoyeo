@@ -15,8 +15,12 @@ const ChatList = () => {
     io.on("connect", () => console.log("Connected Socket.io server!"));
     io.on("newRoom", (data) => rooms.push(data));
     io.on("removeRoom", (data) => {
-
+      const result = rooms.filter(el => el.postId !== data.postId)
+      setRooms(result)
     });
+    return () => {
+      io.close()
+    }
   }, []);
 
   return (

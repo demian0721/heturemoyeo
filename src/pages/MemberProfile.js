@@ -6,23 +6,20 @@ import React from 'react';
 //History
 
 //Components
-import Footer from "../components/Footer";
 import Header from "../components/Header";
-import MyPage from "../components/MyPage";
+import Profile from "../components/Profile";
 
 //임포트 사용 항목 외 삭제요망
 
-const Mypage = () => {
+const MProfile = () => {
 
 
     return (
         <React.Fragment>
             <Header />
-            <MyPage />
-            <Footer />
+            <Profile />
         </React.Fragment>
     );
 };
 
-export default Mypage;
-
+export default MProfile;

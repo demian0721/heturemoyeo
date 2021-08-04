@@ -10,5 +10,6 @@ import PostListMy from './PostListMy';
 import PostDetail from './PostDetail';
 import PostWrite from './PostWrite';
 import PostModify from './PostModify';
+import MProfile from './MemberProfile';
 
-export { Main, Login, Signup, SignupInfo, Mypage, MypageEdit, Terms, PostList, PostListMy, PostDetail, PostWrite, PostModify };
+export { Main, Login, Signup, SignupInfo, Mypage, MypageEdit, Terms, PostList, PostListMy, PostDetail, PostWrite, PostModify, MProfile };

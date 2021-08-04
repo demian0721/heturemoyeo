@@ -19,7 +19,7 @@ import { getToken } from './common/token';
 import GlobalStyle from './common/globalStyle';
 
 // PAGES
-import { Main, Login, Signup, SignupInfo, Mypage, MypageEdit, Terms, PostList, PostDetail, PostWrite, PostModify, PostListMy } from './pages/index';
+import { Main, Login, Signup, SignupInfo, Mypage, MypageEdit, Terms, PostList, PostDetail, PostWrite, PostModify, PostListMy, MProfile } from './pages/index';
 
 function App() {
 

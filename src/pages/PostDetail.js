@@ -16,7 +16,7 @@ import Header from "../components/Header";
 const PostDetail = (props) => {
   const postId = props.match.params.postid;
   const dispatch = useDispatch();
-  useEffect(() => {dispatch(postActions.postDetailInfo(postId)); }, []);
+  useEffect(() => {dispatch(postActions.postDetailInfo(postId)); }, [   ]);
 
   // const [postDetails, setDetails] = React.useState({
   //   title: "방탈출 카페 인원 급구중 마이크필수?",

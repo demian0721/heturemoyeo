@@ -5,12 +5,12 @@ import styled from "styled-components";
 import { css } from "styled-components";
 
 //ELEMENTS
-import { Grid, Input, Button, Text } from "../elements/index";
+import { Grid, Text } from "../elements/index";
 
 //HISTORY
 import { history } from "../redux/configStore";
 
-const PostGroupCard = (props) => {
+const PostListCard = (props) => {
   return (
     <React.Fragment>
       <PostCard>
@@ -41,13 +41,13 @@ const PostGroupCard = (props) => {
             </span>
           </Text>
         </Grid>
-        <PlaceImg/>
+        <PlaceImage/>
       </PostCard>
     </React.Fragment>
   );
 };
 
-const PlaceImg = styled.img`
+const PlaceImage = styled.img`
   width: 85px;
   height: 85px;
   margin: 5px;
@@ -63,4 +63,4 @@ const PostCard = styled.div`
   font-size: 12px;
 `;
 
-export default PostGroupCard;
+export default PostListCard;

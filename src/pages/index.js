@@ -6,8 +6,9 @@ import MypageEdit from './MypageEdit';
 import Terms from './Terms';
 import SignupInfo from './SignupInfo';
 import PostList from './PostList';
+import PostListMy from './PostListMy';
 import PostDetail from './PostDetail';
 import PostWrite from './PostWrite';
 import PostModify from './PostModify';
 
-export { Main, Login, Signup, SignupInfo, Mypage, MypageEdit, Terms, PostList, PostDetail, PostWrite, PostModify };
+export { Main, Login, Signup, SignupInfo, Mypage, MypageEdit, Terms, PostList, PostListMy, PostDetail, PostWrite, PostModify };

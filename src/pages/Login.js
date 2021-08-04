@@ -5,9 +5,6 @@ import { css } from "styled-components";
 //ELEMENTS
 import { Text, Title, Input, Grid, Button } from "../elements";
 
-//HISTORY
-import { history } from "../redux/configStore";
-
 //REDUX-ACTION & REACT-HOOK
 import { userActions } from "../redux/modules/user";
 import { useDispatch } from "react-redux";

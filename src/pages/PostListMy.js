@@ -20,7 +20,7 @@ import Header from "../components/Header";
 import PostListCard from "../components/PostListCard";
 import PostListButton from "../components/PostListButton";
 
-const PostList = (props) => {
+const PostListMy = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(postActions.getPostsDB());
@@ -92,4 +92,4 @@ const PostList = (props) => {
   );
 };
 
-export default PostList;
+export default PostListMy;

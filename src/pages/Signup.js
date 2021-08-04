@@ -11,14 +11,13 @@ import { history } from "../redux/configStore";
 
 //REDUX-ACTION & REACT-HOOK
 import { userActions } from "../redux/modules/user";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 //VALIDATION
 import { idVal, pwdVal, nameVal } from "../common/validation";
 
 const SignUp = (props) => {
   const dispatch = useDispatch();
-  const dupState = useSelector((state) => state.user.is_check);
   const debounce = _.debounce((value, setValue) => setValue(value), 300);
   const signupNext = () => {
     // if (id === ""|| pwd === ""|| name === "") 
@@ -42,7 +41,6 @@ const SignUp = (props) => {
   const [name, setName] = React.useState("");
   const [nameConfirm, setNameConfirm] = React.useState("");
   const [nameWarning, setNameWarColor] = React.useState("red");
-  // console.log(id, pwd, name);
   const checkID = (val) => {
     if (val === "") {
       setIdWarColor("red");

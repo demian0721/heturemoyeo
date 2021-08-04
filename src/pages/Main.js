@@ -73,59 +73,15 @@ const Main = (props) => {
         if (isMe) return getUserData
         if (isFriend && !isSameSchedule && !isMe) {
             dispatch(userActions.targetFriendDB(userId))
-            setUserData({
-                nickname: getUserData.nickname,
-                rating: getUserData.rating,
-                profileImg: getUserData.profileImg,
-                statusMessage: getUserData.statusMessage,
-                likeItem: getUserData.likeItem,
-                scheduleCount: getUserData.scheduleCount,
-                scheduleTitle: getUserData.scheduleTitle,
-                isFriend: getUserData.isFriend,
-            })
-            return getUserData
         }
         if (!isFriend && isSameSchedule && !isMe) {
             dispatch(userActions.targetPostDB(userId))
-            setUserData({
-                nickname: getUserData.nickname,
-                rating: getUserData.rating,
-                profileImg: getUserData.profileImg,
-                statusMessage: getUserData.statusMessage,
-                likeItem: getUserData.likeItem,
-                scheduleCount: getUserData.scheduleCount,
-                scheduleTitle: getUserData.scheduleTitle,
-                isFriend: getUserData.isFriend,
-            })
-            return getUserData
         }
         if (isFriend && isSameSchedule && !isMe) {
             dispatch(userActions.targetPostDB(userId))
-            setUserData({
-                nickname: getUserData.nickname,
-                rating: getUserData.rating,
-                profileImg: getUserData.profileImg,
-                statusMessage: getUserData.statusMessage,
-                likeItem: getUserData.likeItem,
-                scheduleCount: getUserData.scheduleCount,
-                scheduleTitle: getUserData.scheduleTitle,
-                isFriend: getUserData.isFriend,
-            })
-            return getUserData
         }
         if (!isFriend && !isSameSchedule && !isMe) {
             dispatch(userActions.targetAllDB(userId))
-            setUserData({
-                nickname: getUserData.nickname,
-                rating: getUserData.rating,
-                profileImg: getUserData.profileImg,
-                statusMessage: getUserData.statusMessage,
-                likeItem: getUserData.likeItem,
-                scheduleCount: getUserData.scheduleCount,
-                scheduleTitle: getUserData.scheduleTitle,
-                isFriend: getUserData.isFriend,
-            })
-            return getUserData
         }
         return exampleData
     }

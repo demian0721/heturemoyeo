@@ -53,7 +53,7 @@ const PostWrite = (props) => {
       endDate: endDate,
       place: place,
       bring: bring,
-      tag: tag,
+      tag: tag.split(','),
     };
 
     if (

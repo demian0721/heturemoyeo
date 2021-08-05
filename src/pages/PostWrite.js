@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { css } from "styled-components";
-import {useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 
 // REDUX
 import { postActions } from "../redux/modules/post";
@@ -11,14 +11,14 @@ import { postActions } from "../redux/modules/post";
 import { Grid, Input } from "../elements/index";
 
 //TOKEN
-import { getToken } from '../common/token';
+import { getToken } from "../common/token";
 
 // HISTORY
-import { history } from '../redux/configStore';
+import { history } from "../redux/configStore";
 
 //COMPONENTS
 import Header from "../components/Header";
-import Permit from '../components/Permit';
+import Permit from "../components/Permit";
 
 const PostWrite = (props) => {
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const PostWrite = (props) => {
   // const place_ref = React.useRef(null);
   // const bring_ref = React.useRef(null);
   // const tag_ref = React.useRef(null);
-  
+
   // const changeTitle = (e) => {
   //   console.log(e.target.value);
   //   setTitle(e.target.value);
@@ -57,22 +57,43 @@ const PostWrite = (props) => {
     };
 
     if (
-      title && content && maxMember && startDate && endDate && place && bring && tag
-  ) {dispatch(postActions.addPostDB(post));
-    props.history.replace('/postlist');}
-    else {return window.alert('각 항목은 필수 입력사항 입니다.') }  
+      title &&
+      content &&
+      maxMember &&
+      startDate &&
+      endDate &&
+      place &&
+      bring &&
+      tag
+    ) {
+      dispatch(
+        postActions.addPostDB(
+          title,
+          content,
+          maxMember,
+          startDate,
+          endDate,
+          place,
+          bring,
+          tag
+        )
+      );
+      props.history.replace("/postlist");
+    } else {
+      return window.alert("각 항목은 필수 입력사항 입니다.");
+    }
   };
 
   useEffect(() => {
     if (!getToken()) {
-        history.replace('/login');
+      history.replace("/login");
     }
-}, []);
+  }, []);
 
   return (
     <Permit>
       <Grid>
-        <Header/>
+        <Header />
       </Grid>
 
       <Grid
@@ -99,66 +120,66 @@ const PostWrite = (props) => {
               <Td></Td>
             </tr>
           </EnterButton>
-             <div>
-                <Input
-                  margin="7px 0 7px 0"
-                  placeholder="제목"
-                  type="text"
-                  changeEvent={(e) => {
-                    setTitle(e.target.value);
-                  }}
-                />
-              </div>
-              <div>
-                <Input
-                  margin="7px 0 7px 0"
-                  placeholder="내용"
-                  type="text"
-                  changeEvent={(e) => {
-                    setContent(e.target.value);
-                  }}
-                />
-              </div>
-              <div>
-                <Input
-                  margin="7px 0 7px 0"
-                  placeholder="인원수(명)"
-                  type="text"
-                  changeEvent={(e) => {
-                    setMaxMember(e.target.value);
-                  }}
-                />
-              </div>
-              <div>
-                <Input
-                  margin="7px 0 7px 0"
-                  placeholder="시작시간(연도월일)"
-                  type="date"
-                  changeEvent={(e) => {
-                    setStartDate(e.target.value);
-                  }}
-                />
-              </div>
-              <div>
-                <Input
-                  margin="7px 0 7px 0"
-                  placeholder="종료시간(연도월일)"
-                  type="date"
-                  changeEvent={(e) => {
-                    setEndDate(e.target.value);
-                  }}
-                />
-              </div>
-              <div>
-                <Input
-                  margin="7px 0 7px 0"
-                  placeholder="장소(한글 주소로 출력)"
-                  type="text"
-                  changeEvent={(e) => {
-                    setPlace(e.target.value);
-                  }}
-                />
-              </div>
+          <div>
+            <Input
+              margin="7px 0 7px 0"
+              placeholder="제목"
+              type="text"
+              changeEvent={(e) => {
+                setTitle(e.target.value);
+              }}
+            />
+          </div>
+          <div>
+            <Input
+              margin="7px 0 7px 0"
+              placeholder="내용"
+              type="text"
+              changeEvent={(e) => {
+                setContent(e.target.value);
+              }}
+            />
+          </div>
+          <div>
+            <Input
+              margin="7px 0 7px 0"
+              placeholder="인원수(명)"
+              type="text"
+              changeEvent={(e) => {
+                setMaxMember(e.target.value);
+              }}
+            />
+          </div>
+          <div>
+            <Input
+              margin="7px 0 7px 0"
+              placeholder="시작시간(연도월일)"
+              type="text"
+              changeEvent={(e) => {
+                setStartDate(e.target.value);
+              }}
+            />
+          </div>
+          <div>
+            <Input
+              margin="7px 0 7px 0"
+              placeholder="종료시간(연도월일)"
+              type="text"
+              changeEvent={(e) => {
+                setEndDate(e.target.value);
+              }}
+            />
+          </div>
+          <div>
+            <Input
+              margin="7px 0 7px 0"
+              placeholder="장소(한글 주소로 출력)"
+              type="text"
+              changeEvent={(e) => {
+                setPlace(e.target.value);
+              }}
+            />
+          </div>
           {/* <EnterButton style={{ display: "block" }}>
             <tr>
               <Th>장소(한글 주소로 출력)</Th>
@@ -166,28 +187,27 @@ const PostWrite = (props) => {
             </tr>
           </EnterButton> */}
           <div>
-                <Input
-                  margin="7px 0 7px 0"
-                  placeholder="지참금(문자로 적기)"
-                  type="text"
-                  changeEvent={(e) => {
-                    setBring(e.target.value);
-                  }}
-                />
-              </div>
-              <div>
-                <Input
-                  margin="7px 0 7px 0"
-                  placeholder="태그설정"
-                  type="text"
-                  changeEvent={(e) => {
-                    setTag(e.target.value);
-                  }}
-                />
-              </div>
+            <Input
+              margin="7px 0 7px 0"
+              placeholder="지참금(문자로 적기)"
+              type="text"
+              changeEvent={(e) => {
+                setBring(e.target.value);
+              }}
+            />
+          </div>
+          <div>
+            <Input
+              margin="7px 0 7px 0"
+              placeholder="태그설정"
+              type="text"
+              changeEvent={(e) => {
+                setTag(e.target.value);
+              }}
+            />
+          </div>
 
-          <EnterButton
-           onClick={addPost}>
+          <EnterButton onClick={addPost}>
             <tr>
               <Th>완료</Th>
               <Td></Td>

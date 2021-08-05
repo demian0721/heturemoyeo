@@ -12,14 +12,14 @@ import { history } from "../redux/configStore";
 
 const PostListCard = (props) => {
   return (
-    <React.Fragment>
-      <PostCard>
+      <PostCard
+      onClick={() => {
+        history.push("/postdetail"+props.postId);
+      }} style={{width:"325px"}}>
         <Grid
           margin="5px"
           width="60%"
-          _onClick={() => {
-            history.push("/postdetail" + props.postId);
-          }}
+          align="left"
         >
           <Text fontSize="12px" fontWeight="bold" color="black" marginTop="5px">
             제목
@@ -48,7 +48,6 @@ const PostListCard = (props) => {
         </Grid>
         <PlaceImage />
       </PostCard>
-    </React.Fragment>
   );
 };
 
@@ -59,12 +58,12 @@ const PlaceImage = styled.img`
   background-color: white;
 `;
 
-const PostCard = styled.div`
+const PostCard = styled.button`
   display: flex;
   justify-content: space-between;
   background-color: #a7aaad;
   padding: 5px;
-  margin: 15px auto;
+  margin: 15px 0px;
   font-size: 12px;
 `;
 

@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { postActions } from "../redux/modules/post";
 
 // FUNCTION
-import InfiniteScroll from '../common/infiniteScroll';
+// import InfiniteScroll from '../common/infiniteScroll';
 
 // ELEMENTS
 import { Grid, Button } from "../elements/index";
@@ -29,9 +29,9 @@ const PostList = (props) => {
     dispatch(postActions.getPostsDB());
   }, []);
   const PostList = useSelector((state) => state.post.list);
-  const getMorePosts = () => {
-    dispatch(postActions.getMorePostsDB());
-  };
+  // const getMorePosts = () => {
+  //   dispatch(postActions.getMorePostsDB());
+  // };
   return (
     <React.Fragment>
       <Grid>
@@ -73,12 +73,12 @@ const PostList = (props) => {
           <PostListButton />
 
           {PostList.map((l, index) => {
-            <InfiniteScroll
-              next={getMorePosts}
-              length={PostList.length}
-              key={l.postId} idx={index} {...l}>
-                <PostListCard key={l.postId} idx={index} {...l} />
-              </InfiniteScroll>
+            // <InfiniteScroll
+            //   next={getMorePosts}
+            //   length={PostList.length}
+            //   key={l.postId} idx={index} {...l}>
+                return <PostListCard key={l.postId} idx={index} {...l} />
+              // </InfiniteScroll>
           })}
 
           <Grid padding="5px 0px">

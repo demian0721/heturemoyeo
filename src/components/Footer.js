@@ -28,7 +28,7 @@ const Footer = () => {
             clickEvent={() => { history.push('/'); }}
             style={{ cursor: "pointer" }}>친구관리</Text>
             <Text hoverWeight='bold' margin="auto"
-            clickEvent={() => { history.push('/'); }}
+            clickEvent={() => { history.push('/chat'); }}
             style={{ cursor: "pointer" }}>대화방</Text>
             <Text hoverWeight='bold' margin="auto"
             clickEvent={() => { history.push('/mypage'); }}

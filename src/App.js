@@ -32,6 +32,8 @@ import {
   PostListMy,
   ChatList,
   MProfile,
+  ChatRoom,
+  ChatRoomProto,
 } from "./pages/index";
 
 function App() {
@@ -85,6 +87,7 @@ function App() {
         <Route path="/postwrite" exact component={PostWrite} />
         <Route path="/postmodify" exact component={PostModify} />
         <Route path="/chat" exact component={ChatList} />
+        <Route path="/chat/:id" exact component={ChatRoom} />
         {/* <Route component={NotFound} /> */}
       </ConnectedRouter>
     </>

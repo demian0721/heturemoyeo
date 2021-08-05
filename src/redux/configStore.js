@@ -8,6 +8,7 @@ import thunk from 'redux-thunk';
 import User from './modules/user';
 import Post from './modules/post';
 import Marker from './modules/marker';
+import Chat from './modules/chat'
 
 // HISTORY
 export const history = createBrowserHistory();
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     user: User,
     post: Post,
     marker: Marker,
+    chat: Chat,
     router: connectRouter(history)
 });
 

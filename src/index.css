@@ -16,6 +16,10 @@ code {
   box-shadow: 0 -5px 7px -6px #333;
 }
 
+.chatBoxShadow {
+  box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 15%);
+}
+
 .navbar {
   -webkit-transition: all 0.2s linear;
   -moz-transition: all 0.2s linear;

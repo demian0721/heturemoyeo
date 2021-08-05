@@ -40,8 +40,7 @@ const Main = (props) => {
 
   const markerImageObj = {
     me: "https://cdn.discordapp.com/emojis/636204464809836546.png?v=1",
-    sameSchedule:
-      "https://cdn.discordapp.com/emojis/636204456345862204.png?v=1",
+    sameSchedule: "https://cdn.discordapp.com/emojis/636204456345862204.png?v=1",
     friend: "https://cdn.discordapp.com/emojis/686639764023017501.png?v=1",
     anonymous: "https://cdn.discordapp.com/emojis/686639764023017501.png?v=1",
   };

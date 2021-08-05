@@ -87,13 +87,19 @@ const postDetailInfo = (postId) => {
   };
 };
 
-const getMyPostsDB = () => {
+const getMyPostsDB = (limit = 5) => {
   return function (dispatch) {
     instance
-      .get(`/api/post/posts/my`)
+      .get(`/api/post/posts/my/?start=0&limit=${limit + 1}`)
       .then((res) => {
-        //   console.log(res);
-        dispatch(getMyPosts(res.data));
+        if (res.data.length < limit + 1) {
+          dispatch(getPosts(res.data, null));
+          return;
+        }
+
+        if (res.data.length >= limit + 1) res.data.pop();
+
+        dispatch(getPosts(res.data, limit));
       })
       .catch((error) => {
         console.error(error);

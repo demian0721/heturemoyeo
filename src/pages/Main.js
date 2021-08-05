@@ -186,7 +186,7 @@ const Main = (props) => {
     return marker;
   };
 
-  // 로그인 하면 내 위치를 소켓으로 전송하는 부분?
+  // 내 위치를 소켓으로 전송하는 부분
   const sendUserLocation = (userId, lat, lng) =>
     socket.emit("latlng", { userId, lat, lng });
 

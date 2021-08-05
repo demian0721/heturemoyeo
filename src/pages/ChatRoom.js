@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef, Fragment } from "react";
 import socket from "socket.io-client";
 import Chat, { Bubble, useMessages } from "@chatui/core";
-// import "@chatui/core/dist/index.css";
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import ChatUICSS from "!!raw-loader!@chatui/core/dist/index.css";
 
 import { useSelector, useDispatch } from "react-redux";
 import { chatActions } from "../redux/modules/chat";
@@ -12,34 +13,52 @@ const ChatRoom = (props) => {
   const getChatDatas = useSelector((state) => state.chat.chatList);
   const [init, setInit] = useState(false);
   const { messages, appendMsg } = useMessages([]);
-  if (getChatDatas?.length >= 1 && !init) {
+  if (getChatDatas?.length >= 1 && myUserId && !init) {
     getChatDatas.map((el) => {
       const data = {
         type: "text",
         content: { text: el.message },
         position: el.userId === myUserId ? "right" : "left",
-      }
-      messages.push(data)
-      appendMsg(data)
+      };
+      if (el.userId !== myUserId)
+        Object.assign(data, {
+          user: {
+            avatar:
+              "https://cdn.discordapp.com/attachments/869177664479567903/871045228159705088/profileBlank.png",
+          },
+        });
+      // appendMsg(data);
+      return data;
     });
     setInit(true);
   }
   useEffect(() => {
-    const io = socket.connect(
-      `astraios.shop:4001/chat?postId=${props.match.params.id}`,
-      { path: "/socket.io" }
-    );
+    const io = socket("http://astraios.shop:4001/chat?postId=1");
+    io.on("connect", () => console.log("Connected Socket.io server!"))
+      .on("join", (data) => {
+        appendMsg({
+          type: "system",
+          content: { text: data.chat },
+        });
+      })
+      .on("exit", (data) => {
+        appendMsg({
+          type: "system",
+          content: { text: data.chat },
+        });
+      })
+      .on("chat", (data) => {
+        appendMsg({
+          type: "text",
+          content: { text: data.message },
+          position: "left",
+          user: {
+            avatar:
+              "https://cdn.discordapp.com/attachments/869177664479567903/871045228159705088/profileBlank.png",
+          },
+        });
+      });
     dispatch(chatActions.getChatDB(props.match.params.id, 1000));
-    io.on("connect", () => console.log("Connected Socket.io server!"));
-    io.on("join", (data) => {
-      Object.assign(data, { isSystem: true });
-    });
-    io.on("exit", (data) => {
-      Object.assign(data, { isSystem: true });
-    });
-    io.on("chat", (data) => {
-      Object.assign(data, { isSystem: false });
-    });
     return () => {
       console.log("Disconnecting to Socket.io server...");
       io.close();
@@ -71,22 +90,38 @@ const ChatRoom = (props) => {
   // };
 
   const handleMessageContent = (data) => {
-    console.log(data);
+    return (
+      <Bubble
+        content={data.content.text}
+        style={{
+          backgroundColor: data.position === "right" ? "#0084ff" : "#eee",
+        }}
+      />
+    );
   };
-  
-  const handleSendMessage = (data) => {
-    console.log(data)
-  }
+
+  const handleSendMessage = (type, val) => {
+    if (type === "text" && val.trim()) {
+      dispatch(chatActions.sendChatDB(props.match.params.id, val));
+      appendMsg({
+        type: "text",
+        content: { text: val },
+        position: "right",
+      });
+    }
+  };
 
   return (
     <Fragment>
-      <div id="message-table" className="container mx-auto h-auto w-auto">
+      <div id="message-table" className="container mx-auto h-full w-full">
         <Chat
+          locale="en-US"
           messages={messages}
           renderMessageContent={handleMessageContent}
           onSend={handleSendMessage}
           placeholder="메세지를 입력해주세요."
         />
+        <style>{ChatUICSS}</style>
       </div>
     </Fragment>
   );

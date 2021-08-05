@@ -22,6 +22,7 @@ const addPost = (post) => ({ type: ADD_POST, post });
 const initialState = {
   list: [],
   start: 0,
+  is_loaded: false,
 };
 
 // MIDDLEWARE
@@ -192,7 +193,7 @@ function post(state = initialState, action) {
     //   return { ...state, list: action.posts, start: action.start };
 
     case POST_DETAIL:
-      return { ...state, postDetail: action.postDetail };
+      return { ...state, postDetail: action.postDetail, is_loaded:true };
 
     case ADD_POST:
       const newPostList = [action.post, ...state.list];

@@ -1,13 +1,13 @@
-//LIBRARY
+// LIBRARY
 import { CallReceived } from "@material-ui/icons";
 import React from "react";
 import styled from "styled-components";
 import { css } from "styled-components";
 
-//ELEMENTS
+// ELEMENTS
 import { Grid, Text } from "../elements/index";
 
-//HISTORY
+// HISTORY
 import { history } from "../redux/configStore";
 
 const PostListCard = (props) => {

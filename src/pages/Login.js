@@ -1,11 +1,11 @@
-//LIBRARY
+// LIBRARY
 import React, { useState } from "react";
 import { css } from "styled-components";
 
-//ELEMENTS
+// ELEMENTS
 import { Text, Title, Input, Grid, Button } from "../elements";
 
-//REDUX-ACTION & REACT-HOOK
+// REDUX-ACTION & REACT-HOOK
 import { userActions } from "../redux/modules/user";
 import { useDispatch } from "react-redux";
 
@@ -125,7 +125,6 @@ const LogIn = (props) => {
               padding="12px 0"
               bg="#A7AAAD"
               hoverColor="#ccc"
-              // color="inherit"
               fontSize="15px"
               clickEvent={() => {
                 window.location.href = '/terms'

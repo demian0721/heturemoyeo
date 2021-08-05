@@ -1,12 +1,12 @@
-//LIBRARY
+// LIBRARY
 import React from "react";
 import styled from "styled-components";
 import { css } from "styled-components";
 
-//ELEMENTS
+// ELEMENTS
 import { Grid } from "../elements/index";
 
-//COMPONENTS
+// COMPONENTS
 import Header from "../components/Header";
 
 const PostModify = () => {

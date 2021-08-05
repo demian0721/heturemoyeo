@@ -1,19 +1,19 @@
 // LIBRARY
-import React from "react";
+import React, { useState } from "react";
 import _ from "lodash";
 import { css } from "styled-components";
 
-//Elements
+// ELEMENTS
 import { Text, Title, Input, Grid, Button } from "../elements";
 
-//HISTORY
+// HISTORY
 import { history } from "../redux/configStore";
 
-//REDUX-ACTION & REACT-HOOK
+// REDUX-ACTION & REACT-HOOK
 import { userActions } from "../redux/modules/user";
 import { useDispatch } from "react-redux";
 
-//VALIDATION
+// VALIDATION
 import { idVal, pwdVal, nameVal } from "../common/validation";
 
 const SignUp = (props) => {
@@ -29,18 +29,18 @@ const SignUp = (props) => {
     dispatch(userActions.tempSave(userInfo))
     history.push("/signup/info");
   }
-  const [id, setId] = React.useState("");
-  const [pwd, setPwd] = React.useState("");
-  const [pwdCheck, setPwdCheck] = React.useState("");
-  const [idConfirm, setIdConfirm] = React.useState("");
-  const [pwdConfirm, setPwdConfirm] = React.useState("");
-  const [pwdCheckConfirm, setPwdCheckConfirm] = React.useState("");
-  const [idWarning, setIdWarColor] = React.useState("red");
-  const [pwdWarning, setPwdWarColor] = React.useState("red");
-  const [pwdCheckWarning, setPwdCheckWarColor] = React.useState("red");
-  const [name, setName] = React.useState("");
-  const [nameConfirm, setNameConfirm] = React.useState("");
-  const [nameWarning, setNameWarColor] = React.useState("red");
+  const [id, setId] = useState("");
+  const [pwd, setPwd] = useState("");
+  const [pwdCheck, setPwdCheck] = useState("");
+  const [idConfirm, setIdConfirm] = useState("");
+  const [pwdConfirm, setPwdConfirm] = useState("");
+  const [pwdCheckConfirm, setPwdCheckConfirm] = useState("");
+  const [idWarning, setIdWarColor] = useState("red");
+  const [pwdWarning, setPwdWarColor] = useState("red");
+  const [pwdCheckWarning, setPwdCheckWarColor] = useState("red");
+  const [name, setName] = useState("");
+  const [nameConfirm, setNameConfirm] = useState("");
+  const [nameWarning, setNameWarColor] = useState("red");
   const checkID = (val) => {
     if (val === "") {
       setIdWarColor("red");
@@ -115,11 +115,6 @@ const SignUp = (props) => {
     dispatch(userActions.emailCheck(id));
     setIdConfirm("");
   };
-
-  // const [check, setCheck] = React.useState(false);
-  // const onChange = (e) => {
-  //   setCheck(e.target.checked);
-  // };
 
   return (
     <React.Fragment>

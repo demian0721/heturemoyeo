@@ -1,46 +1,38 @@
 // LIBRARY
-import React from "react";
+import React, { useState, useEffect } from "react";
 import _ from "lodash";
 import { css } from "styled-components";
 
-//Elements
+// Elements
 import { Text, Title, Input, Grid, Button, Image } from "../elements";
 
-//HISTORY
+// HISTORY
 import { history } from "../redux/configStore";
 
-//REDUX-ACTION & REACT-HOOK
+// REDUX-ACTION & REACT-HOOK
 import { userActions } from "../redux/modules/user";
 import { useDispatch, useSelector } from "react-redux";
 
-//VALIDATION
+// VALIDATION
 import { nickVal } from "../common/validation";
 
 const SignupInfo = (props) => {
   const dispatch = useDispatch();
-
-  const dupState = useSelector((state) => state.user.is_check);
-
   const debounce = _.debounce((value, setValue) => setValue(value), 300);
 
-  const [nickname, setNickname] = React.useState("");
-  const [statusMessage, setStatusMessage] = React.useState("");
-  const [nicknameConfirm, setNicknameConfirm] = React.useState("");
-  const [nicknameWarning, setNicknameWarColor] = React.useState("red");
-  console.log(nickname);
-  console.log(statusMessage);
+  const [nickname, setNickname] = useState("");
+  const [statusMessage, setStatusMessage] = useState("");
+  const [nicknameConfirm, setNicknameConfirm] = useState("");
+  const [nicknameWarning, setNicknameWarColor] = useState("red");
+
+  const [likeItem, setLikeItem] = useState(["",""]);
   const tempInfo = useSelector((state) => state.user.tempInfo);
-  // const {id, pwd, name} = tempInfo;
   const id = tempInfo?.id;
   const pwd = tempInfo?.pwd;
   const name = tempInfo?.name;
   const profileImg = "";
-  const likeItem = ["",""];
 
-  console.log(tempInfo);
-
-  console.log(id, pwd, name);
-  React.useEffect(() => {
+  useEffect(() => {
     if (!tempInfo){
       history.push("/signup");
     }
@@ -62,18 +54,7 @@ const SignupInfo = (props) => {
   };
 
   const signup = () => {
-    // if (
-    //   !(
-    //     dupState &&
-    //     nicknameWarning === "green" 
-    //   )
-    // )
-    //   return window.alert(
-    //     "입력되지 않은 항목이 있습니다. 다시 확인하여 주세요."
-    //   );
-
-  userActions.signupDB(id, name, nickname, pwd, pwd, profileImg, statusMessage, likeItem); 
-
+    userActions.signupDB(id, name, nickname, pwd, pwd, profileImg, statusMessage, likeItem); 
     window.alert("회원가입이 완료되었습니다. 다시 로그인해 주세요.");
     history.push("/login");
   };
@@ -86,19 +67,6 @@ const SignupInfo = (props) => {
     dispatch(userActions.nickCheck(nickname));
     setNicknameConfirm("");
   };
-
-  // const userlist = useSelector(state => state.user)
-
-  // const [editInfo, setInfos] = React.useState({
-  //   nickname: userlist.nickname,
-  //   password: "",
-  //   newpassword: "",
-  //   confirm: "",
-  //   profileImg: userlist.profileImg,
-  //   likeItem: userlist.likeItem,
-  // });
-
-  // const writeLikeItem = (e) => {setInfos({ ...editInfo, likeItem: e.target.value.split(',')}); console.log(e.target.value)}
 
   return (
     <React.Fragment>
@@ -182,6 +150,9 @@ const SignupInfo = (props) => {
               placeholder="관심사1, 관심사2"
               padding="14px 17px"
               margin="0px 0px 30px 0px"
+              changeEvent={(e) => {
+                setLikeItem(e.target.value.split(','));
+              }}
             />
           </Grid>
           <Grid padding="5px 0px">

@@ -1,4 +1,4 @@
-//LIBRARY
+// LIBRARY
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { css } from "styled-components";
@@ -7,16 +7,16 @@ import { useDispatch } from "react-redux";
 // REDUX
 import { postActions } from "../redux/modules/post";
 
-//ELEMENTS
+// ELEMENTS
 import { Grid, Input } from "../elements/index";
 
-//TOKEN
+// TOKEN
 import { getToken } from "../common/token";
 
 // HISTORY
 import { history } from "../redux/configStore";
 
-//COMPONENTS
+// COMPONENTS
 import Header from "../components/Header";
 import Permit from "../components/Permit";
 
@@ -24,31 +24,18 @@ const PostWrite = (props) => {
   const dispatch = useDispatch();
   const [title, setTitle] = useState(null);
   const [content, setContent] = useState(null);
-  const [maxMember, setMaxMember] = useState(null);
+  const [maxMember, setMaxMember] = useState(0);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [place, setPlace] = useState(null);
   const [bring, setBring] = useState(null);
-  const [tag, setTag] = useState(null);
-  // const title_ref = React.useRef(null);
-  // const content_ref = React.useRef(null);
-  // const maxmember_ref = React.useRef(null);
-  // const starttime_ref = React.useRef(null);
-  // const endtime_ref = React.useRef(null);
-  // const place_ref = React.useRef(null);
-  // const bring_ref = React.useRef(null);
-  // const tag_ref = React.useRef(null);
+  const [tag, setTag] = useState(["",""]);
 
-  // const changeTitle = (e) => {
-  //   console.log(e.target.value);
-  //   setTitle(e.target.value);
-  // }
   const addPost = () => {
-    // console.log(title, content, maxMember, startDate, endDate, place, bring, tag);
     const post = {
       title: title,
       content: content,
-      maxMember: maxMember,
+      maxMember: parseInt(maxMember),
       startDate: startDate,
       endDate: endDate,
       place: place,
@@ -67,17 +54,7 @@ const PostWrite = (props) => {
       tag
     ) {
       dispatch(
-        postActions.addPostDB(
-          title,
-          content,
-          maxMember,
-          startDate,
-          endDate,
-          place,
-          bring,
-          tag
-        )
-      );
+        postActions.addPostDB(post));
       props.history.replace("/postlist");
     } else {
       return window.alert("각 항목은 필수 입력사항 입니다.");
@@ -144,7 +121,6 @@ const PostWrite = (props) => {
             <Input
               margin="7px 0 7px 0"
               placeholder="인원수(명)"
-              type="text"
               changeEvent={(e) => {
                 setMaxMember(e.target.value);
               }}
@@ -154,7 +130,7 @@ const PostWrite = (props) => {
             <Input
               margin="7px 0 7px 0"
               placeholder="시작시간(연도월일)"
-              type="text"
+              type="date"
               changeEvent={(e) => {
                 setStartDate(e.target.value);
               }}
@@ -164,7 +140,7 @@ const PostWrite = (props) => {
             <Input
               margin="7px 0 7px 0"
               placeholder="종료시간(연도월일)"
-              type="text"
+              type="date"
               changeEvent={(e) => {
                 setEndDate(e.target.value);
               }}

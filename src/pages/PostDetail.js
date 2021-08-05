@@ -1,15 +1,15 @@
-//LIBRARY
+// LIBRARY
 import React, { useEffect } from "react";
 import styled, { css } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 
-//Redux
+// REDUX
 import { postActions } from "../redux/modules/post";
 
-//ELEMENTS
+// ELEMENTS
 import { Button, Grid, Image, Input, Text, Title } from "../elements/index";
 
-//COMPONENTS
+// COMPONENTS
 import Header from "../components/Header";
 
 const PostDetail = (props) => {

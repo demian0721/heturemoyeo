@@ -48,20 +48,18 @@ const getPostsDB = (limit = 5) => {
 const getMorePostsDB = (limit = 5) => {
   return function (dispatch, getState) {
     const start = getState().post.start;
-
     if (start === null) return;
-
     instance
       .get(`/api/post/posts?start=${start}&limit=${limit + 1}`)
       .then((res) => {
-        if (res.data.result.length < limit + 1) {
-          dispatch(getMorePosts(res.data.result, null));
+        if (res.data.length < limit + 1) {
+          dispatch(getMorePosts(res.data, null));
           return;
         }
 
-        if (res.data.result.length >= limit + 1) res.data.result.pop();
+        if (res.data.length >= limit + 1) res.data.pop();
 
-        dispatch(getMorePosts(res.data.result, start + limit));
+        dispatch(getMorePosts(res.data, start + limit));
       })
       .catch((error) => {
         console.error(error);
@@ -148,7 +146,7 @@ const addPostDB = (post) => {
     //   }
 
     const postInfo = {
-      post,
+      ...post,
       postImg: "",
     };
 

@@ -157,7 +157,7 @@ const nickCheck = (nick) => {
 
 const signupDB = (email, name, nickname, password, confirm, profileImg, statusMessage, likeItem) => {
   instance
-    .post("/api/sign/", { email, name, nickname, password, confirm, profileImg, statusMessage, likeItem: [] })
+    .post("/api/sign/", { email, name, nickname, password, confirm, profileImg, statusMessage, likeItem })
     .then((res) => {
     })
     .catch((error) => {

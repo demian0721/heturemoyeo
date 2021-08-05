@@ -3,21 +3,16 @@ import React, { Component } from "react";
 import { css } from "styled-components";
 import "../Signup.scss";
 
-//Elements
-import { Text, Title, Input, Grid, Button, CheckBox, Toggle, Vehicles } from "../elements";
+// Elements
+import { Grid, Button, CheckBox, Toggle, Vehicles } from "../elements";
 
-//HISTORY
+// HISTORY
 import { history } from "../redux/configStore";
-
-// const API = "http://10.58.1.45:8000/user/signup";
 
 export class Terms extends Component {
   constructor() {
     super();
     this.state = {
-      // email: "@",
-      // name: "ab",
-      // password: "12345678",
       inputSign: false,
       allCheck: false,
       firstCheck: false,
@@ -54,7 +49,6 @@ export class Terms extends Component {
 
 
   render() {
-    // console.log(this.props)
     return (
       <div>
         <div style={{ paddingTop: "110px" }} />

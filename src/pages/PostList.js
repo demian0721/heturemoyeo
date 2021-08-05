@@ -1,4 +1,4 @@
-//LIBRARY
+// LIBRARY
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { css } from "styled-components";
@@ -8,13 +8,16 @@ import { useSelector, useDispatch } from "react-redux";
 // REDUX
 import { postActions } from "../redux/modules/post";
 
-//ELEMENTS
+// FUNCTION
+import InfiniteScroll from '../common/infiniteScroll';
+
+// ELEMENTS
 import { Grid, Button } from "../elements/index";
 
-//HISTORY
+// HISTORY
 import { history } from "../redux/configStore";
 
-//COMPONENTS
+// COMPONENTS
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import PostListCard from "../components/PostListCard";
@@ -26,6 +29,9 @@ const PostList = (props) => {
     dispatch(postActions.getPostsDB());
   }, []);
   const PostList = useSelector((state) => state.post.list);
+  const getMorePosts = () => {
+    dispatch(postActions.getMorePostsDB());
+  };
   return (
     <React.Fragment>
       <Grid>
@@ -67,7 +73,12 @@ const PostList = (props) => {
           <PostListButton />
 
           {PostList.map((l, index) => {
-            return <PostListCard key={l.postId} idx={index} {...l} />;
+            <InfiniteScroll
+              next={getMorePosts}
+              length={PostList.length}
+              key={l.postId} idx={index} {...l}>
+                <PostListCard key={l.postId} idx={index} {...l} />
+              </InfiniteScroll>
           })}
 
           <Grid padding="5px 0px">

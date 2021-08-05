@@ -1,4 +1,4 @@
-//LIBRARY
+// LIBRARY
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { css } from "styled-components";
@@ -8,13 +8,13 @@ import { useSelector, useDispatch } from "react-redux";
 // REDUX
 import { postActions } from "../redux/modules/post";
 
-//ELEMENTS
+// ELEMENTS
 import { Grid, Button } from "../elements/index";
 
-//HISTORY
+// HISTORY
 import { history } from "../redux/configStore";
 
-//COMPONENTS
+// COMPONENTS
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import PostListCard from "../components/PostListCard";

@@ -1,14 +1,14 @@
 // LIBRARY
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import { createBrowserHistory } from 'history';
-import { connectRouter } from 'connected-react-router';
-import thunk from 'redux-thunk';
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import { createBrowserHistory } from "history";
+import { connectRouter } from "connected-react-router";
+import thunk from "redux-thunk";
 
 // REDUCER
-import User from './modules/user';
-import Post from './modules/post';
-import Marker from './modules/marker';
-import Chat from './modules/chat'
+import User from "./modules/user";
+import Post from "./modules/post";
+import Marker from "./modules/marker";
+import Chat from "./modules/chat";
 
 // HISTORY
 export const history = createBrowserHistory();
@@ -18,13 +18,13 @@ const rootReducer = combineReducers({
     post: Post,
     marker: Marker,
     chat: Chat,
-    router: connectRouter(history)
+    router: connectRouter(history),
 });
 
 const middlewares = [thunk.withExtraArgument({ history })];
 
-if (process.env.NODE_ENV === 'development') {
-    const { logger } = require('redux-logger');
+if (process.env.NODE_ENV === "development") {
+    const { logger } = require("redux-logger");
     middlewares.push(logger);
 }
 

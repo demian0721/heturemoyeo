@@ -57,8 +57,7 @@ const getMoreChatDB = (postId, limit = 5) => {
       .get(`/api/room/${postId}?start=${start}&limit=${limit + 1}`)
       .then((res) => {
         if (res.data.result.length < limit + 1) {
-          dispatch(getMoreChat(res.data.result, null));
-          return;
+          return dispatch(getMoreChat(res.data.result, null));
         }
 
         if (res.data.result.length >= limit + 1) res.data.result.pop();
@@ -76,7 +75,7 @@ const sendChatDB = (postId, message) => {
     instance
       .post("/api/room/chat", { postId, message })
       .then((res) => {
-        console.log(res)
+        console.log(res);
         dispatch(sendChat(res.data));
       })
       .catch((error) => {

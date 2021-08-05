@@ -40,8 +40,7 @@ const Main = (props) => {
 
   const markerImageObj = {
     me: "https://cdn.discordapp.com/emojis/636204464809836546.png?v=1",
-    sameSchedule:
-      "https://cdn.discordapp.com/emojis/636204456345862204.png?v=1",
+    sameSchedule: "https://cdn.discordapp.com/emojis/636204456345862204.png?v=1",
     friend: "https://cdn.discordapp.com/emojis/686639764023017501.png?v=1",
     anonymous: "https://cdn.discordapp.com/emojis/686639764023017501.png?v=1",
   };
@@ -285,8 +284,8 @@ const Main = (props) => {
     socket.on("userLocation", userLocationListener);
     return () => {
       console.log("clearing socket.io events...");
-      socket.removeEventListener("userLocation", userLocationListener);
-      socket.off("userLocation", userLocationListener);
+      socket.removeAllListeners();
+      // socket.disconnect()
     };
   }, [myFriends, mySchedules, geolocationMarker]);
 
@@ -335,7 +334,6 @@ const Main = (props) => {
             >
               <div ref={ref} className="container mx-auto px-4">
                 <div id="overlay--author__status" className="block">
-                  {/* API UserData 요청 시, Rating 값 불러오기 */}
                   <UserOverlay
                     isOpen={isOpen}
                     // isMe={userData?.isMe}
@@ -346,7 +344,7 @@ const Main = (props) => {
                     userSchedule={userData?.scheduleTitle}
                     profileImage={
                       userData?.profileImg ??
-                      "https://cdn.discordapp.com/attachments/869177664479567903/871045228159705088/profileBlank.png"
+                      "/assets/unknownProfile.jpg"
                     }
                     scheduleCount={userData?.scheduleCount}
                     userRating={userData?.rating}

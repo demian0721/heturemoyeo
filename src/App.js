@@ -1,7 +1,7 @@
 // LIBRARY
 import React, { useEffect } from "react";
 import { ConnectedRouter } from "connected-react-router";
-import { Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // HISTORY
 import { history } from "./redux/configStore";
@@ -69,6 +69,14 @@ function App() {
           <Route path="/signup/info" exact component={SignupInfo} />
           <Route path="/mypage" exact component={Mypage} />
           <Route path="/mypageedit" exact component={MypageEdit} />
+          <Route path="/profile:userid" exact component={MProfile} />
+          <Route path="/postlist" exact component={PostList} />
+          <Route path="/postlist/my" exact component={PostListMy} />
+          <Route path="/postdetail:postid" exact component={PostDetail} />
+          <Route path="/postwrite" exact component={PostWrite} />
+          <Route path="/postmodify" exact component={PostModify} />
+          <Route path="/chat" exact component={ChatList} />
+          <Route path="/chat/:id" exact component={ChatRoom} />
         </Switch>
       </Router> */}
       <ConnectedRouter history={history}>
@@ -87,7 +95,6 @@ function App() {
         <Route path="/postmodify" exact component={PostModify} />
         <Route path="/chat" exact component={ChatList} />
         <Route path="/chat/:id" exact component={ChatRoom} />
-        {/* <Route component={NotFound} /> */}
       </ConnectedRouter>
     </>
   );

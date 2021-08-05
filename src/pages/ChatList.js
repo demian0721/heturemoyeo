@@ -33,17 +33,19 @@ const ChatList = () => {
       const result = rooms.filter((el) => el.postId !== data.postId);
       setRooms(result);
     });
+    io.on("disconnect", (socket) =>
+      console.log(`Disconnected to Socket.io Server (Reason: ${socket})`)
+    );
     return () => {
       console.log("Disconnecting to Socket.io server...");
-      io.close();
+      io.removeAllListeners()
+      io.disconnect();
     };
   }, []);
 
   const formattedDate = (date) => {
     const getDate = new Date(date);
-    return `${getDate.getFullYear()}-${
-      getDate.getMonth() + 1
-    }-${getDate.getDay()}`;
+    return `${getDate.getFullYear()}-${getDate.getMonth() + 1}-${getDate.getDay()}`;
   };
 
   const inChatRoom = (roomId) => {
@@ -71,7 +73,7 @@ const ChatList = () => {
                       textAlign: "center",
                       backgroundImage: `url('${
                         el?.postImg ??
-                        "https://lh3.googleusercontent.com/proxy/eEQz3m4RTQhIj3tawrV334LukJhzk0-_W7JF-jIfVk6n8Wq1eoHZmhbNyfWVTZKGmr7JFFb1bxpfqPZ1iKslJKomvT2Swsb0fFohbdYINeFSw2afJ3X-7t3oTaDC9KtNLlE"
+                        "/assets/unknownChatRoomImg.gif"
                       }')`,
                       backgroundSize: "cover",
                       backgroundRepeat: "no-repeat",
@@ -114,9 +116,9 @@ const ChatList = () => {
           </div>
         )}
       </div>
-      {/* <Grid className='block'>
+      <Grid className='block'>
         <Footer />
-      </Grid> */}
+      </Grid>
     </Fragment>
   );
 };

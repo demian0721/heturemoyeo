@@ -33,7 +33,6 @@ import {
   ChatList,
   MProfile,
   ChatRoom,
-  ChatRoomProto,
 } from "./pages/index";
 
 function App() {

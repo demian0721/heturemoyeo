@@ -1,6 +1,6 @@
 /* global kakao */
 // LIBRARY
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, Fragment } from "react";
 import _ from "lodash";
 import { Transition } from "@headlessui/react";
 import { geolocated, geoPropTypes } from "react-geolocated";
@@ -40,7 +40,8 @@ const Main = (props) => {
 
   const markerImageObj = {
     me: "https://cdn.discordapp.com/emojis/636204464809836546.png?v=1",
-    sameSchedule: "https://cdn.discordapp.com/emojis/636204456345862204.png?v=1",
+    sameSchedule:
+      "https://cdn.discordapp.com/emojis/636204456345862204.png?v=1",
     friend: "https://cdn.discordapp.com/emojis/686639764023017501.png?v=1",
     anonymous: "https://cdn.discordapp.com/emojis/686639764023017501.png?v=1",
   };
@@ -290,12 +291,10 @@ const Main = (props) => {
   }, [myFriends, mySchedules, geolocationMarker]);
 
   return (
-    <>
+    <Fragment>
       {sessionStorage.token && (
         <>
-          <Grid>
-            <Header />
-          </Grid>
+          <Header />
           <div className="container">
             <div
               className="absolute left-0 right-0 inline-flex"
@@ -374,12 +373,10 @@ const Main = (props) => {
               <MyLocationIcon />
             </Button>
           </Grid>
-          <Grid>
-            <Footer />
-          </Grid>
+          <Footer />
         </>
       )}
-    </>
+    </Fragment>
   );
 };
 

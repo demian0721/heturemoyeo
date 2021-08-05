@@ -107,16 +107,7 @@ const getMyPostsDB = (limit = 5) => {
   };
 };
 
-const addPostDB = (
-  title,
-  content,
-  maxMember,
-  startDate,
-  endDate,
-  place,
-  bring,
-  tag
-) => {
+const addPostDB = (post) => {
   return function (dispatch, getState, { history }) {
     //   const imgFile = getState().image.file;
 
@@ -157,14 +148,7 @@ const addPostDB = (
     //   }
 
     const postInfo = {
-      title,
-      content,
-      maxMember,
-      startDate,
-      endDate,
-      place,
-      bring,
-      tag,
+      post,
       postImg: "",
     };
 

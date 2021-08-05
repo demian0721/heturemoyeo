@@ -45,20 +45,20 @@ const PostWrite = (props) => {
   // }
   const addPost = () => {
     // console.log(title, content, maxMember, startDate, endDate, place, bring, tag);
-    // const post = {
-    //   title: title_ref.current.value,
-    //   content: content_ref.current.value,
-    //   maxMember: maxmember_ref.current.value,
-    //   startDate: starttime_ref.current.value,
-    //   endDate: endtime_ref.current.value,
-    //   place: place_ref.current.value,
-    //   bring: bring_ref.current.value,
-    //   tag: tag_ref.current.value,
-    // };
+    const post = {
+      title: title,
+      content: content,
+      maxMember: maxMember,
+      startDate: startDate,
+      endDate: endDate,
+      place: place,
+      bring: bring,
+      tag: tag,
+    };
 
     if (
       title && content && maxMember && startDate && endDate && place && bring && tag
-  ) {dispatch(postActions.addPostDB(title, content, maxMember, startDate, endDate, place, bring, tag));
+  ) {dispatch(postActions.addPostDB(post));
     props.history.replace('/postlist');}
     else {return window.alert('각 항목은 필수 입력사항 입니다.') }  
   };
@@ -133,7 +133,7 @@ const PostWrite = (props) => {
                 <Input
                   margin="7px 0 7px 0"
                   placeholder="시작시간(연도월일)"
-                  type="text"
+                  type="date"
                   changeEvent={(e) => {
                     setStartDate(e.target.value);
                   }}
@@ -143,7 +143,7 @@ const PostWrite = (props) => {
                 <Input
                   margin="7px 0 7px 0"
                   placeholder="종료시간(연도월일)"
-                  type="text"
+                  type="date"
                   changeEvent={(e) => {
                     setEndDate(e.target.value);
                   }}

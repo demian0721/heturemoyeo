@@ -16,7 +16,7 @@ const Footer = () => {
     
     return (
       <React.Fragment>
-        <Grid is_flex="center" width="100%" minWidth="280px" height="77px" bg="skyblue"
+        <Grid is_flex="center" width="100%" minWidth="280px" height="77px" bg="#5ac09d"
         style={{position:"fixed", bottom:"0", zIndex:"2"}}>
             <Text hoverWeight='bold' margin="auto"
             clickEvent={() => { history.push('/'); }}

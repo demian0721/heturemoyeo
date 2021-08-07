@@ -18,7 +18,6 @@ import { history } from "../redux/configStore";
 // COMPONENTS
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import PostListCard from "../components/PostListCard";
 import PostListButton from "../components/PostListButton";
 
 const PostList = (props) => {

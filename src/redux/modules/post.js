@@ -79,7 +79,6 @@ const postDetailInfo = (postId) => {
         },
       })
       .then((res) => {
-        console.log(res);
         dispatch(postDetail(res.data));
       })
       .catch((error) => {

@@ -1,6 +1,5 @@
 // LIBRARY
 import React, { useEffect } from "react";
-import styled, { css } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 
 // REDUX
@@ -10,7 +9,7 @@ import { postActions } from "../redux/modules/post";
 import { history } from "../redux/configStore";
 
 // ELEMENTS
-import { Button, Grid, Image, Input, Text, Title } from "../elements/index";
+import { Grid, Text } from "../elements/index";
 
 // COMPONENTS
 import Header from "../components/Header";

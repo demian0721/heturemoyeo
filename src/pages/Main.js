@@ -7,7 +7,6 @@ import { geolocated, geoPropTypes } from "react-geolocated";
 import { useSelector, useDispatch } from "react-redux";
 
 // REDUX
-import { userActions } from "../redux/modules/user";
 import { markerActions } from "../redux/modules/marker";
 
 // COMMON

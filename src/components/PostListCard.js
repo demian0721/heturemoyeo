@@ -1,8 +1,6 @@
 // LIBRARY
-import { CallReceived } from "@material-ui/icons";
 import React from "react";
 import styled from "styled-components";
-import { css } from "styled-components";
 
 // ELEMENTS
 import { Grid, Text } from "../elements/index";

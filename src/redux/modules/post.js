@@ -1,9 +1,6 @@
 // AXIOS
 import instance from "../../common/axios";
 
-// REDUX-ACTIONS & IMMER
-import { createAction, handleActions } from "redux-actions";
-
 // ACTION
 const GET_POST = "GET_POST";
 const GET_MORE_POST = "GET_MORE_POST";
@@ -18,11 +15,7 @@ const getPosts = (posts, start) => ({ type: GET_POST, posts, start });
 const getMorePosts = (posts, start) => ({ type: GET_MORE_POST, posts, start });
 const postDetail = (postDetail) => ({ type: POST_DETAIL, postDetail });
 const getMyPosts = (posts, start) => ({ type: GET_MY_POST, posts, start });
-const getMoreMyPosts = (posts, start) => ({
-  type: GET_MORE_MY_POST,
-  posts,
-  start,
-});
+const getMoreMyPosts = (posts, start) => ({ type: GET_MORE_MY_POST, posts, start, });
 const addPost = (post) => ({ type: ADD_POST, post });
 const deletePost = (postId) => ({ type: POST_DELETE, postId });
 

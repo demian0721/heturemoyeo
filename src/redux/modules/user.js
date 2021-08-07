@@ -18,6 +18,7 @@ const CHECK_DUP_NICKNAME = "CHECK_DUP_NICKNAME";
 const TEMP_SAVE = "TEMP_SAVE";
 const EDIT_INFO = "EDIT_INFO";
 const EDIT_STATUS = "EDIT_STATUS";
+const REQUEST_FRIEND = "REQUEST_FRIEND";
 
 // ACTION CREATORS
 const myInfo = createAction(MY_INFO, (userInfo) => ({ userInfo }));
@@ -29,6 +30,7 @@ const checkDupNick = createAction(CHECK_DUP_NICKNAME, (is_check_nickname) => ({ 
 const tempSave = createAction(TEMP_SAVE, (tempInfo) => ({ tempInfo }));
 const editInfo = createAction(EDIT_INFO, (editInfo) => ({ editInfo }));
 const editStatus = createAction(EDIT_STATUS, (editStatus) => ({ editStatus }));
+const requestFriend = createAction(REQUEST_FRIEND, (requestFriend) => ({ requestFriend }));
 
 // INITIAL STATE
 const initialState = {
@@ -82,6 +84,20 @@ const editStatusMsg = (doc) => {
       })
       .catch((error) => {
         console.error(error, "에러");
+      });
+  };
+};
+
+const requestFriends = (doc) => {
+  return function () {
+    instance
+      .post("/api/friend/", doc)
+      .then((res) => {
+        window.alert('친구 신청이 완료되었습니다');
+      })
+      .catch((error) => {
+        console.error(error);
+        window.alert("오류 발생.");
       });
   };
 };
@@ -225,10 +241,15 @@ export default handleActions(
         draft.likeItem = action.payload.infos.likeItem;
       }),
 
-    [EDIT_INFO]: (state, action) =>
+    [EDIT_STATUS]: (state, action) =>
       produce(state, (draft) => {
         draft.statusMessage = action.payload.statusMessage;
       }),
+
+    [REQUEST_FRIEND]: (state, action) =>
+    produce(state, (draft) => {
+      draft.userId = action.payload.userId;
+    }),
   },
   initialState
 );
@@ -248,6 +269,7 @@ const userActions = {
   editInfos,
   editStatusMsg,
   editStatus,
+  requestFriends,
 };
 
 export { userActions };

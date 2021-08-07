@@ -1,5 +1,5 @@
 //Library
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from "styled-components";
 
 //Elements
@@ -8,8 +8,10 @@ import { AddButton, Button, Dropdown, Grid, Image, Input, Text, Title } from "..
 //History
 import { history } from "../redux/configStore";
 import { useSelector, useDispatch } from 'react-redux';
+import { getToken } from '../common/token';
 
 //DB
+import { markerActions } from '../redux/modules/marker';
 import { userActions } from '../redux/modules/user';
 
 //Components
@@ -17,9 +19,17 @@ import Footer from "../components/Footer";
 
 //임포트 사용 항목 외 삭제요망
 
-const Profile = () => {
+const Profile = (props) => {
+    const userId = props.userId
     const dispatch = useDispatch();
-    
+    useEffect(() => { dispatch(markerActions.targetPostDB(userId)) }, []); //{userId}
+    useEffect(() => { if (!getToken()) { history.replace('/login'); } }, []);
+    const userlist = useSelector(state => state.marker)
+    const requestFriends = () => {
+      dispatch(userActions.requestFriends({"userId":userId}));
+      console.log({"userId":userId})
+    }
+
     return (
         <Style>
       <Grid width="50vw" height="100%" maxWidth="500px" minWidth="250px" margin="auto" style={{}}>
@@ -28,19 +38,19 @@ const Profile = () => {
             <Image src="https://i.imgur.com/ViFAD8Z.png"/>
         </Grid>
         <div style={{ alignItems: "center" }}>
-          <Button width="100%" padding="10px" margin="5px auto" display="block" style={{ minWidth: "100px" }}>닉네임</Button>
-          <Button width="100%" padding="10px" margin="5px auto" display="block" style={{ minWidth: "100px" }}>상태메세지</Button>
+          <Button width="100%" padding="10px" margin="5px auto" display="block" style={{ minWidth: "100px" }}>{userlist.nickname}</Button>
+          <Button width="100%" padding="10px" margin="5px auto" display="block" style={{ minWidth: "100px" }}>{userlist.statusMessage}</Button>
           <Button width="100%" padding="10px" margin="5px auto" display="block" hoverColor="false" hoverBg="false" style={{ minWidth: "100px" }}>
-            {/* <div style={{ display: "flex", justifyContent: "center" }}>
-              {userlist.likeItem?.map((l) => {
-                return <div style={{ margin: "0px 5px", backgroundColor: "#0055FF", color: "white", borderRadius: "5px", padding: "5px" }}>{l}</div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              {userlist.likeItem?.map((l,index) => {
+                let idx=index
+                return <div key={idx} style={{ margin: "0px 5px", backgroundColor: "#0055FF", color: "white", borderRadius: "5px", padding: "5px" }}>{l}</div>
               })}
-            </div> */}
+            </div>
           </Button>
-          <Button width="100%" padding="10px" margin="15px auto" display="block" style={{ minWidth: "100px" }} clickEvent={() => {
-            dispatch(userActions.logOut());
-            window.location.href = '/login'
-          }}>친구추가</Button>
+
+          { userlist.isFriend ? null : <Button width="100%" padding="10px" margin="15px auto" display="block" style={{ minWidth: "100px" }} onClick={requestFriends}>친구추가</Button> }
+          
         </div>
       </Grid>
 

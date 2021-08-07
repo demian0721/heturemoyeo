@@ -7,6 +7,9 @@ import { useSelector, useDispatch } from "react-redux";
 //ELEMENTS
 import {Grid, Image,Text, Title } from "../elements/index";
 
+// HISTORY
+import { history } from "../redux/configStore";
+
 const Details = (props) => {
 
   const postDetails = props.Details
@@ -93,12 +96,18 @@ const Details = (props) => {
         })}
       </div>
     </PostCard>
-    <PostCard>
-      <Title fontSize="small">대화방(참가 인원수)참여</Title>
-      <Text color="black" margin="0px 10px" fontSize="smaller">
-        {postDetails.currentMember}명
-      </Text>
-    </PostCard>
+    <Grid is_flex style={{justifyContent:"space-between"}}>
+      <button style={{width:"40%", backgroundColor:"#a7aaad"}} onClick={() => {history.push("/chat/"+props.postId);}}>
+        <Title fontSize="small">대화방 참여</Title>
+        <Text color="black" margin="0px 10px" fontSize="smaller">
+          {postDetails.currentMember}명
+        </Text>
+      </button>
+      <button style={{width:"40%", backgroundColor:"#a7aaad", height:"35px"}}  onClick={() => {history.push("/postlist");}}>
+        <Title fontSize="small">닫기</Title>
+      </button>
+    </Grid>
+    
   </Grid>
   );
 };

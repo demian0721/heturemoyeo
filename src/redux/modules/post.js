@@ -10,7 +10,7 @@ const GET_MORE_POST = "GET_MORE_POST";
 const POST_DETAIL = "POST_DETAIL";
 const GET_MY_POST = "GET_MY_POST";
 const ADD_POST = "ADD_POST";
-const DELETE_POST = "DELETE_POST"
+const POST_DELETE = "POST_DELETE"
 
 // ACTION CREATOR
 const getPosts = (posts, start) => ({ type: GET_POST, posts, start });
@@ -18,7 +18,7 @@ const getMorePosts = (posts, start) => ({ type: GET_MORE_POST, posts, start });
 const postDetail = (postDetail) => ({ type: POST_DETAIL, postDetail });
 const getMyPosts = (posts, start) => ({ type: GET_MY_POST, posts, start });
 const addPost = (post) => ({ type: ADD_POST, post });
-const deletePost = (post) => ({ type: ADD_POST, post });
+const deletePost = (postId) => ({ type: POST_DELETE, postId });
 
 // INITIAL STATE
 const initialState = {
@@ -89,15 +89,16 @@ const postDetailInfo = (postId) => {
 };
 
 const deleteAPost = (postId) => {
-  return function () {
+  return function (dispatch) {
     instance
-      .delete("/api/post", postId)
+      .delete("/api/post",{ data: { postId } })
       .then((res) => {
+        dispatch(deletePost(postId));
         window.alert('모임구인이 삭제되었습니다');
       })
       .catch((error) => {
         console.error(error);
-        window.alert("오류 발생.");
+        window.alert(error.errorMessage);
       });
   };
 };

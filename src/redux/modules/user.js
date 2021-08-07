@@ -97,7 +97,7 @@ const requestFriends = (doc) => {
       })
       .catch((error) => {
         console.error(error);
-        window.alert("오류 발생.");
+        window.alert(error.errorMessage);
       });
   };
 };

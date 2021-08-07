@@ -26,7 +26,7 @@ const PostDetail = (props) => {
   const is_loaded = useSelector((state)=>state.post.is_loaded);
 
   const deletepost = () => {
-    dispatch(postActions.deleteAPost({"postId":postId}));
+    dispatch(postActions.deleteAPost(postId));
     console.log({"postId":postId})
   }
 
@@ -41,7 +41,7 @@ const PostDetail = (props) => {
       
 
       <Grid width="360px" margin="50px auto">
-        {!is_loaded ? null : <Details Details={postDetails} key={postId} postId={postId}/>}
+        {!is_loaded ? <Details Details={postDetails} key={postId} postId={postId}/> : null}
       </Grid>
     </React.Fragment>
   );

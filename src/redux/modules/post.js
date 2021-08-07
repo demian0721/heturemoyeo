@@ -11,14 +11,18 @@ const POST_DETAIL = "POST_DETAIL";
 const GET_MY_POST = "GET_MY_POST";
 const GET_MORE_MY_POST = "GET_MORE_MY_POST";
 const ADD_POST = "ADD_POST";
-const POST_DELETE = "POST_DELETE"
+const POST_DELETE = "POST_DELETE";
 
 // ACTION CREATOR
 const getPosts = (posts, start) => ({ type: GET_POST, posts, start });
 const getMorePosts = (posts, start) => ({ type: GET_MORE_POST, posts, start });
 const postDetail = (postDetail) => ({ type: POST_DETAIL, postDetail });
 const getMyPosts = (posts, start) => ({ type: GET_MY_POST, posts, start });
-const getMoreMyPosts = (posts, start) => ({ type: GET_MORE_MY_POST, posts, start });
+const getMoreMyPosts = (posts, start) => ({
+  type: GET_MORE_MY_POST,
+  posts,
+  start,
+});
 const addPost = (post) => ({ type: ADD_POST, post });
 const deletePost = (postId) => ({ type: POST_DELETE, postId });
 
@@ -27,7 +31,6 @@ const initialState = {
   list: [],
   post: null,
   start: 0,
-  is_loaded: false,
 };
 
 // MIDDLEWARE
@@ -94,10 +97,10 @@ const postDetailInfo = (postId) => {
 const deleteAPost = (postId) => {
   return function (dispatch) {
     instance
-      .delete("/api/post",{ data: { postId } })
+      .delete("/api/post", { data: { postId } })
       .then((res) => {
         dispatch(deletePost(postId));
-        window.alert('모임구인이 삭제되었습니다');
+        window.alert("모임구인이 삭제되었습니다");
       })
       .catch((error) => {
         console.error(error);
@@ -148,10 +151,8 @@ const getMoreMyPostsDB = (limit = 7) => {
   };
 };
 
-
 const addPostDB = (post) => {
   return function (dispatch, getState, { history }) {
-    
     const postInfo = {
       ...post,
       postImg: null,

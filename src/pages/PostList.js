@@ -1,7 +1,5 @@
 // LIBRARY
 import React, { useEffect } from "react";
-import styled from "styled-components";
-import { css } from "styled-components";
 import TodayIcon from "@material-ui/icons/Today";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -9,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { postActions } from "../redux/modules/post";
 
 // FUNCTION
-// import InfiniteScroll from '../common/infiniteScroll';
+import InfiniteScroll from '../common/infiniteScroll';
 
 // ELEMENTS
 import { Grid, Button } from "../elements/index";
@@ -25,41 +23,25 @@ import PostListButton from "../components/PostListButton";
 
 const PostList = (props) => {
   const dispatch = useDispatch();
+  const PostList = useSelector((state) => state.post.list);
+
   useEffect(() => {
     dispatch(postActions.getPostsDB());
+
+    return () => {
+      dispatch(postActions.getPosts([],0));
+    };
   }, []);
-  const PostList = useSelector((state) => state.post.list);
-  // const getMorePosts = () => {
-  //   dispatch(postActions.getMorePostsDB());
-  // };
+  console.log(PostList)
   return (
     <React.Fragment>
       <Grid>
         <Header />
       </Grid>
 
-      <Grid
-        width="360px"
-        margin="50px auto"
-        // padding="55px 40px 100.2px"
-        // shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-        tabletStyle={() => {
-          return css`
-            width: 95%;
-          `;
-        }}
-        mobileStyle={() => {
-          return css`
-            padding: 15px 20px;
-            width: 100%;
-          `;
-        }}
-      >
+      <Grid width="360px" margin="50px auto">
         <Grid padding="18px" bg="#EFEFEF">
-          <Grid
-            padding="8px 8px"
-            is_flex
-            bg="white"
+          <Grid is_flex padding="8px 8px" bg="white"
             style={{
               border: "1px solid #ccc",
               justifyContent: "space-between",
@@ -69,17 +51,9 @@ const PostList = (props) => {
             <input placeholder="제목, 내용, 태그 또는 날짜" />
             <TodayIcon color="action" />
           </Grid>
-
           <PostListButton />
-
-          {PostList.map((l, index) => {
-            // <InfiniteScroll
-            //   next={getMorePosts}
-            //   length={PostList.length}
-            //   key={l.postId} idx={index} {...l}>
-                return <PostListCard key={l.postId} idx={index} {...l} />
-              // </InfiniteScroll>
-          })}
+          
+          <InfiniteScroll postList={PostList} page="PostList" />
 
           <Grid padding="5px 0px">
             <Button

@@ -11,6 +11,7 @@ import { Grid, Text } from "../elements/index";
 import { history } from "../redux/configStore";
 
 const PostListCard = (props) => {
+  console.log(props)
   return (
       <PostCard
       onClick={() => {

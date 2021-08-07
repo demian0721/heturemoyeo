@@ -38,14 +38,16 @@ const ChatList = () => {
     );
     return () => {
       console.log("Disconnecting to Socket.io server...");
-      io.removeAllListeners()
+      io.removeAllListeners();
       io.disconnect();
     };
   }, []);
 
   const formattedDate = (date) => {
     const getDate = new Date(date);
-    return `${getDate.getFullYear()}-${getDate.getMonth() + 1}-${getDate.getDay()}`;
+    return `${getDate.getFullYear()}-${
+      getDate.getMonth() + 1
+    }-${getDate.getDay()}`;
   };
 
   const inChatRoom = (roomId) => {
@@ -72,8 +74,7 @@ const ChatList = () => {
                     style={{
                       textAlign: "center",
                       backgroundImage: `url('${
-                        el?.postImg ??
-                        "/assets/unknownChatRoomImg.gif"
+                        el.postImg ?? "/assets/unknownChatRoomImg.gif"
                       }')`,
                       backgroundSize: "cover",
                       backgroundRepeat: "no-repeat",
@@ -116,7 +117,7 @@ const ChatList = () => {
           </div>
         )}
       </div>
-      <Grid className='block'>
+      <Grid className="block">
         <Footer />
       </Grid>
     </Fragment>

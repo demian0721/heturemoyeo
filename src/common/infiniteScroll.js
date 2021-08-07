@@ -8,7 +8,10 @@ import { postActions } from '../redux/modules/post';
 // ELEMENTS
 import { Grid } from '../elements'
 
-const InfiniteScroll = ({ PostList, page }) => {
+// CONPONENTS
+import PostListCard from "../components/PostListCard";
+
+const InfiniteScroll = ({ postList, page, postId }) => {
     const dispatch = useDispatch();
 
     const [target, setTarget] = useState(null);
@@ -19,7 +22,7 @@ const InfiniteScroll = ({ PostList, page }) => {
         const infiniteScroll = ([entries], observer) => {
             if (entries.isIntersecting) {
                 new Promise((resolve) => {
-                    if (page === 'Home') resolve(dispatch(postActions.getMorePostsDB()));
+                    if (page === 'PostList') resolve(dispatch(postActions.getMorePostsDB()));
                 }).then((res) => {
                     observer.unobserve(entries.target);
                 });
@@ -34,6 +37,17 @@ const InfiniteScroll = ({ PostList, page }) => {
 
     return (
         <Grid>
+            {postList.map((post, idx)=>{
+                const isLast = idx === postList.length -1;
+
+                if (post.postId === parseInt(postId)) return null;
+
+                return (
+                    <div ref={isLast ? setTarget : null} key={post.postId}>
+                        <PostListCard post={post} />
+                    </div>
+                );
+            })}
         </Grid>
     );
 };

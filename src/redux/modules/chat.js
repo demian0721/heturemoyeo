@@ -25,7 +25,7 @@ const initialState = {
 };
 
 // MIDDLEWARE
-const getChatDB = (postId, limit = 5) => {
+const getChatDB = (postId, limit = 20) => {
   return function (dispatch) {
     instance
       .get(`/api/room/${postId}?start=0&limit=${limit}`)
@@ -47,7 +47,7 @@ const getChatDB = (postId, limit = 5) => {
   };
 };
 
-const getMoreChatDB = (postId, limit = 5) => {
+const getMoreChatDB = (postId, limit = 20) => {
   return function (dispatch, getState) {
     const start = getState().post.start;
 

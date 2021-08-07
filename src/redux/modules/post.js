@@ -25,6 +25,7 @@ const deletePost = (postId) => ({ type: POST_DELETE, postId });
 // INITIAL STATE
 const initialState = {
   list: [],
+  post: null,
   start: 0,
   is_loaded: false,
 };

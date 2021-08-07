@@ -25,12 +25,10 @@ const PostDetail = (props) => {
   }, []);
 
   const postDetails = useSelector((state) => state.post.postDetail);
-  console.log(`PostDetails: ${JSON.stringify(postDetails)}`);
   const is_loaded = useSelector((state) => state.post.is_loaded);
 
   const deletepost = () => {
     dispatch(postActions.deleteAPost(postId));
-    console.log({ postId: postId });
   };
 
   return (
@@ -61,9 +59,9 @@ const PostDetail = (props) => {
       </Grid>
 
       <Grid width="360px" margin="50px auto">
-        {!is_loaded ? (
-          <Details Details={postDetails} key={postId} postId={postId} />
-        ) : null}
+        {is_loaded && (
+          <Details Details={postDetails} postId={postId} />
+        )}
       </Grid>
     </React.Fragment>
   );

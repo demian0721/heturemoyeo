@@ -79,9 +79,10 @@ const Details = (props) => {
           justifyContent: "center",
         }}
       >
-        {postDetails?.tag?.map((l) => {
+        {postDetails?.tag?.map((l, index) => {
           return (
             <div
+              key={index}
               style={{
                 margin: "0px 5px",
                 backgroundColor: "#0055FF",

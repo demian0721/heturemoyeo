@@ -19,55 +19,55 @@ const Details = (props) => {
     <PostCard>
       <Title fontSize="small">제목</Title>
       <Text color="black" margin="0px 10px" fontSize="smaller">
-        {postDetails.title}
+        {postDetails?.title}
       </Text>
     </PostCard>
     <PostCard>
       <Grid name="groupImg" width="80px" height="80px" bg="white">
-        <Image src={postDetails.postImg} />
+        <Image src={postDetails?.postImg} />
       </Grid>
       <Grid width="60%" margin="0px 10px">
         <Title fontSize="small">방장 프로필</Title>
         <Text color="black" fontSize="smaller">
-          [{postDetails.nickname}, {postDetails.statusMessage},{" "}
-          {postDetails.rating}]
+          [{postDetails?.nickname}, {postDetails?.statusMessage},{" "}
+          {postDetails?.rating}]
         </Text>
       </Grid>
     </PostCard>
     <PostCard>
       <Title fontSize="small">내용</Title>
       <Text color="black" margin="0px 10px" fontSize="smaller">
-        {postDetails.content}
+        {postDetails?.content}
       </Text>
     </PostCard>
     <PostCard>
       <Title fontSize="small">구성인원</Title>
       <Text color="black" margin="0px 10px" fontSize="smaller">
-        {postDetails.maxMember}명
+        {postDetails?.maxMember}명
       </Text>
     </PostCard>
     <PostCard>
       <Title fontSize="small">시작시간</Title>
       <Text color="black" margin="0px 10px" fontSize="smaller">
-        {postDetails.startDate}
+        {postDetails?.startDate}
       </Text>
     </PostCard>
     <PostCard>
       <Title fontSize="small">종료시간</Title>
       <Text color="black" margin="0px 10px" fontSize="smaller">
-        {postDetails.endDate}
+        {postDetails?.endDate}
       </Text>
     </PostCard>
     <PostCard>
       <Title fontSize="small">장소(한글 주소로 출력)</Title>
       <Text color="black" margin="0px 10px" fontSize="smaller">
-        {postDetails.place}
+        {postDetails?.place}
       </Text>
     </PostCard>
     <PostCard>
       <Title fontSize="small">지참금(문자로 적기)</Title>
       <Text color="black" margin="0px 10px" fontSize="smaller">
-        {postDetails.bring}
+        {postDetails?.bring}
       </Text>
     </PostCard>
     <PostCard>
@@ -79,7 +79,7 @@ const Details = (props) => {
           justifyContent: "center",
         }}
       >
-        {postDetails.tag?.map((l) => {
+        {postDetails?.tag?.map((l) => {
           return (
             <div
               style={{
@@ -100,7 +100,7 @@ const Details = (props) => {
       <button style={{width:"40%", backgroundColor:"#a7aaad"}} onClick={() => {history.push("/chat/"+props.postId);}}>
         <Title fontSize="small">대화방 참여</Title>
         <Text color="black" margin="0px 10px" fontSize="smaller">
-          {postDetails.currentMember}명
+          {postDetails?.currentMember}명
         </Text>
       </button>
       <button style={{width:"40%", backgroundColor:"#a7aaad", height:"35px"}}  onClick={() => {history.push("/postlist");}}>

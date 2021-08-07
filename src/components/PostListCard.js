@@ -11,11 +11,10 @@ import { Grid, Text } from "../elements/index";
 import { history } from "../redux/configStore";
 
 const PostListCard = (props) => {
-  console.log(props)
   return (
       <PostCard
       onClick={() => {
-        history.push("/postdetail"+props.postId);
+        history.push("/postdetail/" + props.postId);
       }} style={{width:"325px"}}>
         <Grid
           margin="5px"

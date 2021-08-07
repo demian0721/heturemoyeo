@@ -32,7 +32,7 @@ const PostList = (props) => {
       dispatch(postActions.getPosts([],0));
     };
   }, []);
-  console.log(PostList)
+  
   return (
     <React.Fragment>
       <Grid>

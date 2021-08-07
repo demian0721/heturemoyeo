@@ -44,7 +44,7 @@ const InfiniteScroll = ({ postList, page, postId }) => {
 
                 return (
                     <div ref={isLast ? setTarget : null} key={post.postId}>
-                        <PostListCard post={post} />
+                        <PostListCard {...post} />
                     </div>
                 );
             })}

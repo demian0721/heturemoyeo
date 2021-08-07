@@ -90,7 +90,7 @@ function App() {
         <Route path="/profile:userid" exact component={MProfile} />
         <Route path="/postlist" exact component={PostList} />
         <Route path="/postlist/my" exact component={PostListMy} />
-        <Route path="/postdetail:postid" exact component={PostDetail} />
+        <Route path="/postdetail/:postid" exact component={PostDetail} />
         <Route path="/postwrite" exact component={PostWrite} />
         <Route path="/postmodify" exact component={PostModify} />
         <Route path="/chat" exact component={ChatList} />

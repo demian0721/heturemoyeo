@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import styled from "styled-components";
 
 //Elements
-import { AddButton, Button, Dropdown, Grid, Image, Input, Text, Title } from "../elements/index";
+import { Button, Grid, Image } from "../elements/index";
 
 //History
 import { history } from "../redux/configStore";

@@ -40,7 +40,7 @@ Button.defaultProps = {
     fontSize: '16px',
     color: '#333333',
     padding: 10,
-    bg: '#5ac09d',
+    bg: '#16C59B',
     hoverBg: '#f3f3f3',
     hoverColor: '#000',
     borderColor: '#dddddd',

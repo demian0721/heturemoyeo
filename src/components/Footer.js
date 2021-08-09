@@ -1,4 +1,5 @@
 //Library
+import { BorderTop } from '@material-ui/icons';
 import React from 'react';
 
 //Elements
@@ -16,8 +17,8 @@ const Footer = () => {
     
     return (
       <React.Fragment>
-        <Grid is_flex="center" width="100%" minWidth="280px" height="77px" bg="#5ac09d"
-        style={{position:"fixed", bottom:"0", zIndex:"2"}}>
+        <Grid is_flex="center" width="100%" minWidth="280px" height="55px" bg="#FFF"
+        style={{position:"fixed", bottom:"0", zIndex:"2", borderTop:"1px solid black"}}>
             <Text hoverWeight='bold' margin="auto"
             clickEvent={() => { history.push('/'); }}
             style={{ cursor: "pointer" }}>홈버튼</Text>

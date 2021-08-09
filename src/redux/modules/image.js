@@ -3,7 +3,7 @@ import AWS from "aws-sdk";
 AWS.config.update({
   region: "ap-northeast-2",
   credentials: new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: "us-east-2:f3673d0d-24b5-4c1f-a740-fb5a5d35c451",
+    IdentityPoolId: "ap-northeast-2:817ba728-bce3-45cd-bae0-1e6f0bba804e",
   }),
 });
 

@@ -35,7 +35,7 @@ const PostList = (props) => {
   return (
     <React.Fragment>
       <Grid>
-        <Header />
+        <Header>모임구하기</Header>
       </Grid>
 
       <Grid width="360px" margin="50px auto">

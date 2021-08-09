@@ -18,7 +18,7 @@ const MypageEdit = () => {
 
     return (
         <React.Fragment>
-            <Header />
+            <Header>회원정보 수정</Header>
             <ProfileEdit />
             <Footer />
         </React.Fragment>

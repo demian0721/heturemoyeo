@@ -1,6 +1,9 @@
 // AXIOS
 import instance from "../../common/axios";
 
+// REDUX
+import { imgActions } from './image';
+
 // ACTION
 const GET_POST = "GET_POST";
 const GET_MORE_POST = "GET_MORE_POST";
@@ -144,22 +147,27 @@ const getMoreMyPostsDB = (limit = 7) => {
   };
 };
 
-const addPostDB = (post) => {
+const addPostDB = (image, post) => {
   return function (dispatch, getState, { history }) {
-    const postInfo = {
-      ...post,
-      postImg: null,
-    };
+    dispatch(
+      imgActions.uploadImageDB(image, () => {
+        const imgUrl = getState().image.imageUrl;
+        const postInfo = {
+          ...post,
+          postImg: imgUrl,
+        };
 
-    instance
-      .post("/api/post", { ...postInfo })
-      .then((res) => {
-        window.alert("게시글 작성이 완료되었습니다.");
-        dispatch(addPost(res.data));
+        instance
+          .post("/api/post", { ...postInfo })
+          .then((res) => {
+            window.alert("게시글 작성이 완료되었습니다.");
+            dispatch(addPost({postImg: imgUrl, postId: res.data}));
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       })
-      .catch((error) => {
-        console.error(error);
-      });
+    );
   };
 };
 

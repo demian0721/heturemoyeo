@@ -9,6 +9,7 @@ import User from "./modules/user";
 import Post from "./modules/post";
 import Marker from "./modules/marker";
 import Chat from "./modules/chat";
+import Image from "./modules/image";
 
 // HISTORY
 export const history = createBrowserHistory();
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
     post: Post,
     marker: Marker,
     chat: Chat,
+    image: Image,
     router: connectRouter(history),
 });
 

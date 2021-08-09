@@ -17,8 +17,8 @@ const Mypage = () => {
 
     return (
         <React.Fragment>
-            <Header />
-            <MyPage />
+            <Header/>
+            <MyPage title='마이페이지' />
             <Footer />
         </React.Fragment>
     );

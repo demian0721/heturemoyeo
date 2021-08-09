@@ -1,7 +1,6 @@
 // LIBRARY
 import React from "react";
-import styled from "styled-components";
-import { css } from "styled-components";
+import styled, { css } from "styled-components";
 
 // ELEMENTS
 import { Grid } from "../elements/index";

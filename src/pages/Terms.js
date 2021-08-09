@@ -97,7 +97,6 @@ export class Terms extends Component {
                         </div>
                         <div className="valueAgreement">
                           <span>
-                            동의
                             <input
                               name="firstCheck"
                               type="checkbox"
@@ -123,7 +122,6 @@ export class Terms extends Component {
                           </div>
                           <div className="valueAgreement">
                             <span>
-                              동의
                               <input
                                 name="secondCheck"
                                 type="checkbox"
@@ -151,7 +149,6 @@ export class Terms extends Component {
                           <div className="valueAgreement"
                           style={{fontWeight:""}}>
                             <span>
-                              동의
                               <input
                                 name="thirdCheck"
                                 type="checkbox"
@@ -185,15 +182,19 @@ export class Terms extends Component {
               width="100%"
               height="auto"
               padding="12px 0"
-              bg="#A7AAAD"              
-              hoverColor="#ccc"
+              bg="#16C59B"  
+              radius="5px"
+              color="#FFFFFF"            
+              hoverColor="#16C59B"
               fontSize="15px"
+              style={{ fontWeight: "bold",
+                       border: "none" }}
               clickEvent={() => {
                 history.push("/signup");
               }}
               disabled={!this.state.allCheck}
             >
-              다음
+              동의하고 가입하기
             </Button>
           </Grid>
           <Grid padding="15px 0px 5px">
@@ -201,9 +202,13 @@ export class Terms extends Component {
               width="100%"
               height="auto"
               padding="12px 0"
-              bg="#A7AAAD"
-              hoverColor="#ccc"
+              bg="#16C59B"  
+              radius="5px"
+              color="#FFFFFF"            
+              hoverColor="#16C59B"
               fontSize="15px"
+              style={{ fontWeight: "bold",
+                       border: "none" }}
               clickEvent={() => {
                 history.push("/login");
               }}

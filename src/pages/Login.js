@@ -76,8 +76,9 @@ const LogIn = (props) => {
                 borderRight: "none",
                 borderTop: "none",
                 borderBottom: "solid 2px #A7AAAD",
+                boxShadow: "none"
               }}
-              // focus {outline:"solid 2px #16C59B"}
+              // focus={outLine:"solid 2px #16C59B"}
               changeEvent={(event) => {
                 setUserInfo({ ...userInfo, email: event.target.value });
               }}
@@ -100,6 +101,7 @@ const LogIn = (props) => {
                 borderRight: "none",
                 borderTop: "none",
                 borderBottom: "solid 2px #A7AAAD",
+                boxShadow: "none"
               }}
               type="password"
               changeEvent={(event) => {

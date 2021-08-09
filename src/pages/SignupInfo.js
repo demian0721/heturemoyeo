@@ -98,13 +98,13 @@ const SignupInfo = (props) => {
                 textAlign="center">
                 회원정보 입력</Title> */}
           <Grid padding="5px 0px 8px"
-                width="10vw"
+                // width="10vw"
                 margin="auto">
           <img
             src="/assets/profile_image.png"
             style={{
-              width: "70px",
-              height: "70px",
+              width: "100px",
+              height: "100px",
               display: "block",
               margin: "auto",
             }}

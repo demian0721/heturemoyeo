@@ -14,16 +14,17 @@ const PostListCard = (props) => {
       onClick={() => {
         history.push("/postdetail/" + props.postId);
       }} style={{width:"325px"}}>
+        <PlaceImage />
         <Grid
           margin="5px"
-          width="60%"
+          width="65%"
           align="left"
         >
-          <Text fontSize="12px" fontWeight="bold" color="black" marginTop="5px">
-            제목
-            <span style={{ fontWeight: "normal", marginLeft: "10px" }}>
-              {props.title}
-            </span>
+          <Text fontSize="17px" fontWeight="bold" color="black" marginTop="5px">
+          {props.title}
+            {/* <span style={{ fontWeight: "normal", marginLeft: "10px" }}>
+              
+            </span> */}
           </Text>
           <Text fontSize="12px" fontWeight="bold" color="black" marginTop="5px">
             인원
@@ -44,7 +45,6 @@ const PostListCard = (props) => {
             </span>
           </Text>
         </Grid>
-        <PlaceImage />
       </PostCard>
   );
 };

@@ -104,7 +104,7 @@ const PostWrite = (props) => {
   return (
     <Permit>
       <Grid>
-        <Header />
+        <Header>게시글 작성</Header>
       </Grid>
 
       <Grid

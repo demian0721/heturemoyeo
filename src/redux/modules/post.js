@@ -42,7 +42,6 @@ const getPostsDB = (limit = 7) => {
         }
 
         if (res.data.length >= limit + 1) res.data.pop();
-
         dispatch(getPosts(res.data, limit));
       })
       .catch((error) => {

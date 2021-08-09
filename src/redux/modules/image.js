@@ -3,7 +3,7 @@ import AWS from "aws-sdk";
 AWS.config.update({
   region: "ap-northeast-2",
   credentials: new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: "ap-northeast-2:817ba728-bce3-45cd-bae0-1e6f0bba804e",
+    IdentityPoolId: "ap-northeast-2:42969a9d-310e-497a-8dc8-84e574d9de4f",
   }),
 });
 
@@ -33,6 +33,8 @@ const uploadImageDB = (image, callNext) => {
       params: {
         Bucket: "heturemoyeo",
         Key: image.name,
+        ACL: 'public-read',
+        ContentType: 'image/*',
         Body: image,
       },
     });

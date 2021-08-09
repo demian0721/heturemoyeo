@@ -136,13 +136,34 @@ const SignUp = (props) => {
           `;
         }}
       >
-        <Title fontSize="35px" textAlign="center" margin="30px 0px 15px 0px">
-          <span style={{ cursor: "pointer" }}>LOGO</span>
+        <Title fontSize="25px" textAlign="left" margin="50px 0px 50px 10px">
+          <span style={{ cursor: "pointer" }}>회원가입</span>
         </Title>
-        <Grid padding="16px" bg="#EFEFEF">
-          <Title fontSize="18px" margin="5px">
+        <Grid>
+          {/* <Title fontSize="18px" margin="5px">
             회원가입
-          </Title>
+          </Title> */}
+          <Grid padding="5px 0px 0px">
+            <Text
+              fontSize="12px"
+              margin="0px"
+              color={nameWarning}
+              lineHeight="2"
+              textIndent="15px"
+            >
+              {nameConfirm}
+            </Text>
+            <Input
+              placeholder="성함을 입력해주세요."
+              changeEvent={(e) => {
+                setName(e.target.value);
+              }}
+              keyUp={(event) => {
+                debounce(event.target.value, checkName);
+              }}
+              padding="14px 7px"
+            />
+          </Grid>
           <Grid padding="16px 0px 0px">
             <Text
               fontSize="12px"
@@ -163,41 +184,25 @@ const SignUp = (props) => {
               keyUp={(event) => {
                 debounce(event.target.value, checkID);
               }}
-              padding="14px 17px"
+              padding="14px 7px"
             />
             <Button
               margin="0px 0px 0px 6px"
-              width="30%"
+              width="40%"
               height="auto"
               padding="16px 0"
               fontSize="13px"
               bg="#A7AAAD"
+              color="#FFFFFF"
+              style={{ cursor: "pointer",
+                      border: "none",
+                      fontWeight: "bold" }}
               clickEvent={nickname}
             >
               중복 확인
             </Button>
           </Grid>
-          <Grid padding="5px 0px 8px">
-            <Text
-              fontSize="12px"
-              margin="0px"
-              color={nameWarning}
-              lineHeight="2"
-              textIndent="15px"
-            >
-              {nameConfirm}
-            </Text>
-            <Input
-              placeholder="성함을 입력해주세요."
-              changeEvent={(e) => {
-                setName(e.target.value);
-              }}
-              keyUp={(event) => {
-                debounce(event.target.value, checkName);
-              }}
-              padding="14px 17px"
-            />
-          </Grid>
+          
           <Grid padding="5px 0px 8px">
             <Text
               fontSize="12px"
@@ -218,7 +223,7 @@ const SignUp = (props) => {
               keyUp={(event) => {
                 debounce(event.target.value, checkPWD);
               }}
-              padding="14px 17px"
+              padding="14px 7px"
             />
           </Grid>
           <Grid padding="5px 0px 8px"
@@ -241,16 +246,22 @@ const SignUp = (props) => {
               keyUp={(event) => {
                 debounce(event.target.value, checkPWD2nd);
               }}
-              padding="14px 17px"
+              padding="14px 7px"
             />
           </Grid>
-          <Grid padding="5px 0px">
+          <Grid padding="5px 0px"
+                margin="0px 0px 50px 0px">
             <Button
               width="100%"
               height="auto"
               padding="12px 0"
-              bg="#A7AAAD"
-              hoverColor="#ccc"
+              fontSize="18px"
+              bg="#16C59B"
+              radius="5px"
+              color="#FFFFFF"
+              style={{ fontWeight: "bold",
+                       border: "none" }}
+              hoverColor="#16C59B"  
               clickEvent={signupNext}
               disabled={!id || !pwd || !name || !(pwd===pwdCheck)}
             >

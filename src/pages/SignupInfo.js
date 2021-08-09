@@ -88,19 +88,27 @@ const SignupInfo = (props) => {
           `;
         }}
       >
-        <Title fontSize="35px" textAlign="center" margin="30px 0px 15px 0px">
-        <span style={{ cursor: "pointer" }}>LOGO</span>
+        <Title fontSize="25px" textAlign="left" margin="50px 0px 50px 10px">
+        <span style={{ cursor: "pointer" }}>회원정보 입력</span>
         </Title>
-        <Grid padding="16px" bg="#EFEFEF">
-          <Title 
+        <Grid>
+          {/* <Title 
                 fontSize="18px" 
                 margin="5px"
                 textAlign="center">
-                회원정보 입력</Title>
+                회원정보 입력</Title> */}
           <Grid padding="5px 0px 8px"
                 width="10vw"
                 margin="auto">
-          <Image src="https://i.imgur.com/ViFAD8Z.png"/>
+          <img
+            src="/assets/profile_image.png"
+            style={{
+              width: "70px",
+              height: "70px",
+              display: "block",
+              margin: "auto",
+            }}
+          />
           </Grid>
           <Grid padding="16px 0px 0px">
             <Text
@@ -122,15 +130,19 @@ const SignupInfo = (props) => {
               keyUp={(event) => {
                 debounce(event.target.value, checkNickname);
               }}
-              padding="14px 17px"
+              padding="14px 7px"
             />
             <Button
               margin="0px 0px 0px 6px"
-              width="30%"
+              width="40%"
               height="auto"
               padding="16px 0"
               fontSize="13px"
               bg="#A7AAAD"
+              color="#FFFFFF"
+              style={{ cursor: "pointer",
+                      border: "none",
+                      fontWeight: "bold" }}
               clickEvent={nicknamedup}
             >
               중복 확인
@@ -139,7 +151,7 @@ const SignupInfo = (props) => {
           <Grid padding="5px 0px 8px">
             <Input
               placeholder="상태메세지를 입력해주세요."
-              padding="14px 17px"
+              padding="14px 7px"
               changeEvent={(event) => {
                 setStatusMessage(event.target.value);
               }}
@@ -147,20 +159,27 @@ const SignupInfo = (props) => {
           </Grid>
           <Grid padding="5px 0px 8px">
             <Input
-              placeholder="관심사1, 관심사2"
-              padding="14px 17px"
+              placeholder="관심사를 입력해주세요.(예시: 배드민턴)"
+              padding="14px 7px"
               margin="0px 0px 30px 0px"
               changeEvent={(e) => {
                 setLikeItem(e.target.value.split(','));
               }}
             />
           </Grid>
-          <Grid padding="5px 0px">
+          <Grid padding="5px 0px"
+                margin="0px 0px 50px 0px">
             <Button
               width="100%"
               height="auto"
               padding="12px 0"
-              bg="#A7AAAD"
+              fontSize="18px"
+              bg="#16C59B"
+              radius="5px"
+              color="#FFFFFF"
+              style={{ fontWeight: "bold",
+                       border: "none" }}
+              hoverColor="#16C59B" 
               clickEvent={signup}
               disabled={!nickname || !statusMessage}
             >

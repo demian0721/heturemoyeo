@@ -1,7 +1,7 @@
 // LIBRARY
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import _ from "lodash";
-import { css } from "styled-components";
+import styled, { css } from "styled-components";
 
 // Elements
 import { Text, Title, Input, Grid, Button, Image } from "../elements";
@@ -11,6 +11,7 @@ import { history } from "../redux/configStore";
 
 // REDUX-ACTION & REACT-HOOK
 import { userActions } from "../redux/modules/user";
+import { imgActions } from "../redux/modules/image";
 import { useDispatch, useSelector } from "react-redux";
 
 // VALIDATION
@@ -68,6 +69,25 @@ const SignupInfo = (props) => {
     setNicknameConfirm("");
   };
 
+  const fileInput = useRef();
+
+  const image = useSelector((state) => state.image);
+  const preview = !image.preview && props ? props.postImg : image.preview;
+  const [height, setHeight] = useState(preview ? "auto" : "380px");
+  const selectFile = (event) => {
+    const reader = new FileReader();
+    const file = event.target.files[0];
+
+    if (file) {
+      reader.readAsDataURL(file);
+
+      reader.onload = () => {
+        dispatch(imgActions.setPreview(reader.result));
+        setHeight("auto");
+      };
+    }
+  };
+
   return (
     <React.Fragment>
       <div style={{ paddingTop: "110px" }} />
@@ -100,7 +120,15 @@ const SignupInfo = (props) => {
           <Grid padding="5px 0px 8px"
                 // width="10vw"
                 margin="auto">
-          <img
+          <Grid
+              bg="#EFEFEF"
+              radius="10px"
+              style={{ height: `${height}`, position: "relative" }}
+            >        
+          <LabelStyle htmlFor="input--file">
+                {!preview ? (
+                  <>
+                    <img
             src="/assets/profile_image.png"
             style={{
               width: "100px",
@@ -109,6 +137,24 @@ const SignupInfo = (props) => {
               margin: "auto",
             }}
           />
+                  </>
+                ) : null}
+              </LabelStyle>
+
+              <InputFile
+                type="file"
+                id="input--file"
+                ref={fileInput}
+                accept="image/png, image/jpeg"
+                onChange={selectFile}
+              />
+
+              <Image
+                style={{ position: "absolute", left: 0, top: 0 }}
+                src={preview}
+              />        
+              </Grid>
+          
           </Grid>
           <Grid padding="16px 0px 0px">
             <Text
@@ -192,6 +238,34 @@ const SignupInfo = (props) => {
     </React.Fragment>
   );
 };
+
+const PosAbs = () => {
+  return css`
+    position: absolute;
+    top: 0;
+    left: 0;
+  `;
+};
+
+const LabelStyle = styled.label`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  font-size: 20px;
+  box-sizing: border-box;
+  ${PosAbs()};
+  z-index: 3;
+`;
+
+const InputFile = styled.input`
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  ${PosAbs()};
+`;
 
 SignupInfo.defaultProps = {};
 

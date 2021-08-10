@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 
 // REDUX
 import { postActions } from '../redux/modules/post';
+import { searchActions } from '../redux/modules/search';
 
 // ELEMENTS
 import { Grid } from '../elements'
@@ -11,7 +12,7 @@ import { Grid } from '../elements'
 // CONPONENTS
 import PostListCard from "../components/PostListCard";
 
-const InfiniteScroll = ({ postList, page, postId }) => {
+const InfiniteScroll = ({ postList, page, postId, keyword }) => {
     const dispatch = useDispatch();
 
     const [target, setTarget] = useState(null);
@@ -23,6 +24,7 @@ const InfiniteScroll = ({ postList, page, postId }) => {
             if (entries.isIntersecting) {
                 new Promise((resolve) => {
                     if (page === 'PostList') resolve(dispatch(postActions.getMorePostsDB()));
+                    if (page === 'SearchPostList') resolve(dispatch(searchActions.searchMorePostDB()));
                 }).then((res) => {
                     observer.unobserve(entries.target);
                 });

@@ -25,24 +25,61 @@ const PostListCard = (props) => {
               
             </span> */}
         </Text>
-        <Text fontSize="12px" fontWeight="bold" color="black" marginTop="5px">
-          인원
-          <span style={{ fontWeight: "normal", marginLeft: "10px" }}>
-            현재 {props.currentMember} 명/총 {props.maxMember} 명
-          </span>
-        </Text>
-        <Text fontSize="12px" fontWeight="bold" color="black" marginTop="5px">
-          날짜
-          <span style={{ fontWeight: "normal", marginLeft: "10px" }}>
+        {/* <Text fontSize="12px" fontWeight="bold" color="black" marginTop="5px"> */}
+        <ListInfo>
+        <img
+          src="/assets/postlist_card_people.png"
+          style={{
+            width: "12px",
+            height: "12px", 
+            float: "left",
+            // display: "block",
+            // margin: "auto",
+          }}
+        />
+        {/* 인원 */}
+        <span style={{ fontWeight: "normal", marginLeft: "10px", float: "left", }}>
+          현재 {props.currentMember} 명/총 {props.maxMember} 명
+        </span>
+        </ListInfo>
+        <br/>
+        {/* </Text> */}
+        <ListInfo>
+        <img
+          src="/assets/postlist_card_calendar.png"
+          style={{
+            width: "12px",
+            height: "12px", 
+            float: "left",
+            // display: "block",
+            // margin: "auto",
+          }}
+        />
+        {/* <Text fontSize="12px" fontWeight="bold" color="black" marginTop="5px"> */}
+          {/* 날짜 */}
+          <span style={{ fontWeight: "normal", marginLeft: "10px"  }}>
             {props.startDate}
           </span>
-        </Text>
-        <Text fontSize="12px" fontWeight="bold" color="black" marginTop="5px">
-          장소
-          <span style={{ fontWeight: "normal", marginLeft: "10px" }}>
+        {/* </Text> */}
+        </ListInfo>
+        <ListInfo >
+        <img
+          src="/assets/postlist_card_place.png"
+          style={{
+            width: "15px",
+            height: "15px", 
+            float: "left",
+            // display: "block",
+            // margin: "auto",
+          }}
+        />
+        {/* <Text fontSize="12px" fontWeight="bold" color="black" marginTop="5px"> */}
+          {/* 장소 */}
+          <span style={{ fontWeight: "normal", marginLeft: "8px" }}>
             {props.place}
           </span>
-        </Text>
+        {/* </Text> */}
+        </ListInfo>
       </Grid>
     </PostCard>
   );
@@ -56,7 +93,9 @@ function PlaceImageComponent(props) {
         style={{
           textAlign: "center",
           backgroundImage: `url('${
-            !props?.img || String(props.img).length === 0 ? "/assets/unknownChatRoomImg.gif" : props.img
+            !props?.img || String(props.img).length === 0
+              ? "/assets/unknownChatRoomImg.gif"
+              : props.img
           }')`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
@@ -69,7 +108,12 @@ function PlaceImageComponent(props) {
     </div>
   );
 }
-
+const ListInfo = styled.div`
+  font-size: 12px;
+  font-weight: bold;
+  color: black; 
+  margin-top: 5px;
+`;
 const PlaceImage = styled.img`
   width: 85px;
   height: 85px;

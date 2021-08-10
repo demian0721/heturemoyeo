@@ -43,27 +43,23 @@ const PostWrite = (props) => {
     endDate: postInfo ? postInfo.endDate : "",
     place: postInfo ? postInfo.place : "",
     bring: postInfo ? postInfo.bring : "",
-    tag: postInfo ? postInfo.tag : ["", ""],
+    tag: postInfo ? postInfo.tag : [],
   });
 
   const isItPossibleToAdd = () => {
     if (
-      !(
-        preview &&
-        postingContents.title &&
-        postingContents.content &&
-        postingContents.maxMember &&
-        postingContents.startDate &&
-        postingContents.endDate &&
-        postingContents.place &&
-        postingContents.bring &&
-        postingContents.tag.split(",")
-      )
-    ) {
-      return false;
-    }
-
-    return true;
+      preview &&
+      postingContents.title &&
+      postingContents.content &&
+      postingContents.maxMember &&
+      postingContents.startDate &&
+      postingContents.endDate &&
+      postingContents.place &&
+      postingContents.bring &&
+      postingContents.tag.length >= 1
+    )
+      return true;
+    return false;
   };
 
   const addPost = () => {
@@ -258,7 +254,7 @@ const PostWrite = (props) => {
               changeEvent={(e) => {
                 setPostingContents({
                   ...postingContents,
-                  tag: e.target.value,
+                  tag: String(e.target.value).includes(',') ? e.target.value.split(',') : [e.target.value],
                 });
               }}
             />

@@ -17,7 +17,7 @@ const PostListCard = (props) => {
       style={{ width: "325px" }}
       className="items-center self-center"
     >
-      <PlaceImageComponent />
+      <PlaceImageComponent img={props.postImg} />
       <Grid margin="5px" width="65%" align="left">
         <Text fontSize="17px" fontWeight="bold" color="black" marginTop="5px">
           {props.title}
@@ -48,7 +48,7 @@ const PostListCard = (props) => {
   );
 };
 
-function PlaceImageComponent(...props) {
+function PlaceImageComponent(props) {
   return (
     <div className="inline-flex items-center">
       <div
@@ -56,7 +56,7 @@ function PlaceImageComponent(...props) {
         style={{
           textAlign: "center",
           backgroundImage: `url('${
-            props?.postImg ?? "/assets/unknownChatRoomImg.gif"
+            !props?.img || String(props.img).length === 0 ? "/assets/unknownChatRoomImg.gif" : props.img
           }')`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",

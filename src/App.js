@@ -33,7 +33,12 @@ import {
   ChatList,
   MProfile,
   ChatRoom,
+<<<<<<< Updated upstream
   Setting,
+=======
+  SearchPostList,
+  SearchPostListMy
+>>>>>>> Stashed changes
 } from "./pages/index";
 
 function App() {
@@ -96,7 +101,12 @@ function App() {
         <Route path="/postmodify" exact component={PostModify} />
         <Route path="/chat" exact component={ChatList} />
         <Route path="/chat/:id" exact component={ChatRoom} />
+<<<<<<< Updated upstream
         <Route path="/setting" exact component={Setting} />
+=======
+        <Route path="/postlist/search" exact component={SearchPostList} />
+        <Route path="/postlist/search/my" exact component={SearchPostListMy} />
+>>>>>>> Stashed changes
       </ConnectedRouter>
     </>
   );

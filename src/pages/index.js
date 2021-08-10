@@ -13,7 +13,12 @@ import PostModify from "./PostModify";
 import MProfile from "./MemberProfile";
 import ChatList from "./ChatList";
 import ChatRoom from "./ChatRoom";
+<<<<<<< Updated upstream
 import Setting from "./Setting";
+=======
+import SearchPostList from "./SearchPostList";
+import SearchPostListMy from "./SearchPostListMy";
+>>>>>>> Stashed changes
 
 export {
   Main,
@@ -31,5 +36,10 @@ export {
   MProfile,
   ChatList,
   ChatRoom,
+<<<<<<< Updated upstream
   Setting,
+=======
+  SearchPostList,
+  SearchPostListMy
+>>>>>>> Stashed changes
 };

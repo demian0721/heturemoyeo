@@ -68,7 +68,10 @@ const UserOverlay = ({ children, ...props }) => {
             <div className="font-normal text-xs py-1 lg:text-sm space-x-1">
               {props.userLikeItem.map((el, index) => {
                 return (
-                  <div key={index} className="bg-indigo-300 bg-opacity-40 hover:bg-indigo-500 hover:text-white transition cursor-pointer inline-flex rounded-md px-2">
+                  <div
+                    key={index}
+                    className="tagItem transition duration-300 ease-in-out cursor-pointer inline-flex rounded-md px-2"
+                  >
                     #{el}
                   </div>
                 );

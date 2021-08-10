@@ -43,74 +43,14 @@ const ChatList = () => {
     };
   }, []);
 
-  const formattedDate = (date) => {
-    const getDate = new Date(date);
-    return `${getDate.getFullYear()}-${
-      getDate.getMonth() + 1
-    }-${getDate.getDay()}`;
-  };
-
-  const inChatRoom = (roomId) => {
-    window.location.href = `/chat/${roomId}`;
-  };
-
   return (
     <Fragment>
       {/* <Grid className='block'>
         <Header />
       </Grid> */}
-      <div className="container mx-auto">
+      <div className="container lg:mx-auto mx-4">
         {rooms?.length >= 1 ? (
-          rooms?.map((el) => {
-            return (
-              <div
-                key={el.postId}
-                className="rounded-lg px-5 py-4 my-4 mx-4 border border-gray-500 border-opacity-20 chatBoxShadow bg-gray-100 hover:bg-white transition cursor-pointer"
-                onClick={() => inChatRoom(el.postId)}
-              >
-                <div key={el.postId} className="inline-flex items-center">
-                  <div
-                    className="block rounded-md w-24 h-24"
-                    style={{
-                      textAlign: "center",
-                      backgroundImage: `url('${
-                        el.postImg ?? "/assets/unknownChatRoomImg.gif"
-                      }')`,
-                      backgroundSize: "cover",
-                      backgroundRepeat: "no-repeat",
-                      backgroundPosition: "center",
-                      float: "center",
-                    }}
-                  >
-                    <span className="sr-only">X</span>
-                  </div>
-                  <div className="block ml-4">
-                    <div className="text-black font-semibold">{el.title}</div>
-                    <div className="font-normal text-sm text-gray-500">
-                      <div className="inline-flex">
-                        <PeopleIcon fontSize="small" />
-                        <p className="ml-1">
-                          {el.currentMember}/{el.maxMember}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="font-normal text-sm text-gray-500">
-                      <div className="inline-flex">
-                        <PlaceIcon fontSize="small" />
-                        <p className="ml-1">{el.place}</p>
-                      </div>
-                    </div>
-                    <div className="font-normal text-sm text-gray-500">
-                      <div className="inline-flex">
-                        <EventIcon fontSize="small" />
-                        <p className="ml-1">{formattedDate(el.startDate)}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })
+          rooms?.map(ChatListCardComponent)
         ) : (
           <div className="text-center font-bold text-lg">
             참여 중인 대화방이 존재하지 않아요!
@@ -123,5 +63,65 @@ const ChatList = () => {
     </Fragment>
   );
 };
+
+function ChatListCardComponent(props) {
+  const formattedDate = (date) => {
+    const getDate = new Date(date);
+    return `${getDate.getFullYear()}-${
+      getDate.getMonth() + 1
+    }-${getDate.getDay()}`;
+  };
+
+  return (
+    <div
+      key={props.postId}
+      className="rounded-lg px-5 py-4 my-4 mx-4 border border-gray-500 border-opacity-20 chatBoxShadow bg-gray-100 hover:bg-white transition cursor-pointer"
+      onClick={() => (window.location.href = `/chat/${props.postId}`)}
+    >
+      <div key={props.postId} className="inline-flex items-center">
+        <div
+          className="block rounded-md w-24 h-24"
+          style={{
+            textAlign: "center",
+            backgroundImage: `url('${
+              !props?.postImg || String(props.postImg).length === 0
+                ? "/assets/unknownChatRoomImg.gif"
+                : props.postImg
+            }')`,
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            float: "center",
+          }}
+        >
+          <span className="sr-only">X</span>
+        </div>
+        <div className="block ml-4">
+          <div className="text-black font-semibold">{props.title}</div>
+          <div className="font-normal text-sm text-gray-500">
+            <div className="inline-flex">
+              <PeopleIcon fontSize="small" />
+              <p className="ml-1">
+                {props.currentMember}/{props.maxMember}
+              </p>
+            </div>
+          </div>
+          <div className="font-normal text-sm text-gray-500">
+            <div className="inline-flex">
+              <PlaceIcon fontSize="small" />
+              <p className="ml-1">{props.place}</p>
+            </div>
+          </div>
+          <div className="font-normal text-sm text-gray-500">
+            <div className="inline-flex">
+              <EventIcon fontSize="small" />
+              <p className="ml-1">{formattedDate(props.startDate)}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default ChatList;

@@ -35,6 +35,7 @@ const ChatRoom = (props) => {
       return data;
     });
     setInit(true);
+    appendMsg({ type: "system", content: { text: '채팅방에 입장하셨습니다.' } })
   }
 
   const socketClientEvents = (socket) => {

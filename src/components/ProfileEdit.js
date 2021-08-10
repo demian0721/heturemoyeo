@@ -19,6 +19,8 @@ import { idVal, pwdVal, nickVal } from "../common/validation";
 import Footer from "./Footer";
 import { concat } from 'lodash';
 
+import CreateIcon from '@material-ui/icons/Create';
+
 //임포트 사용 항목 외 삭제요망
 
 const ProfileEdit = () => {
@@ -155,38 +157,42 @@ const ProfileEdit = () => {
     
     return (
         <Style>
-          <Grid  width="50vw" height="100%" maxWidth="500px" minWidth="250px" margin="auto" style={{}}>
-            <Grid id="profile"></Grid>
-            <Grid width="15vw" maxWidth="150px" minWidth="50px" margin="auto auto 30px" style={{display:"block", borderRadius:"50%"}}>
-                <Image src={userlist.profileImg} style={{position:'absolute',zIndex:1}}/>
-                <Text style={{position:'relative',zIndex:2}}>이미지 수정</Text>
-            </Grid>
-            {/* <Text margin="20px 0px 0px 0px" fontSize='small'>비밀번호</Text> */}
-            <Text fontSize="12px" margin="0px" color={nicknameWarning} lineHeight="1" textIndent="0px">{nicknameNotice}</Text>
-            <Grid is_flex>
-              <Input keyUp={(event) => {debounce(event.target.value, checkNickname);}} changeEvent={changeNickname} placeholder="닉네임 수정" width="100%" margin="10px auto" style={{display:"block"}} value={editInfo.nickname}></Input>
-              <Button
-                margin="0px 0px 0px 6px"
-                width="20%"
-                height="40px"
-                padding="5px 0"
-                fontSize="13px"
-                bg="#A7AAAD"
-                clickEvent={nickname}
-              >
-                중복 확인
-              </Button>
+          <Grid  width="50vw" height=""  maxWidth="500px" minWidth="250px" margin="auto" style={{}}>
+            <Grid id="profile" bg="white" padding="20px 30px" >
+              <Grid id="profileImage" width="15vw" maxWidth="150px" minWidth="100px" height="15vw" maxHeight="150px" minHeight="100px" margin="auto auto 30px" style={{position:"block"}}>
+                {/* <Grid width="15vw" margin="auto" style={{display:"block", borderRadius:"50%"}}>
+                    <Image src={userlist.profileImg? userlist.profileImg : "/assets/profile_image_avatar_only.png"} style={{position:'absolute',zIndex:1}}/> 
+                </Grid> */}
+                <img src={userlist.profileImg? userlist.profileImg : "/assets/profile_image_avatar_only.png"} style={{position:'absolute',zIndex:1,borderRadius:"50%",width:"15vw", maxWidth:"150px", minWidth:"100px" , margin:"auto"}}/>
+                <img src="/assets/profile_image_camera_only.png" style={{position:"relative", zIndex:2, top:"75%", left:"75%"}}/>
+              </Grid>
+              {/* <Text margin="20px 0px 0px 0px" fontSize='small'>비밀번호</Text> */}
+              <Grid is_flex style={{justifyContent:"center"}}>
+                {/* <Input keyUp={(event) => {debounce(event.target.value, checkNickname);}} changeEvent={changeNickname} placeholder="닉네임 수정" width="fit-content(20em)" padding="0px" style={{display:"block", color:"#767676", fontWeight:"bold", textAlign:"center", border:"0px",outlineStyle:"none",boxShadow:"0px"}} value={editInfo.nickname}/> */}
+                {/* <input onKeyUp={(event) => {debounce(event.target.value, checkNickname);}} onChange={changeNickname} placeholder="닉네임 수정" value={editInfo.nickname} style={{ width:"25%" ,display:"block", color:"#767676", fontWeight:"bold", textAlign:"center", borderBottom:"1px solid #767676",outlineStyle:"none", placeholder:{}}} /> */}
+                <Nick onKeyUp={(event) => {debounce(event.target.value, checkNickname);}} onChange={changeNickname} placeholder="닉네임 수정" value={editInfo.nickname} style={{ width:"25%" ,display:"block", color:"#767676", fontWeight:"bold", textAlign:"center", borderBottom:"1px solid #767676",outlineStyle:"none"}}/>
+                <CreateIcon onClick={nickname} style={{margin:"0px 0px 0px 6px", color:"#767676"}}/>
+                {/* <Button margin="0px 0px 0px 6px" width="20%" height="40px" padding="5px 0" fontSize="13px" bg="#A7AAAD" clickEvent={nickname}>중복 확인</Button> */}
+              </Grid>
+              <Text fontSize="12px" margin="5px 0px" color={nicknameWarning} lineHeight="1" textIndent="0px" style={{textAlign:"center"}}>{nicknameNotice}</Text>
+              <Input changeEvent={changeLikeItem} value={editInfo.likeItem} placeholder="취향" width="100%" margin="15px auto" style={{display:"block"}}/>
             </Grid>
             
-            <Text fontSize="12px" margin="0px" color={pwdWarning} lineHeight="1" textIndent="0px">{pwdNotice}</Text>
-            <Input keyUp={(event) => {debounce(event.target.value, checkPWD);}} changeEvent={changePassword} value={editInfo.password} placeholder="기존 비밀번호" width="100%" margin="10px auto" style={{display:"block"}}></Input>
-            <Text fontSize="small" color="blue" clickEvent={() => { if(show==true){setShow(false);}else{setShow(true); setNPwd2Notice(""); setNPwd1Notice(""); setInfos({...editInfo,newpassword:"", confirm:""}); } }}>(비밀번호 변경)</Text>
-            { show ? <Text fontSize="12px" margin="0px" color={npwd1Warning} lineHeight="1" textIndent="0px">{npwd1Notice}</Text> : null }
-            { show ? <Input margin="0px" keyUp={(event) => {debounce(event.target.value, checkNPWD1);}}  changeEvent={changeNewpassword} value={editInfo.newpassword} placeholder="새 비밀번호" width="100%" margin="10px auto" style={{display:"block"}}/> : null }
-            { show ? <Text fontSize="12px" margin="0px" color={npwd2Warning} lineHeight="1" textIndent="0px">{npwd2Notice}</Text> : null }
-            { show ? <Input margin="0px" keyUp={(event) => {debounce(event.target.value, checkNPWD2);}}  changeEvent={changeConfirm} value={editInfo.confirm} placeholder="새 비밀번호 확인" width="100%" margin="10px auto" style={{display:"block"}}/> : null }
-            <Input changeEvent={changeLikeItem} value={editInfo.likeItem} placeholder="취향" width="100%" margin="15px auto" style={{display:"block"}}/>
-            <Button width="40%" padding="15px" margin="20px auto" display="block" style={{minWidth:"100px"}} clickEvent={editInfos}>확인</Button>
+            <Grid id="emailpass" margin="10px auto" bg="white" padding="20px 30px">
+              <Title fontSize="small" style={{color:"#767676"}}>기존 비밀번호</Title>
+              <Input keyUp={(event) => {debounce(event.target.value, checkPWD);}} changeEvent={changePassword} value={editInfo.password} placeholder="기존 비밀번호" width="100%" margin="auto" style={{display:"block"}}></Input>
+              <Text fontSize="12px" margin="0px" color={pwdWarning} lineHeight="1" textIndent="0px">{pwdNotice}</Text>
+
+              <Text fontSize="small" color="blue" margin="10px 0px" style={{cursor:"pointer"}} clickEvent={() => { if(show==true){setShow(false);}else{setShow(true); setNPwd2Notice(""); setNPwd1Notice(""); setInfos({...editInfo,newpassword:"", confirm:""}); } }}>(비밀번호 변경)</Text>
+              { show ? <Title fontSize="small" style={{color:"#767676"}}>새 비밀번호</Title> : null }
+              { show ? <Input margin="0px" keyUp={(event) => {debounce(event.target.value, checkNPWD1);}}  changeEvent={changeNewpassword} value={editInfo.newpassword} placeholder="새 비밀번호" width="100%" style={{display:"block"}}/> : null }
+              { show ? <Text fontSize="12px" margin="0px" color={npwd1Warning} lineHeight="1" textIndent="0px">{npwd1Notice}</Text> : null }
+              { show ? <Title fontSize="small" style={{color:"#767676"}} margin="10px 0px 0px 0px">새 비밀번호 확인</Title> : null }
+              { show ? <Input margin="0px" keyUp={(event) => {debounce(event.target.value, checkNPWD2);}}  changeEvent={changeConfirm} value={editInfo.confirm} placeholder="새 비밀번호 확인" width="100%" style={{display:"block"}}/> : null }
+              { show ? <Text fontSize="12px" margin="0px" color={npwd2Warning} lineHeight="1" textIndent="0px">{npwd2Notice}</Text> : null }
+
+              <Button width="100%" padding="15px" margin="20px auto" display="block" color="white" style={{minWidth:"100px",fontWeight:"bold"}} clickEvent={editInfos}>수정 완료</Button>
+            </Grid>
           </Grid>
         </Style>
         )
@@ -195,9 +201,18 @@ const ProfileEdit = () => {
 
 const Style = styled.div`
     align-items: center;
-    margin-top: 15vh;
+    margin-top: 75px;
     width: 100vw;
+    height: calc(100vh - 130px);
+    background-color: #EFEFEF;
     //styled component use
+`;
+
+const Nick = styled.input`
+  ::placeholder {
+  font-size: 11px;
+}
+
 `;
 
 export default ProfileEdit;

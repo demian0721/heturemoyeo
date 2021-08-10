@@ -13,6 +13,7 @@ import PostModify from "./PostModify";
 import MProfile from "./MemberProfile";
 import ChatList from "./ChatList";
 import ChatRoom from "./ChatRoom";
+import Setting from "./Setting";
 
 export {
   Main,
@@ -30,4 +31,5 @@ export {
   MProfile,
   ChatList,
   ChatRoom,
+  Setting,
 };

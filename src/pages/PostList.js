@@ -1,5 +1,6 @@
 // LIBRARY
 import React, { useEffect } from "react";
+import styled from "styled-components";
 import TodayIcon from "@material-ui/icons/Today";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -11,6 +12,7 @@ import InfiniteScroll from '../common/infiniteScroll';
 
 // ELEMENTS
 import { Grid, Button } from "../elements/index";
+import SearchIcon from '@material-ui/icons/Search';
 
 // HISTORY
 import { history } from "../redux/configStore";
@@ -36,32 +38,33 @@ const PostList = (props) => {
   }, []);
   
   return (
-    <React.Fragment>
-      <Grid>
+    <Style>
+      <Grid height="">
         <Header>모임구하기</Header>
       </Grid>
 
-      <Grid width="360px" margin="75px auto">
-        <Grid padding="18px" bg="#EFEFEF">
-          <Grid is_flex padding="8px 8px" bg="white"
-            style={{
-              border: "1px solid #ccc",
-              justifyContent: "space-between",
-              marginBottom: "10px",
-            }}
-          >
-            <input placeholder="제목, 내용, 태그 또는 날짜"
-                  />
-            <TodayIcon color="action" />
+      <Grid width="360px" height="" margin="auto">
+        <Grid padding="18px" height="" bg="white">
+          <Grid is_flex >
+            <Grid is_flex padding="8px 8px" height="" bg="#EFEFEF"
+              style={{
+                // justifyContent: "space-between",
+                margin: "auto",
+              }}
+            >
+              <SearchIcon style={{color:"#767676"}}/>
+              <input placeholder="제목, 내용, 태그 또는 날짜" style={{padding:"0px 5px",width:"100%", backgroundColor:"#EFEFEF"}}/>
+            </Grid>
+            <img src="/assets/postlist_input_calendar.png" style={{margin:"auto 0px auto 5px"}}/>
           </Grid>
-          <PostListButton />
+          <PostListButton style={{borderBottom:"0.4px solid #767676"}} /> 
           
           <InfiniteScroll postList={PostList} page="PostList" />
 
           <Grid padding="5px 0px"
                 style={{ position: "fixed", bottom: "8%", right: "5%", zIndex: 99 }}
                 width="auto"
-                height="auto"
+                height=""
                 overflow="visible"
                 >
           <Button
@@ -98,11 +101,20 @@ const PostList = (props) => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid>
+      <Grid height="">
         <Footer />
       </Grid>
-    </React.Fragment>
+    </Style>
   );
 };
+
+const Style = styled.div`
+    align-items: center;
+    margin-top: 75px;
+    width: 100vw;
+    height: calc(100vh - 130px);
+    background-color: #EFEFEF;
+    //styled component use
+`;
 
 export default PostList;

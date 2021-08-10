@@ -20,6 +20,7 @@ const PostListButton = (props) => {
                 margin="0px 0px 10px"
                 fontSize="15px"
                 bg=""
+                color="#767676"
                 style={{ fontWeight: "bold",
                        border: "none" }}
                 hoverColor="#ccc"
@@ -36,6 +37,25 @@ const PostListButton = (props) => {
                 height="auto"
                 padding="12px 0"
                 bg=""
+                color="#767676"
+                style={{ fontWeight: "bold",
+                       border: "none" }}
+                hoverColor="#ccc"
+                fontSize="15px"
+                clickEvent={() => {
+                    history.push("/postlist/my");
+                  }}
+              >
+                초대된 모임
+              </Button>
+            </Grid>
+            <Grid padding="5px 0px">
+              <Button
+                width="100%"
+                height="auto"
+                padding="12px 0"
+                bg=""
+                color="#767676"
                 style={{ fontWeight: "bold",
                        border: "none" }}
                 hoverColor="#ccc"

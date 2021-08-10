@@ -48,7 +48,7 @@ const MyPage = () => {
             <Image src={userlist.profileImg? userlist.profileImg : "/assets/profile_image_avatar_only.png"} /> 
             {/* "https://i.imgur.com/2OeMYtb.png" */}
           </Grid>
-          <Grid padding="20px">
+          <Grid padding="20px 40px">
             <Grid is_flex margin="auto" style={{justifyContent:"center"}}>
               <Title onClick={() => { history.push('/mypageedit'); }} style={{ cursor: "default" }}>{userlist.nickname}</Title>
               <ArrowForwardIosIcon style={{width:"18px"}} onClick={() => { history.push('/mypageedit'); }} />
@@ -59,11 +59,11 @@ const MyPage = () => {
               })}
             </div>
 
-            <Grid is_flex align='center'>
+            <Grid is_flex align='center' >
             <Title fontSize="small" margin="10px 0px 0px 0px" style={{color:"#16C59B"}}>상태메세지</Title>
             <CreateIcon  style={{color:"#767676", fontSize:"12px", marginTop:'7px'}} onClick={editStatusMsg} />
             </Grid>
-            <textarea rows='2' id="status" label="status" value={statusMessage} onChange={changeStatus} style={{outlineStyle:"none", color:'#767676', border:"solid 1px #BEBEBE", width:"100%", padding:'15px', fontSize:"14px"}}></textarea>
+            <textarea rows='2' id="status" label="status" value={statusMessage} onChange={changeStatus} style={{outlineStyle:"none", color:'#767676',  width:"100%", padding:'15px', fontSize:"14px", backgroundColor:"rgba(22, 197, 155,0.08)"}}></textarea>
             {/* <SimpleModal status={userlist.statusMessage} /> */}
           </Grid>
       </Grid>

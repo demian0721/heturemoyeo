@@ -18,7 +18,7 @@ const PostListCard = (props) => {
       className="items-center self-center"
     >
       <PlaceImageComponent img={props.postImg} />
-      <Grid margin="5px" width="65%" align="left">
+      <Grid margin="5px" width="65%" align="left" >
         <Text fontSize="17px" fontWeight="bold" color="black" marginTop="5px">
           {props.title}
           {/* <span style={{ fontWeight: "normal", marginLeft: "10px" }}>
@@ -117,17 +117,18 @@ const ListInfo = styled.div`
 const PlaceImage = styled.img`
   width: 85px;
   height: 85px;
-  margin: 5px;
+  /* margin: 5px; */
   background-color: white;
 `;
 
 const PostCard = styled.button`
   display: flex;
   justify-content: space-between;
-  background-color: #a7aaad;
-  padding: 5px;
+  background-color: white;
+  padding: 0px 0px 15px 0px;
   margin: 15px 0px;
   font-size: 12px;
+  border-bottom: 0.4px solid rgba(118, 118, 118, 0.3);
 `;
 
 export default PostListCard;

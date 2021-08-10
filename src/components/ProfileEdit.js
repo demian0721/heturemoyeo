@@ -191,7 +191,7 @@ const ProfileEdit = () => {
               { show ? <Input margin="0px" keyUp={(event) => {debounce(event.target.value, checkNPWD2);}}  changeEvent={changeConfirm} value={editInfo.confirm} placeholder="새 비밀번호 확인" width="100%" style={{display:"block"}}/> : null }
               { show ? <Text fontSize="12px" margin="0px" color={npwd2Warning} lineHeight="1" textIndent="0px">{npwd2Notice}</Text> : null }
 
-              <Button width="100%" padding="15px" margin="20px auto" display="block" color="white" style={{minWidth:"100px",fontWeight:"bold"}} clickEvent={editInfos}>수정 완료</Button>
+              <Button width="100%" padding="15px" margin="20px auto" display="block" color="white" style={{minWidth:"100px",fontWeight:"bold", border: "none"}} hoverColor="#16C59B" clickEvent={editInfos}>수정 완료</Button>
             </Grid>
           </Grid>
         </Style>

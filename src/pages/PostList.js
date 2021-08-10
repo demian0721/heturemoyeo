@@ -62,13 +62,14 @@ const PostList = (props) => {
                 style={{ position: "fixed", bottom: "8%", right: "5%", zIndex: 99 }}
                 width="auto"
                 height="auto"
-                overflow="visible">
+                overflow="visible"
+                >
           <Button
               // shadow="rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;"
               // padding="12px"
               margin="0 0 10px"
               radius="100%"
-              borderColor="#16C59B"
+              // borderColor="#16C59B"
               clickEvent={() => {
                 history.push("/postwrite"); 
               }}
@@ -76,8 +77,8 @@ const PostList = (props) => {
             >
             <img src="/assets/floating_button_postwrite.png"
                   style={{
-                  width: "45px",
-                  height: "45px", 
+                  width: "50px",
+                  height: "50px", 
                 }}/>
             </Button>
             {/* <Button

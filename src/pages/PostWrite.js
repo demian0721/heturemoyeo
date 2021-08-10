@@ -1,7 +1,11 @@
+/* global kakao */
+
 // LIBRARY
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, Fragment } from "react";
 import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
+import { Dialog, Transition } from "@headlessui/react";
+import { geolocated, geoPropTypes } from "react-geolocated";
 
 // TOKEN
 import { getToken } from "../common/token";
@@ -22,6 +26,9 @@ import { Grid, Input, Image } from "../elements/index";
 
 // ICON
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
+import SearchIcon from "@material-ui/icons/Search";
+
+import useOutsideClick from "../hooks/useOutsideClick";
 
 const PostWrite = (props) => {
   let { postInfo } = props;
@@ -29,11 +36,21 @@ const PostWrite = (props) => {
   const dispatch = useDispatch();
 
   const fileInput = useRef();
+  const modalRef = useRef();
 
   const image = useSelector((state) => state.image);
   const preview = !image.preview && props ? props.postImg : image.preview;
 
   const [height, setHeight] = useState(preview ? "auto" : "380px");
+
+  const [location, setLocation] = useState({});
+  const [isOpen, setIsOpen] = useState(false);
+  const [viewModal, setViewModal] = useState(false);
+
+  useOutsideClick(modalRef, () => {
+    setViewModal(false);
+    setIsOpen(false);
+  });
 
   const [postingContents, setPostingContents] = useState({
     title: postInfo ? postInfo.title : "",
@@ -97,12 +114,26 @@ const PostWrite = (props) => {
     }
   }, []);
 
+  let kakaoMap
+
+  useEffect(() => {
+    const container = document.getElementById("map");
+    const options = {
+      center: new kakao.maps.LatLng(
+        props?.coords?.latitude,
+        props?.coords?.longitude
+      ),
+      level: 3,
+    };
+    kakaoMap = new kakao.maps.Map(container, options);
+    return () => {};
+  }, [isOpen, viewModal, props]);
+
   return (
     <Permit>
       <Grid>
         <Header>게시글 작성</Header>
       </Grid>
-
       <Grid
         width="360px"
         margin="50px auto"
@@ -220,7 +251,7 @@ const PostWrite = (props) => {
               }}
             />
           </div>
-          <div>
+          <div className="flex self-center items-center">
             <Input
               margin="7px 0 7px 0"
               placeholder="장소(한글 주소로 출력)"
@@ -232,6 +263,21 @@ const PostWrite = (props) => {
                 });
               }}
             />
+            <div
+              className="self-center items-center bg-gray-300 cursor-pointer"
+              style={{
+                paddingTop: "6.5px",
+                paddingBottom: "6.5px",
+                paddingRight: "3px",
+                paddingLeft: "3px",
+              }}
+              onClick={() => {
+                setViewModal(true);
+                setIsOpen(true);
+              }}
+            >
+              <SearchIcon />
+            </div>
           </div>
           <div>
             <Input
@@ -254,7 +300,9 @@ const PostWrite = (props) => {
               changeEvent={(e) => {
                 setPostingContents({
                   ...postingContents,
-                  tag: String(e.target.value).includes(',') ? e.target.value.split(',') : [e.target.value],
+                  tag: String(e.target.value).includes(",")
+                    ? e.target.value.split(",")
+                    : [e.target.value],
                 });
               }}
             />
@@ -268,6 +316,73 @@ const PostWrite = (props) => {
           </EnterButton>
         </Grid>
       </Grid>
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="fixed inset-0 overflow-y-auto"
+          onClose={() => setViewModal(false)}
+          ref={modalRef}
+        >
+          <div className="min-h-screen px-4 text-center">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Dialog.Overlay className="fixed inset-0" />
+            </Transition.Child>
+            {/* This element is to trick the browser into centering the modal contents. */}
+            <span
+              className="inline-block h-screen align-middle"
+              aria-hidden="true"
+            >
+              &#8203;
+            </span>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
+            >
+              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <Dialog.Title
+                  as="h3"
+                  className="text-lg font-medium leading-6 text-gray-900"
+                >
+                  주소 찾기
+                </Dialog.Title>
+                <div className="mt-2">
+                  <p className="text-sm text-gray-500">
+                    지도를 옮겨 주소를 찾아주세요.
+                  </p>
+                </div>
+
+                <div id='map w-1 h-1' />
+
+                <div className="mt-4">
+                  <button
+                    type="button"
+                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                    onClick={() => {
+                      setViewModal(false);
+                      setIsOpen(false);
+                    }}
+                  >
+                    주소 지정하기
+                  </button>
+                </div>
+              </div>
+            </Transition.Child>
+          </div>
+        </Dialog>
+      </Transition>
     </Permit>
   );
 };
@@ -348,4 +463,10 @@ const InputArea = styled.textarea`
     color: var(--lightcolor);
   }
 `;
-export default PostWrite;
+
+PostWrite.propTypes = { ...PostWrite.propTypes, ...geoPropTypes };
+
+export default geolocated({
+  positionOptions: { enableHighAccuracy: false },
+  userDecisionTimeout: 500,
+})(PostWrite)

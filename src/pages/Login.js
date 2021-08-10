@@ -67,8 +67,9 @@ const LogIn = (props) => {
             로그인
           </Title> */}
           <Grid padding="8px 0px">
-            <Text color="#495057"
-                  fontSize="15px">이메일</Text>
+            <Text color="#495057" fontSize="15px">
+              이메일
+            </Text>
             <Input
               placeholder=""
               style={{
@@ -76,7 +77,7 @@ const LogIn = (props) => {
                 borderRight: "none",
                 borderTop: "none",
                 borderBottom: "solid 2px #A7AAAD",
-                boxShadow: "none"
+                boxShadow: "none",
               }}
               // focus={outLine:"solid 2px #16C59B"}
               changeEvent={(event) => {
@@ -92,8 +93,9 @@ const LogIn = (props) => {
           </Grid>
 
           <Grid padding="18px 0px 5px 0px">
-            <Text color="#495057"
-                  fontSize="15px">비밀번호</Text>
+            <Text color="#495057" fontSize="15px">
+              비밀번호
+            </Text>
             <Input
               placeholder=""
               style={{
@@ -101,7 +103,7 @@ const LogIn = (props) => {
                 borderRight: "none",
                 borderTop: "none",
                 borderBottom: "solid 2px #A7AAAD",
-                boxShadow: "none"
+                boxShadow: "none",
               }}
               type="password"
               changeEvent={(event) => {
@@ -143,25 +145,28 @@ const LogIn = (props) => {
               bg="#16C59B"
               radius="5px"
               color="#FFFFFF"
-              style={{ fontWeight: "bold",
-                       border: "none" }}
-              hoverColor="#16C59B"         
+              className="custom_transition"
+              style={{ fontWeight: "bold", border: "none" }}
+              hoverColor="#16C59B"
               clickEvent={login}
             >
               로그인
             </Button>
           </Grid>
           <Grid padding="5px 0px">
-            <Text
-              textAlign="center"
-              fontSize="12px">
+            <Text textAlign="center" fontSize="12px">
               계정이 없으신가요?
               <span
-              style={{ cursor: "pointer",
-                      color: "#16C59B",
-                      fontWeight: "bold"}}
-              onClick={() => window.location.href = "/terms"}        
-                      > 회원가입</span>
+                style={{
+                  cursor: "pointer",
+                  color: "#16C59B",
+                  fontWeight: "bold",
+                }}
+                onClick={() => (window.location.href = "/terms")}
+              >
+                {" "}
+                회원가입
+              </span>
             </Text>
             {/* <Button
               width="100%"

@@ -2,7 +2,7 @@
 import instance from "../../common/axios";
 
 // REDUX
-import { imgActions } from './image';
+import { imgActions } from "./image";
 
 // ACTION
 const GET_POST = "GET_POST";
@@ -12,15 +12,21 @@ const GET_MY_POST = "GET_MY_POST";
 const GET_MORE_MY_POST = "GET_MORE_MY_POST";
 const ADD_POST = "ADD_POST";
 const POST_DELETE = "POST_DELETE";
+const GET_POST_LOCATION = "GET_POST_LOCATION";
 
 // ACTION CREATOR
 const getPosts = (posts, start) => ({ type: GET_POST, posts, start });
 const getMorePosts = (posts, start) => ({ type: GET_MORE_POST, posts, start });
 const postDetail = (postDetail) => ({ type: POST_DETAIL, postDetail });
 const getMyPosts = (posts, start) => ({ type: GET_MY_POST, posts, start });
-const getMoreMyPosts = (posts, start) => ({ type: GET_MORE_MY_POST, posts, start, });
+const getMoreMyPosts = (posts, start) => ({
+  type: GET_MORE_MY_POST,
+  posts,
+  start,
+});
 const addPost = (post) => ({ type: ADD_POST, post });
 const deletePost = (postId) => ({ type: POST_DELETE, postId });
+const getPostLocation = (postInfo) => ({ type: GET_POST_LOCATION, postInfo });
 
 // INITIAL STATE
 const initialState = {
@@ -160,13 +166,26 @@ const addPostDB = (image, post) => {
           .post("/api/post", { ...postInfo })
           .then((res) => {
             window.alert("게시글 작성이 완료되었습니다.");
-            dispatch(addPost({postImg: imgUrl, postId: res.data}));
+            dispatch(addPost({ postImg: imgUrl, postId: res.data }));
           })
           .catch((error) => {
             console.error(error);
           });
       })
     );
+  };
+};
+
+const getPostLocationDB = () => {
+  return function (dispatch) {
+    instance
+      .get(`/api/post/posts/location`)
+      .then((res) => {
+        dispatch(getPostLocation(res.data));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 };
 
@@ -200,6 +219,12 @@ function post(state = initialState, action) {
       const newPostList = [action.post, ...state.list];
       return { ...state, list: newPostList };
 
+    case GET_POST_LOCATION:
+      return {
+        ...state,
+        list: [...state.list, ...action.postInfo],
+      };
+
     default:
       return state;
   }
@@ -213,10 +238,12 @@ export const postActions = {
   getMorePosts,
   getMoreMyPosts,
   addPost,
+  getPostLocation,
   getPostsDB,
   getMyPostsDB,
   getMorePostsDB,
   getMoreMyPostsDB,
+  getPostLocationDB,
   addPostDB,
   postDetailInfo,
   deleteAPost,

@@ -12,15 +12,11 @@ import { setToken, removeToken } from "../../common/token";
 const TARGET_ALL = "TARGET_ALL";
 const TARGET_FRIEND = "TARGET_FRIEND";
 const TARGET_POST = "TARGET_POST";
-const GET_POST_LOCATION = "GET_POST_LOCATION";
 
 // ACTION CREATORS
 const targetAll = createAction(TARGET_ALL, (userInfo) => ({ userInfo }));
 const targetFriend = createAction(TARGET_FRIEND, (userInfo) => ({ userInfo }));
 const targetPost = createAction(TARGET_POST, (userInfo) => ({ userInfo }));
-const getPostLocation = createAction(GET_POST_LOCATION, (userInfo) => ({
-  userInfo,
-}));
 
 // INITIAL STATE
 const initialState = {
@@ -76,22 +72,6 @@ const targetPostDB = (userId) => {
   };
 };
 
-const getPostLocationDB = () => {
-  return function (dispatch) {
-    instance
-      .get(`/api/post/posts/location`)
-      .then((res) => {
-        console.log("Hello Get Post Location DB")
-        console.log(res);
-        // console.log(res)
-        dispatch(getPostLocation(res));
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-};
-
 // REDUCER
 export default handleActions(
   {
@@ -131,18 +111,6 @@ export default handleActions(
         draft.isFriend = action.payload.userInfo.isFriend;
       }),
 
-    [GET_POST_LOCATION]: (state, action) =>
-      produce(state, (draft) => {
-        draft.nickname = action.payload.userInfo.nickname;
-        draft.rating = action.payload.userInfo.rating;
-        draft.profileImg = action.payload.userInfo.profileImg;
-        draft.statusMessage = action.payload.userInfo.statusMessage;
-        draft.likeItem = action.payload.userInfo.likeItem;
-        draft.scheduleCount = action.payload.userInfo.scheduleCount;
-        draft.scheduleTitle = action.payload.userInfo.scheduleTitle;
-        draft.isFriend = action.payload.userInfo.isFriend;
-      }),
-
   },
   initialState
 );
@@ -151,11 +119,9 @@ const markerActions = {
   targetAll,
   targetFriend,
   targetPost,
-  getPostLocation,
   targetAllDB,
   targetFriendDB,
   targetPostDB,
-  getPostLocationDB,
 };
 
 export { markerActions };

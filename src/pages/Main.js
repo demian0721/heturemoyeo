@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 // REDUX
 import { markerActions } from "../redux/modules/marker";
+import { postActions } from '../redux/modules/post'
 
 // COMMON
 import socket from "../common/socket";
@@ -38,11 +39,11 @@ const Main = (props) => {
   const ref = useRef();
 
   const markerImageObj = {
-    me: "https://cdn.discordapp.com/emojis/636204464809836546.png?v=1",
+    me: "/assets/map_icon_me.png",
     sameSchedule: "/assets/map_icon_same_group.png",
     friend: "/assets/map_icon_friend.png",
     anonymous: "/assets/map_icon_Frame1.png",
-    schedule: "/assets/map_icon_pinpin.png",
+    schedule: "/assets/map_icon_place.png",
   };
 
   // 로그인 후, 유저 데이터
@@ -50,6 +51,7 @@ const Main = (props) => {
   const myFriends = useSelector((state) => state.user.friendUsers);
   const mySchedules = useSelector((state) => state.user.scheduleUsers);
   const getMarkerData = useSelector((state) => state.marker);
+  const getPostLocations = useSelector((state) => state.post.list)
   useEffect(() => {
     setUserData(getMarkerData);
   }, [getMarkerData]);
@@ -234,7 +236,7 @@ const Main = (props) => {
     };
     global.map = new kakao.maps.Map(container, options);
     return () => {
-      console.log("clearing markers click events...");
+      console.log("%c[KakaoMap:Marker:Event:Clear]" + "%c Clearing Click EventListener to markers", "color: #fca503;", "color: #ffffff;");
       markers.map((marker) =>
         kakao.maps.event.removeListener(marker, "click", () =>
           markerEventListener()
@@ -243,10 +245,8 @@ const Main = (props) => {
     };
   }, [props]);
 
-  if (!props.isGeolocationAvailable)
-    alert("해당 기기는 GeoLocation을 지원하지 않습니다!");
-  if (!props.isGeolocationEnabled)
-    alert("해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!");
+  if (!props.isGeolocationAvailable) alert("해당 기기는 GeoLocation을 지원하지 않습니다!");
+  if (!props.isGeolocationEnabled) alert("해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!");
   if (
     props.isGeolocationAvailable &&
     props.isGeolocationEnabled &&
@@ -257,9 +257,9 @@ const Main = (props) => {
     setGeolocationMarker(true);
     setMyUserId(getUserData.userId);
 
-    dispatch(markerActions.getPostLocationDB());
+    dispatch(postActions.getPostLocationDB());
 
-    const sendLocation = setInterval(() => {
+    setInterval(() => {
       sendUserLocation(
         getUserData.userId,
         props.coords.latitude,
@@ -288,7 +288,7 @@ const Main = (props) => {
     if (!geolocationMarker) return;
     socket.on("userLocation", userLocationListener);
     return () => {
-      console.log("clearing socket.io events...");
+      console.log("%c[Socket.io:UserLocation:Event:Clear]" + "%c Clearing All EventListener to Socket.io Client", "color: #fca503;", "color: #ffffff;");
       socket.removeAllListeners();
       // socket.disconnect()
     };

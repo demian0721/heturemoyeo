@@ -44,8 +44,11 @@ const PostWrite = (props) => {
   const [height, setHeight] = useState(preview ? "auto" : "380px");
 
   const [location, setLocation] = useState({});
+  const [locationCoords, setLocationCoords] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   const [viewModal, setViewModal] = useState(false);
+  const [loadMap, setLoadMap] = useState(false);
+  const [inputValue, setInputValue] = useState("");
 
   useOutsideClick(modalRef, () => {
     setViewModal(false);
@@ -114,20 +117,68 @@ const PostWrite = (props) => {
     }
   }, []);
 
-  let kakaoMap
-
+  let kakaoMap, geocoder, marker;
+  const getAddressFromCoords = (coords, cb) => {
+    geocoder.coord2RegionCode(coords?.getLng(), coords?.getLat(), cb);
+  };
+  const getAddressDetailFromCoords = (coords, cb) => {
+    geocoder.coord2Address(coords?.getLng(), coords?.getLat(), cb);
+  };
+  const markerFromCenter = () => {
+    marker.setPosition(kakaoMap.getCenter());
+    marker.setMap(kakaoMap);
+    const getMapCenter = kakaoMap.getCenter();
+    setLocationCoords({ lat: getMapCenter["La"], lng: getMapCenter["Ma"] });
+    getAddressDetailFromCoords(getMapCenter, (result, status) => {
+      if (status === kakao.maps.services.Status.OK) {
+        const data = result?.[0];
+        setLocation({
+          도로명: data?.road_address?.address_name,
+          지번: data?.address?.address_name,
+        });
+      }
+    });
+  };
   useEffect(() => {
     const container = document.getElementById("map");
+    if (!container) return;
+    const position = new kakao.maps.LatLng(
+      props?.coords?.latitude,
+      props?.coords?.longitude
+    );
     const options = {
-      center: new kakao.maps.LatLng(
-        props?.coords?.latitude,
-        props?.coords?.longitude
-      ),
+      center: position,
       level: 3,
     };
     kakaoMap = new kakao.maps.Map(container, options);
-    return () => {};
-  }, [isOpen, viewModal, props]);
+    geocoder = new kakao.maps.services.Geocoder();
+    const markerSize = new kakao.maps.Size(24, 24);
+    const markerImageOptions = { offset: new kakao.maps.Point(23, 23) };
+    const markerImage = new kakao.maps.MarkerImage(
+      "/assets/map_select_place.png",
+      markerSize,
+      markerImageOptions
+    );
+    marker = new kakao.maps.Marker({ position, image: markerImage });
+    markerFromCenter();
+    kakao.maps.event.addListener(kakaoMap, "drag", () => markerFromCenter());
+    kakao.maps.event.addListener(kakaoMap, "idle", () => {
+      markerFromCenter();
+    });
+    return () => {
+      kakao.maps.event.removeListener(kakaoMap, "drag", () =>
+        markerFromCenter()
+      );
+      kakao.maps.event.removeListener(kakaoMap, "idle", () => {
+        markerFromCenter();
+      });
+    };
+  }, [props, isOpen, setIsOpen, viewModal, setViewModal, loadMap, setLoadMap]);
+
+  if (!props.isGeolocationAvailable)
+    alert("해당 기기는 GeoLocation을 지원하지 않습니다!");
+  if (!props.isGeolocationEnabled)
+    alert("해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!");
 
   return (
     <Permit>
@@ -256,6 +307,7 @@ const PostWrite = (props) => {
               margin="7px 0 7px 0"
               placeholder="장소(한글 주소로 출력)"
               type="text"
+              value={inputValue}
               changeEvent={(e) => {
                 setPostingContents({
                   ...postingContents,
@@ -264,7 +316,7 @@ const PostWrite = (props) => {
               }}
             />
             <div
-              className="self-center items-center bg-gray-300 cursor-pointer"
+              className="self-center items-center bg-green-300 cursor-pointer"
               style={{
                 paddingTop: "6.5px",
                 paddingBottom: "6.5px",
@@ -319,11 +371,11 @@ const PostWrite = (props) => {
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog
           as="div"
-          className="fixed inset-0 overflow-y-auto"
+          className="fixed inset-0 overflow-y-auto z-10"
           onClose={() => setViewModal(false)}
           ref={modalRef}
         >
-          <div className="min-h-screen px-4 text-center">
+          <div ref={modalRef} className="min-h-screen px-4 text-center">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -335,7 +387,6 @@ const PostWrite = (props) => {
             >
               <Dialog.Overlay className="fixed inset-0" />
             </Transition.Child>
-            {/* This element is to trick the browser into centering the modal contents. */}
             <span
               className="inline-block h-screen align-middle"
               aria-hidden="true"
@@ -351,31 +402,86 @@ const PostWrite = (props) => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+              <div
+                ref={modalRef}
+                className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl self-center items-center"
+              >
                 <Dialog.Title
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
-                  주소 찾기
+                  위치 찾기
                 </Dialog.Title>
-                <div className="mt-2">
+                <div className="mt-2 mb-2">
                   <p className="text-sm text-gray-500">
-                    지도를 옮겨 주소를 찾아주세요.
+                    지도를 움직여 위치를 찾아주세요.
                   </p>
                 </div>
 
-                <div id='map w-1 h-1' />
+                {!loadMap ? (
+                  <div
+                    onClick={() => setLoadMap(true)}
+                    className="cursor-pointer inline-flex justify-center px-4 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500 transition duration-300 ease-in-out"
+                  >
+                    지도 로드하기
+                  </div>
+                ) : (
+                  <div
+                    id="map"
+                    className="h-auto w-auto flex rounded-md"
+                    style={{
+                      minWidth: "15.5vw",
+                      maxWidth: "100vw",
+                      minHeight: "30vh",
+                      maxHeight: "30vh",
+                    }}
+                  />
+                )}
 
-                <div className="mt-4">
+                {!!loadMap && (
+                  <div className="my-2">
+                    {Object.keys(location).length <= 0 ? (
+                      <div className="font-bold">
+                        지도를 움직여 위치를 찾아주세요!
+                      </div>
+                    ) : (
+                      <div id="locationInfo" className="block">
+                        지번 주소: {location?.["지번"] ?? "찾을 수 없음"}
+                        <br />
+                        도로명 주소: {location?.["도로명"] ?? "찾을 수 없음"}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <div className="mt-4 space-x-4">
                   <button
                     type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 transition duration-300 ease-in-out"
                     onClick={() => {
                       setViewModal(false);
                       setIsOpen(false);
+                      setLoadMap(false);
+                      setInputValue(
+                        location?.["도로명"] ??
+                          location?.["지번"] ??
+                          "찾을 수 없음"
+                      );
                     }}
                   >
                     주소 지정하기
+                  </button>
+                  <button
+                    type="button"
+                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500 transition duration-300 ease-in-out"
+                    onClick={() => {
+                      setViewModal(false);
+                      setIsOpen(false);
+                      setLoadMap(false);
+                      setLocation({});
+                    }}
+                  >
+                    취소
                   </button>
                 </div>
               </div>
@@ -469,4 +575,4 @@ PostWrite.propTypes = { ...PostWrite.propTypes, ...geoPropTypes };
 export default geolocated({
   positionOptions: { enableHighAccuracy: false },
   userDecisionTimeout: 500,
-})(PostWrite)
+})(PostWrite);

@@ -58,7 +58,7 @@ const ChatList = () => {
         )}
       </div>
       <Grid className="block">
-        <Footer />
+        <Footer>chat</Footer>
       </Grid>
     </Fragment>
   );

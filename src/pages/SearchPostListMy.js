@@ -87,7 +87,7 @@ const SearchPostListMy = (props) => {
         </Grid>
       </Grid>
       <Grid>
-        <Footer/>
+        <Footer>group</Footer>
       </Grid>
     </React.Fragment>
   );

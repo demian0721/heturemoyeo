@@ -19,7 +19,7 @@ const Mypage = () => {
         <React.Fragment>
             <Header>프로필</Header>
             <MyPage/>
-            <Footer />
+            <Footer>profile</Footer>
         </React.Fragment>
     );
 };

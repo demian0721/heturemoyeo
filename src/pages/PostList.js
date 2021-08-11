@@ -102,7 +102,7 @@ const PostList = (props) => {
         </Grid>
       </Grid>
       <Grid height="">
-        <Footer />
+        <Footer>group</Footer>
       </Grid>
     </Style>
   );

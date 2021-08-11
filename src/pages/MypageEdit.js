@@ -20,7 +20,7 @@ const MypageEdit = () => {
         <React.Fragment>
             <Header>회원정보 수정</Header>
             <ProfileEdit />
-            <Footer />
+            <Footer>profile</Footer>
         </React.Fragment>
     );
 };

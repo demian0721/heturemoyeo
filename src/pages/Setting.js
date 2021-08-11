@@ -19,7 +19,7 @@ const Setting = () => {
         <React.Fragment>
             <Header>프로필</Header>
             <Seting/>
-            <Footer />
+            <Footer>profile</Footer>
         </React.Fragment>
     );
 };

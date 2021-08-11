@@ -370,7 +370,7 @@ const Main = (props) => {
               <MyLocationIcon />
             </Button>
           </Grid>
-          <Footer />
+          <Footer>home</Footer>
         </>
       )}
     </Fragment>

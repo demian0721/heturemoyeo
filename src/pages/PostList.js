@@ -1,11 +1,12 @@
 // LIBRARY
-import React, { useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
 import TodayIcon from "@material-ui/icons/Today";
 import { useSelector, useDispatch } from "react-redux";
 
 // REDUX
 import { postActions } from "../redux/modules/post";
+import { searchActions } from '../redux/modules/search';
 
 // FUNCTION
 import InfiniteScroll from '../common/infiniteScroll';
@@ -29,6 +30,9 @@ const PostList = (props) => {
   const dispatch = useDispatch();
   const PostList = useSelector((state) => state.post.list);
 
+  const ref = useRef();
+  const searchDate = null;
+
   useEffect(() => {
     dispatch(postActions.getPostsDB());
 
@@ -36,6 +40,16 @@ const PostList = (props) => {
       dispatch(postActions.getPosts([],0));
     };
   }, []);
+
+  const search = () => {
+    dispatch(searchActions.searchPostDB(ref.current.value, searchDate));
+    history.push("/postlist/search");
+  }
+  const onKeyPress=(event)=>{
+    if(event.key=='Enter'){
+        search();
+    }
+}
   
   return (
     <Style>
@@ -49,7 +63,8 @@ const PostList = (props) => {
             <Grid is_flex padding="8px 8px" height="" bg="#EFEFEF"
               style={{margin: "auto",}}>
               <SearchIcon style={{color:"#767676"}}/>
-              <input placeholder="제목, 내용, 태그 또는 날짜" style={{padding:"0px 5px",width:"100%", backgroundColor:"#EFEFEF"}}/>
+              <input placeholder="제목, 내용, 태그 또는 날짜" style={{padding:"0px 5px",width:"100%", backgroundColor:"#EFEFEF"}} ref={ref}
+                   onKeyPress={onKeyPress}/>
             </Grid>
             <img src="/assets/postlist_input_calendar.png" style={{margin:"auto 0px auto 5px"}}/>
           </Grid>

@@ -6,6 +6,7 @@ import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { Dialog, Transition } from "@headlessui/react";
 import { geolocated, geoPropTypes } from "react-geolocated";
+import _ from "lodash";
 
 // TOKEN
 import { getToken } from "../common/token";
@@ -64,8 +65,10 @@ const PostWrite = (props) => {
     place: postInfo ? postInfo.place : "",
     bring: postInfo ? postInfo.bring : "",
     tag: postInfo ? postInfo.tag : [],
+    lat: postInfo ? postInfo.lat : 0,
+    lng: postInfo ? postInfo.lng: 0
   });
-
+  console.log(postingContents)
   const isItPossibleToAdd = () => {
     if (
       preview &&
@@ -128,7 +131,7 @@ const PostWrite = (props) => {
     marker.setPosition(kakaoMap.getCenter());
     marker.setMap(kakaoMap);
     const getMapCenter = kakaoMap.getCenter();
-    setLocationCoords({ lat: getMapCenter["La"], lng: getMapCenter["Ma"] });
+    setLocationCoords({ lat: getMapCenter["Ma"], lng: getMapCenter["La"] });
     getAddressDetailFromCoords(getMapCenter, (result, status) => {
       if (status === kakao.maps.services.Status.OK) {
         const data = result?.[0];
@@ -139,6 +142,7 @@ const PostWrite = (props) => {
       }
     });
   };
+  const mapEventListener = _.debounce(() => markerFromCenter(), 200);
   useEffect(() => {
     const container = document.getElementById("map");
     if (!container) return;
@@ -161,17 +165,19 @@ const PostWrite = (props) => {
     );
     marker = new kakao.maps.Marker({ position, image: markerImage });
     markerFromCenter();
-    kakao.maps.event.addListener(kakaoMap, "drag", () => markerFromCenter());
-    kakao.maps.event.addListener(kakaoMap, "idle", () => {
-      markerFromCenter();
-    });
+    kakao.maps.event.addListener(
+      kakaoMap,
+      "drag",
+      mapEventListener
+    );
+    kakao.maps.event.addListener(
+      kakaoMap,
+      "idle",
+      mapEventListener
+    );
     return () => {
-      kakao.maps.event.removeListener(kakaoMap, "drag", () =>
-        markerFromCenter()
-      );
-      kakao.maps.event.removeListener(kakaoMap, "idle", () => {
-        markerFromCenter();
-      });
+      kakao.maps.event.removeListener(kakaoMap, "drag", mapEventListener);
+      kakao.maps.event.removeListener(kakaoMap, "idle", mapEventListener);
     };
   }, [props, isOpen, setIsOpen, viewModal, setViewModal, loadMap, setLoadMap]);
 
@@ -467,6 +473,11 @@ const PostWrite = (props) => {
                           location?.["지번"] ??
                           "찾을 수 없음"
                       );
+                      setPostingContents({
+                        ...postingContents,
+                        ...locationCoords,
+                        place: location?.["도로명"] ?? location?.["지번"] ?? "없음",
+                      })
                     }}
                   >
                     주소 지정하기

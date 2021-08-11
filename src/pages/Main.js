@@ -39,10 +39,10 @@ const Main = (props) => {
 
   const markerImageObj = {
     me: "https://cdn.discordapp.com/emojis/636204464809836546.png?v=1",
-    sameSchedule:
-      "https://cdn.discordapp.com/emojis/636204456345862204.png?v=1",
-    friend: "https://cdn.discordapp.com/emojis/686639764023017501.png?v=1",
-    anonymous: "https://cdn.discordapp.com/emojis/686639764023017501.png?v=1",
+    sameSchedule: "/assets/map_icon_same_group.png",
+    friend: "/assets/map_icon_friend.png",
+    anonymous: "/assets/map_icon_Frame1.png",
+    schedule: "/assets/map_icon_pinpin.png",
   };
 
   // 로그인 후, 유저 데이터
@@ -190,37 +190,37 @@ const Main = (props) => {
     socket.emit("latlng", { userId, lat, lng });
 
   // 인풋박스에서 임의의 마커 추가해보기. (소켓통신)
-  const submitAddMarker = () => {
-    const userId = document.getElementById("input__userId");
-    const locationLat = document.getElementById("input__location--lat");
-    const locationLng = document.getElementById("input__location--lng");
-    if (!userId?.value || !locationLat?.value || !locationLng?.value)
-      return alert("모든 데이터를 입력해 주세요");
-    if (
-      markers.filter((el) => el.markerUserId === Number(userId?.value))
-        .length >= 1
-    )
-      return alert(
-        `중복되는 아이디가 있습니다. (중복되는 아이디: ${userId?.value})`
-      );
-    addMarker(
-      global.map,
-      userId?.value,
-      new kakao.maps.LatLng(
-        Number(locationLat?.value),
-        Number(locationLng?.value)
-      )
-    );
-    sendUserLocation(
-      Number(userId.value),
-      Number(locationLat.value),
-      Number(locationLng.value)
-    );
-    alert(`마커가 생성되었습니다. (생성된 마커 아이디: ${userId?.value})`);
-    userId.value = "";
-    locationLat.value = "";
-    locationLng.value = "";
-  };
+  // const submitAddMarker = () => {
+  //   const userId = document.getElementById("input__userId");
+  //   const locationLat = document.getElementById("input__location--lat");
+  //   const locationLng = document.getElementById("input__location--lng");
+  //   if (!userId?.value || !locationLat?.value || !locationLng?.value)
+  //     return alert("모든 데이터를 입력해 주세요");
+  //   if (
+  //     markers.filter((el) => el.markerUserId === Number(userId?.value))
+  //       .length >= 1
+  //   )
+  //     return alert(
+  //       `중복되는 아이디가 있습니다. (중복되는 아이디: ${userId?.value})`
+  //     );
+  //   addMarker(
+  //     global.map,
+  //     userId?.value,
+  //     new kakao.maps.LatLng(
+  //       Number(locationLat?.value),
+  //       Number(locationLng?.value)
+  //     )
+  //   );
+  //   sendUserLocation(
+  //     Number(userId.value),
+  //     Number(locationLat.value),
+  //     Number(locationLng.value)
+  //   );
+  //   alert(`마커가 생성되었습니다. (생성된 마커 아이디: ${userId?.value})`);
+  //   userId.value = "";
+  //   locationLat.value = "";
+  //   locationLng.value = "";
+  // };
 
   // 카카오맵 생성하기
   useEffect(() => {
@@ -256,11 +256,16 @@ const Main = (props) => {
   ) {
     setGeolocationMarker(true);
     setMyUserId(getUserData.userId);
-    sendUserLocation(
-      getUserData.userId,
-      props.coords.latitude,
-      props.coords.longitude
-    );
+
+    dispatch(markerActions.getPostLocationDB());
+
+    const sendLocation = setInterval(() => {
+      sendUserLocation(
+        getUserData.userId,
+        props.coords.latitude,
+        props.coords.longitude
+      );
+    }, 2000);
   }
 
   const userLocationListener = (data) => {
@@ -295,7 +300,7 @@ const Main = (props) => {
         <>
           <Header />
           <div className="container">
-            <div
+            {/* <div
               className="absolute left-0 right-0 inline-flex"
               style={{ zIndex: 20 }}
             >
@@ -308,7 +313,7 @@ const Main = (props) => {
               >
                 Add Marker
               </div>
-            </div>
+            </div> */}
             {/* kakao 맵 생성 */}
             <div
               id="map"

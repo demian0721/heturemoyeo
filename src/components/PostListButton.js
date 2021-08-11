@@ -12,60 +12,23 @@ const PostListButton = (props) => {
     return (
         <React.Fragment>
             <Buttonset>
-            <Grid padding="5px 0px 0px 0px">
-              <Button
-                width="100%"
-                height="auto"
-                padding="12px 0"
-                margin="0px 0px 10px"
-                fontSize="15px"
-                bg=""
-                color="#767676"
-                style={{ fontWeight: "bold",
-                       border: "none" }}
-                hoverColor="#ccc"
-                clickEvent={() => {
-                    history.push("/postlist");
-                  }}
-              >
+            <Grid >
+              <MButton
+              onClick={() => {history.push("/postlist");}}>
                 전체 목록
-              </Button>
+              </MButton>
             </Grid>
-            <Grid padding="5px 0px">
-              <Button
-                width="100%"
-                height="auto"
-                padding="12px 0"
-                bg=""
-                color="#767676"
-                style={{ fontWeight: "bold",
-                       border: "none" }}
-                hoverColor="#ccc"
-                fontSize="15px"
-                clickEvent={() => {
-                    history.push("/postlist/my");
-                  }}
-              >
+            <Grid >
+              <MButton
+              onClick={() => {history.push("/postlist/my");}}>
                 초대된 모임
-              </Button>
+              </MButton>
             </Grid>
-            <Grid padding="5px 0px">
-              <Button
-                width="100%"
-                height="auto"
-                padding="12px 0"
-                bg=""
-                color="#767676"
-                style={{ fontWeight: "bold",
-                       border: "none" }}
-                hoverColor="#ccc"
-                fontSize="15px"
-                clickEvent={() => {
-                    history.push("/postlist/my");
-                  }}
-              >
+            <Grid >
+              <MButton 
+                onClick={() => {history.push("/postlist/my");}}>
                 내 모임
-              </Button>
+              </MButton>
             </Grid>
           </Buttonset>
         </React.Fragment>
@@ -73,9 +36,24 @@ const PostListButton = (props) => {
 };
 
 const Buttonset = styled.div`
-  margin: 0 auto;
+  margin: 0px 18px;
   text-align: center;
   display: flex;
+`;
+
+const MButton = styled.button`
+  width: 100%;
+  height: auto;
+  font-weight: bold;
+  padding: 10px 0px 8px 0px;
+  font-size: 15px;
+  background-color: white;
+  color: #767676;
+  border-bottom: 2px solid white;
+  &:hover {
+    color:#16C59B;
+    border-bottom: 2px solid #16C59B;
+  }
 `;
 
 export default PostListButton;

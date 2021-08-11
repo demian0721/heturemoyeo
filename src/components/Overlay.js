@@ -17,7 +17,7 @@ const UserOverlay = ({ children, ...props }) => {
               <div
                 className={`${
                   props?.userRating ? "fixed" : "block"
-                } rounded-full container mx-auto w-20 h-20`}
+                } ${props?.isSchedule ? 'rounded-md' : 'rounded-full'} container mx-auto w-20 h-20`}
                 style={{
                   zIndex: -1,
                   textAlign: "center",

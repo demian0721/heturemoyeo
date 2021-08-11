@@ -54,8 +54,8 @@ const MyPage = () => {
               <ArrowForwardIosIcon style={{width:"18px"}} onClick={() => { history.push('/mypageedit'); }} />
             </Grid>
             <div style={{ display: "flex", justifyContent: "center" }}>
-              {userlist.likeItem?.map((l) => {
-                return <div style={{ margin: "5px 3px", backgroundColor: "#white", color: "#767676", borderRadius: "5px", padding: "3px 5px", fontSize:"small", border:"1px solid #767676"}}>{l}</div>
+              {userlist.likeItem?.map((l, index) => {
+                return <div key={index} style={{ margin: "5px 3px", backgroundColor: "#white", color: "#767676", borderRadius: "5px", padding: "3px 5px", fontSize:"small", border:"1px solid #767676"}}>{l}</div>
               })}
             </div>
 

@@ -8,14 +8,14 @@ import { useSelector, useDispatch } from "react-redux";
 
 // REDUX
 import { markerActions } from "../redux/modules/marker";
-import { postActions } from '../redux/modules/post'
+import { postActions } from "../redux/modules/post";
 
 // COMMON
 import socket from "../common/socket";
 
 // COMPONENTS
 import Header from "../components/Header";
-import UserOverlay from "../components/UserOverlay";
+import Overlay from "../components/Overlay";
 import Footer from "../components/Footer";
 
 // ELEMENTS
@@ -27,13 +27,15 @@ import useOutsideClick from "../hooks/useOutsideClick";
 // MATERIAL-UI
 import MyLocationIcon from "@material-ui/icons/MyLocation";
 
+import Logger from "../utils/Logger";
+
 const Main = (props) => {
   const dispatch = useDispatch();
   const [geolocationMarker, setGeolocationMarker] = useState(false);
   const [markers, setMarkers] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [myUserId, setMyUserId] = useState(null);
-  const [userData, setUserData] = useState({});
+  const [markerData, setMarkerData] = useState({});
   // const [callUserData, setCallUserData] = useState({})
   const debounce = _.debounce((value, setValue) => setValue(value), 300);
   const ref = useRef();
@@ -51,13 +53,13 @@ const Main = (props) => {
   const myFriends = useSelector((state) => state.user.friendUsers);
   const mySchedules = useSelector((state) => state.user.scheduleUsers);
   const getMarkerData = useSelector((state) => state.marker);
-  const getPostLocations = useSelector((state) => state.post.list)
-  useEffect(() => {
-    setUserData(getMarkerData);
-  }, [getMarkerData]);
+  const getPostLocations = useSelector((state) => state.post.list);
+  const getPostDetailData = useSelector((state) => state.post.postDetail);
 
   // 마커 클릭 이벤트 (바깥 영역 클릭 시 오버레이 닫기)
   useOutsideClick(ref, () => setIsOpen(false));
+  useEffect(() => setMarkerData(getMarkerData), [getMarkerData]);
+  useEffect(() => setMarkerData(getPostDetailData), [getPostDetailData]);
 
   const getUserDataFromAPI = (userId, isFriend, isSameSchedule, isMe) => {
     if (isMe) return getUserData;
@@ -82,21 +84,27 @@ const Main = (props) => {
       setIsOpen(true);
       // console.log(markerData)
       panTo(markerData.position.getLat(), markerData.position.getLng());
-      markerData.setImage(
-        new kakao.maps.MarkerImage(
-          markerData.markerImage.url,
-          new kakao.maps.Size(32, 32),
-          new kakao.maps.Point(30, 31)
-        )
-      );
-      const result = getUserDataFromAPI(
-        markerData.userId,
-        markerData.isFriend,
-        markerData.isSameSchedule,
-        markerData.isMe
-      );
-      setUserData(result);
-      // setUserData(data)
+      // Resize Marker, disabled
+      // markerData.setImage(
+      //   new kakao.maps.MarkerImage(
+      //     markerData.markerImage.url,
+      //     new kakao.maps.Size(32, 32),
+      //     new kakao.maps.Point(30, 31)
+      //   )
+      // );
+      let result;
+      if (markerData.isSchedule) {
+        dispatch(postActions.postDetailInfo(markerData?.postId));
+        result = {};
+      } else {
+        result = getUserDataFromAPI(
+          markerData.userId,
+          markerData.isFriend,
+          markerData.isSameSchedule,
+          markerData.isMe
+        );
+      }
+      if (result) setMarkerData(result);
     } else setIsOpen(false);
   };
 
@@ -108,56 +116,69 @@ const Main = (props) => {
    * - Gray: Anonymous
    */
   // 마커 생성 및 생성되는 마커에 클릭이벤트 부여하기
-  const addMarker = (map, markerUserId, position) => {
-    let isFriend, isSameSchedule, isMe, isMarkerImage;
-    // markerUserId = Number(markerUserId)
-    markerUserId = String(markerUserId);
-    if (
-      myFriends?.includes(markerUserId) &&
-      mySchedules?.includes(markerUserId) &&
-      String(myUserId) !== markerUserId
-    ) {
-      // isFriend: true | isSameSchedules: true | isMe: false
-      isFriend = true;
-      isSameSchedule = true;
-      isMe = false;
-      isMarkerImage = markerImageObj.sameSchedule;
-    } else if (
-      myFriends?.includes(markerUserId) &&
-      !mySchedules?.includes(markerUserId) &&
-      String(myUserId) !== markerUserId
-    ) {
-      // isFriend: true | isSameSchedules: false | isMe: false
-      isFriend = true;
+  const addMarker = (map, setMarkerId, position, post = false) => {
+    let isFriend, isSameSchedule, isMe, isSchedule, isMarkerImage;
+    setMarkerId = String(setMarkerId);
+    if (!post) {
+      if (
+        myFriends?.includes(setMarkerId) &&
+        mySchedules?.includes(setMarkerId) &&
+        String(myUserId) !== setMarkerId
+      ) {
+        // isFriend: true | isSameSchedules: true | isMe: false | schedule: false
+        isFriend = true;
+        isSameSchedule = true;
+        isMe = false;
+        isSchedule = false;
+        isMarkerImage = markerImageObj.sameSchedule;
+      } else if (
+        myFriends?.includes(setMarkerId) &&
+        !mySchedules?.includes(setMarkerId) &&
+        String(myUserId) !== setMarkerId
+      ) {
+        // isFriend: true | isSameSchedules: false | isMe: false | schedule: false
+        isFriend = true;
+        isSameSchedule = false;
+        isMe = false;
+        isSchedule = false;
+        isMarkerImage = markerImageObj.friend;
+      } else if (
+        !myFriends?.includes(setMarkerId) &&
+        mySchedules?.includes(setMarkerId) &&
+        String(myUserId) !== setMarkerId
+      ) {
+        // isFriend: false | isSameSchedules: true | isMe: false | schedule: false
+        isFriend = false;
+        isSameSchedule = true;
+        isMe = false;
+        isSchedule = false;
+        isMarkerImage = markerImageObj.sameSchedule;
+      } else if (
+        !myFriends?.includes(setMarkerId) &&
+        !mySchedules?.includes(setMarkerId) &&
+        String(myUserId) === setMarkerId
+      ) {
+        // isFriend: false | isSameSchedules: false | isMe: true | schedule: false
+        isFriend = false;
+        isSameSchedule = false;
+        isMe = true;
+        isSchedule = false;
+        isMarkerImage = markerImageObj.me;
+      } else {
+        // isFriend: false | isSameSchedules: false | isMe: false | schedule: false
+        isFriend = false;
+        isSameSchedule = false;
+        isMe = false;
+        isSchedule = false;
+        isMarkerImage = markerImageObj.anonymous;
+      }
+    } else if (post) {
+      // isFriend: false | isSameSchedules: false | isMe: false | schedule: true
+      isFriend = false;
       isSameSchedule = false;
       isMe = false;
-      isMarkerImage = markerImageObj.friend;
-    } else if (
-      !myFriends?.includes(markerUserId) &&
-      mySchedules?.includes(markerUserId) &&
-      String(myUserId) !== markerUserId
-    ) {
-      // isFriend: false | isSameSchedules: true | isMe: false
-      isFriend = false;
-      isSameSchedule = true;
-      isMe = false;
-      isMarkerImage = markerImageObj.sameSchedule;
-    } else if (
-      !myFriends?.includes(markerUserId) &&
-      !mySchedules?.includes(markerUserId) &&
-      String(myUserId) === markerUserId
-    ) {
-      // isFriend: false | isSameSchedules: false | isMe: true
-      isFriend = false;
-      isSameSchedule = false;
-      isMe = true;
-      isMarkerImage = markerImageObj.me;
-    } else {
-      // isFriend: false | isSameSchedules: false | isMe: false
-      isFriend = false;
-      isSameSchedule = false;
-      isMe = false;
-      isMarkerImage = markerImageObj.anonymous;
+      isSchedule = true;
+      isMarkerImage = markerImageObj.schedule;
     }
     const markerSize = new kakao.maps.Size(24, 24);
     const markerImageOptions = { offset: new kakao.maps.Point(23, 23) };
@@ -169,10 +190,11 @@ const Main = (props) => {
     const marker = new kakao.maps.Marker({ position, image: markerImage });
     marker.setMap(map);
     Object.assign(marker, {
-      userId: markerUserId,
+      [post ? "postId" : "userId"]: setMarkerId,
       isFriend,
       isSameSchedule,
       isMe,
+      isSchedule,
       position,
       markerImage: {
         url: isMarkerImage,
@@ -183,7 +205,7 @@ const Main = (props) => {
     kakao.maps.event.addListener(marker, "click", () =>
       markerEventListener(marker)
     );
-    markers.push(marker);
+    if (!post) markers.push(marker);
     return marker;
   };
 
@@ -226,6 +248,7 @@ const Main = (props) => {
 
   // 카카오맵 생성하기
   useEffect(() => {
+    Logger.info("[KakaoMap:LoadMap]", 'Loaded KakaoMap, render to "div#map"');
     const container = document.getElementById("map");
     const options = {
       center: new kakao.maps.LatLng(
@@ -236,7 +259,10 @@ const Main = (props) => {
     };
     global.map = new kakao.maps.Map(container, options);
     return () => {
-      console.log("%c[KakaoMap:Marker:Event:Clear]" + "%c Clearing Click EventListener to markers", "color: #fca503;", "color: #ffffff;");
+      Logger.debug(
+        "[KakaoMap:Marker:Event:Clear]",
+        "Clearing Click EventListener to markers"
+      );
       markers.map((marker) =>
         kakao.maps.event.removeListener(marker, "click", () =>
           markerEventListener()
@@ -245,8 +271,20 @@ const Main = (props) => {
     };
   }, [props]);
 
-  if (!props.isGeolocationAvailable) alert("해당 기기는 GeoLocation을 지원하지 않습니다!");
-  if (!props.isGeolocationEnabled) alert("해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!");
+  const setMarkerToSchedule = () => {
+    for (const info of getPostLocations)
+      addMarker(
+        global.map,
+        info.postId,
+        new kakao.maps.LatLng(info.lat, info.lng),
+        true
+      );
+  };
+
+  if (!props.isGeolocationAvailable)
+    alert("해당 기기는 GeoLocation을 지원하지 않습니다!");
+  if (!props.isGeolocationEnabled)
+    alert("해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!");
   if (
     props.isGeolocationAvailable &&
     props.isGeolocationEnabled &&
@@ -258,7 +296,6 @@ const Main = (props) => {
     setMyUserId(getUserData.userId);
 
     dispatch(postActions.getPostLocationDB());
-
     setInterval(() => {
       sendUserLocation(
         getUserData.userId,
@@ -287,12 +324,16 @@ const Main = (props) => {
   useEffect(() => {
     if (!geolocationMarker) return;
     socket.on("userLocation", userLocationListener);
+    setMarkerToSchedule();
     return () => {
-      console.log("%c[Socket.io:UserLocation:Event:Clear]" + "%c Clearing All EventListener to Socket.io Client", "color: #fca503;", "color: #ffffff;");
+      Logger.debug(
+        "[Socket.io:UserLocation:Event:Clear]",
+        "Clearing All EventListener to Socket.io Client"
+      );
       socket.removeAllListeners();
       // socket.disconnect()
     };
-  }, [myFriends, mySchedules, geolocationMarker]);
+  }, [myFriends, mySchedules, getPostLocations, geolocationMarker]);
 
   return (
     <Fragment>
@@ -339,19 +380,24 @@ const Main = (props) => {
             >
               <div ref={ref} className="container mx-auto px-4">
                 <div id="overlay--author__status" className="block">
-                  <UserOverlay
+                  <Overlay
                     isOpen={isOpen}
-                    // isMe={userData?.isMe}
-                    // name={userData?.name}
-                    nickname={userData?.nickname}
-                    userStatusMessage={userData?.statusMessage}
-                    userLikeItem={userData?.likeItem}
-                    userSchedule={userData?.scheduleTitle}
+                    nickname={markerData?.nickname}
+                    userStatusMessage={markerData?.statusMessage}
+                    userLikeItem={markerData?.likeItem}
+                    userSchedule={markerData?.scheduleTitle}
                     profileImage={
-                      userData?.profileImg ?? "/assets/unknownProfile.jpg"
+                      !markerData?.profileImg ??
+                      String(markerData?.profileImg).length === 0
+                        ? markerData?.isSchedule
+                          ? "/assets/unknownChatRoomImg.gif"
+                          : "/assets/unknownProfile.jpg"
+                        : markerData?.profileImg
                     }
-                    scheduleCount={userData?.scheduleCount}
-                    userRating={userData?.rating}
+                    scheduleCount={markerData?.scheduleCount}
+                    userRating={markerData?.rating}
+                    isSchedule={!!markerData?.postId}
+                    {...markerData}
                   />
                 </div>
               </div>

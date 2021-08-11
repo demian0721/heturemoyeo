@@ -9,26 +9,18 @@ import { Grid, Button } from "../elements/index";
 import { history } from "../redux/configStore";
 
 const PostListButton = (props) => {
+  const title = props.children;
     return (
         <React.Fragment>
             <Buttonset>
             <Grid >
-              <MButton
-              onClick={() => {history.push("/postlist");}}>
-                전체 목록
-              </MButton>
+              {title=='all'? <MButton style={{borderBottom: "2px solid #16C59B",color:"#16C59B"}} onClick={() => {history.push("/postlist");}}>전체 목록</MButton> : <MButton onClick={() => {history.push("/postlist");}}>전체 목록</MButton> }
             </Grid>
             <Grid >
-              <MButton
-              onClick={() => {history.push("/postlist/my");}}>
-                초대된 모임
-              </MButton>
+              {title=='invited'? <MButton style={{borderBottom: "2px solid #16C59B",color:"#16C59B"}} onClick={() => {history.push("/postlist/my");}}>초대된 모임</MButton> : <MButton onClick={() => {history.push("/postlist/my");}}>초대된 모임</MButton> }
             </Grid>
             <Grid >
-              <MButton 
-                onClick={() => {history.push("/postlist/my");}}>
-                내 모임
-              </MButton>
+              {title=='my'? <MButton style={{borderBottom: "2px solid #16C59B",color:"#16C59B"}} onClick={() => {history.push("/postlist/my");}}>내 모임</MButton> : <MButton onClick={() => {history.push("/postlist/my");}}>내 모임</MButton> }
             </Grid>
           </Buttonset>
         </React.Fragment>
@@ -55,5 +47,9 @@ const MButton = styled.button`
     border-bottom: 2px solid #16C59B;
   }
 `;
+
+PostListButton.defaultProps = {
+  children:"",
+};
 
 export default PostListButton;

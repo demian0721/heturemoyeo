@@ -187,320 +187,324 @@ const PostWrite = (props) => {
     alert("해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!");
 
   return (
-    <Permit>
-      <Grid>
-        <Header>게시글 작성</Header>
-      </Grid>
-      <Grid
-        width="360px"
-        margin="50px auto"
-        tabletStyle={() => {
-          return css`
-            width: 95%;
-          `;
-        }}
-        mobileStyle={() => {
-          return css`
-            padding: 15px 20px;
-            width: 100%;
-          `;
-        }}
-      >
-        <Grid padding="18px" bg="#EFEFEF">
-          <Grid
-            width="320px"
-            margin="0 30px 0 0"
-            tabletStyle={() => {
-              return css`
-                margin: 0 auto;
-              `;
-            }}
-          >
-            <Grid
-              bg="#EFEFEF"
-              radius="10px"
-              style={{ height: `${height}`, position: "relative" }}
-            >
-              <LabelStyle htmlFor="input--file">
-                {!preview ? (
-                  <>
-                    <InsertPhotoIcon />
-                    이미지 추가
-                  </>
-                ) : null}
-              </LabelStyle>
-
-              <InputFile
-                type="file"
-                id="input--file"
-                ref={fileInput}
-                accept="image/png, image/jpeg"
-                onChange={selectFile}
-              />
-
-              <Image
-                style={{ position: "absolute", left: 0, top: 0 }}
-                src={preview}
-              />
-            </Grid>
-          </Grid>
-          <div>
-            <Input
-              margin="7px 0 7px 0"
-              placeholder="제목"
-              type="text"
-              changeEvent={(e) => {
-                setPostingContents({
-                  ...postingContents,
-                  title: e.target.value,
-                });
-              }}
-            />
-          </div>
-          <div>
-            <Input
-              margin="7px 0 7px 0"
-              placeholder="내용"
-              type="text"
-              changeEvent={(e) => {
-                setPostingContents({
-                  ...postingContents,
-                  content: e.target.value,
-                });
-              }}
-            />
-          </div>
-          <div>
-            <Input
-              margin="7px 0 7px 0"
-              placeholder="인원수(명)"
-              changeEvent={(e) => {
-                setPostingContents({
-                  ...postingContents,
-                  maxMember: e.target.value,
-                });
-              }}
-            />
-          </div>
-          <div>
-            <Input
-              margin="7px 0 7px 0"
-              placeholder="시작시간(연도월일)"
-              type="date"
-              changeEvent={(e) => {
-                setPostingContents({
-                  ...postingContents,
-                  startDate: e.target.value,
-                });
-              }}
-            />
-          </div>
-          <div>
-            <Input
-              margin="7px 0 7px 0"
-              placeholder="종료시간(연도월일)"
-              type="date"
-              changeEvent={(e) => {
-                setPostingContents({
-                  ...postingContents,
-                  endDate: e.target.value,
-                });
-              }}
-            />
-          </div>
-          <div className="flex self-center items-center">
-            <Input
-              margin="7px 0 7px 0"
-              placeholder="장소(한글 주소로 출력)"
-              type="text"
-              value={inputValue}
-              changeEvent={(e) => {
-                setPostingContents({
-                  ...postingContents,
-                  place: e.target.value,
-                });
-              }}
-            />
-            <div
-              className="self-center items-center bg-green-300 cursor-pointer"
-              style={{
-                paddingTop: "6.5px",
-                paddingBottom: "6.5px",
-                paddingRight: "3px",
-                paddingLeft: "3px",
-              }}
-              onClick={() => {
-                setViewModal(true);
-                setIsOpen(true);
-              }}
-            >
-              <SearchIcon />
-            </div>
-          </div>
-          <div>
-            <Input
-              margin="7px 0 7px 0"
-              placeholder="지참금(문자로 적기)"
-              type="text"
-              changeEvent={(e) => {
-                setPostingContents({
-                  ...postingContents,
-                  bring: e.target.value,
-                });
-              }}
-            />
-          </div>
-          <div>
-            <Input
-              margin="7px 0 7px 0"
-              placeholder="태그설정"
-              type="text"
-              changeEvent={(e) => {
-                setPostingContents({
-                  ...postingContents,
-                  tag: String(e.target.value).includes(",")
-                    ? e.target.value.split(",")
-                    : [e.target.value],
-                });
-              }}
-            />
-          </div>
-
-          <EnterButton onClick={addPost}>
-            <tr>
-              <Th>완료</Th>
-              <Td></Td>
-            </tr>
-          </EnterButton>
+    <Style>
+      <Permit width="" height="">
+        <Grid width="" height="">
+          <Header>게시글 작성</Header>
         </Grid>
-      </Grid>
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="fixed inset-0 overflow-y-auto z-10"
-          onClose={() => setViewModal(false)}
-          ref={modalRef}
+        <Grid
+          width="360px" height=""
+          margin="50px auto"
+          tabletStyle={() => {
+            return css`
+              width: 95%;
+            `;
+          }}
+          mobileStyle={() => {
+            return css`
+              padding: 15px 20px;
+              width: 100%;
+            `;
+          }}
         >
-          <div ref={modalRef} className="min-h-screen px-4 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
+          <Grid padding="18px" bg="#EFEFEF" width="" height="">
+            <Grid
+              width="320px"
+              height=""
+              margin="0 30px 0 0"
+              tabletStyle={() => {
+                return css`
+                  margin: 0 auto;
+                `;
+              }}
             >
-              <Dialog.Overlay className="fixed inset-0" />
-            </Transition.Child>
-            <span
-              className="inline-block h-screen align-middle"
-              aria-hidden="true"
-            >
-              &#8203;
-            </span>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <div
-                ref={modalRef}
-                className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl self-center items-center"
+              <Grid
+                bg="#EFEFEF"
+                radius="10px"
+                width="" height=""
+                style={{ height: `${height}`, position: "relative" }}
               >
-                <Dialog.Title
-                  as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
-                >
-                  위치 찾기
-                </Dialog.Title>
-                <div className="mt-2 mb-2">
-                  <p className="text-sm text-gray-500">
-                    지도를 움직여 위치를 찾아주세요.
-                  </p>
-                </div>
+                <LabelStyle htmlFor="input--file">
+                  {!preview ? (
+                    <>
+                      <InsertPhotoIcon />
+                      이미지 추가
+                    </>
+                  ) : null}
+                </LabelStyle>
 
-                {!loadMap ? (
-                  <div
-                    onClick={() => setLoadMap(true)}
-                    className="cursor-pointer inline-flex justify-center px-4 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500 transition duration-300 ease-in-out"
-                  >
-                    지도 로드하기
-                  </div>
-                ) : (
-                  <div
-                    id="map"
-                    className="h-auto w-auto flex rounded-md"
-                    style={{
-                      minWidth: "15.5vw",
-                      maxWidth: "100vw",
-                      minHeight: "30vh",
-                      maxHeight: "30vh",
-                    }}
-                  />
-                )}
+                <InputFile
+                  type="file"
+                  id="input--file"
+                  ref={fileInput}
+                  accept="image/png, image/jpeg"
+                  onChange={selectFile}
+                />
 
-                {!!loadMap && (
-                  <div className="my-2">
-                    {Object.keys(location).length <= 0 ? (
-                      <div className="font-bold">
-                        지도를 움직여 위치를 찾아주세요!
-                      </div>
-                    ) : (
-                      <div id="locationInfo" className="block">
-                        지번 주소: {location?.["지번"] ?? "찾을 수 없음"}
-                        <br />
-                        도로명 주소: {location?.["도로명"] ?? "찾을 수 없음"}
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                <div className="mt-4 space-x-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 transition duration-300 ease-in-out"
-                    onClick={() => {
-                      setViewModal(false);
-                      setIsOpen(false);
-                      setLoadMap(false);
-                      setInputValue(
-                        location?.["도로명"] ??
-                          location?.["지번"] ??
-                          "찾을 수 없음"
-                      );
-                      setPostingContents({
-                        ...postingContents,
-                        ...locationCoords,
-                        place: location?.["도로명"] ?? location?.["지번"] ?? "없음",
-                      })
-                    }}
-                  >
-                    주소 지정하기
-                  </button>
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500 transition duration-300 ease-in-out"
-                    onClick={() => {
-                      setViewModal(false);
-                      setIsOpen(false);
-                      setLoadMap(false);
-                      setLocation({});
-                    }}
-                  >
-                    취소
-                  </button>
-                </div>
+                <Image
+                  style={{ position: "absolute", left: 0, top: 0 }}
+                  src={preview}
+                />
+              </Grid>
+            </Grid>
+            <div>
+              <Input
+                margin="7px 0 7px 0"
+                placeholder="제목"
+                type="text"
+                changeEvent={(e) => {
+                  setPostingContents({
+                    ...postingContents,
+                    title: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div>
+              <Input
+                margin="7px 0 7px 0"
+                placeholder="내용"
+                type="text"
+                changeEvent={(e) => {
+                  setPostingContents({
+                    ...postingContents,
+                    content: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div>
+              <Input
+                margin="7px 0 7px 0"
+                placeholder="인원수(명)"
+                changeEvent={(e) => {
+                  setPostingContents({
+                    ...postingContents,
+                    maxMember: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div>
+              <Input
+                margin="7px 0 7px 0"
+                placeholder="시작시간(연도월일)"
+                type="date"
+                changeEvent={(e) => {
+                  setPostingContents({
+                    ...postingContents,
+                    startDate: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div>
+              <Input
+                margin="7px 0 7px 0"
+                placeholder="종료시간(연도월일)"
+                type="date"
+                changeEvent={(e) => {
+                  setPostingContents({
+                    ...postingContents,
+                    endDate: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div className="flex self-center items-center">
+              <Input
+                margin="7px 0 7px 0"
+                placeholder="장소(한글 주소로 출력)"
+                type="text"
+                value={inputValue}
+                changeEvent={(e) => {
+                  setPostingContents({
+                    ...postingContents,
+                    place: e.target.value,
+                  });
+                }}
+              />
+              <div
+                className="self-center items-center bg-green-300 cursor-pointer"
+                style={{
+                  paddingTop: "6.5px",
+                  paddingBottom: "6.5px",
+                  paddingRight: "3px",
+                  paddingLeft: "3px",
+                }}
+                onClick={() => {
+                  setViewModal(true);
+                  setIsOpen(true);
+                }}
+              >
+                <SearchIcon />
               </div>
-            </Transition.Child>
-          </div>
-        </Dialog>
-      </Transition>
-    </Permit>
+            </div>
+            <div>
+              <Input
+                margin="7px 0 7px 0"
+                placeholder="지참금(문자로 적기)"
+                type="text"
+                changeEvent={(e) => {
+                  setPostingContents({
+                    ...postingContents,
+                    bring: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div>
+              <Input
+                margin="7px 0 7px 0"
+                placeholder="태그설정"
+                type="text"
+                changeEvent={(e) => {
+                  setPostingContents({
+                    ...postingContents,
+                    tag: String(e.target.value).includes(",")
+                      ? e.target.value.split(",")
+                      : [e.target.value],
+                  });
+                }}
+              />
+            </div>
+
+            <EnterButton onClick={addPost}>
+              <tr>
+                <Th>완료</Th>
+                <Td></Td>
+              </tr>
+            </EnterButton>
+          </Grid>
+        </Grid>
+        <Transition appear show={isOpen} as={Fragment}>
+          <Dialog
+            as="div"
+            className="fixed inset-0 overflow-y-auto z-10"
+            onClose={() => setViewModal(false)}
+            ref={modalRef}
+          >
+            <div ref={modalRef} className="min-h-screen px-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Dialog.Overlay className="fixed inset-0" />
+              </Transition.Child>
+              <span
+                className="inline-block h-screen align-middle"
+                aria-hidden="true"
+              >
+                &#8203;
+              </span>
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <div
+                  ref={modalRef}
+                  className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl self-center items-center"
+                >
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
+                    위치 찾기
+                  </Dialog.Title>
+                  <div className="mt-2 mb-2">
+                    <p className="text-sm text-gray-500">
+                      지도를 움직여 위치를 찾아주세요.
+                    </p>
+                  </div>
+
+                  {!loadMap ? (
+                    <div
+                      onClick={() => setLoadMap(true)}
+                      className="cursor-pointer inline-flex justify-center px-4 py-2 text-sm font-medium text-green-900 bg-green-100 border border-transparent rounded-md hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-500 transition duration-300 ease-in-out"
+                    >
+                      지도 로드하기
+                    </div>
+                  ) : (
+                    <div
+                      id="map"
+                      className="h-auto w-auto flex rounded-md"
+                      style={{
+                        minWidth: "15.5vw",
+                        maxWidth: "100vw",
+                        minHeight: "30vh",
+                        maxHeight: "30vh",
+                      }}
+                    />
+                  )}
+
+                  {!!loadMap && (
+                    <div className="my-2">
+                      {Object.keys(location).length <= 0 ? (
+                        <div className="font-bold">
+                          지도를 움직여 위치를 찾아주세요!
+                        </div>
+                      ) : (
+                        <div id="locationInfo" className="block">
+                          지번 주소: {location?.["지번"] ?? "찾을 수 없음"}
+                          <br />
+                          도로명 주소: {location?.["도로명"] ?? "찾을 수 없음"}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  <div className="mt-4 space-x-4">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 transition duration-300 ease-in-out"
+                      onClick={() => {
+                        setViewModal(false);
+                        setIsOpen(false);
+                        setLoadMap(false);
+                        setInputValue(
+                          location?.["도로명"] ??
+                            location?.["지번"] ??
+                            "찾을 수 없음"
+                        );
+                        setPostingContents({
+                          ...postingContents,
+                          ...locationCoords,
+                          place: location?.["도로명"] ?? location?.["지번"] ?? "없음",
+                        })
+                      }}
+                    >
+                      주소 지정하기
+                    </button>
+                    <button
+                      type="button"
+                      className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500 transition duration-300 ease-in-out"
+                      onClick={() => {
+                        setViewModal(false);
+                        setIsOpen(false);
+                        setLoadMap(false);
+                        setLocation({});
+                      }}
+                    >
+                      취소
+                    </button>
+                  </div>
+                </div>
+              </Transition.Child>
+            </div>
+          </Dialog>
+        </Transition>
+      </Permit>
+    </Style>
   );
 };
 
@@ -581,7 +585,17 @@ const InputArea = styled.textarea`
   }
 `;
 
+const Style = styled.div`
+align-items: center;
+margin-top: 75px;
+width: 100vw;
+height: calc(100vh - 75px);
+background-color: #EFEFEF;
+//styled component use
+`;
+
 PostWrite.propTypes = { ...PostWrite.propTypes, ...geoPropTypes };
+
 
 export default geolocated({
   positionOptions: { enableHighAccuracy: false },

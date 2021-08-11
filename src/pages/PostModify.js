@@ -10,7 +10,7 @@ import Header from "../components/Header";
 
 const PostModify = () => {
     return (
-      <React.Fragment>
+      <Style>
         <Grid>
           <Header />
         </Grid>
@@ -39,22 +39,6 @@ const PostModify = () => {
                 <Td></Td>
             </tr> 
             </EnterButton>
-            <PostCard>
-            <Table>
-                    <tr>
-                        <Th>제목</Th>
-                        <Td></Td>
-                    </tr>
-            </Table>
-            </PostCard>
-            <PostCard>
-            <Table>
-                    <tr>
-                        <Th>내용</Th>
-                        <Td></Td>
-                    </tr>
-            </Table>
-            </PostCard>
             <PostCard>
             <Table>
                     <tr>
@@ -118,8 +102,25 @@ const PostModify = () => {
             </EnterButton>
           </Grid>
         </Grid>
+
+        <PostCard>
+            <Table>
+                    <tr>
+                        <Th>제목</Th>
+                        <Td></Td>
+                    </tr>
+            </Table>
+            </PostCard>
+            <PostCard>
+            <Table>
+                    <tr>
+                        <Th>내용</Th>
+                        <Td></Td>
+                    </tr>
+            </Table>
+            </PostCard>
      
-      </React.Fragment>
+      </Style>
     );
   };
   
@@ -151,5 +152,14 @@ const PostModify = () => {
     margin: 15px auto;
     font-size: 12px;
   `;
+
+const Style = styled.div`
+align-items: center;
+margin-top: 75px;
+width: 100vw;
+height: calc(100vh - 75px);
+background-color: #EFEFEF;
+//styled component use
+`;
   
   export default PostModify;

@@ -37,18 +37,18 @@ const Details = (props) => {
   const postDetails = props.Details;
 
   return (
-    <Grid>
+    <Grid >
       <PlaceImageComponent img={postDetails?.postImg} />
-      <Grid padding="18px" bg="white" style={{borderRadius:"30px 30px 0px 0px"}}>
-        <Grid id="detailCardTop" padding="30px 0px" style={{borderBottom:"1px solid black"}}>
+      <Grid padding="18px" width="30%" height="" bg="white" position="fixed" style={{borderRadius:"30px 30px 0px 0px",  bottom:"0px"}}>
+        <Grid  width="" height=""  id="detailCardTop" padding="30px 0px" style={{borderBottom:"1px solid black"}}>
           <Title color="black" fontWeight="800">
             {postDetails?.title}
           </Title>
-          <Grid id="place" is_flex>
+          <Grid id="place" is_flex margin="10px 0px" width="" height="">
             <Image src="/assets/postlist_card_place.png"/>
             <Text color="black" margin="0px 10px" fontSize="smaller">{postDetails?.place}</Text>
           </Grid>
-          <Grid id="pplndate"  is_flex>
+          <Grid id="pplndate"  is_flex margin="15px 0px" width="" height="">
             <Image src="/assets/postlist_card_people.png"/>
             <Text color="black" margin="0px 10px" fontSize="smaller">{postDetails?.maxMember}명</Text>
             <Image src="/assets/postlist_card_calendar.png"/>
@@ -70,7 +70,7 @@ const Details = (props) => {
           {/* <button style={{ width: "40%", backgroundColor: "#a7aaad", height: "35px" }} onClick={() => {history.push("/postlist");}}>
             <Title fontSize="small">닫기</Title>
           </button> */}
-        <Grid margin="10px 10px">
+        <Grid margin="10px 10px" height="30vh">
           <Text color="black" margin="10px auto" fontSize="medium">{postDetails?.content}</Text>
           <Text color="black" margin="10px auto" fontSize="smaller">{postDetails?.bring}</Text>
           <Grid is_flex>

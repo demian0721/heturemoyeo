@@ -59,7 +59,7 @@ const PostListMy = (props) => {
             <img src="/assets/postlist_input_calendar.png" style={{margin:"auto 0px auto 5px"}}/>
           </Grid>
 
-          <PostListButton/>
+          <PostListButton>my</PostListButton>
 
           {PostList.map((l, index) => {
             return <PostListCard key={l.id} idx={index} {...l} />;

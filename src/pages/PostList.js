@@ -68,7 +68,7 @@ const PostList = (props) => {
             </Grid>
             <img src="/assets/postlist_input_calendar.png" style={{margin:"auto 0px auto 5px"}}/>
           </Grid>
-          <PostListButton /> 
+          <PostListButton>all</PostListButton>
           
           <InfiniteScroll postList={PostList} page="PostList" />
 

@@ -1,5 +1,6 @@
 // LIBRARY
 import React, { useEffect } from "react";
+import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 
 // REDUX
@@ -31,39 +32,29 @@ const PostDetail = (props) => {
   };
 
   return (
-    <React.Fragment>
+    <Style>
       <Header />
-      <Grid
-        margin="10px 10px 0px 10px"
-        position="relative"
-        is_flex
-        style={{ zIndex: "50", marginLeft: "80%" }}
-      >
-        <Text
-          clickEvent={() => {
-            history.push("/postmodify");
-          }}
-          margin="5px 5px 0px 5px"
-          style={{ backgroundColor: null }}
-        >
-          Edit
-        </Text>
-        <Text
-          onClick={deletepost}
-          margin="5px 5px 0px 5px"
-          style={{ cursor: "default" }}
-        >
-          삭제
-        </Text>
+      <Grid id="modifyBtn" height="" is_flex margin="10px 10px 0px 10px" position="relative" style={{ zIndex: "50", marginLeft: "80%" }}>
+        <Text clickEvent={() => {history.push("/postmodify");}} margin="5px 5px 0px 5px" style={{ backgroundColor: null }}>Edit</Text>
+        <Text onClick={deletepost} margin="5px 5px 0px 5px" style={{ cursor: "default" }}>삭제</Text>
       </Grid>
 
-      <Grid width="360px" margin="50px auto">
+      <Grid width="360px"  height="" margin="50px auto">
         {is_loaded && (
           <Details Details={postDetails} postId={postId} />
         )}
       </Grid>
-    </React.Fragment>
+    </Style>
   );
 };
+
+const Style = styled.div`
+    align-items: center;
+    margin-top: 75px;
+    width: 100vw;
+    height: calc(100vh - 130px);
+    background-color: #EFEFEF;
+    //styled component use
+`;
 
 export default PostDetail;

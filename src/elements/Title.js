@@ -8,7 +8,7 @@ const TitleStyle = styled.h2`
     margin-bottom: ${(props) => props.marginBottom};
     line-height: ${(props) => props.lineHeight};
     text-align: ${(props) => props.textAlign};
-    font-weight: 700;
+    font-weight: ${(props) => props.fontWeight};
 `;
 
 const Title = ({ children, ...props }) => {
@@ -18,6 +18,7 @@ const Title = ({ children, ...props }) => {
 Title.defaultProps = {
     fontSize: '20px',
     lineHeight: 1.5,
+    fontWeight: 700,
 };
 
 export default Title;

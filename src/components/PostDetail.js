@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 
 //ELEMENTS
-import { Grid, Image, Text, Title } from "../elements/index";
+import { Grid, Image, Text, Title, Button } from "../elements/index";
 
 // HISTORY
 import { history } from "../redux/configStore";
@@ -37,107 +37,70 @@ const Details = (props) => {
   const postDetails = props.Details;
 
   return (
-    <Grid padding="18px" bg="#EFEFEF">
-      <PostCard>
-        <Title fontSize="small">제목</Title>
-        <Text color="black" margin="0px 10px" fontSize="smaller">
-          {postDetails?.title}
-        </Text>
-      </PostCard>
-      <PostCard>
-        {/* <Image src={postDetails?.postImg} /> */}
-        <PlaceImageComponent img={postDetails?.postImg} />
-        <Grid width="60%" margin="0px 10px">
-          <Title fontSize="small">방장 프로필</Title>
-          <Text color="black" fontSize="smaller">
-            [{postDetails?.nickname}, {postDetails?.statusMessage},{" "}
-            {postDetails?.rating}]
-          </Text>
+    <Grid>
+      <PlaceImageComponent img={postDetails?.postImg} />
+      <Grid padding="18px" bg="white" style={{borderRadius:"30px 30px 0px 0px"}}>
+        <Grid id="detailCardTop" padding="30px 0px" style={{borderBottom:"1px solid black"}}>
+          <Title color="black" fontWeight="800">
+            {postDetails?.title}
+          </Title>
+          <Grid id="place" is_flex>
+            <Image src="/assets/postlist_card_place.png"/>
+            <Text color="black" margin="0px 10px" fontSize="smaller">{postDetails?.place}</Text>
+          </Grid>
+          <Grid id="pplndate"  is_flex>
+            <Image src="/assets/postlist_card_people.png"/>
+            <Text color="black" margin="0px 10px" fontSize="smaller">{postDetails?.maxMember}명</Text>
+            <Image src="/assets/postlist_card_calendar.png"/>
+            <Text color="black" margin="0px 10px" fontSize="smaller">{postDetails?.startDate}</Text>
+          </Grid>
         </Grid>
-      </PostCard>
-      <PostCard>
-        <Title fontSize="small">내용</Title>
-        <Text color="black" margin="0px 10px" fontSize="smaller">
-          {postDetails?.content}
-        </Text>
-      </PostCard>
-      <PostCard>
-        <Title fontSize="small">구성인원</Title>
-        <Text color="black" margin="0px 10px" fontSize="smaller">
-          {postDetails?.maxMember}명
-        </Text>
-      </PostCard>
-      <PostCard>
-        <Title fontSize="small">시작시간</Title>
-        <Text color="black" margin="0px 10px" fontSize="smaller">
-          {postDetails?.startDate}
-        </Text>
-      </PostCard>
-      <PostCard>
-        <Title fontSize="small">종료시간</Title>
-        <Text color="black" margin="0px 10px" fontSize="smaller">
-          {postDetails?.endDate}
-        </Text>
-      </PostCard>
-      <PostCard>
-        <Title fontSize="small">장소(한글 주소로 출력)</Title>
-        <Text color="black" margin="0px 10px" fontSize="smaller">
-          {postDetails?.place}
-        </Text>
-      </PostCard>
-      <PostCard>
-        <Title fontSize="small">지참금(문자로 적기)</Title>
-        <Text color="black" margin="0px 10px" fontSize="smaller">
-          {postDetails?.bring}
-        </Text>
-      </PostCard>
-      <PostCard>
-        <Title fontSize="small">태그</Title>
-        <div
-          style={{
-            marginLeft: "10px",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          {postDetails?.tag?.map((l, index) => {
-            return (
-              <div
-                key={index}
-                style={{
-                  margin: "0px 5px",
-                  backgroundColor: "#0055FF",
-                  color: "white",
-                  borderRadius: "5px",
-                  padding: "5px",
-                }}
-              >
-                {l}
-              </div>
-            );
-          })}
-        </div>
-      </PostCard>
-      <Grid is_flex style={{ justifyContent: "space-between" }}>
-        <button
-          style={{ width: "40%", backgroundColor: "#a7aaad" }}
-          onClick={() => {
-            history.push("/chat/" + props.postId);
-          }}
-        >
-          <Title fontSize="small">대화방 참여</Title>
-          <Text color="black" margin="0px 10px" fontSize="smaller">
-            {postDetails?.currentMember}명
+          
+          {/* 필요없어진 방장 프로필n종료시각n닫기 */}
+          {/* <Grid width="60%" margin="0px 10px">
+            <Title fontSize="small">방장 프로필</Title>
+            <Text color="black" fontSize="smaller">
+              [{postDetails?.nickname}, {postDetails?.statusMessage},{" "}
+              {postDetails?.rating}]
+            </Text>
+          </Grid> */}
+          {/* <Text color="black" margin="0px 10px" fontSize="smaller">
+            {postDetails?.endDate}
+          </Text> */}
+          {/* <button style={{ width: "40%", backgroundColor: "#a7aaad", height: "35px" }} onClick={() => {history.push("/postlist");}}>
+            <Title fontSize="small">닫기</Title>
+          </button> */}
+        <Grid margin="10px 10px">
+          <Text color="black" margin="10px auto" fontSize="medium">{postDetails?.content}</Text>
+          <Text color="black" margin="10px auto" fontSize="smaller">{postDetails?.bring}</Text>
+          <Grid is_flex>
+            {postDetails?.tag?.map((l, index) => {
+                return (
+                  <div
+                    key={index}
+                    style={{
+                      fontWeight:"bold",
+                      fontSize:"12px",
+                      margin: "0px 10px 0px 0px",
+                      backgroundColor: "#E0F6EC",
+                      color: "#9AC1AF",
+                      borderRadius: "5px",
+                      padding: "3px 5px",
+                    }}
+                  >
+                    {l}
+                  </div>
+                );
+              })}
+          </Grid>
+        </Grid>
+          
+        <Grid id="chatRoom" margin="10px auto" style={{borderTop:"1px solid #E2E2E2"}}>
+          <Text color="#8DDAB6" margin="10px auto" fontSize="14px" fontWeight="bold" style={{textAlign:"center"}}>
+              {postDetails?.currentMember}/{postDetails?.maxMember}명
           </Text>
-        </button>
-        <button
-          style={{ width: "40%", backgroundColor: "#a7aaad", height: "35px" }}
-          onClick={() => {
-            history.push("/postlist");
-          }}
-        >
-          <Title fontSize="small">닫기</Title>
-        </button>
+          <Button bg="#16C59B" width="80%" padding="15px" margin="auto" display="block" color="white" style={{minWidth:"100px",fontWeight:"bold", border: "none"}} hoverColor="#16C59B" onClick={() => {history.push("/chat/" + props.postId);}}>대화방 참여</Button>
+        </Grid>
       </Grid>
     </Grid>
   );

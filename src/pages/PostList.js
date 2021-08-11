@@ -44,14 +44,10 @@ const PostList = (props) => {
       </Grid>
 
       <Grid width="360px" height="" margin="auto">
-        <Grid padding="18px" height="" bg="white">
-          <Grid is_flex >
+        <Grid height="" bg="white">
+          <Grid is_flex padding="18px" >
             <Grid is_flex padding="8px 8px" height="" bg="#EFEFEF"
-              style={{
-                // justifyContent: "space-between",
-                margin: "auto",
-              }}
-            >
+              style={{margin: "auto",}}>
               <SearchIcon style={{color:"#767676"}}/>
               <input placeholder="제목, 내용, 태그 또는 날짜" style={{padding:"0px 5px",width:"100%", backgroundColor:"#EFEFEF"}}/>
             </Grid>

@@ -10,6 +10,7 @@ import { postActions } from "../redux/modules/post";
 
 // ELEMENTS
 import { Grid, Button } from "../elements/index";
+import SearchIcon from '@material-ui/icons/Search';
 
 // HISTORY
 import { history } from "../redux/configStore";
@@ -28,14 +29,12 @@ const PostListMy = (props) => {
   const PostList = useSelector((state) => state.post.list);
 
   return (
-    <React.Fragment>
-      <Grid>
-        <Header/>
+    <Style>
+      <Grid height="">
+        <Header>모임구하기</Header>
       </Grid>
 
-      <Grid
-        width="360px"
-        margin="50px auto"
+      <Grid width="360px" height="" margin="auto"
         // padding="55px 40px 100.2px"
         // shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
         tabletStyle={() => {
@@ -46,19 +45,18 @@ const PostListMy = (props) => {
         mobileStyle={() => {
           return css`
             padding: 15px 20px;
-            width: 100%;
+            width: 100vw;
           `;
         }}
       >
-        <Grid padding="18px" bg="#EFEFEF">
-          <Grid
-            padding="8px 8px"
-            is_flex
-            bg="white"
-            style={{ border: "1px solid #ccc", justifyContent:"space-between", marginBottom:"10px" }}
-          >
-            <input placeholder="제목, 내용, 태그 또는 날짜"/>
-            <TodayIcon color="action" />
+        <Grid height="" bg="white">
+          <Grid is_flex padding="18px" >
+            <Grid is_flex padding="8px 8px" height="" bg="#EFEFEF"
+              style={{margin: "auto",}}>
+              <SearchIcon style={{color:"#767676"}}/>
+              <input placeholder="제목, 내용, 태그 또는 날짜" style={{padding:"0px 5px",width:"100%", backgroundColor:"#EFEFEF"}}/>
+            </Grid>
+            <img src="/assets/postlist_input_calendar.png" style={{margin:"auto 0px auto 5px"}}/>
           </Grid>
 
           <PostListButton/>
@@ -88,8 +86,17 @@ const PostListMy = (props) => {
       <Grid>
         <Footer>group</Footer>
       </Grid>
-    </React.Fragment>
+    </Style>
   );
 };
+
+const Style = styled.div`
+    align-items: center;
+    margin-top: 75px;
+    width: 100vw;
+    height: calc(100vh - 130px);
+    background-color: #EFEFEF;
+    //styled component use
+`;
 
 export default PostListMy;

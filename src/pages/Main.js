@@ -33,6 +33,7 @@ const Main = (props) => {
   const dispatch = useDispatch();
   const [geolocationMarker, setGeolocationMarker] = useState(false);
   const [markers, setMarkers] = useState([]);
+  const [posts, setPosts] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [myUserId, setMyUserId] = useState(null);
   const [markerData, setMarkerData] = useState({});
@@ -53,7 +54,6 @@ const Main = (props) => {
   const myFriends = useSelector((state) => state.user.friendUsers);
   const mySchedules = useSelector((state) => state.user.scheduleUsers);
   const getMarkerData = useSelector((state) => state.marker);
-  const getPostLocations = useSelector((state) => state.post.list);
   const getPostDetailData = useSelector((state) => state.post.postDetail);
 
   // 마커 클릭 이벤트 (바깥 영역 클릭 시 오버레이 닫기)
@@ -61,16 +61,18 @@ const Main = (props) => {
   useEffect(() => setMarkerData(getMarkerData), [getMarkerData]);
   useEffect(() => setMarkerData(getPostDetailData), [getPostDetailData]);
 
-  const getUserDataFromAPI = (userId, isFriend, isSameSchedule, isMe) => {
+  const getDataFromAPI = (id, isFriend, isSameSchedule, isMe, isSchedule) => {
     if (isMe) return getUserData;
-    if (isFriend && !isSameSchedule && !isMe)
-      dispatch(markerActions.targetFriendDB(userId));
-    if (!isFriend && isSameSchedule && !isMe)
-      dispatch(markerActions.targetPostDB(userId));
-    if (isFriend && isSameSchedule && !isMe)
-      dispatch(markerActions.targetPostDB(userId));
-    if (!isFriend && !isSameSchedule && !isMe)
-      dispatch(markerActions.targetAllDB(userId));
+    if (isFriend && !isSameSchedule && !isMe && !isSchedule)
+      dispatch(markerActions.targetFriendDB(id));
+    if (!isFriend && isSameSchedule && !isMe && !isSchedule)
+      dispatch(markerActions.targetPostDB(id));
+    if (isFriend && isSameSchedule && !isMe && !isSchedule)
+      dispatch(markerActions.targetPostDB(id));
+    if (!isFriend && !isSameSchedule && !isMe && !isSchedule)
+      dispatch(markerActions.targetAllDB(id));
+    if (!isFriend && !isSameSchedule && !isMe && isSchedule)
+      dispatch(postActions.postDetailInfo(id));
     return {};
   };
 
@@ -92,18 +94,13 @@ const Main = (props) => {
       //     new kakao.maps.Point(30, 31)
       //   )
       // );
-      let result;
-      if (markerData.isSchedule) {
-        dispatch(postActions.postDetailInfo(markerData?.postId));
-        result = {};
-      } else {
-        result = getUserDataFromAPI(
-          markerData.userId,
-          markerData.isFriend,
-          markerData.isSameSchedule,
-          markerData.isMe
-        );
-      }
+      const result = getDataFromAPI(
+        markerData.isSchedule ? markerData.postId : markerData.userId,
+        markerData.isFriend,
+        markerData.isSameSchedule,
+        markerData.isMe,
+        markerData.isSchedule
+      );
       if (result) setMarkerData(result);
     } else setIsOpen(false);
   };
@@ -248,7 +245,7 @@ const Main = (props) => {
 
   // 카카오맵 생성하기
   useEffect(() => {
-    Logger.info("[KakaoMap:LoadMap]", 'Loaded KakaoMap, render to "div#map"');
+    Logger.info('[KakaoMap:LoadMap] Loaded KakaoMap, render to "div#map"');
     const container = document.getElementById("map");
     const options = {
       center: new kakao.maps.LatLng(
@@ -260,8 +257,7 @@ const Main = (props) => {
     global.map = new kakao.maps.Map(container, options);
     return () => {
       Logger.debug(
-        "[KakaoMap:Marker:Event:Clear]",
-        "Clearing Click EventListener to markers"
+        "[KakaoMap:Marker:Event:Clear] Clearing Click EventListener to markers"
       );
       markers.map((marker) =>
         kakao.maps.event.removeListener(marker, "click", () =>
@@ -269,17 +265,7 @@ const Main = (props) => {
         )
       );
     };
-  }, [props]);
-
-  const setMarkerToSchedule = () => {
-    for (const info of getPostLocations)
-      addMarker(
-        global.map,
-        info.postId,
-        new kakao.maps.LatLng(info.lat > 100 ? info.lng : info.lat, info.lng < 100 ? info.lat : info.lng),
-        true
-      );
-  };
+  }, [geolocationMarker, setGeolocationMarker]);
 
   if (!props.isGeolocationAvailable)
     alert("해당 기기는 GeoLocation을 지원하지 않습니다!");
@@ -294,13 +280,13 @@ const Main = (props) => {
   ) {
     setGeolocationMarker(true);
     setMyUserId(getUserData.userId);
-    dispatch(postActions.getPostLocationDB());
     setInterval(() => {
       sendUserLocation(
         getUserData.userId,
         props.coords.latitude,
         props.coords.longitude
       );
+      socket.emit("getPostList");
     }, 2000);
   }
 
@@ -320,19 +306,38 @@ const Main = (props) => {
     }
   };
 
+  const postLocationListener = (data) => {
+    posts.map((el) => el.setMap(null));
+    posts.splice(0, posts.length);
+    setPosts([]);
+    for (const obj of data) {
+      if (obj?.postId !== null) {
+        addMarker(
+          global.map,
+          obj.postId,
+          new kakao.maps.LatLng(
+            obj.lat > 100 ? obj.lng : obj.lat,
+            obj.lng < 100 ? obj.lat : obj.lng
+          ),
+          true
+        );
+      }
+    }
+  };
+
   useEffect(() => {
     if (!geolocationMarker) return;
     socket.on("userLocation", userLocationListener);
-    setMarkerToSchedule();
+    socket.on("postList", postLocationListener);
+    // setMarkerToSchedule();
     return () => {
       Logger.debug(
-        "[Socket.io:UserLocation:Event:Clear]",
-        "Clearing All EventListener to Socket.io Client"
+        "[Socket.io:UserLocation:Event:Clear] Clearing All EventListener to Socket.io Client"
       );
       socket.removeAllListeners();
       // socket.disconnect()
     };
-  }, [myFriends, mySchedules, getPostLocations, geolocationMarker]);
+  }, [myFriends, mySchedules, geolocationMarker]);
 
   return (
     <Fragment>

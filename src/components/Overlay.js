@@ -149,7 +149,7 @@ const PostOverlay = ({ children, ...props }) => {
               {props.content}
             </div>
           )} */}
-          <div id="schedule-detail" className="flex space-x-4 mt-2">
+          <div id="schedule-detail" className="flex space-x-1 mt-2">
             <div className="flex self-center">
               <PeopleIcon />
               <span className="ml-1">

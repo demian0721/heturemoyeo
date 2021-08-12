@@ -111,7 +111,7 @@ const deleteAPost = (postId) => {
   };
 };
 
-const getMyPostsDB = (limit = 5) => {
+const getMyPostsDB = (limit = 50) => {
   return function (dispatch) {
     instance
       .get(`/api/post/posts/my?start=0&limit=${limit + 1}`)

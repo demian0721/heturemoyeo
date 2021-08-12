@@ -106,7 +106,7 @@ const PostWrite = (props) => {
     if (!isAvailable) return window.alert("각 항목은 필수 입력사항 입니다.");
     dispatch(postActions.addPostDB(fileInput.current.files[0], postingContents));
     dispatch(imgActions.setPreview(null));
-    props.history.replace("/postlist");
+    window.location.href="/postlist"
   };
 
   useEffect(() => {

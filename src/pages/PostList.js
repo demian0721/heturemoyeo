@@ -22,9 +22,6 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import PostListButton from "../components/PostListButton";
 
-// import MyLocationIcon from "@material-ui/icons/MyLocation";
-
-
 const PostList = (props) => {
   const dispatch = useDispatch();
   const PostList = useSelector((state) => state.post.list);

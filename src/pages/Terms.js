@@ -184,7 +184,8 @@ export class Terms extends Component {
               padding="12px 0"
               bg="#16C59B"  
               radius="5px"
-              color="#FFFFFF"            
+              color="#FFFFFF" 
+              className="custom_transition"           
               hoverColor="#16C59B"
               fontSize="15px"
               style={{ fontWeight: "bold",
@@ -204,7 +205,8 @@ export class Terms extends Component {
               padding="12px 0"
               bg="#16C59B"  
               radius="5px"
-              color="#FFFFFF"            
+              color="#FFFFFF"    
+              className="custom_transition"        
               hoverColor="#16C59B"
               fontSize="15px"
               style={{ fontWeight: "bold",

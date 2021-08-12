@@ -10,7 +10,7 @@ import { searchActions } from '../redux/modules/search';
 import InfiniteScroll from '../common/infiniteScroll';
 
 // ELEMENTS
-import { Grid, Button } from "../elements/index";
+import { Grid, Button, Text } from "../elements/index";
 
 // HISTORY
 import { history } from "../redux/configStore";
@@ -23,6 +23,7 @@ import PostListButton from "../components/PostListButton";
 const SearchPostList = (props) => {
   const dispatch = useDispatch();
   const keyword = window.location.search.slice(1).split('=')[1];
+  console.log(keyword);
   const searchList = useSelector((state) => state.search.list);
 
   useEffect(() => {
@@ -75,7 +76,20 @@ const SearchPostList = (props) => {
           </Grid>
           <PostListButton />
           
-          <InfiniteScroll postList={searchList} page="SearchPostList" keyword={keyword} />
+           {/* <InfiniteScroll postList={searchList} page="SearchPostList" keyword={keyword} /> */}
+           <>
+            {searchList.length ? (
+              <InfiniteScroll
+                postList={searchList}
+                page="SearchPostList"
+                keyword={keyword}
+              />
+            ) : (
+              <Text fontSize="23px" margin="30px 30px 0 80px">
+                {decodeURI(keyword)}에 대한 검색 결과가 없습니다.
+              </Text>
+            )}
+          </>
 
           <Grid padding="5px 0px">
             <Button

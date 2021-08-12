@@ -16,19 +16,20 @@ const initialState = {
 };
 
 // MIDDLEWARE
-const searchPostDB = (keyword, limit = 5) => {
+const searchPostDB = (keyword, searchDate, limit = 5) => {
   return function (dispatch) {
+    console.log(keyword);
     instance
-      .get(`/api/search/post?keyword=${keyword}&start=0&limit=${limit + 1}`)
+      .get(`/api/search/post?keyword=${keyword}&start=0&limit=${limit + 1}&searchDate=${searchDate}`)
       .then((res) => {
-        if (res.data.result.length < limit + 1) {
-          dispatch(getSearchPost(res.data.result, null));
+        if (res.data.length < limit + 1) {
+          dispatch(getSearchPost(res.data, null));
           return;
         }
 
-        if (res.data.result.length >= limit + 1) res.data.result.pop();
+        if (res.data.length >= limit + 1) res.data.pop();
 
-        dispatch(getSearchPost(res.data.result, limit));
+        dispatch(getSearchPost(res.data, limit));
       })
       .catch((error) => {
         console.error(error);
@@ -36,23 +37,23 @@ const searchPostDB = (keyword, limit = 5) => {
   };
 };
 
-const searchMorePostDB = (keyword, limit = 5) => {
+const searchMorePostDB = (keyword, searchDate, limit = 5) => {
   return function (dispatch, getState) {
     const start = getState().search.start;
 
     if (start === null) return;
 
     instance
-      .get(`/api/search/post?keyword=${keyword}&start=${start}&limit=${limit + 1}`)
+      .get(`/api/search/post?keyword=${keyword}&start=${start}&limit=${limit + 1}}&searchDate=${searchDate}`)
       .then((res) => {
-        if (res.data.result.length < limit + 1) {
-          dispatch(getSearchMorePost(res.data.result, null));
+        if (res.data.length < limit + 1) {
+          dispatch(getSearchMorePost(res.data, null));
           return;
         }
 
-        if (res.data.result.length >= limit + 1) res.data.result.pop();
+        if (res.data.length >= limit + 1) res.data.pop();
 
-        dispatch(getSearchMorePost(res.data.result, start + limit));
+        dispatch(getSearchMorePost(res.data, start + limit));
       })
       .catch((error) => {
         console.error(error);
@@ -64,10 +65,10 @@ const searchMorePostDB = (keyword, limit = 5) => {
 function search(state = initialState, action) {
   switch (action.type) {
     case SEARCH_POST:
-      return { list: action.searchPost, start: action.start };
+      return { list: action.searchPost, start: action.start, searchDate: action.searchDate };
 
     case SEARCH_MORE_POST:
-      return { list: [...state.list, ...action.searchPost], start: action.start };
+      return { list: [...state.list, ...action.searchPost], start: action.start, searchDate: action.searchDate };
 
     default:
       return state;

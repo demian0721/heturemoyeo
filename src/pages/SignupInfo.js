@@ -1,7 +1,7 @@
 // LIBRARY
 import React, { useRef, useState, useEffect } from "react";
-import _ from "lodash";
 import styled, { css } from "styled-components";
+import _ from "lodash";
 
 // Elements
 import { Text, Title, Input, Grid, Button, Image } from "../elements";
@@ -21,6 +21,11 @@ const SignupInfo = (props) => {
   const dispatch = useDispatch();
   const debounce = _.debounce((value, setValue) => setValue(value), 300);
 
+  const fileInput = useRef();
+  const image = useSelector((state) => state.image);
+  const preview = !image.preview && props ? props.postImg : image.preview;
+  const [height, setHeight] = useState(preview ? "auto" : "380px");
+
   const [nickname, setNickname] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
   const [nicknameConfirm, setNicknameConfirm] = useState("");
@@ -32,6 +37,7 @@ const SignupInfo = (props) => {
   const pwd = tempInfo?.pwd;
   const name = tempInfo?.name;
   const profileImg = "";
+  console.log(profileImg);
 
   useEffect(() => {
     if (!tempInfo){
@@ -55,25 +61,13 @@ const SignupInfo = (props) => {
   };
 
   const signup = () => {
-    userActions.signupDB(id, name, nickname, pwd, pwd, profileImg, statusMessage, likeItem); 
+    dispatch(userActions.signupDB(id, name, nickname, pwd, pwd, profileImg, statusMessage, likeItem)); 
+    dispatch(imgActions.setPreview(null));
+
     window.alert("회원가입이 완료되었습니다. 다시 로그인해 주세요.");
     history.push("/login");
   };
 
-  const nicknamedup = () => {
-    if (nickname === "") {
-      window.alert("닉네임이 입력되지 않았습니다.");
-      return;
-    }
-    dispatch(userActions.nickCheck(nickname));
-    setNicknameConfirm("");
-  };
-
-  const fileInput = useRef();
-
-  const image = useSelector((state) => state.image);
-  const preview = !image.preview && props ? props.postImg : image.preview;
-  const [height, setHeight] = useState(preview ? "auto" : "380px");
   const selectFile = (event) => {
     const reader = new FileReader();
     const file = event.target.files[0];
@@ -86,6 +80,15 @@ const SignupInfo = (props) => {
         setHeight("auto");
       };
     }
+  };
+
+  const nicknamedup = () => {
+    if (nickname === "") {
+      window.alert("닉네임이 입력되지 않았습니다.");
+      return;
+    }
+    dispatch(userActions.nickCheck(nickname));
+    setNicknameConfirm("");
   };
 
   return (
@@ -186,6 +189,7 @@ const SignupInfo = (props) => {
               fontSize="13px"
               bg="#A7AAAD"
               color="#FFFFFF"
+              className="custom_transition"
               style={{ cursor: "pointer",
                       border: "none",
                       fontWeight: "bold" }}
@@ -223,6 +227,7 @@ const SignupInfo = (props) => {
               bg="#16C59B"
               radius="5px"
               color="#FFFFFF"
+              className="custom_transition"
               style={{ fontWeight: "bold",
                        border: "none" }}
               hoverColor="#16C59B" 

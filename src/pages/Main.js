@@ -276,7 +276,7 @@ const Main = (props) => {
       addMarker(
         global.map,
         info.postId,
-        new kakao.maps.LatLng(info.lat, info.lng),
+        new kakao.maps.LatLng(info.lat > 100 ? info.lng : info.lat, info.lng < 100 ? info.lat : info.lng),
         true
       );
   };
@@ -294,7 +294,6 @@ const Main = (props) => {
   ) {
     setGeolocationMarker(true);
     setMyUserId(getUserData.userId);
-
     dispatch(postActions.getPostLocationDB());
     setInterval(() => {
       sendUserLocation(
@@ -362,8 +361,8 @@ const Main = (props) => {
               style={{
                 minWidth: "100vw",
                 maxWidth: "100vw",
-                minHeight: "94vh",
-                maxHeight: "94vh",
+                minHeight: "95vh",
+                maxHeight: "95vh",
               }}
             />
             {/* 오버레이 */}
@@ -396,7 +395,8 @@ const Main = (props) => {
                     }
                     scheduleCount={markerData?.scheduleCount}
                     userRating={markerData?.rating}
-                    isSchedule={!!markerData?.postId}
+                    isSchedule={markerData?.type === 'post'}
+                    id={markerData?.userId ?? markerData?.postId}
                     {...markerData}
                   />
                 </div>

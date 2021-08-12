@@ -87,6 +87,7 @@ const postDetailInfo = (postId) => {
         },
       })
       .then((res) => {
+        Object.assign(res.data, { type: 'post', postId })
         dispatch(postDetail(res.data));
       })
       .catch((error) => {

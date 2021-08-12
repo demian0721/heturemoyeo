@@ -69,6 +69,7 @@ const PostWrite = (props) => {
     lng: postInfo ? postInfo.lng: 0
   });
   console.log(postingContents)
+  console.log(locationCoords)
   const isItPossibleToAdd = () => {
     if (
       preview &&
@@ -131,7 +132,7 @@ const PostWrite = (props) => {
     marker.setPosition(kakaoMap.getCenter());
     marker.setMap(kakaoMap);
     const getMapCenter = kakaoMap.getCenter();
-    setLocationCoords({ lat: getMapCenter["Ma"], lng: getMapCenter["La"] });
+    setLocationCoords({ lat: getMapCenter.getLat(), lng: getMapCenter.getLng() });
     getAddressDetailFromCoords(getMapCenter, (result, status) => {
       if (status === kakao.maps.services.Status.OK) {
         const data = result?.[0];
@@ -458,6 +459,11 @@ const PostWrite = (props) => {
                           지번 주소: {location?.["지번"] ?? "찾을 수 없음"}
                           <br />
                           도로명 주소: {location?.["도로명"] ?? "찾을 수 없음"}
+                          <br />
+                          <br />
+                          Latitude: {locationCoords.lat}
+                          <br />
+                          Longitude: {locationCoords.lng}
                         </div>
                       )}
                     </div>

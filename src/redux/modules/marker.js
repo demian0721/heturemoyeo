@@ -36,6 +36,7 @@ const targetAllDB = (userId) => {
       .get(`/api/user/target/all?userId=${userId}`)
       .then((res) => {
         // console.log(res)
+        Object.assign(res.data, { type: "anonymous" });
         dispatch(targetAll(res.data));
       })
       .catch((error) => {
@@ -50,6 +51,7 @@ const targetFriendDB = (userId) => {
       .get(`/api/user/target/friend?userId=${userId}`)
       .then((res) => {
         // console.log(res)
+        Object.assign(res.data, { type: "friend" });
         dispatch(targetFriend(res.data));
       })
       .catch((error) => {
@@ -64,6 +66,7 @@ const targetPostDB = (userId) => {
       .get(`/api/user/target/post?userId=${userId}`)
       .then((res) => {
         // console.log(res)
+        Object.assign(res.data, { type: "sameSchedule", userId });
         dispatch(targetPost(res.data));
       })
       .catch((error) => {
@@ -110,7 +113,6 @@ export default handleActions(
         draft.scheduleTitle = action.payload.userInfo.scheduleTitle;
         draft.isFriend = action.payload.userInfo.isFriend;
       }),
-
   },
   initialState
 );

@@ -124,7 +124,7 @@ const loginAction = (user) => {
         dispatch(logIn(res.data.token));
         dispatch(myInfoDB());
         dispatch(relationDB());
-        history.push("/");
+        window.location.href = "/"
       })
       .catch((error) => {
         console.error(error);

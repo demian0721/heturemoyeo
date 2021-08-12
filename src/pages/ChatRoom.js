@@ -16,7 +16,7 @@ import Logger from '../utils/Logger'
 const ChatRoom = (props) => {
   const dispatch = useDispatch();
   const myUserId = useSelector((state) => state.user.userId);
-  const getChatDatas = useSelector((state) => state.chat.chatList.reverse().splice(0, 20).reverse());
+  const getChatDatas = useSelector((state) => state.chat.chatList.reverse().splice(0, 1000).reverse());
   const [init, setInit] = useState(false);
   const { messages, appendMsg } = useMessages([]);
   if (getChatDatas?.length >= 1 && myUserId && !init) {

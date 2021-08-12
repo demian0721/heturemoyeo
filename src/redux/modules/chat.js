@@ -30,6 +30,7 @@ const getChatDB = (postId, limit = 1000) => {
     instance
       .get(`/api/room/${postId}?start=0&limit=${limit}`)
       .then((res) => {
+        console.log(res)
         if (res.data.length < limit + 1) {
           dispatch(getChat(res.data, null));
           return;

@@ -409,12 +409,12 @@ const PostWrite = (props) => {
             <Grid style={{border:"1px solid #B2B2B2", margin:"10px 0px"}}/>
 
 
-            <div>
+            <div style={{margin:"15px 0px",}}>
+              <Text color="#535353" fontWeight="bold" fontSize="14px" margin="3px 0px">태그입력</Text>
               <input
                 style={{
                   width: "100%",
                   border:"1.5px solid #white",
-                  margin:"7px 5px 7px 5px",
                   // borderBottom:"1.5px solid #E5E5E5",
                 }}
                 placeholder="태그설정"

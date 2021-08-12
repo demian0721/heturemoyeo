@@ -101,6 +101,7 @@ function PlaceImageComponent(props) {
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
           float: "center",
+          borderRadius:"0px"
         }}
       >
         <span className="sr-only">X</span>

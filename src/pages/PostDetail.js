@@ -34,12 +34,12 @@ const PostDetail = (props) => {
   return (
     <Style>
       <Header />
-      <Grid id="modifyBtn" height="" is_flex margin="10px 10px 0px 10px" position="relative" style={{ zIndex: "50", marginLeft: "80%" }}>
+      {/* <Grid id="modifyBtn" height="" is_flex margin="10px 10px 0px 10px" position="relative" style={{ zIndex: "50", marginLeft: "80%" }}>
         <Text clickEvent={() => {history.push("/postmodify");}} margin="5px 5px 0px 5px" style={{ backgroundColor: null }}>Edit</Text>
         <Text onClick={deletepost} margin="5px 5px 0px 5px" style={{ cursor: "default" }}>삭제</Text>
-      </Grid>
+      </Grid> */}
 
-      <Grid width="360px"  height="" margin="50px auto">
+      <Grid width=""  height="" margin="">
         {is_loaded && (
           <Details Details={postDetails} postId={postId} />
         )}
@@ -51,7 +51,7 @@ const PostDetail = (props) => {
 const Style = styled.div`
     align-items: center;
     margin-top: 75px;
-    width: 100vw;
+    /* width: 100vw; */
     height: calc(100vh - 75px);
     background-color: #EFEFEF;
     //styled component use

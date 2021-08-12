@@ -13,7 +13,7 @@ function PlaceImageComponent(props) {
   return (
     <div className="inline-flex items-center">
       <div
-        className="block rounded-md w-24 h-24"
+        className="block w-24 h-24"
         style={{
           textAlign: "center",
           backgroundImage: `url('${
@@ -25,6 +25,10 @@ function PlaceImageComponent(props) {
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
           float: "center",
+          width: "30vw",
+          minWidth:"360px",
+          height:"32vh" ,
+          borderRadius:"0px",
         }}
       >
         <span className="sr-only">X</span>
@@ -37,22 +41,22 @@ const Details = (props) => {
   const postDetails = props.Details;
 
   return (
-    <Grid >
+    <Grid height="32vh" width="30%" minWidth="360px" margin="auto">
       <PlaceImageComponent img={postDetails?.postImg} />
-      <Grid padding="18px" width="30%" height="" bg="white" position="fixed" style={{borderRadius:"30px 30px 0px 0px",  bottom:"0px"}}>
+      <Grid padding="18px" width="30%" minWidth="360px" margin="auto" height="" bg="white" position="fixed" style={{borderRadius:"30px 30px 0px 0px",  bottom:"0px", left:"50%",transform: "translateX(-50%)"}}>
         <Grid  width="" height=""  id="detailCardTop" padding="30px 0px" style={{borderBottom:"1px solid black"}}>
-          <Title color="black" fontWeight="800">
+          <Title color="black" fontWeight="800" fontSize="20px">
             {postDetails?.title}
           </Title>
           <Grid id="place" is_flex margin="10px 0px" width="" height="">
             <Image src="/assets/postlist_card_place.png"/>
-            <Text color="black" margin="0px 10px" fontSize="smaller">{postDetails?.place}</Text>
+            <Text color="black" margin="0px 10px" fontSize="13px">{postDetails?.place}</Text>
           </Grid>
           <Grid id="pplndate"  is_flex margin="15px 0px" width="" height="">
             <Image src="/assets/postlist_card_people.png"/>
-            <Text color="black" margin="0px 10px" fontSize="smaller">{postDetails?.maxMember}명</Text>
+            <Text color="#808080" margin="0px 10px" fontSize="14px">{postDetails?.maxMember}명</Text>
             <Image src="/assets/postlist_card_calendar.png"/>
-            <Text color="black" margin="0px 10px" fontSize="smaller">{postDetails?.startDate}</Text>
+            <Text color="#808080" margin="0px 10px" fontSize="14px">{postDetails?.startDate}</Text>
           </Grid>
         </Grid>
           
@@ -99,21 +103,12 @@ const Details = (props) => {
           <Text color="#8DDAB6" margin="10px auto" fontSize="14px" fontWeight="bold" style={{textAlign:"center"}}>
               {postDetails?.currentMember}/{postDetails?.maxMember}명
           </Text>
-          <Button bg="#16C59B" width="80%" padding="15px" margin="auto" display="block" color="white" style={{minWidth:"100px",fontWeight:"bold", border: "none"}} hoverColor="#16C59B" onClick={() => {history.push("/chat/" + props.postId);}}>대화방 참여</Button>
+          <Button className="custom_transition" bg="#16C59B" width="80%" padding="15px" margin="auto" display="block" color="white" style={{minWidth:"100px",fontWeight:"bold", border: "none"}} hoverColor="#16C59B" onClick={() => {history.push("/chat/" + props.postId);}}>대화방 참여</Button>
         </Grid>
       </Grid>
     </Grid>
   );
 };
 
-const PostCard = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  background-color: #a7aaad;
-  padding: 10px;
-  margin: 15px auto;
-  font-size: 12px;
-`;
 
 export default Details;

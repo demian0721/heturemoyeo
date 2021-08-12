@@ -14,13 +14,13 @@ const PostListButton = (props) => {
         <React.Fragment>
             <Buttonset>
             <Grid >
-              {title=='all'? <MButton style={{borderBottom: "2px solid #16C59B",color:"#16C59B"}} onClick={() => {history.push("/postlist");}}>전체 목록</MButton> : <MButton onClick={() => {history.push("/postlist");}}>전체 목록</MButton> }
+              {title=='all'? <MButton className="custom_transition" style={{borderBottom: "2px solid #16C59B",color:"#16C59B"}} onClick={() => {history.push("/postlist");}}>전체 목록</MButton> : <MButton className="custom_transition" onClick={() => {history.push("/postlist");}}>전체 목록</MButton> }
             </Grid>
             <Grid >
-              {title=='invited'? <MButton style={{borderBottom: "2px solid #16C59B",color:"#16C59B"}} onClick={() => {history.push("/postlist/my");}}>초대된 모임</MButton> : <MButton onClick={() => {history.push("/postlist/my");}}>초대된 모임</MButton> }
+              {title=='invited'? <MButton className="custom_transition" style={{borderBottom: "2px solid #16C59B",color:"#16C59B"}} onClick={() => {history.push("/postlist/my");}}>초대된 모임</MButton> : <MButton className="custom_transition" onClick={() => {history.push("/postlist/my");}}>초대된 모임</MButton> }
             </Grid>
             <Grid >
-              {title=='my'? <MButton style={{borderBottom: "2px solid #16C59B",color:"#16C59B"}} onClick={() => {history.push("/postlist/my");}}>내 모임</MButton> : <MButton onClick={() => {history.push("/postlist/my");}}>내 모임</MButton> }
+              {title=='my'? <MButton className="custom_transition" style={{borderBottom: "2px solid #16C59B",color:"#16C59B"}} onClick={() => {history.push("/postlist/my");}}>내 모임</MButton> : <MButton className="custom_transition" onClick={() => {history.push("/postlist/my");}}>내 모임</MButton> }
             </Grid>
           </Buttonset>
         </React.Fragment>

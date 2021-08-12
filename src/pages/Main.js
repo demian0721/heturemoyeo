@@ -202,7 +202,8 @@ const Main = (props) => {
     kakao.maps.event.addListener(marker, "click", () =>
       markerEventListener(marker)
     );
-    if (!post) markers.push(marker);
+    if (post) posts.push(marker);
+    else markers.push(marker);
     return marker;
   };
 

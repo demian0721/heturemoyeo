@@ -23,7 +23,7 @@ import Header from "../components/Header";
 import Permit from "../components/Permit";
 
 // ELEMENTS
-import { Grid, Input, Image, Title,Text } from "../elements/index";
+import { Grid, Input, Image, Title,Text, Button } from "../elements/index";
 
 // ICON
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
@@ -360,12 +360,6 @@ const PostWrite = (props) => {
             </Grid>
             <Text margin="10px 0px" fontWeight="bold" fontSize="small">공개설정</Text>
 
-            {/* <EnterButton onClick={addPost}>
-              <tr>
-                <Th>완료</Th>
-                <Td></Td>
-              </tr>
-            </EnterButton> */}
             <Grid style={{border:"1px solid #B2B2B2", margin:"10px 0px"}}/>
 
             <div>
@@ -429,6 +423,7 @@ const PostWrite = (props) => {
                 }}
               />
             </div>
+            <Button padding="5px" onClick={addPost}>게시</Button>
           </Grid>
         </Grid>
         <Transition appear show={isOpen} as={Fragment}>

@@ -11,6 +11,8 @@ import { Grid } from "../elements/index";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
+import Logger from "../utils/Logger";
+
 import {
   People as PeopleIcon,
   Place as PlaceIcon,
@@ -27,17 +29,19 @@ const ChatList = () => {
     const io = socket.connect("astraios.shop:4001/room", {
       path: "/socket.io",
     });
-    io.on("connect", () => console.log("Connected Socket.io server!"));
+    io.on("connect", () =>
+      Logger.info(`[Socket.io:Connect] Connected to Socket.io server!`)
+    );
     io.on("newRoom", (data) => rooms.push(data));
     io.on("removeRoom", (data) => {
       const result = rooms.filter((el) => el.postId !== data.postId);
       setRooms(result);
     });
     io.on("disconnect", (socket) =>
-      console.log(`Disconnected to Socket.io Server (Reason: ${socket})`)
+      Logger.error(`[Socket.io:Disconnect] Disconnected to Socket.io Server (Reason: ${socket})`)
     );
     return () => {
-      console.log("Disconnecting to Socket.io server...");
+      Logger.warn("[Socket.io:Disconnect] Disconnecting to Socket.io server...");
       io.removeAllListeners();
       io.disconnect();
     };
@@ -66,11 +70,17 @@ const ChatList = () => {
 
 function ChatListCardComponent(props) {
   const formattedDate = (date) => {
-    const dateNow = new Date(date)
-    const year = dateNow.getFullYear()
-    const month = String(dateNow.getMonth() + 1).length === 1 ? `0${dateNow.getMonth() + 1}` : dateNow.getMonth() + 1
-    const day = String(dateNow.getDay()).length === 1 ? `0${dateNow.getDay()}` : dateNow.getDay()
-    return `${year}. ${month}. ${day}`
+    const dateNow = new Date(date);
+    const year = dateNow.getFullYear();
+    const month =
+      String(dateNow.getMonth() + 1).length === 1
+        ? `0${dateNow.getMonth() + 1}`
+        : dateNow.getMonth() + 1;
+    const day =
+      String(dateNow.getDay()).length === 1
+        ? `0${dateNow.getDay()}`
+        : dateNow.getDay();
+    return `${year}. ${month}. ${day}`;
   };
 
   return (

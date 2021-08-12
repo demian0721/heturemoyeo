@@ -7,6 +7,8 @@ import ChatUICSS from "!!raw-loader!@chatui/core/dist/index.css";
 import { useSelector, useDispatch } from "react-redux";
 import { chatActions } from "../redux/modules/chat";
 
+import Logger from '../utils/Logger'
+
 // const initSocketEvents = (socket) => {
 //   socket.on()
 // }
@@ -41,7 +43,7 @@ const ChatRoom = (props) => {
   const socketClientEvents = (socket) => {
     socket
       .on("connect", (data) => {
-        console.log("Connected to Socket.io server!");
+        Logger.info(`[Socket.io:Connect] Connected to Socket.io server!`)
       })
       .on("join", (data) =>
         appendMsg({ type: "system", content: { text: data.chat } })

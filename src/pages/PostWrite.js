@@ -49,6 +49,7 @@ const PostWrite = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [viewModal, setViewModal] = useState(false);
   const [loadMap, setLoadMap] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState(false)
   const [inputValue, setInputValue] = useState("");
 
   useOutsideClick(modalRef, () => {
@@ -68,8 +69,6 @@ const PostWrite = (props) => {
     lat: postInfo ? postInfo.lat : 0,
     lng: postInfo ? postInfo.lng: 0
   });
-  console.log(postingContents)
-  console.log(locationCoords)
   const isItPossibleToAdd = () => {
     if (
       preview &&
@@ -86,24 +85,9 @@ const PostWrite = (props) => {
     return false;
   };
 
-  const addPost = () => {
-    const isAvailable = isItPossibleToAdd();
-
-    if (!isAvailable) {
-      window.alert("각 항목은 필수 입력사항 입니다.");
-      return;
-    }
-
-    dispatch(
-      postActions.addPostDB(fileInput.current.files[0], postingContents)
-    );
-    dispatch(imgActions.setPreview(null));
-    props.history.replace("/postlist");
-  };
-
   const selectFile = (event) => {
     const reader = new FileReader();
-    const file = event.target.files[0];
+    const file = event.target.files[0]
 
     if (file) {
       reader.readAsDataURL(file);
@@ -111,8 +95,18 @@ const PostWrite = (props) => {
       reader.onload = () => {
         dispatch(imgActions.setPreview(reader.result));
         setHeight("auto");
+        setUploadedImage(true)
       };
     }
+  };
+
+  const addPost = () => {
+    if (!uploadedImage) selectFile({ target: { files: ['/assets/unknownChatRoomImg.gif'] } })
+    const isAvailable = isItPossibleToAdd();
+    if (!isAvailable) return window.alert("각 항목은 필수 입력사항 입니다.");
+    dispatch(postActions.addPostDB(fileInput.current.files[0], postingContents));
+    dispatch(imgActions.setPreview(null));
+    props.history.replace("/postlist");
   };
 
   useEffect(() => {

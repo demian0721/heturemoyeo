@@ -18,17 +18,17 @@ const rowRatingColor = (rating) => {
 const UserOverlay = ({ children, ...props }) => {
   return (
     <div className="flex justify-start">
-      {props?.profileImage && (
+      {props?.image && (
         <div className="relative justify-center">
           <div id="userProfile-Image">
             <div
               className={`${
-                props?.userRating ? "fixed" : "block"
+                props?.rating ? "fixed" : "block"
               } rounded-full container mx-auto w-20 h-20`}
               style={{
                 zIndex: -1,
                 textAlign: "center",
-                backgroundImage: `url('${props.profileImage}')`,
+                backgroundImage: `url('${props.image}')`,
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
@@ -37,50 +37,34 @@ const UserOverlay = ({ children, ...props }) => {
             >
               <span className="sr-only">profile image</span>
             </div>
-            {props?.userRating && (
+            {props?.rating && (
               <CircularProgressbar
                 className="w-20 h-20"
-                value={props?.userRating}
+                value={props?.rating}
                 strokeWidth={5}
                 styles={buildStyles({
-                  pathColor: rowRatingColor(props.userRating),
+                  pathColor: rowRatingColor(props.rating),
                   trailColor: "#e9e9e9",
                 })}
               />
             )}
           </div>
-          {props?.userRating && (
+          {props?.rating && (
             <div className="flex text-xs lg:text-base justify-center pt-1">
               <div className="inline-flex">
                 <p>Rating:</p>
-                <p className="font-semibold ml-1">{props?.userRating}</p>
+                <p className="font-semibold ml-1">{props?.rating}</p>
               </div>
             </div>
           )}
         </div>
       )}
       <div className="flex-grow ml-4">
-        {props?.nickname && (
-          <div className="font-bold text-lg lg:text-2xl">{props.nickname}</div>
-        )}
-        {/* { props?.isMe && props?.name && <div className='font-semibold text-sm lg:text-base'>{props?.name}</div> } */}
-        {props?.userStatusMessage && (
-          <div className="font-medium text-sm lg:text-base">
-            {props.userStatusMessage}
-          </div>
-        )}
-        {props?.userSchedule && (
-          <div className="font-semibold text-sm lg:text-base">
-            {props.userSchedule}
-          </div>
-        )}
-        {props?.userLikeItem && (
+        <div className="font-bold text-lg lg:text-2xl">{props?.nickname ?? 'Anonymous'}</div>
+        {props?.likeItem && (
           <>
-            <div className="flex border border-gary-500 rounded-full my-1 w-full">
-              <div className="sr-only">divide</div>
-            </div>
             <div className="font-normal text-xs py-1 lg:text-sm space-x-1">
-              {props.userLikeItem.map((el, index) => {
+              {props.likeItem.map((el, index) => {
                 return (
                   <div
                     key={index}
@@ -91,7 +75,21 @@ const UserOverlay = ({ children, ...props }) => {
                 );
               })}
             </div>
+            <div className={`flex border border-gary-500 rounded-full ${props?.likeItem?.length === 0 ? 'mb-1' : 'my-1'} w-full`}>
+              <div className="sr-only">divide</div>
+            </div>
           </>
+        )}
+        {/* { props?.isMe && props?.name && <div className='font-semibold text-sm lg:text-base'>{props?.name}</div> } */}
+        {props?.statusMessage && (
+          <div className="font-medium text-sm lg:text-base">
+            {props.statusMessage}
+          </div>
+        )}
+        {props?.scheduleTitle && (
+          <div className="font-semibold text-sm lg:text-base">
+            {props.scheduleTitle}
+          </div>
         )}
       </div>
     </div>
@@ -102,7 +100,7 @@ const PostOverlay = ({ children, ...props }) => {
   return (
     <Fragment>
       <div className="flex justify-start">
-        {props?.postImg && (
+        {props?.image && (
           <div className="relative justify-center">
             <div id="userProfile-Image">
               <div
@@ -110,7 +108,7 @@ const PostOverlay = ({ children, ...props }) => {
                 style={{
                   zIndex: -1,
                   textAlign: "center",
-                  backgroundImage: `url('${props.postImg}')`,
+                  backgroundImage: `url('${props.image}')`,
                   backgroundSize: "cover",
                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "center",
@@ -122,7 +120,7 @@ const PostOverlay = ({ children, ...props }) => {
               {/* {props?.rating && (
               <CircularProgressbar
                 className="w-20 h-20"
-                value={props?.userRating}
+                value={props?.rating}
                 strokeWidth={5}
                 styles={buildStyles({
                   pathColor: rowRatingColor(props.rating),

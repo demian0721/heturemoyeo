@@ -381,21 +381,21 @@ const Main = (props) => {
                 <div id="overlay--author__status" className="block">
                   <Overlay
                     isOpen={isOpen}
-                    nickname={markerData?.nickname}
-                    userStatusMessage={markerData?.statusMessage}
-                    userLikeItem={markerData?.likeItem}
-                    userSchedule={markerData?.scheduleTitle}
-                    profileImage={
-                      !markerData?.profileImg ??
-                      String(markerData?.profileImg).length === 0
-                        ? markerData?.isSchedule
+                    image={
+                      markerData?.type === "post"
+                        ? !markerData?.postImg ??
+                          String(markerData?.postImg).length === 0
                           ? "/assets/unknownChatRoomImg.gif"
-                          : "/assets/unknownProfile.jpg"
-                        : markerData?.profileImg
+                          : markerData?.postImg
+                        : markerData?.type === "user"
+                        ? !markerData?.profileImg ??
+                          String(markerData?.profileImg).length === 0
+                          ? "/assets/unknownProfile.jpg"
+                          : markerData?.profileImg
+                        : "/assets/unknownProfile.jpg"
                     }
-                    scheduleCount={markerData?.scheduleCount}
-                    userRating={markerData?.rating}
-                    isSchedule={markerData?.type === 'post'}
+                    rating={markerData?.rating}
+                    isSchedule={markerData?.type === "post"}
                     id={markerData?.userId ?? markerData?.postId}
                     {...markerData}
                   />
@@ -411,6 +411,8 @@ const Main = (props) => {
           >
             <Button
               shadow="rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;"
+              bg="rgba(255, 255, 255, 1)"
+              color="#16C59B"
               padding="12px"
               margin="0 0 10px"
               radius="100%"

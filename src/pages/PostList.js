@@ -1,7 +1,7 @@
 // LIBRARY
 import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
-import TodayIcon from "@material-ui/icons/Today";
+import SearchIcon from '@material-ui/icons/Search';
 import { useSelector, useDispatch } from "react-redux";
 
 // REDUX
@@ -13,7 +13,6 @@ import InfiniteScroll from '../common/infiniteScroll';
 
 // ELEMENTS
 import { Grid, Button } from "../elements/index";
-import SearchIcon from '@material-ui/icons/Search';
 
 // HISTORY
 import { history } from "../redux/configStore";
@@ -23,7 +22,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import PostListButton from "../components/PostListButton";
 
-import MyLocationIcon from "@material-ui/icons/MyLocation";
+// import MyLocationIcon from "@material-ui/icons/MyLocation";
 
 
 const PostList = (props) => {
@@ -31,7 +30,7 @@ const PostList = (props) => {
   const PostList = useSelector((state) => state.post.list);
 
   const inputword = useRef();
-  const searchDate = null;
+  // const searchDate = null;
   
   useEffect(() => {
     dispatch(postActions.getPostsDB());
@@ -43,8 +42,8 @@ const PostList = (props) => {
 
   const search = () => {
     console.log(inputword.current.value);
-    dispatch(searchActions.searchPostDB(inputword.current.value, searchDate));
-    history.push("/postlist/search");
+    dispatch(searchActions.searchPostDB(inputword.current.value));
+    history.push(`/postlist/search/${inputword.current.value}`);
   }
   const onKeyPress=(event)=>{
     if(event.key=='Enter'){
@@ -66,7 +65,6 @@ const PostList = (props) => {
               <SearchIcon style={{color:"#767676"}}/>
               <input type="text" placeholder="제목, 내용, 태그 또는 날짜" style={{padding:"0px 5px",width:"100%", backgroundColor:"#EFEFEF"}} ref={inputword}
                    onKeyPress={onKeyPress}/>
-              {/* <button onClick={() => {console.log(inputword.current.value)}}>버튼</button> */}
             </Grid>
             <img src="/assets/postlist_input_calendar.png" style={{margin:"auto 0px auto 5px"}}/>
           </Grid>
@@ -85,7 +83,6 @@ const PostList = (props) => {
               // padding="12px"
               margin="0 0 10px"
               radius="100%"
-              // borderColor="#16C59B"
               clickEvent={() => {
                 history.push("/postwrite"); 
               }}
@@ -97,20 +94,6 @@ const PostList = (props) => {
                   height: "50px", 
                 }}/>
             </Button>
-            {/* <Button
-              width="60px"
-              height="60px"
-              bg="#A7AAAD"
-              color="black"
-              radius="50px"
-              fontSize="10px"
-              clickEvent={() => {
-                history.push("/postwrite");
-              }}
-              style={{ cursor: "pointer", float: "right" }}
-            >
-              추가하기 <br /> (글쓰기버튼)
-            </Button> */}
           </Grid>
         </Grid>
       </Grid>
@@ -125,10 +108,8 @@ const Style = styled.div`
     align-items: center;
     margin-top: 75px;
     width: 100vw;
-    /* height: calc(100vh - 130px); */
     height: 100%;
     background-color: #EFEFEF;
-    //styled component use
 `;
 
 export default PostList;

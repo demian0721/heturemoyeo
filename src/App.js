@@ -99,7 +99,7 @@ function App() {
         <Route path="/chat" exact component={ChatList} />
         <Route path="/chat/:id" exact component={ChatRoom} />
         <Route path="/setting" exact component={Setting} />
-        <Route path="/postlist/search" exact component={SearchPostList} />
+        <Route path="/postlist/search/:keyword" exact component={SearchPostList} />
         <Route path="/postlist/search/my" exact component={SearchPostListMy} />
       </ConnectedRouter>
     </>

@@ -23,11 +23,11 @@ import Header from "../components/Header";
 import Permit from "../components/Permit";
 
 // ELEMENTS
-import { Grid, Input, Image } from "../elements/index";
+import { Grid, Input, Image, Title,Text } from "../elements/index";
 
 // ICON
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
-import SearchIcon from "@material-ui/icons/Search";
+import RoomIcon from "@material-ui/icons/Search";
 
 import useOutsideClick from "../hooks/useOutsideClick";
 
@@ -189,7 +189,7 @@ const PostWrite = (props) => {
         </Grid>
         <Grid
           width="360px" height=""
-          margin="50px auto"
+          margin="auto"
           tabletStyle={() => {
             return css`
               width: 95%;
@@ -202,7 +202,7 @@ const PostWrite = (props) => {
             `;
           }}
         >
-          <Grid padding="18px" bg="#EFEFEF" width="" height="">
+          <Grid padding="18px" bg="white" width="" height="">
             <Grid
               width="320px"
               height=""
@@ -213,6 +213,7 @@ const PostWrite = (props) => {
                 `;
               }}
             >
+              <Title fontSize="15px" style={{colo:"#535353" }}>대표 이미지</Title>
               <Grid
                 bg="#EFEFEF"
                 radius="10px"
@@ -223,7 +224,7 @@ const PostWrite = (props) => {
                   {!preview ? (
                     <>
                       <InsertPhotoIcon />
-                      이미지 추가
+                      모임 대표 이미지 추가
                     </>
                   ) : null}
                 </LabelStyle>
@@ -242,58 +243,7 @@ const PostWrite = (props) => {
                 />
               </Grid>
             </Grid>
-            <div>
-              <Input
-                margin="7px 0 7px 0"
-                placeholder="제목"
-                type="text"
-                changeEvent={(e) => {
-                  setPostingContents({
-                    ...postingContents,
-                    title: e.target.value,
-                  });
-                }}
-              />
-            </div>
-            <div>
-              <Input
-                margin="7px 0 7px 0"
-                placeholder="내용"
-                type="text"
-                changeEvent={(e) => {
-                  setPostingContents({
-                    ...postingContents,
-                    content: e.target.value,
-                  });
-                }}
-              />
-            </div>
-            <div>
-              <Input
-                margin="7px 0 7px 0"
-                placeholder="인원수(명)"
-                changeEvent={(e) => {
-                  setPostingContents({
-                    ...postingContents,
-                    maxMember: e.target.value,
-                  });
-                }}
-              />
-            </div>
-            <div>
-              <Input
-                margin="7px 0 7px 0"
-                placeholder="시작시간(연도월일)"
-                type="date"
-                changeEvent={(e) => {
-                  setPostingContents({
-                    ...postingContents,
-                    startDate: e.target.value,
-                  });
-                }}
-              />
-            </div>
-            <div>
+            {/* <div>
               <Input
                 margin="7px 0 7px 0"
                 placeholder="종료시간(연도월일)"
@@ -305,21 +255,37 @@ const PostWrite = (props) => {
                   });
                 }}
               />
-            </div>
+            </div> */}
+            <Grid is_flex>
+              <div style={{margin:"15px 5px 15px 5px",}} >
+                <Text fontSize="13px" color="#888888" fontWeight="bold">날짜</Text>
+                <input
+                  placeholder="시작시간(연도월일)"
+                  type="date"
+                  changeEvent={(e) => {
+                    setPostingContents({
+                      ...postingContents,
+                      startDate: e.target.value,
+                    });
+                  }}
+                  style={{
+                    border:"1.5px solid #white",
+                    borderBottom:"1.5px solid #E5E5E5",
+                  }}
+                />
+              </div>
+              <div style={{margin:"15px 5px 15px 5px",}}>
+                <Text fontSize="13px" color="#888888" fontWeight="bold">시간</Text>
+                <input style={{
+                    border:"1.5px solid #white",
+                    borderBottom:"1.5px solid #E5E5E5",
+                  }} placeholder="00:00~24:00"/>
+              </div>
+            </Grid>
+
+            <Text fontSize="13px" color="#888888" fontWeight="bold">장소</Text>
             <div className="flex self-center items-center">
-              <Input
-                margin="7px 0 7px 0"
-                placeholder="장소(한글 주소로 출력)"
-                type="text"
-                value={inputValue}
-                changeEvent={(e) => {
-                  setPostingContents({
-                    ...postingContents,
-                    place: e.target.value,
-                  });
-                }}
-              />
-              <div
+            <div
                 className="self-center items-center bg-green-300 cursor-pointer"
                 style={{
                   paddingTop: "6.5px",
@@ -332,25 +298,125 @@ const PostWrite = (props) => {
                   setIsOpen(true);
                 }}
               >
-                <SearchIcon />
+                <RoomIcon />
               </div>
+              <div>
+                <input
+                style={{
+                  width: "100%",
+                  border:"1.5px solid #white",
+                  margin:"7px 5px 7px 5px",
+                  borderBottom:"1.5px solid #E5E5E5",
+                }}
+                  placeholder="장소(한글 주소로 출력)"
+                  type="text"
+                  value={inputValue}
+                  changeEvent={(e) => {
+                    setPostingContents({
+                      ...postingContents,
+                      place: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              
             </div>
+            <Grid is_flex>
+              <div style={{margin:"15px 5px"}}>
+                <Text fontSize="13px" color="#888888" fontWeight="bold">정원</Text>
+                <input
+                  style={{
+                    width: "100%",
+                    border:"1.5px solid #white",
+                    borderBottom:"1.5px solid #E5E5E5",
+                  }}
+                  placeholder="인원수(명)"
+                  changeEvent={(e) => {
+                    setPostingContents({
+                      ...postingContents,
+                      maxMember: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div style={{margin:"15px 5px"}}>
+                <Text fontSize="13px" color="#888888" fontWeight="bold">지참금</Text>
+                <input
+                  style={{
+                    width: "100%",
+                    border:"1.5px solid #white",
+                    borderBottom:"1.5px solid #E5E5E5",
+                  }}
+                  placeholder="지참금(문자로 적기)"
+                  type="text"
+                  changeEvent={(e) => {
+                    setPostingContents({
+                      ...postingContents,
+                      bring: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+            </Grid>
+            <Text margin="10px 0px" fontWeight="bold" fontSize="small">공개설정</Text>
+
+            {/* <EnterButton onClick={addPost}>
+              <tr>
+                <Th>완료</Th>
+                <Td></Td>
+              </tr>
+            </EnterButton> */}
+            <Grid style={{border:"1px solid #B2B2B2", margin:"10px 0px"}}/>
+
             <div>
-              <Input
-                margin="7px 0 7px 0"
-                placeholder="지참금(문자로 적기)"
+              <input
+                style={{
+                  width: "100%",
+                  border:"1.5px solid #white",
+                  margin:"7px 5px 7px 5px",
+                  borderBottom:"1.5px solid #E5E5E5",
+                }}
+                placeholder="제목"
                 type="text"
                 changeEvent={(e) => {
                   setPostingContents({
                     ...postingContents,
-                    bring: e.target.value,
+                    title: e.target.value,
                   });
                 }}
               />
             </div>
             <div>
-              <Input
-                margin="7px 0 7px 0"
+              <textarea
+              rows="9"
+                style={{
+                  width: "100%",
+                  border:"1.5px solid #white",
+                  margin:"7px 5px 7px 5px",
+                  // borderBottom:"1.5px solid #E5E5E5",
+                }}
+                placeholder="내용"
+                type="text"
+                changeEvent={(e) => {
+                  setPostingContents({
+                    ...postingContents,
+                    content: e.target.value,
+                  });
+                }}
+              />
+            </div>
+
+            <Grid style={{border:"1px solid #B2B2B2", margin:"10px 0px"}}/>
+
+
+            <div>
+              <input
+                style={{
+                  width: "100%",
+                  border:"1.5px solid #white",
+                  margin:"7px 5px 7px 5px",
+                  // borderBottom:"1.5px solid #E5E5E5",
+                }}
                 placeholder="태그설정"
                 type="text"
                 changeEvent={(e) => {
@@ -363,13 +429,6 @@ const PostWrite = (props) => {
                 }}
               />
             </div>
-
-            <EnterButton onClick={addPost}>
-              <tr>
-                <Th>완료</Th>
-                <Td></Td>
-              </tr>
-            </EnterButton>
           </Grid>
         </Grid>
         <Transition appear show={isOpen} as={Fragment}>

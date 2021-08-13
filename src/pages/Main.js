@@ -304,10 +304,28 @@ const Main = (props) => {
           el.lat > 100 ? el.lng : el.lat,
           el.lng < 100 ? el.lat : el.lng
         ),
-        true)
+        true
+      )
     );
-    setInit(true)
+    setInit(true);
   }
+
+  // useEffect(() => {
+  //   if (getPostLocationData?.list?.length !== 0 && !init) {
+  //     getPostLocationData.list.map((el) =>
+  //     addMarker(
+  //       global.map,
+  //       el.postId,
+  //       new kakao.maps.LatLng(
+  //         el.lat > 100 ? el.lng : el.lat,
+  //         el.lng < 100 ? el.lat : el.lng
+  //       ),
+  //       true
+  //     )
+  //   );
+  //   setInit(true);
+  //   }
+  // }, [init, setInit, getPostLocationData?.list]);
 
   // useEffect(() => {
   //   // Logger.debug(`[PostLocation] Get PostLocation...`)
@@ -355,7 +373,7 @@ const Main = (props) => {
     }
   };
   const postLocationRemoveListener = (obj) => {
-    posts[obj.postId].setMap(null);
+    posts[obj.postId]?.setMap(null);
     delete posts[obj.postId];
   };
 

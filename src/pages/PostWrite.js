@@ -86,8 +86,6 @@ const PostWrite = (props) => {
     return false;
   };
 
-  console.log(postingContents)
-
   const selectFile = (event) => {
     const reader = new FileReader();
     const file = event.target.files[0]
@@ -265,7 +263,7 @@ const PostWrite = (props) => {
               >
               <div className='block' style={{ margin: "15px 5px 15px 5px" }}>
                 <Text fontSize="13px" color="#888888" fontWeight="bold">
-                  시작일시
+                  시작
                 </Text>
                 <Input
                   placeholder="시작시간(연도월일)"
@@ -288,7 +286,7 @@ const PostWrite = (props) => {
               </div>
               <div className='block' style={{ margin: "15px 5px 15px 5px" }}>
                 <Text fontSize="13px" color="#888888" fontWeight="bold">
-                  종료일시
+                  종료
                 </Text>
                 <Input
                   placeholder="종료시간(연도월일)"
@@ -572,7 +570,7 @@ const PostWrite = (props) => {
                     />
                   )}
 
-                  {!!loadMap && (
+                  {loadMap && (
                     <div className="my-2">
                       {Object.keys(location).length <= 0 ? (
                         <div className="font-bold">

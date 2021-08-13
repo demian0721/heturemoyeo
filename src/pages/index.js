@@ -9,7 +9,7 @@ import PostList from "./PostList";
 import PostListMy from "./PostListMy";
 import PostDetail from "./PostDetail";
 import PostWrite from "./PostWrite";
-import PostModify from "./PostModify";
+import PostEdit from "./PostEdit";
 import MProfile from "./MemberProfile";
 import ChatList from "./ChatList";
 import ChatRoom from "./ChatRoom";
@@ -29,7 +29,7 @@ export {
   PostListMy,
   PostDetail,
   PostWrite,
-  PostModify,
+  PostEdit,
   MProfile,
   ChatList,
   ChatRoom,

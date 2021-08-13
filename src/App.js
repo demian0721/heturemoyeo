@@ -29,7 +29,7 @@ import {
   PostList,
   PostDetail,
   PostWrite,
-  PostModify,
+  PostEdit,
   PostListMy,
   ChatList,
   MProfile,
@@ -97,7 +97,7 @@ function App() {
         <Route path="/postlist/my" exact component={PostListMy} />
         <Route path="/postdetail/:postid" exact component={PostDetail} />
         <Route path="/postwrite" exact component={PostWrite} />
-        <Route path="/postdetail/modify" exact component={PostModify} />
+        <Route path="/postdetail/edit" exact component={PostEdit} />
         <Route path="/chat" exact component={ChatList} />
         <Route path="/chat/:id" exact component={ChatRoom} />
         <Route path="/setting" exact component={Setting} />

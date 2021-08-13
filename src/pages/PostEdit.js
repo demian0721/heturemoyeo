@@ -23,15 +23,16 @@ import Header from "../components/Header";
 import Permit from "../components/Permit";
 
 // ELEMENTS
-import { Grid, Input, Image, Title,Text, Button } from "../elements/index";
+import { Grid, Input, Image, Title, Text, Button } from "../elements/index";
 
 // ICON
-import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
+import AddAPhotoOutlinedIcon from "@material-ui/icons/AddAPhotoOutlined";
 import RoomIcon from "@material-ui/icons/Search";
-
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import SplitButton from "@material-ui/core/Button";
 import useOutsideClick from "../hooks/useOutsideClick";
 
-const PostModify = (props) => {
+const PostEdit = (props) => {
   let { postInfo } = props;
 
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ const PostModify = (props) => {
   const image = useSelector((state) => state.image);
   const preview = !image.preview && props ? props.postImg : image.preview;
 
-  const [height, setHeight] = useState(preview ? "auto" : "380px");
+  const [height, setHeight] = useState(preview ? "auto" : "128px");
 
   const [location, setLocation] = useState({});
   const [locationCoords, setLocationCoords] = useState({});
@@ -206,11 +207,11 @@ const PostModify = (props) => {
             `;
           }}
         >
-          <Grid padding="18px" bg="white" width="" height="">
+          <Grid padding="8px" bg="white" width="" height="">
             <Grid
               width="320px"
               height=""
-              margin="0 30px 0 0"
+              margin="0 30px 0 10px"
               tabletStyle={() => {
                 return css`
                   margin: 0 auto;
@@ -221,8 +222,10 @@ const PostModify = (props) => {
                 대표 이미지
               </Title>
               <Grid
-                bg="#EFEFEF"
+                bg="#D4D4D4"
                 radius="10px"
+                margin="5px 0 0 0"
+
                 width=""
                 height=""
                 style={{ height: `${height}`, position: "relative" }}
@@ -230,8 +233,13 @@ const PostModify = (props) => {
                 <LabelStyle htmlFor="input--file">
                   {!preview ? (
                     <>
-                      <InsertPhotoIcon />
-                      모임 대표 이미지 추가
+                     <AddAPhotoOutlinedIcon color="action"/>
+                      <Text 
+                        color="#646970" 
+                        fontSize="15px"
+                        marginLeft="10px">
+                        모임 대표 이미지 추가
+                      </Text>
                     </>
                   ) : null}
                 </LabelStyle>
@@ -250,7 +258,12 @@ const PostModify = (props) => {
                 />
               </Grid>
             </Grid>
-            <Grid width="" height="">
+            <Grid 
+              width="" 
+              height="" 
+              is_flex 
+              margin="20px 0 0 0" 
+              >
               <div className='block' style={{ margin: "15px 5px 15px 5px" }}>
                 <Text fontSize="13px" color="#888888" fontWeight="bold">
                   시작일시
@@ -264,11 +277,13 @@ const PostModify = (props) => {
                       startDate: e.target.value,
                     });
                   }}
+                  padding="8px 0px"
                   style={{
                     borderLeft: "none",
                     borderRight: "none",
                     borderTop: "none",
                     borderBottom: "solid 2px #E5E5E5",
+                    boxShadow: "none",
                   }}
                 />
               </div>
@@ -285,16 +300,18 @@ const PostModify = (props) => {
                       endDate: e.target.value,
                     });
                   }}
+                  padding="8px 0px"
                   style={{
                     borderLeft: "none",
                     borderRight: "none",
                     borderTop: "none",
                     borderBottom: "solid 2px #E5E5E5",
+                    boxShadow: "none",
                   }}
                 />
               </div>
             </Grid>
-
+            <div style={{ margin: "10px 5px 10px 5px" }}>
             <Text fontSize="13px" color="#888888" fontWeight="bold">
               장소
             </Text>
@@ -317,13 +334,15 @@ const PostModify = (props) => {
               <div>
                 <Input
                   style={{
-                    width: "100%",
+                    width: "300px",
                     margin: "7px 5px 7px 5px",
                     borderLeft: "none",
                     borderRight: "none",
                     borderTop: "none",
                     borderBottom: "solid 2px #E5E5E5",
+                    boxShadow: "none",
                   }}
+                  padding="8px 0px"
                   placeholder="장소(한글 주소로 출력)"
                   type="text"
                   value={inputValue}
@@ -336,19 +355,24 @@ const PostModify = (props) => {
                 />
               </div>
             </div>
-            <Grid is_flex width="" height="">
-              <div style={{ margin: "15px 5px" }}>
+            </div>  
+            <Grid is_flex>
+              <div style={{ margin: "10px 5px 10px 5px" }}>
                 <Text fontSize="13px" color="#888888" fontWeight="bold">
                   정원
                 </Text>
                 <Input
+                  type="number" 
+                  min="1"
                   style={{
                     width: "100%",
                     borderLeft: "none",
                     borderRight: "none",
                     borderTop: "none",
                     borderBottom: "solid 2px #E5E5E5",
+                    boxShadow: "none",
                   }}
+                  padding="8px 0px"
                   placeholder="인원수(명)"
                   changeEvent={(e) => {
                     setPostingContents({
@@ -368,8 +392,10 @@ const PostModify = (props) => {
                     borderLeft: "none",
                     borderRight: "none",
                     borderTop: "none",
-                    borderBottom: "solid 2px #E5E5E5",
+                    borderBottom: "2px solid #E5E5E5",
+                    boxShadow: "none",
                   }}
+                  padding="8px 0px"
                   placeholder="지참금(문자로 적기)"
                   type="text"
                   changeEvent={(e) => {
@@ -381,12 +407,15 @@ const PostModify = (props) => {
                 />
               </div>
             </Grid>
-            <Text margin="10px 0px" fontWeight="bold" fontSize="small">
+            <Text margin="10px 5px" color="#888888" fontWeight="bold" fontSize="small">
               공개설정
             </Text>
-
-            <Grid style={{ border: "1px solid #B2B2B2", margin: "10px 0px" }} width="" height=""/>
-
+            <ButtonGroup disableElevation color="#16C59B">
+              <SplitButton>공개</SplitButton>
+              <SplitButton>비공개</SplitButton>
+            </ButtonGroup>
+            <Grid style={{ border: "1px solid #B2B2B2", margin: "10px 0px" }} />
+            <div style={{ margin: "10px 15px 10px 5px" }}>
             <div>
               <Input
                 style={{
@@ -397,6 +426,7 @@ const PostModify = (props) => {
                   borderRight: "none",
                   borderTop: "none",
                   borderBottom: "solid 2px #E5E5E5",
+                  boxShadow: "none",
                 }}
                 padding="8px 0px"
                 placeholder="제목"
@@ -416,6 +446,7 @@ const PostModify = (props) => {
                   width: "100%",
                   border: "1.5px solid #white",
                   margin: "7px 5px 7px 5px",
+                  boxShadow: "none",
                   // borderBottom:"1.5px solid #E5E5E5",
                 }}
                 placeholder="내용"
@@ -428,15 +459,15 @@ const PostModify = (props) => {
                 }}
               />
             </div>
-
-            <Grid style={{ border: "1px solid #B2B2B2", margin: "10px 0px" }} width="" height=""/>
+            </div>
+            <Grid style={{ border: "1px solid #B2B2B2", margin: "10px 0px" }} />
 
             <div style={{ margin: "15px 0px" }}>
               <Text
                 color="#535353"
                 fontWeight="bold"
                 fontSize="14px"
-                margin="3px 0px"
+                margin="3px 5px"
               >
                 태그입력
               </Text>
@@ -471,7 +502,7 @@ const PostModify = (props) => {
               style={{ fontWeight: "bold", border: "none" }}
               hoverColor="#16C59B" 
               onClick={addPost}>
-              수정 완료
+              완료
             </Button>
           </Grid>
         </Grid>
@@ -695,15 +726,15 @@ const Style = styled.div`
 align-items: center;
 margin-top: 75px;
 width: 100vw;
-/* height: calc(100vh - 75px); */
+height: calc(100vh - 75px);
 background-color: #EFEFEF;
 //styled component use
 `;
 
-PostModify.propTypes = { ...PostModify.propTypes, ...geoPropTypes };
+PostEdit.propTypes = { ...PostEdit.propTypes, ...geoPropTypes };
 
 
 export default geolocated({
   positionOptions: { enableHighAccuracy: false },
   userDecisionTimeout: 500,
-})(PostModify);
+})(PostEdit);

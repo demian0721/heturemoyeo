@@ -23,10 +23,10 @@ import Header from "../components/Header";
 import Permit from "../components/Permit";
 
 // ELEMENTS
-import { Grid, Input, Image, Title,Text, Button } from "../elements/index";
+import { Grid, Input, Image, Title, Text, Button } from "../elements/index";
 
 // ICON
-import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
+import AddAPhotoOutlinedIcon from "@material-ui/icons/AddAPhotoOutlined";
 import RoomIcon from "@material-ui/icons/Search";
 
 import useOutsideClick from "../hooks/useOutsideClick";
@@ -42,7 +42,7 @@ const PostWrite = (props) => {
   const image = useSelector((state) => state.image);
   const preview = !image.preview && props ? props.postImg : image.preview;
 
-  const [height, setHeight] = useState(preview ? "auto" : "380px");
+  const [height, setHeight] = useState(preview ? "auto" : "128px");
 
   const [location, setLocation] = useState({});
   const [locationCoords, setLocationCoords] = useState({});
@@ -206,11 +206,11 @@ const PostWrite = (props) => {
             `;
           }}
         >
-          <Grid padding="18px" bg="white" width="" height="">
+          <Grid padding="8px" bg="white" width="" height="">
             <Grid
               width="320px"
               height=""
-              margin="0 30px 0 0"
+              margin="0 30px 0 10px"
               tabletStyle={() => {
                 return css`
                   margin: 0 auto;
@@ -221,8 +221,10 @@ const PostWrite = (props) => {
                 대표 이미지
               </Title>
               <Grid
-                bg="#EFEFEF"
+                bg="#D4D4D4"
                 radius="10px"
+                margin="5px 0 0 0"
+
                 width=""
                 height=""
                 style={{ height: `${height}`, position: "relative" }}
@@ -230,8 +232,13 @@ const PostWrite = (props) => {
                 <LabelStyle htmlFor="input--file">
                   {!preview ? (
                     <>
-                      <InsertPhotoIcon />
-                      모임 대표 이미지 추가
+                     <AddAPhotoOutlinedIcon color="action"/>
+                      <Text 
+                        color="#646970" 
+                        fontSize="15px"
+                        marginLeft="10px">
+                        모임 대표 이미지 추가
+                      </Text>
                     </>
                   ) : null}
                 </LabelStyle>
@@ -250,7 +257,12 @@ const PostWrite = (props) => {
                 />
               </Grid>
             </Grid>
-            <Grid>
+            <Grid 
+              width="" 
+              height="" 
+              is_flex 
+              margin="20px 0 0 0" 
+              >
               <div className='block' style={{ margin: "15px 5px 15px 5px" }}>
                 <Text fontSize="13px" color="#888888" fontWeight="bold">
                   시작일시
@@ -264,9 +276,13 @@ const PostWrite = (props) => {
                       startDate: e.target.value,
                     });
                   }}
+                  padding="8px 0px"
                   style={{
-                    border: "1.5px solid #white",
-                    borderBottom: "1.5px solid #E5E5E5",
+                    borderLeft: "none",
+                    borderRight: "none",
+                    borderTop: "none",
+                    borderBottom: "solid 2px #E5E5E5",
+                    boxShadow: "none",
                   }}
                 />
               </div>
@@ -283,14 +299,18 @@ const PostWrite = (props) => {
                       endDate: e.target.value,
                     });
                   }}
+                  padding="8px 0px"
                   style={{
-                    border: "1.5px solid #white",
-                    borderBottom: "1.5px solid #E5E5E5",
+                    borderLeft: "none",
+                    borderRight: "none",
+                    borderTop: "none",
+                    borderBottom: "solid 2px #E5E5E5",
+                    boxShadow: "none",
                   }}
                 />
               </div>
             </Grid>
-
+            <div style={{ margin: "10px 5px 10px 5px" }}>
             <Text fontSize="13px" color="#888888" fontWeight="bold">
               장소
             </Text>
@@ -313,11 +333,15 @@ const PostWrite = (props) => {
               <div>
                 <Input
                   style={{
-                    width: "100%",
-                    border: "1.5px solid #white",
+                    width: "300px",
                     margin: "7px 5px 7px 5px",
-                    borderBottom: "1.5px solid #E5E5E5",
+                    borderLeft: "none",
+                    borderRight: "none",
+                    borderTop: "none",
+                    borderBottom: "solid 2px #E5E5E5",
+                    boxShadow: "none",
                   }}
+                  padding="8px 0px"
                   placeholder="장소(한글 주소로 출력)"
                   type="text"
                   value={inputValue}
@@ -330,17 +354,24 @@ const PostWrite = (props) => {
                 />
               </div>
             </div>
+            </div>  
             <Grid is_flex>
-              <div style={{ margin: "15px 5px" }}>
+              <div style={{ margin: "10px 5px 10px 5px" }}>
                 <Text fontSize="13px" color="#888888" fontWeight="bold">
                   정원
                 </Text>
                 <Input
+                  type="number" 
+                  min="1"
                   style={{
                     width: "100%",
-                    border: "1.5px solid #white",
-                    borderBottom: "1.5px solid #E5E5E5",
+                    borderLeft: "none",
+                    borderRight: "none",
+                    borderTop: "none",
+                    borderBottom: "solid 2px #E5E5E5",
+                    boxShadow: "none",
                   }}
+                  padding="8px 0px"
                   placeholder="인원수(명)"
                   changeEvent={(e) => {
                     setPostingContents({
@@ -357,9 +388,13 @@ const PostWrite = (props) => {
                 <Input
                   style={{
                     width: "100%",
-                    border: "1.5px solid #white",
-                    borderBottom: "1.5px solid #E5E5E5",
+                    borderLeft: "none",
+                    borderRight: "none",
+                    borderTop: "none",
+                    borderBottom: "2px solid #E5E5E5",
+                    boxShadow: "none",
                   }}
+                  padding="8px 0px"
                   placeholder="지참금(문자로 적기)"
                   type="text"
                   changeEvent={(e) => {
@@ -371,20 +406,25 @@ const PostWrite = (props) => {
                 />
               </div>
             </Grid>
-            <Text margin="10px 0px" fontWeight="bold" fontSize="small">
+            <Text margin="10px 5px" color="#888888" fontWeight="bold" fontSize="small">
               공개설정
             </Text>
 
             <Grid style={{ border: "1px solid #B2B2B2", margin: "10px 0px" }} />
-
+            <div style={{ margin: "10px 15px 10px 5px" }}>
             <div>
               <Input
                 style={{
                   width: "100%",
                   border: "1.5px solid #white",
                   margin: "7px 5px 7px 5px",
-                  borderBottom: "1.5px solid #E5E5E5",
+                  borderLeft: "none",
+                  borderRight: "none",
+                  borderTop: "none",
+                  borderBottom: "solid 2px #E5E5E5",
+                  boxShadow: "none",
                 }}
+                padding="8px 0px"
                 placeholder="제목"
                 type="text"
                 changeEvent={(e) => {
@@ -402,6 +442,7 @@ const PostWrite = (props) => {
                   width: "100%",
                   border: "1.5px solid #white",
                   margin: "7px 5px 7px 5px",
+                  boxShadow: "none",
                   // borderBottom:"1.5px solid #E5E5E5",
                 }}
                 placeholder="내용"
@@ -414,7 +455,7 @@ const PostWrite = (props) => {
                 }}
               />
             </div>
-
+            </div>
             <Grid style={{ border: "1px solid #B2B2B2", margin: "10px 0px" }} />
 
             <div style={{ margin: "15px 0px" }}>
@@ -422,7 +463,7 @@ const PostWrite = (props) => {
                 color="#535353"
                 fontWeight="bold"
                 fontSize="14px"
-                margin="3px 0px"
+                margin="3px 5px"
               >
                 태그입력
               </Text>
@@ -444,8 +485,20 @@ const PostWrite = (props) => {
                 }}
               />
             </div>
-            <Button padding="5px" onClick={addPost}>
-              게시
+            <Button 
+              width="100%"
+              height="auto"
+              padding="12px 0"
+              margin="0px 0px 20px"
+              fontSize="18px"
+              bg="#16C59B"
+              radius="5px"
+              color="#FFFFFF"
+              className="custom_transition"
+              style={{ fontWeight: "bold", border: "none" }}
+              hoverColor="#16C59B" 
+              onClick={addPost}>
+              완료
             </Button>
           </Grid>
         </Grid>

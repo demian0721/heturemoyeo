@@ -5,6 +5,10 @@ import { useSelector, useDispatch } from "react-redux";
 
 //ELEMENTS
 import { Grid, Image, Text, Title, Button } from "../elements/index";
+import EventAvailableOutlinedIcon from '@material-ui/icons/EventAvailableOutlined';
+import AccessTimeOutlinedIcon from '@material-ui/icons/AccessTimeOutlined';
+import RoomOutlinedIcon from '@material-ui/icons/RoomOutlined';
+import PersonIcon from '@material-ui/icons/Person';
 
 // HISTORY
 import { history } from "../redux/configStore";
@@ -12,6 +16,7 @@ import { history } from "../redux/configStore";
 import axios from "../common/axios";
 
 function PlaceImageComponent(props) {
+
   return (
     <div className="inline-flex items-center">
       <div
@@ -55,6 +60,22 @@ const JoinToChatRoomFromPostId = (isExist, postId) => {
 
 const Details = (props) => {
   const postDetails = props.Details;
+
+  const formattedDate = (date) => {
+    const dateNow = new Date(date);
+    const year = dateNow.getFullYear();
+    const month =
+      String(dateNow.getMonth() + 1).length === 1
+        ? `0${dateNow.getMonth() + 1}`
+        : dateNow.getMonth() + 1;
+    const day =
+      String(dateNow.getDay()).length === 1
+        ? `0${dateNow.getDay()}`
+        : dateNow.getDay();
+    return `${year}. ${month}. ${day}`;};
+
+  const date = formattedDate(postDetails.startDate);
+
   return (
     <Grid height="32vh" width="30%" minWidth="360px" margin="auto">
       <PlaceImageComponent img={postDetails?.postImg} />
@@ -67,40 +88,42 @@ const Details = (props) => {
         bg="white"
         position="fixed"
         style={{
-          borderRadius: "30px 30px 0px 0px",
+          borderRadius: "10px 10px 0px 0px",
           bottom: "0px",
           left: "50%",
           transform: "translateX(-50%)",
         }}
       >
         <Grid
-          width=""
+          width="100%"
           height=""
           id="detailCardTop"
-          padding="30px 0px"
-          style={{ borderBottom: "1px solid black" }}
+          padding="30px 10px 5px 10px"
+          style={{ borderBottom: "1px solid #E2E2E2" }}
         >
-          <Title color="black" fontWeight="800" fontSize="20px">
-            {postDetails?.title}
-          </Title>
-          <Grid id="place" is_flex margin="10px 0px" width="" height="">
-            <Image src="/assets/postlist_card_place.png" />
-            <Text color="black" margin="0px 10px" fontSize="13px">
-              {postDetails?.place}
-            </Text>
+          <Grid is_flex>
+            <Title color="black" fontWeight="800" fontSize="20px">
+              {postDetails?.title}
+            </Title>
+            <Text color="#16C59B" margin="10px" fontSize="14px" fontWeight="bold" >{postDetails?.currentMember}/{postDetails?.maxMember}명</Text>
           </Grid>
-          <Grid id="pplndate" is_flex margin="15px 0px" width="" height="">
-            <Image src="/assets/postlist_card_people.png" />
-            <Text color="#808080" margin="0px 10px" fontSize="14px">
-              {postDetails?.maxMember}명
-            </Text>
-            <Image src="/assets/postlist_card_calendar.png" />
-            <Text color="#808080" margin="0px 10px" fontSize="14px">
-              {postDetails?.startDate}
-            </Text>
+          <Text color="black" margin="10px auto" fontSize="medium" style={{minHeight:"100px"}}>
+            {postDetails?.content}
+          </Text>
+
+          <Grid is_flex id="tag">
+            {postDetails?.tag?.map((l, index) => {
+              return (
+                <div
+                  key={index}
+                  style={{width:"fit-content", margin: "10px 0px", backgroundColor: "#white", color: "#767676", borderRadius: "5px", padding: "3px 5px", fontSize:"10px", border:"0.6px solid #767676"}}
+                >
+                  {l}
+                </div>
+              );
+            })}
           </Grid>
         </Grid>
-
         {/* 필요없어진 방장 프로필n종료시각n닫기 */}
         {/* <Grid width="60%" margin="0px 10px">
             <Title fontSize="small">방장 프로필</Title>
@@ -115,53 +138,72 @@ const Details = (props) => {
         {/* <button style={{ width: "40%", backgroundColor: "#a7aaad", height: "35px" }} onClick={() => {history.push("/postlist");}}>
             <Title fontSize="small">닫기</Title>
           </button> */}
-        <Grid margin="10px 10px" height="30vh">
-          <Text color="black" margin="10px auto" fontSize="medium">
-            {postDetails?.content}
-          </Text>
-          <Text color="black" margin="10px auto" fontSize="smaller">
+        <Grid id="bottomcard" margin="10px 10px" height=""  style={{minHeight:"150px"}}>
+          <Grid is_flex margin="15px 0px" width="" height="" >
+            <EventAvailableOutlinedIcon style={{
+              width: "19px",
+              height: "19px", 
+              float: "left",
+              color: "#7B7B7B",
+              // marginLeft:"10px"
+            }}/>
+            <Text color="#808080" margin="0px 5px" fontSize="12px" fontWeight="bold">
+              {date}
+            </Text>
+            <AccessTimeOutlinedIcon style={{
+              width: "19px",
+              height: "19px", 
+              float: "left",
+              color: "#7B7B7B",
+              marginLeft:"10px"
+            }}/>
+            <Text color="#808080" margin="0px 5px" fontSize="12px" fontWeight="bold">
+              00:00~00:00
+            </Text>
+          </Grid>
+          <Grid id="pplndate" is_flex margin="15px 0px" width="" height="">
+            <PersonIcon style={{
+              width: "19px",
+              height: "19px", 
+              float: "left",
+              color: "#7B7B7B",
+              // marginLeft:"10px"
+            }}/>
+            <Text color="#808080" margin="0px 10px 0px 5px" fontSize="12px" fontWeight="bold">
+              {postDetails?.maxMember}명
+            </Text>
+            <Image src="/assets/Bring.svg"  style={{
+              width: "19px",
+              height: "19px", 
+              float: "left",
+              color: "#7B7B7B",
+            }}/>
+            <Text color="#808080" margin="0px 10px 0px 5px" fontSize="12px" fontWeight="bold">
             {postDetails?.bring}
-          </Text>
-          <Grid is_flex>
-            {postDetails?.tag?.map((l, index) => {
-              return (
-                <div
-                  key={index}
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: "12px",
-                    margin: "0px 10px 0px 0px",
-                    backgroundColor: "#E0F6EC",
-                    color: "#9AC1AF",
-                    borderRadius: "5px",
-                    padding: "3px 5px",
-                  }}
-                >
-                  {l}
-                </div>
-              );
-            })}
+            </Text>
+          </Grid>
+          <Grid id="place" is_flex margin="10px 0px" width="" height="">
+            <RoomOutlinedIcon style={{
+              width: "19px",
+              height: "19px", 
+              float: "left",
+              color: "#7B7B7B",
+              // marginLeft:"10px"
+            }}/>
+            <Text color="#808080" margin="0px 5px" fontSize="12px" fontWeight="bold">
+              {postDetails?.place}
+            </Text>
           </Grid>
         </Grid>
 
         <Grid
           id="chatRoom"
           margin="10px auto"
-          style={{ borderTop: "1px solid #E2E2E2" }}
         >
-          <Text
-            color="#8DDAB6"
-            margin="10px auto"
-            fontSize="14px"
-            fontWeight="bold"
-            style={{ textAlign: "center" }}
-          >
-            {postDetails?.currentMember}/{postDetails?.maxMember}명
-          </Text>
           <Button
             className="custom_transition"
             bg="#16C59B"
-            width="80%"
+            width="90%"
             padding="15px"
             margin="auto"
             display="block"

@@ -25,7 +25,7 @@ const PostListCard = (props) => {
         : dateNow.getDay();
     return `${year}. ${month}. ${day}`;};
 
-  const date = formattedDate(props.startDate)
+  const date = formattedDate(props.startDate);
   return (
     <PostCard
       onClick={() => {

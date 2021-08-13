@@ -69,7 +69,8 @@ const ProfileEdit = (props) => {
   const [height, setHeight] = useState(preview ? "auto" : "380px");
 
   const editInfos = () => {
-    dispatch(userActions.editInfos(editInfo));
+    dispatch(userActions.editInfos(fileInput.current.files[0],editInfo));
+    dispatch(imgActions.setPreview(null));
   }
 
     //닉네임 확인파트

@@ -76,15 +76,26 @@ const Details = (props) => {
 
   const date = formattedDate(postDetails.startDate);
 
+  console.log(postDetails);
+  console.log(postDetails.profileImg);
+  
+  // const profileImg =
+  //  if(postDetails.profileImg==null) {
+
+  // };
+
   return (
     <Grid height="32vh" width="30%" minWidth="360px" margin="auto">
       <PlaceImageComponent img={postDetails?.postImg} />
+      <Grid width="100px" height="100px" style={{zIndex:"50",position:"absolute",top:"33%",left:"40%",transform:"translateX(-50%)"}}>
+          <img src={postDetails.profileImg? postDetails.profileImg : "/assets/profile.png" }></img>
+      </Grid>
       <Grid
         padding="18px"
         width="30%"
         minWidth="360px"
         margin="auto"
-        height=""
+        height="61vh"
         bg="white"
         position="fixed"
         style={{
@@ -105,7 +116,7 @@ const Details = (props) => {
             <Title color="black" fontWeight="800" fontSize="20px">
               {postDetails?.title}
             </Title>
-            <Text color="#16C59B" margin="10px" fontSize="14px" fontWeight="bold" >{postDetails?.currentMember}/{postDetails?.maxMember}명</Text>
+            <Text color="#16C59B" margin="0px 0px 0px 10px" fontSize="14px" fontWeight="bold" style={{minWidth:"45px"}}>{postDetails?.currentMember}/{postDetails?.maxMember}명</Text>
           </Grid>
           <Text color="black" margin="10px auto" fontSize="medium" style={{minHeight:"100px"}}>
             {postDetails?.content}

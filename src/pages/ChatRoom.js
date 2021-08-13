@@ -7,7 +7,7 @@ import ChatUICSS from "!!raw-loader!@chatui/core/dist/index.css";
 import { useSelector, useDispatch } from "react-redux";
 import { chatActions } from "../redux/modules/chat";
 
-import Logger from '../utils/Logger'
+import Logger from "../utils/Logger";
 
 // const initSocketEvents = (socket) => {
 //   socket.on()
@@ -16,34 +16,14 @@ import Logger from '../utils/Logger'
 const ChatRoom = (props) => {
   const dispatch = useDispatch();
   const myUserId = useSelector((state) => state.user.userId);
-  const getChatDatas = useSelector((state) => state.chat.chatList.reverse().splice(0, 1000).reverse());
+  const getChatDatas = useSelector((state) => state.chat.chatList.reverse());
   const [init, setInit] = useState(false);
   const { messages, appendMsg } = useMessages([]);
-  if (getChatDatas?.length >= 1 && myUserId && !init) {
-    getChatDatas.map((el) => {
-      const data = {
-        type: "text",
-        content: { text: el.userId !== myUserId ? `${el.nickname}: ${el.message}` : el.message },
-        position: el.userId === myUserId ? "right" : "left",
-      };
-      if (el.userId !== myUserId)
-        Object.assign(data, {
-          user: {
-            avatar:
-              "https://cdn.discordapp.com/attachments/869177664479567903/871045228159705088/profileBlank.png",
-          },
-        });
-      appendMsg(data);
-      return data;
-    });
-    setInit(true);
-    appendMsg({ type: "system", content: { text: '채팅방에 입장하셨습니다.' } })
-  }
 
   const socketClientEvents = (socket) => {
     socket
       .on("connect", (data) => {
-        Logger.info(`[Socket.io:Connect] Connected to Socket.io server!`)
+        Logger.info(`[Socket.io:Connect] Connected to Socket.io server!`);
       })
       .on("join", (data) =>
         appendMsg({ type: "system", content: { text: data.chat } })
@@ -57,18 +37,53 @@ const ChatRoom = (props) => {
             type: "text",
             content: { text: `${data.nickname}: ${data.message}` },
             position: "left",
+            user: { avatar: "https://cdn.discordapp.com/attachments/869177664479567903/871045228159705088/profileBlank.png" },
+          });
+      })
+      .on("disconnect", (socket) =>
+        Logger.error(
+          `[Socket.io:Disconnect] Disconnected to Socket.io Server (Reason: ${socket})`
+        )
+      );
+
+    socket.on("error", (error) =>
+      Logger.error(`[Socket.io:Error] Socket.io error occurred!\n${error}`)
+    );
+  };
+
+  if (!init && myUserId && getChatDatas) {
+    if (getChatDatas?.length >= 1) {
+      Logger.debug(`[GetChatDatas] Get ChatDatas: ${getChatDatas.length}`)  
+      getChatDatas.map((el) => {
+        console.log(el)
+        const data = {
+          type: "text",
+          content: {
+            text:
+              el.userId !== myUserId
+                ? `${el.nickname}: ${el.message}`
+                : el.message,
+          },
+          position: el.userId === myUserId ? "right" : "left",
+        };
+        if (el.userId !== myUserId)
+          Object.assign(data, {
             user: {
               avatar:
                 "https://cdn.discordapp.com/attachments/869177664479567903/871045228159705088/profileBlank.png",
             },
           });
-      })
-      .on("disconnect", (socket) =>
-        console.log(`Disconnected to Socket.io Server (Reason: ${socket})`)
-      );
+        if (!!el.userId) appendMsg(data);
+        return data;
+      });
+    }
+    appendMsg({
+      type: "system",
+      content: { text: "채팅방에 입장하셨습니다." },
+    });
+    setInit(true);
+  }
 
-    socket.on("error", (error) => console.error(error));
-  };
   useEffect(() => {
     const io = socket("astraios.shop:4001/chat", {
       path: "/socket.io",
@@ -79,7 +94,9 @@ const ChatRoom = (props) => {
     socketClientEvents(io);
     dispatch(chatActions.getChatDB(props.match.params.id, 1000));
     return () => {
-      console.log("Disconnecting to Socket.io server...");
+      Logger.warn(
+        "[Socket.io:Disconnect] Disconnecting to Socket.io server..."
+      );
       io.removeAllListeners();
       io.disconnect();
     };

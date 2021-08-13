@@ -1,15 +1,18 @@
 // LIBRARY
-import React, { useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
-import { css } from "styled-components";
-import TodayIcon from "@material-ui/icons/Today";
+import SearchIcon from "@material-ui/icons/Search";
 import { useSelector, useDispatch } from "react-redux";
 
 // REDUX
-import { postActions } from "../redux/modules/post";
+// import { postActions } from "../redux/modules/post";
+import { searchActions } from "../redux/modules/search";
+
+// FUNCTION
+import InfiniteScroll from "../common/infiniteScroll";
 
 // ELEMENTS
-import { Grid, Button } from "../elements/index";
+import { Grid, Button, Text } from "../elements/index";
 
 // HISTORY
 import { history } from "../redux/configStore";
@@ -21,76 +24,125 @@ import PostListCard from "../components/PostListCard";
 import PostListButton from "../components/PostListButton";
 
 const SearchPostListMy = (props) => {
+  console.log(props);
+  const keyword = props.match.params.keyword;
   const dispatch = useDispatch();
-  const PostList = useSelector((state) => state.post.list);
-
+  // const keyword = window.location.search.slice(1).split('=')[1]
+  // const PostList = useSelector((state) => state.post.list);
+  const searchList = useSelector((state) => state.search.list);
+  const inputword = useRef();
   useEffect(() => {
-    dispatch(postActions.getMyPostsDB());
-  }, []);
+    dispatch(searchActions.searchPostDB(keyword));
 
+    return () => {
+      dispatch(searchActions.getSearchPost([], 0));
+    };
+  }, [keyword]);
+  // useEffect(() => {
+  //   dispatch(postActions.getMyPostsDB());
+  // }, []);
+
+  const search = () => {
+    console.log(inputword.current.value);
+    dispatch(searchActions.searchPostDB(inputword.current.value));
+    history.push(`/postlist/search/my/${inputword.current.value}`);
+  };
+  const onKeyPress = (event) => {
+    if (event.key == "Enter") {
+      search();
+    }
+  };
   return (
-    <React.Fragment>
-      <Grid>
-        <Header/>
+    <Style>
+      <Grid height="">
+        <Header>모임구하기</Header>
       </Grid>
 
-      <Grid
-        width="360px"
-        margin="50px auto"
-        // padding="55px 40px 100.2px"
-        // shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-        tabletStyle={() => {
-          return css`
-            width: 95%;
-          `;
-        }}
-        mobileStyle={() => {
-          return css`
-            padding: 15px 20px;
-            width: 100%;
-          `;
-        }}
-      >
-        <Grid padding="18px" bg="#EFEFEF">
-          <Grid
-            padding="8px 8px"
-            is_flex
-            bg="white"
-            style={{ border: "1px solid #ccc", justifyContent:"space-between", marginBottom:"10px" }}
-          >
-            <input placeholder="제목, 내용, 태그 또는 날짜"/>
-            <TodayIcon color="action" />
+      <Grid width="360px" height="" margin="auto">
+        <Grid height="" bg="white">
+          <Grid is_flex padding="18px">
+            <Grid
+              is_flex
+              padding="8px 8px"
+              height=""
+              bg="#EFEFEF"
+              style={{ margin: "auto" }}
+            >
+              <SearchIcon style={{ color: "#767676" }} />
+              <input
+                type="text"
+                placeholder="제목, 내용, 태그 또는 날짜"
+                style={{
+                  padding: "0px 5px",
+                  width: "100%",
+                  backgroundColor: "#EFEFEF",
+                }}
+                ref={inputword}
+                onKeyPress={onKeyPress}
+              />
+            </Grid>
+            <img
+              src="/assets/postlist_input_calendar.png"
+              style={{ margin: "auto 0px auto 5px" }}
+            />
           </Grid>
+          <PostListButton>my</PostListButton>
 
-          <PostListButton/>
+          <>
+            {searchList.length ? (
+              <InfiniteScroll
+                postList={searchList}
+                page="SearchPostList"
+                keyword={keyword}
+              />
+            ) : (
+              <Text fontSize="23px" margin="30px 30px 0 80px">
+                {decodeURI(keyword)}에 대한 검색 결과가 없습니다.
+              </Text>
+            )}
+          </>
 
-          {PostList.map((l, index) => {
-            return <PostListCard key={l.id} idx={index} {...l} />;
-          })}
-
-          <Grid padding="5px 0px">
+          <Grid
+            padding="5px 0px"
+            style={{ position: "fixed", bottom: "8%", right: "5%", zIndex: 99 }}
+            width="auto"
+            height=""
+            overflow="visible"
+          >
             <Button
-              width="60px"
-              height="60px"
-              bg="#A7AAAD"
-              color="black"
-              radius="50px"
-              fontSize="10px"
+              // shadow="rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;"
+              // padding="12px"
+              margin="0 0 10px"
+              radius="100%"
               clickEvent={() => {
                 history.push("/postwrite");
               }}
-              style={{ cursor: "pointer", float: "right" }}
+              style={{ cursor: "pointer" }}
             >
-              추가하기 <br/> (글쓰기버튼)
+              <img
+                src="/assets/floating_button_postwrite.png"
+                style={{
+                  width: "50px",
+                  height: "50px",
+                }}
+              />
             </Button>
           </Grid>
         </Grid>
       </Grid>
-      <Grid>
+      <Grid height="">
         <Footer>group</Footer>
       </Grid>
-    </React.Fragment>
+    </Style>
   );
 };
+
+const Style = styled.div`
+  align-items: center;
+  margin-top: 75px;
+  width: 100vw;
+  height: 100%;
+  background-color: #efefef;
+`;
 
 export default SearchPostListMy;

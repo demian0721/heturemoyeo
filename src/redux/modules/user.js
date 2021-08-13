@@ -175,12 +175,12 @@ const signupDB = (email, name, nickname, password, confirm, profileImg, statusMe
   instance
     .post("/api/sign/", { email, name, nickname, password, confirm, profileImg, statusMessage, likeItem })
     .then((res) => {
+      console.log(res);
     })
     .catch((error) => {
       console.log(error);
     });
-  // };
-};
+  };
 
 // REDUCER
 export default handleActions(

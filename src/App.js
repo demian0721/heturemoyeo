@@ -95,12 +95,12 @@ function App() {
         <Route path="/postlist/my" exact component={PostListMy} />
         <Route path="/postdetail/:postid" exact component={PostDetail} />
         <Route path="/postwrite" exact component={PostWrite} />
-        <Route path="/postmodify" exact component={PostModify} />
+        <Route path="/postdetail/modify" exact component={PostModify} />
         <Route path="/chat" exact component={ChatList} />
         <Route path="/chat/:id" exact component={ChatRoom} />
         <Route path="/setting" exact component={Setting} />
         <Route path="/postlist/search/:keyword" exact component={SearchPostList} />
-        <Route path="/postlist/search/my" exact component={SearchPostListMy} />
+        <Route path="/postlist/search/my/:keyword" exact component={SearchPostListMy} />
       </ConnectedRouter>
     </>
   );

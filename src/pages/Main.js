@@ -7,6 +7,7 @@ import { geolocated, geoPropTypes } from "react-geolocated";
 import { useSelector, useDispatch } from "react-redux";
 
 // REDUX
+import { userActions } from "../redux/modules/user";
 import { markerActions } from "../redux/modules/marker";
 import { postActions } from "../redux/modules/post";
 
@@ -28,6 +29,7 @@ import useOutsideClick from "../hooks/useOutsideClick";
 import MyLocationIcon from "@material-ui/icons/MyLocation";
 
 import Logger from "../utils/Logger";
+import { sleep } from "../utils";
 
 const Main = (props) => {
   const dispatch = useDispatch();
@@ -82,7 +84,8 @@ const Main = (props) => {
     global?.map?.panTo(new kakao.maps.LatLng(lat, lng));
 
   // 마커 클릭 이벤트 (마커 클릭 시 오버레이 열기)
-  const markerEventListener = (markerData) => { // markerData 안에 postId, userId 등 값을 assign 하여, 넘겨받음.
+  const markerEventListener = (markerData) => {
+    // markerData 안에 postId, userId 등 값을 assign 하여, 넘겨받음.
     if (!isOpen) {
       setIsOpen(true);
       panTo(markerData.position.getLat(), markerData.position.getLng());
@@ -246,6 +249,7 @@ const Main = (props) => {
     !!getUserData?.userId &&
     !geolocationMarker
   ) {
+    console.log("마커 생성할겝!");
     setGeolocationMarker(true);
     setMyUserId(getUserData.userId);
     setInterval(() => {
@@ -254,7 +258,6 @@ const Main = (props) => {
         props.coords.latitude,
         props.coords.longitude
       );
-      // socket.emit("getPostList");
     }, 2000);
   }
 
@@ -346,13 +349,18 @@ const Main = (props) => {
     socket.on("userLocation", userLocationListener);
     socket.on("newPost", postLocationListener);
     socket.on("removePost", postLocationRemoveListener);
+    socket.on("closeEvent", (event) => {
+      sessionStorage.removeItem("token");
+      alert("중복 로그인입니다. 로그인 페이지로 돌아갑니다.");
+      window.location.href = "/login";
+    });
     // setMarkerToSchedule();
     return () => {
       Logger.debug(
         "[Socket.io:UserLocation:Event:Clear] Clearing All EventListener to Socket.io Client"
       );
       socket.removeAllListeners();
-      // socket.disconnect()
+      socket.disconnect();
     };
   }, [myFriends, mySchedules, geolocationMarker]);
 
@@ -362,20 +370,6 @@ const Main = (props) => {
         <>
           <Header />
           <div className="container">
-            {/* <div
-              className="absolute left-0 right-0 inline-flex"
-              style={{ zIndex: 20 }}
-            >
-              <Input id="input__userId" placeholder="userId" />
-              <Input id="input__location--lat" placeholder="Lat" />
-              <Input id="input__location--lng" placeholder="Lng" />
-              <div
-                onClick={() => submitAddMarker()}
-                className="bg-blue-500 hover:bg-blue-700 transition text-white rounded-lg text-center px-4 py-2 cursor-pointer"
-              >
-                Add Marker
-              </div>
-            </div> */}
             {/* kakao 맵 생성 */}
             <div
               id="map"

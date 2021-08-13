@@ -1,6 +1,6 @@
 //Library
-import React, { useState, useEffect } from 'react';
-import styled from "styled-components";
+import React, { useState, useEffect, useRef } from 'react';
+import styled, { css } from "styled-components";
 import _ from "lodash";
 
 //Elements
@@ -13,6 +13,7 @@ import { getToken } from '../common/token';
 
 //DB
 import { userActions } from '../redux/modules/user';
+import { imgActions } from "../redux/modules/image";
 import { idVal, pwdVal, nickVal } from "../common/validation"; 
 
 //Components
@@ -23,11 +24,12 @@ import CreateIcon from '@material-ui/icons/Create';
 
 //임포트 사용 항목 외 삭제요망
 
-const ProfileEdit = () => {
+const ProfileEdit = (props) => {
 
   const dispatch = useDispatch();
   const debounce = _.debounce((value, setValue) => setValue(value), 300);
-
+  const fileInput = useRef();
+  
   useEffect(() => {dispatch(userActions.myInfoDB()) }, [])
   useEffect(() => { if (!getToken()) { history.replace('/login'); } }, []);    
   
@@ -61,6 +63,10 @@ const ProfileEdit = () => {
   const changeConfirm = (e) => {setInfos({ ...editInfo, confirm: e.target.value});}
   const changeProfileImg = (e) => {setInfos({ ...editInfo, profileImg: e.target.value});}
   const changeLikeItem = (e) => {setInfos({ ...editInfo, likeItem: e.target.value.split(',')}); console.log(e.target.value)}
+
+  const image = useSelector((state) => state.image);
+  const preview = !image.preview && props ? props.postImg : image.preview;
+  const [height, setHeight] = useState(preview ? "auto" : "380px");
 
   const editInfos = () => {
     dispatch(userActions.editInfos(editInfo));
@@ -154,17 +160,53 @@ const ProfileEdit = () => {
     setNPwd2WarColor("green");
     setNPwd2Notice("새 비밀번호가 올바르게 입력되었습니다.");
   };
+
+  const selectFile = (event) => {
+    const reader = new FileReader();
+    const file = event.target.files[0]
+
+    if (file) {
+      reader.readAsDataURL(file);
+
+      reader.onload = () => {
+        dispatch(imgActions.setPreview(reader.result));
+        setHeight("auto");
+      };
+    }
+  };
+
     
     return (
         <Style>
           <Grid  width="50vw" height=""  maxWidth="500px" minWidth="250px" margin="auto" style={{}}>
             <Grid id="profile" bg="white" padding="20px 30px" >
-              <Grid id="profileImage" width="15vw" maxWidth="150px" minWidth="100px" height="15vw" maxHeight="150px" minHeight="100px" margin="auto auto 30px" style={{position:"block"}}>
-                {/* <Grid width="15vw" margin="auto" style={{display:"block", borderRadius:"50%"}}>
-                    <Image src={userlist.profileImg? userlist.profileImg : "/assets/profile_image_avatar_only.png"} style={{position:'absolute',zIndex:1}}/> 
-                </Grid> */}
-                <img src={userlist.profileImg? userlist.profileImg : "/assets/profile_image_avatar_only.png"} style={{position:'absolute',zIndex:1,borderRadius:"50%",width:"15vw", maxWidth:"150px", minWidth:"100px" , margin:"auto"}}/>
-                <img src="/assets/profile_image_camera_only.png" style={{position:"relative", zIndex:2, top:"75%", left:"75%"}}/>
+              {/* 높이 고정이라 Ref 안쓰는듯? */}
+              <Grid width="15vw" maxWidth="150px" minWidth="100px" height="15vw" maxHeight="150px" minHeight="100px" margin="auto auto 30px" style={{position:"block"}}>
+                <Grid id="profileImage" 
+                  bg="#EFEFEF"
+                  radius="50%"
+                  width="15vw" maxWidth="150px" minWidth="100px" height="15vw" maxHeight="150px" minHeight="100px"
+                  margin="auto auto 30px" 
+                  style={{ position: "block" }}
+                >
+                  <img src={!preview ? userlist.profileImg : preview} style={{position:'absolute',zIndex:2,borderRadius:"50%",width:"15vw", maxWidth:"150px", minWidth:"100px" , margin:"auto"}}/>
+                  <img src={userlist.profileImg? userlist.profileImg : "/assets/profile.png"} style={{position:'absolute',zIndex:1,borderRadius:"50%",width:"15vw", maxWidth:"150px", minWidth:"100px" , margin:"auto"}}/>
+                  <LabelStyle htmlFor="input--file">
+                    {!preview ? null : null}
+                  </LabelStyle>
+                  <InputFile
+                    type="file"
+                    id="input--file"
+                    ref={fileInput}
+                    accept="image/png, image/jpeg"
+                    onChange={selectFile}
+                  />
+                  <Image
+                    style={{ position: "absolute", left: 0, top: 0 }}
+                    src={preview}
+                  />
+                </Grid>
+                <img src="/assets/profile_image_camera_only.png" style={{position:"relative", zIndex:5, top:"75%", left:"75%"}}/>
               </Grid>
               {/* <Text margin="20px 0px 0px 0px" fontSize='small'>비밀번호</Text> */}
               <Grid is_flex style={{justifyContent:"center"}}>
@@ -211,8 +253,44 @@ const Style = styled.div`
 const Nick = styled.input`
   ::placeholder {
   font-size: 11px;
-}
+}`;
 
+const PosAbs = () => {
+  return css`
+    position: absolute;
+    top: 0;
+    left: 0;
+  `;
+};
+
+const LabelStyle = styled.label`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  ${PosAbs()};
+  z-index: 3;
+  
+  /* background-color: skyblue; */
+  border-radius:50%;
+  width:15vw;
+  max-Width:150px;
+  min-width:100px;
+  height:15vw;
+  max-height:150px;
+  min-height:100px;
+  margin:auto auto 30px;
+  left: 50%;
+  top:95px;
+  transform: translateX(-50%);
+`;
+
+const InputFile = styled.input`
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  ${PosAbs()};
 `;
 
 export default ProfileEdit;

@@ -1,7 +1,6 @@
 // LIBRARY
 import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
-import SearchIcon from "@material-ui/icons/Search";
 import { useSelector, useDispatch } from "react-redux";
 
 // REDUX
@@ -13,6 +12,9 @@ import InfiniteScroll from "../common/infiniteScroll";
 
 // ELEMENTS
 import { Grid, Button, Text } from "../elements/index";
+import SearchIcon from "@material-ui/icons/Search";
+import DateRangeOutlinedIcon from "@material-ui/icons/DateRangeOutlined";
+import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
 
 // HISTORY
 import { history } from "../redux/configStore";
@@ -81,9 +83,8 @@ const SearchPostListMy = (props) => {
                 onKeyPress={onKeyPress}
               />
             </Grid>
-            <img
-              src="/assets/postlist_input_calendar.png"
-              style={{ margin: "auto 0px auto 5px" }}
+            <DateRangeOutlinedIcon
+              style={{ marginLeft: "5px", color: "#7B7B7B" }}
             />
           </Grid>
           <PostListButton>my</PostListButton>
@@ -114,18 +115,15 @@ const SearchPostListMy = (props) => {
               // padding="12px"
               margin="0 0 10px"
               radius="100%"
+              color="white"
+              hoverColor="#16C59B"
+              borderColor="none"
               clickEvent={() => {
                 history.push("/postwrite");
               }}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", width: "50px", height: "50px" }}
             >
-              <img
-                src="/assets/floating_button_postwrite.png"
-                style={{
-                  width: "50px",
-                  height: "50px",
-                }}
-              />
+              <CreateOutlinedIcon />
             </Button>
           </Grid>
         </Grid>

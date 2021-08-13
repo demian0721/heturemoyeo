@@ -1,7 +1,6 @@
 // LIBRARY
 import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
-import SearchIcon from '@material-ui/icons/Search';
 import { useSelector, useDispatch } from "react-redux";
 
 // REDUX
@@ -13,6 +12,7 @@ import InfiniteScroll from '../common/infiniteScroll';
 
 // ELEMENTS
 import { Grid, Button } from "../elements/index";
+import SearchIcon from '@material-ui/icons/Search';
 import DateRangeOutlinedIcon from '@material-ui/icons/DateRangeOutlined';
 import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
 
@@ -84,6 +84,7 @@ const PostList = (props) => {
               radius="100%"
               color="white"
               hoverColor="#16C59B"
+              borderColor="none"
               clickEvent={() => {
                 history.push("/postwrite"); 
               }}

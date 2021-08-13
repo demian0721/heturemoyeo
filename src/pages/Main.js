@@ -19,7 +19,7 @@ import Overlay from "../components/Overlay";
 import Footer from "../components/Footer";
 
 // ELEMENTS
-import { Grid, Button, Input } from "../elements/index";
+import { Grid, Button } from "../elements/index";
 
 // HOOKS
 import useOutsideClick from "../hooks/useOutsideClick";
@@ -28,19 +28,17 @@ import useOutsideClick from "../hooks/useOutsideClick";
 import MyLocationIcon from "@material-ui/icons/MyLocation";
 
 import Logger from "../utils/Logger";
-import { sleep } from "../utils";
 
 const Main = (props) => {
   const dispatch = useDispatch();
   const [geolocationMarker, setGeolocationMarker] = useState(false);
   const [markers, setMarkers] = useState([]);
-  const [posts, setPosts] = useState({});
+  const [posts] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   const [myUserId, setMyUserId] = useState(null);
   const [markerData, setMarkerData] = useState({});
   const [init, setInit] = useState(false);
   // const [callUserData, setCallUserData] = useState({})
-  const debounce = _.debounce((value, setValue) => setValue(value), 300);
   const ref = useRef();
 
   const markerImageObj = {
@@ -55,14 +53,14 @@ const Main = (props) => {
   const getUserData = useSelector((state) => state.user);
   const myFriends = useSelector((state) => state.user.friendUsers);
   const mySchedules = useSelector((state) => state.user.scheduleUsers);
-  const getMarkerData = useSelector((state) => state.marker);
-  const getPostDetailData = useSelector((state) => state.post.postDetail);
-  const getPostLocationData = useSelector((state) => state.post);
+  const getMarkerData = useSelector((state) => state.marker); // 리덕스에서 유저 오버레이 정보를 저장해두는 상수
+  const getPostDetailData = useSelector((state) => state.post.postDetail); // 리덕스에서 일정 오버레이 정보를 저장해두는 상수
+  const getPostLocationData = useSelector((state) => state.post.list); // 일정 마커의 좌표 정보를 저장해두는 상수
 
   // 마커 클릭 이벤트 (바깥 영역 클릭 시 오버레이 닫기)
   useOutsideClick(ref, () => setIsOpen(false));
-  useEffect(() => setMarkerData(getMarkerData), [getMarkerData]);
-  useEffect(() => setMarkerData(getPostDetailData), [getPostDetailData]);
+  useEffect(() => setMarkerData(getMarkerData), [getMarkerData]); // 상수에 저장되어 있던 오버레이 정보(유저)를 표시함
+  useEffect(() => setMarkerData(getPostDetailData), [getPostDetailData]); // 상수에 저장되어 있던 오버레이 정보(일정)를 표시함
 
   const getDataFromAPI = (id, isFriend, isSameSchedule, isMe, isSchedule) => {
     if (isMe) return getUserData;
@@ -84,10 +82,9 @@ const Main = (props) => {
     global?.map?.panTo(new kakao.maps.LatLng(lat, lng));
 
   // 마커 클릭 이벤트 (마커 클릭 시 오버레이 열기)
-  const markerEventListener = (markerData) => {
+  const markerEventListener = (markerData) => { // markerData 안에 postId, userId 등 값을 assign 하여, 넘겨받음.
     if (!isOpen) {
       setIsOpen(true);
-      // console.log(markerData)
       panTo(markerData.position.getLat(), markerData.position.getLng());
       // Resize Marker, disabled
       // markerData.setImage(
@@ -105,7 +102,7 @@ const Main = (props) => {
         markerData.isSchedule
       );
       if (result) setMarkerData(result);
-    } else setIsOpen(false);
+    }
   };
 
   /**
@@ -214,39 +211,6 @@ const Main = (props) => {
   const sendUserLocation = (userId, lat, lng) =>
     socket.emit("latlng", { userId, lat, lng });
 
-  // 인풋박스에서 임의의 마커 추가해보기. (소켓통신)
-  // const submitAddMarker = () => {
-  //   const userId = document.getElementById("input__userId");
-  //   const locationLat = document.getElementById("input__location--lat");
-  //   const locationLng = document.getElementById("input__location--lng");
-  //   if (!userId?.value || !locationLat?.value || !locationLng?.value)
-  //     return alert("모든 데이터를 입력해 주세요");
-  //   if (
-  //     markers.filter((el) => el.markerUserId === Number(userId?.value))
-  //       .length >= 1
-  //   )
-  //     return alert(
-  //       `중복되는 아이디가 있습니다. (중복되는 아이디: ${userId?.value})`
-  //     );
-  //   addMarker(
-  //     global.map,
-  //     userId?.value,
-  //     new kakao.maps.LatLng(
-  //       Number(locationLat?.value),
-  //       Number(locationLng?.value)
-  //     )
-  //   );
-  //   sendUserLocation(
-  //     Number(userId.value),
-  //     Number(locationLat.value),
-  //     Number(locationLng.value)
-  //   );
-  //   alert(`마커가 생성되었습니다. (생성된 마커 아이디: ${userId?.value})`);
-  //   userId.value = "";
-  //   locationLat.value = "";
-  //   locationLng.value = "";
-  // };
-
   // 카카오맵 생성하기
   useEffect(() => {
     Logger.info('[KakaoMap:LoadMap] Loaded KakaoMap, render to "div#map"');
@@ -265,7 +229,7 @@ const Main = (props) => {
       );
       markers.map((marker) =>
         kakao.maps.event.removeListener(marker, "click", () =>
-          markerEventListener()
+          markerEventListener(marker)
         )
       );
     };
@@ -295,8 +259,8 @@ const Main = (props) => {
   }
 
   // GET /api/post/posts/Location 받아오기
-  if (getPostLocationData?.list?.length !== 0 && !init) {
-    getPostLocationData.list.map((el) =>
+  if (getPostLocationData?.length !== 0 && !init) {
+    getPostLocationData.map((el) =>
       addMarker(
         global.map,
         el.postId,

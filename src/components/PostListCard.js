@@ -11,21 +11,9 @@ import RoomOutlinedIcon from '@material-ui/icons/RoomOutlined';
 // HISTORY
 import { history } from "../redux/configStore";
 
-const PostListCard = (props) => {
-  const formattedDate = (date) => {
-    const dateNow = new Date(date);
-    const year = dateNow.getFullYear();
-    const month =
-      String(dateNow.getMonth() + 1).length === 1
-        ? `0${dateNow.getMonth() + 1}`
-        : dateNow.getMonth() + 1;
-    const day =
-      String(dateNow.getDay()).length === 1
-        ? `0${dateNow.getDay()}`
-        : dateNow.getDay();
-    return `${year}. ${month}. ${day}`;};
+import { formattedDate } from '../utils'
 
-  const date = formattedDate(props.startDate);
+const PostListCard = (props) => {
   return (
     <PostCard
       onClick={() => {
@@ -61,7 +49,7 @@ const PostListCard = (props) => {
               marginLeft:"10px"
             }}/>
             <span style={{ fontWeight: "normal", marginLeft: "3px"  }}>
-            {date}
+            {formattedDate(props.startDate)}
             </span>
           </ListInfo>
         </Grid>
@@ -116,11 +104,6 @@ const ListInfo = styled.div`
   font-weight: bold;
   color: black; 
   margin-top: 5px;
-`;
-const PlaceImage = styled.img`
-  width: 85px;
-  height: 85px;
-  background-color: white;
 `;
 
 const PostCard = styled.button`

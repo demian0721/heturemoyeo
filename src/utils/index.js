@@ -11,5 +11,6 @@ module.exports = {
         ? `0${dateNow.getDay()}`
         : dateNow.getDay();
     return `${year}. ${month}. ${day}`;
-  }
+  },
+  sleep: (time) => new Promise((resolve) => setTimeout(resolve, time))
 }

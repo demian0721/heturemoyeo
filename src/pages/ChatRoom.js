@@ -16,7 +16,7 @@ import Logger from "../utils/Logger";
 const ChatRoom = (props) => {
   const dispatch = useDispatch();
   const myUserId = useSelector((state) => state.user.userId);
-  const getChatDatas = useSelector((state) => state.chat.chatList.reverse());
+  const getChatDatas = useSelector((state) => state.chat.chatList);
   const [init, setInit] = useState(false);
   const { messages, appendMsg } = useMessages([]);
 
@@ -51,8 +51,11 @@ const ChatRoom = (props) => {
     );
   };
 
-  if (!init && myUserId && getChatDatas) {
+  //getChatDatas의 데이터가 없는데 userId가 먼저 받아왔을 때
+  //userId가 있는데 getChatDatas의 배열은 무조건 True로 반환하기 때문에 발생
+  if (!init && myUserId && getChatDatas.length) {
     if (getChatDatas?.length >= 1) {
+      getChatDatas.reverse()
       Logger.debug(`[GetChatDatas] Get ChatDatas: ${getChatDatas.length}`)  
       getChatDatas.map((el) => {
         console.log(el)

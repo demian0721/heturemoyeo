@@ -8,6 +8,7 @@ import { history } from "./redux/configStore";
 
 // REDUX
 import { userActions } from "./redux/modules/user";
+import { postActions } from "./redux/modules/post";
 import { useDispatch } from "react-redux";
 
 // TOKEN
@@ -47,6 +48,7 @@ function App() {
       dispatch(userActions.logInCheck(token));
       dispatch(userActions.myInfoDB());
       dispatch(userActions.relationDB());
+      dispatch(postActions.getPostLocationDB());
     } else {
       if (
         !token &&

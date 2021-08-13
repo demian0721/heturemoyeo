@@ -28,15 +28,17 @@ import useOutsideClick from "../hooks/useOutsideClick";
 import MyLocationIcon from "@material-ui/icons/MyLocation";
 
 import Logger from "../utils/Logger";
+import { sleep } from "../utils";
 
 const Main = (props) => {
   const dispatch = useDispatch();
   const [geolocationMarker, setGeolocationMarker] = useState(false);
   const [markers, setMarkers] = useState([]);
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   const [myUserId, setMyUserId] = useState(null);
   const [markerData, setMarkerData] = useState({});
+  const [init, setInit] = useState(false);
   // const [callUserData, setCallUserData] = useState({})
   const debounce = _.debounce((value, setValue) => setValue(value), 300);
   const ref = useRef();
@@ -55,6 +57,7 @@ const Main = (props) => {
   const mySchedules = useSelector((state) => state.user.scheduleUsers);
   const getMarkerData = useSelector((state) => state.marker);
   const getPostDetailData = useSelector((state) => state.post.postDetail);
+  const getPostLocationData = useSelector((state) => state.post);
 
   // 마커 클릭 이벤트 (바깥 영역 클릭 시 오버레이 닫기)
   useOutsideClick(ref, () => setIsOpen(false));
@@ -202,7 +205,7 @@ const Main = (props) => {
     kakao.maps.event.addListener(marker, "click", () =>
       markerEventListener(marker)
     );
-    if (post) posts.push(marker);
+    if (post) posts[setMarkerId] = marker;
     else markers.push(marker);
     return marker;
   };
@@ -287,9 +290,40 @@ const Main = (props) => {
         props.coords.latitude,
         props.coords.longitude
       );
-      socket.emit("getPostList");
+      // socket.emit("getPostList");
     }, 2000);
   }
+
+  // GET /api/post/posts/Location 받아오기
+  if (getPostLocationData?.list?.length !== 0 && !init) {
+    getPostLocationData.list.map((el) =>
+      addMarker(
+        global.map,
+        el.postId,
+        new kakao.maps.LatLng(
+          el.lat > 100 ? el.lng : el.lat,
+          el.lng < 100 ? el.lat : el.lng
+        ),
+        true)
+    );
+    setInit(true)
+  }
+
+  // useEffect(() => {
+  //   // Logger.debug(`[PostLocation] Get PostLocation...`)
+  //   getPostLocationData?.list?.map((el) => {
+  //     // Logger.info(`[PostLocation] Loaded PostLocation via postId: ${el.postId} (Lat: ${el.lat > 100 ? el.lng : el.lat} | Lng: ${el.lng < 100 ? el.lat : el.lng})`)
+  //     return addMarker(
+  //       global.map,
+  //       el.postId,
+  //       new kakao.maps.LatLng(
+  //         el.lat > 100 ? el.lng : el.lat,
+  //         el.lng < 100 ? el.lat : el.lng
+  //       ),
+  //       true
+  //     );
+  //   });
+  // }, [getPostLocationData]);
 
   const userLocationListener = (data) => {
     // console.log(markers.map(el => ({ userId: el.userId, position: el.position })))
@@ -307,29 +341,29 @@ const Main = (props) => {
     }
   };
 
-  const postLocationListener = (data) => {
-    posts.map((el) => el.setMap(null));
-    posts.splice(0, posts.length);
-    setPosts([]);
-    for (const obj of data) {
-      if (obj?.postId !== null) {
-        addMarker(
-          global.map,
-          obj.postId,
-          new kakao.maps.LatLng(
-            obj.lat > 100 ? obj.lng : obj.lat,
-            obj.lng < 100 ? obj.lat : obj.lng
-          ),
-          true
-        );
-      }
+  const postLocationListener = (obj) => {
+    if (obj?.postId !== null) {
+      addMarker(
+        global.map,
+        obj.postId,
+        new kakao.maps.LatLng(
+          obj.lat > 100 ? obj.lng : obj.lat,
+          obj.lng < 100 ? obj.lat : obj.lng
+        ),
+        true
+      );
     }
+  };
+  const postLocationRemoveListener = (obj) => {
+    posts[obj.postId].setMap(null);
+    delete posts[obj.postId];
   };
 
   useEffect(() => {
     if (!geolocationMarker) return;
     socket.on("userLocation", userLocationListener);
-    socket.on("postList", postLocationListener);
+    socket.on("newPost", postLocationListener);
+    socket.on("removePost", postLocationRemoveListener);
     // setMarkerToSchedule();
     return () => {
       Logger.debug(

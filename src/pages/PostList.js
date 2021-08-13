@@ -13,6 +13,8 @@ import InfiniteScroll from '../common/infiniteScroll';
 
 // ELEMENTS
 import { Grid, Button } from "../elements/index";
+import DateRangeOutlinedIcon from '@material-ui/icons/DateRangeOutlined';
+import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
 
 // HISTORY
 import { history } from "../redux/configStore";
@@ -59,11 +61,11 @@ const PostList = (props) => {
           <Grid is_flex padding="18px" >
             <Grid is_flex padding="8px 8px" height="" bg="#EFEFEF"
               style={{margin: "auto",}}>
-              <SearchIcon style={{color:"#767676"}}/>
+              <SearchIcon style={{color:"#7B7B7B"}}/>
               <input type="text" placeholder="제목, 내용, 태그 또는 날짜" style={{padding:"0px 5px",width:"100%", backgroundColor:"#EFEFEF"}} ref={inputword}
                    onKeyPress={onKeyPress}/>
             </Grid>
-            <img src="/assets/postlist_input_calendar.png" style={{margin:"auto 0px auto 5px"}}/>
+            <DateRangeOutlinedIcon style={{marginLeft:"5px",color:"#7B7B7B"}}/>
           </Grid>
           <PostListButton>all</PostListButton>
           
@@ -80,16 +82,14 @@ const PostList = (props) => {
               // padding="12px"
               margin="0 0 10px"
               radius="100%"
+              color="white"
+              hoverColor="#16C59B"
               clickEvent={() => {
                 history.push("/postwrite"); 
               }}
-              style={{ cursor: "pointer"}} 
+              style={{ cursor: "pointer", width:"50px",height:"50px"}} 
             >
-            <img src="/assets/floating_button_postwrite.png"
-                  style={{
-                  width: "50px",
-                  height: "50px", 
-                }}/>
+              <CreateOutlinedIcon/>
             </Button>
           </Grid>
         </Grid>

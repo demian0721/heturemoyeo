@@ -11,6 +11,7 @@ import { postActions } from "../redux/modules/post";
 // ELEMENTS
 import { Grid, Button } from "../elements/index";
 import SearchIcon from '@material-ui/icons/Search';
+import DateRangeOutlinedIcon from '@material-ui/icons/DateRangeOutlined';
 
 // HISTORY
 import { history } from "../redux/configStore";
@@ -53,10 +54,10 @@ const PostListMy = (props) => {
           <Grid is_flex padding="18px" >
             <Grid is_flex padding="8px 8px" height="" bg="#EFEFEF"
               style={{margin: "auto",}}>
-              <SearchIcon style={{color:"#767676"}}/>
+              <SearchIcon style={{color:"#7B7B7B"}}/>
               <input placeholder="제목, 내용, 태그 또는 날짜" style={{padding:"0px 5px",width:"100%", backgroundColor:"#EFEFEF"}}/>
             </Grid>
-            <img src="/assets/postlist_input_calendar.png" style={{margin:"auto 0px auto 5px"}}/>
+            <DateRangeOutlinedIcon style={{marginLeft:"5px",color:"#7B7B7B"}}/>
           </Grid>
 
           <PostListButton>my</PostListButton>

@@ -4,11 +4,28 @@ import styled from "styled-components";
 
 // ELEMENTS
 import { Grid, Text } from "../elements/index";
+import EventAvailableOutlinedIcon from '@material-ui/icons/EventAvailableOutlined';
+import PersonIcon from '@material-ui/icons/Person';
+import RoomOutlinedIcon from '@material-ui/icons/RoomOutlined';
 
 // HISTORY
 import { history } from "../redux/configStore";
 
 const PostListCard = (props) => {
+  const formattedDate = (date) => {
+    const dateNow = new Date(date);
+    const year = dateNow.getFullYear();
+    const month =
+      String(dateNow.getMonth() + 1).length === 1
+        ? `0${dateNow.getMonth() + 1}`
+        : dateNow.getMonth() + 1;
+    const day =
+      String(dateNow.getDay()).length === 1
+        ? `0${dateNow.getDay()}`
+        : dateNow.getDay();
+    return `${year}. ${month}. ${day}`;};
+
+  const date = formattedDate(props.startDate)
   return (
     <PostCard
       onClick={() => {
@@ -18,67 +35,52 @@ const PostListCard = (props) => {
       className="items-center self-center"
     >
       <PlaceImageComponent img={props.postImg}/>
-      <Grid margin="auto" width="fit-content" align="left" >
+      <Grid margin="auto auto auto 14px" width="fit-content" align="left" >
         <Text fontSize="17px" fontWeight="bold" color="black" marginTop="5px">
           {props.title}
-          {/* <span style={{ fontWeight: "normal", marginLeft: "10px" }}>
-              
-            </span> */}
         </Text>
-        {/* <Text fontSize="12px" fontWeight="bold" color="black" marginTop="5px"> */}
-        <ListInfo>
-        <img
-          src="/assets/postlist_card_people.png"
-          style={{
-            width: "12px",
-            height: "12px", 
-            float: "left",
-            // display: "block",
-            // margin: "auto",
-          }}
-        />
-        {/* 인원 */}
-        <span style={{ fontWeight: "normal", marginLeft: "10px", float: "left", }}>
-          현재 {props.currentMember} 명/총 {props.maxMember} 명
-        </span>
-        </ListInfo>
-        <br/>
-        {/* </Text> */}
-        <ListInfo>
-        <img
-          src="/assets/postlist_card_calendar.png"
-          style={{
-            width: "12px",
-            height: "12px", 
-            float: "left",
-            // display: "block",
-            // margin: "auto",
-          }}
-        />
-        {/* <Text fontSize="12px" fontWeight="bold" color="black" marginTop="5px"> */}
-          {/* 날짜 */}
-          <span style={{ fontWeight: "normal", marginLeft: "10px"  }}>
-            {props.startDate}
-          </span>
-        {/* </Text> */}
-        </ListInfo>
-        <ListInfo >
-        <img
-          src="/assets/postlist_card_place.png"
-          style={{
+        <Grid is_flex>
+          <ListInfo id="member">
+          <PersonIcon style={{
             width: "15px",
             height: "15px", 
             float: "left",
-            // display: "block",
-            // margin: "auto",
-          }}
-        />
+            color:"#7B7B7B"
+          }}/>
+          {/* 인원 */}
+          <span style={{ fontWeight: "normal", marginLeft: "3px", float: "left", }}>
+            {props.currentMember} / {props.maxMember} 명
+          </span>
+          </ListInfo>
+          <ListInfo id="date">
+          <EventAvailableOutlinedIcon style={{
+              width: "15px",
+              height: "15px", 
+              float: "left",
+              color: "#7B7B7B",
+              marginLeft:"10px"
+            }}/>
+            <span style={{ fontWeight: "normal", marginLeft: "3px"  }}>
+            {date}
+            </span>
+          </ListInfo>
+        </Grid>
+        <ListInfo id="place">
+        <RoomOutlinedIcon style={{
+            width: "17px",
+            height: "17px", 
+            float: "left",
+            color:"7B7B7B"
+          }}/>
         {/* <Text fontSize="12px" fontWeight="bold" color="black" marginTop="5px"> */}
           {/* 장소 */}
-          <span style={{ fontWeight: "normal", marginLeft: "8px" }}>
+          <span style={{ fontWeight: "normal", marginLeft: "1px" }}>
             {props.place}
           </span>
         {/* </Text> */}
+        </ListInfo>
+        <ListInfo>
+        <div key='Tag' style={{width:"fit-content", margin: "10px 0px", backgroundColor: "#white", color: "#", borderRadius: "5px", padding: "3px 5px", fontSize:"10px", border:"0.6px solid #767676"}}>Tag</div>
         </ListInfo>
       </Grid>
     </PostCard>

@@ -20,6 +20,7 @@ const TextStyle = styled.p`
     -webkit-line-clamp: 7;
     &:hover {
     font-weight: ${(props) => props.hoverWeight};
+    color: ${(props) => props.hoverColor};
     }
 `;
 

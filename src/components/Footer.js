@@ -9,6 +9,13 @@ import { Grid, Text, Image, Button } from "../elements/index";
 //History
 import { history } from "../redux/configStore";
 
+//Icons
+import HomeOutlinedIcon from '@material-ui/icons/HomeOutlined';
+import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
+import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
+import SmsOutlinedIcon from '@material-ui/icons/SmsOutlined';
+import FaceOutlinedIcon from '@material-ui/icons/FaceOutlined';
+
 //Components
 
 //임포트 사용 항목 외 삭제요망
@@ -16,135 +23,56 @@ import { history } from "../redux/configStore";
 const Footer = (props) => {
   const title = props.children;
 
-  //스테이트로 호버 시도하다 실패함
-  const [homeSrc, setHome] = React.useState(
-    "http://dummyimage.com/100x100/000/fff"
-  );
-  const hover = () => {
-    setHome("http://dummyimage.com/100x100/eb00eb/fff");
-  };
-  const unhover = () => {
-    setHome("http://dummyimage.com/100x100/000/fff");
-  };
+    return (
+      <React.Fragment>
+        <Grid is_flex="center" width="100%" minWidth="280px" height="55px" bg="#FFF"
+        style={{position:"fixed", bottom:"0", zIndex:"2", borderTop:"0.4px solid #767676"}}>
 
-  return (
-    <React.Fragment>
-      <Grid
-        is_flex="center"
-        width="100%"
-        minWidth="280px"
-        height="55px"
-        bg="#FFF"
-        style={{
-          position: "fixed",
-          bottom: "0",
-          zIndex: "2",
-          borderTop: "0.4px solid #767676",
-        }}
-      >
-        {title === "home" ? (
-          <Image
-            id="home0"
-            src="/assets/footer_select_home.png"
-            clickEvent={() => {
-              window.location.href = "/";
-            }}
-          />
-        ) : (
-          <Image
-            id="home0"
-            src="/assets/footer_home.png"
-            clickEvent={() => {
-              window.location.href = "/";
-            }}
-          />
-        )}
-        {title === "group" ? (
-          <Image
-            id="group0"
-            src="/assets/footer_select_search.png"
-            clickEvent={() => {
-              history.push("/postlist");
-            }}
-          />
-        ) : (
-          <Image
-            id="group0"
-            src="/assets/footer_search.png"
-            clickEvent={() => {
-              history.push("/postlist");
-            }}
-          />
-        )}
-        {title === "friend" ? (
-          <Image
-            id="friend0"
-            src="/assets/footer_select_friend.png"
-            clickEvent={() => window.alert("준비 중 입니다!")}
-          />
-        ) : (
-          <Image
-            id="friend0"
-            src="/assets/footer_friend.png"
-            clickEvent={() => window.alert("준비 중 입니다!")}
-          />
-        )}
-        {title === "chat" ? (
-          <Image
-            id="chat0"
-            src="/assets/footer_select_messenger.png"
-            clickEvent={() => {
-              history.push("/chat");
-            }}
-          />
-        ) : (
-          <Image
-            id="chat0"
-            src="/assets/footer_messenger.png"
-            clickEvent={() => {
-              history.push("/chat");
-            }}
-          />
-        )}
-        {title === "profile" ? (
-          <Image
-            id="profile0"
-            src="/assets/footer_select_profile.png"
-            clickEvent={() => {
-              history.push("/mypage");
-            }}
-          />
-        ) : (
-          <Image
-            id="profile0"
-            src="/assets/footer_profile.png"
-            clickEvent={() => {
-              history.push("/mypage");
-            }}
-          />
-        )}
+          {title=='home'? <Grid width="70px" padding="7px 0px 5px 0px" align="center" color="#16C59B" hoverColor="#16C59B" style={{display:"block"}} clickEvent={() => { history.push('/'); }}>
+            <HomeOutlinedIcon/>
+            <p><text style={{fontSize:"11px", fontWeight:"bold"}}>홈</text></p>
+          </Grid> : <Grid width="70px" padding="7px 0px 5px 0px" align="center" color="#7B7B7B" hoverColor="#16C59B" style={{display:"block"}} clickEvent={() => { history.push('/'); }}>
+            <HomeOutlinedIcon/>
+            <p><text style={{fontSize:"11px", fontWeight:"bold"}}>홈</text></p>
+          </Grid>}
 
-        <Home></Home>
-        {/* <img id="my-img" src={homeSrc} onmouseover={hover} onmouseout={unhover} />
-          <button onClick={() => { history.push('/'); }}><Image id="home0" src="/assets/footer_home.png" /></button> */}
+          {title=='group'? <Grid width="70px" padding="7px 0px 5px 0px" align="center" color="#16C59B" hoverColor="#16C59B" style={{display:"block"}} clickEvent={() => { history.push('/postlist'); }}>
+            <SearchOutlinedIcon/>
+            <p><text style={{fontSize:"11px", fontWeight:"bold"}}>모임</text></p>
+          </Grid> : <Grid width="70px" padding="7px 0px 5px 0px" align="center" color="#7B7B7B" hoverColor="#16C59B" style={{display:"block"}} clickEvent={() => { history.push('/postlist'); }}>
+            <SearchOutlinedIcon/>
+            <p><text style={{fontSize:"11px", fontWeight:"bold"}}>모임</text></p>
+          </Grid>}
+
+          {title=='friend'? <Grid width="70px" padding="7px 0px 5px 0px" align="center" color="#16C59B" hoverColor="#16C59B" style={{display:"block"}} clickEvent={() => { history.push('/'); }}>
+            <PeopleAltOutlinedIcon/>
+            <p><text style={{fontSize:"11px", fontWeight:"bold"}}>친구</text></p>
+          </Grid> : <Grid width="70px" padding="7px 0px 5px 0px" align="center" color="#7B7B7B" hoverColor="#16C59B" style={{display:"block"}} clickEvent={() => { history.push('/'); }}>
+            <PeopleAltOutlinedIcon/>
+            <p><text style={{fontSize:"11px", fontWeight:"bold"}}>친구</text></p>
+          </Grid>}
+
+          {title=='chat'? <Grid width="70px" padding="7px 0px 5px 0px" align="center" color="#16C59B" hoverColor="#16C59B" style={{display:"block"}} clickEvent={() => { history.push('/chat'); }}>
+            <SmsOutlinedIcon/>
+            <p><text style={{fontSize:"11px", fontWeight:"bold"}}>대화방</text></p>
+          </Grid> : <Grid width="70px" padding="7px 0px 5px 0px" align="center" color="#7B7B7B" hoverColor="#16C59B" style={{display:"block"}} clickEvent={() => { history.push('/chat'); }}>
+            <SmsOutlinedIcon/>
+            <p><text style={{fontSize:"11px", fontWeight:"bold"}}>대화방</text></p>
+          </Grid>}
+
+          {title=='profile'? <Grid width="70px" padding="7px 0px 5px 0px" align="center" color="#16C59B" hoverColor="#16C59B" style={{display:"block"}} clickEvent={() => { history.push('/mypage'); }}>
+            <FaceOutlinedIcon/>
+            <p><text style={{fontSize:"11px", fontWeight:"bold"}}>프로필</text></p>
+          </Grid> : <Grid width="70px" padding="7px 0px 5px 0px" align="center" color="#7B7B7B" hoverColor="#16C59B" style={{display:"block"}} clickEvent={() => { history.push('/mypage'); }}>
+            <FaceOutlinedIcon/>
+            <p><text style={{fontSize:"11px", fontWeight:"bold"}}>프로필</text></p>
+          </Grid>}
+
       </Grid>
+      
     </React.Fragment>
   );
 };
-
-//스타일디브로 호버 시도하다 실패함
-const Home = styled.button`
-  width: "75px";
-  height: "55px";
-  /* background-image: url(/assets/footer_home.png); */
-  &:hover {
-    font-weight: bolder;
-    /* background-image: "/assets/footer_select_home.png"; */
-  }
-`;
-const Hom = styled.img`
-  src: "/assets/footer_home.png";
-`;
 
 Footer.defaultProps = {
   children: "",

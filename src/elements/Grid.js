@@ -40,6 +40,7 @@ const GridBox = styled.div`
     max-height: ${(props) => props.maxHeight};
     box-shadow: ${(props) => props.shadow};
     opacity: ${(props) => props.opacity};
+    ${(props) => (props.color ? `color: ${props.color};` : '')}
     ${(props) => (props.padding ? `padding: ${props.padding};` : '')}
     ${(props) => (props.margin ? `margin: ${props.margin};` : '')}
     ${(props) => (props.align ? `text-align: ${props.align};` : '')}

@@ -52,32 +52,49 @@ const PostList = (props) => {
   
   return (
     <Style>
-      <Grid height="">
+      <Grid style={{ position: "fixed", top: 0, zIndex: 4 }}>
         <Header>모임구하기</Header>
       </Grid>
 
       <Grid width="360px" height="" margin="auto">
         <Grid height="" bg="white">
-          <Grid is_flex padding="18px" >
-            <Grid is_flex padding="8px 8px" height="" bg="#EFEFEF"
-              style={{margin: "auto",}}>
-              <SearchIcon style={{color:"#7B7B7B"}}/>
-              <input type="text" placeholder="제목, 내용, 태그 또는 날짜" style={{padding:"0px 5px",width:"100%", backgroundColor:"#EFEFEF"}} ref={inputword}
-                   onKeyPress={onKeyPress}/>
+          <Grid is_flex padding="18px">
+            <Grid
+              is_flex
+              padding="8px 8px"
+              height=""
+              bg="#EFEFEF"
+              style={{ margin: "auto" }}
+            >
+              <SearchIcon style={{ color: "#7B7B7B" }} />
+              <input
+                type="text"
+                placeholder="제목, 내용, 태그 또는 날짜"
+                style={{
+                  padding: "0px 5px",
+                  width: "100%",
+                  backgroundColor: "#EFEFEF",
+                }}
+                ref={inputword}
+                onKeyPress={onKeyPress}
+              />
             </Grid>
-            <DateRangeOutlinedIcon style={{marginLeft:"5px",color:"#7B7B7B"}}/>
+            <DateRangeOutlinedIcon
+              style={{ marginLeft: "5px", color: "#7B7B7B" }}
+            />
           </Grid>
           <PostListButton>all</PostListButton>
-          
+
           <InfiniteScroll postList={PostList} page="PostList" />
 
-          <Grid padding="5px 0px"
-                style={{ position: "fixed", bottom: "8%", right: "5%", zIndex: 99 }}
-                width="auto"
-                height=""
-                overflow="visible"
-                >
-          <Button
+          <Grid
+            padding="5px 0px"
+            style={{ position: "fixed", bottom: "8%", right: "5%", zIndex: 99 }}
+            width="auto"
+            height=""
+            overflow="visible"
+          >
+            <Button
               // shadow="rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;"
               // padding="12px"
               margin="0 0 10px"
@@ -86,11 +103,11 @@ const PostList = (props) => {
               hoverColor="#16C59B"
               borderColor="none"
               clickEvent={() => {
-                history.push("/postwrite"); 
+                history.push("/postwrite");
               }}
-              style={{ cursor: "pointer", width:"50px",height:"50px"}} 
+              style={{ cursor: "pointer", width: "50px", height: "50px" }}
             >
-              <CreateOutlinedIcon/>
+              <CreateOutlinedIcon />
             </Button>
           </Grid>
         </Grid>
@@ -104,6 +121,7 @@ const PostList = (props) => {
 
 const Style = styled.div`
     align-items: center;
+    margin-top: 75px;
     width: 100vw;
     height: 100%;
     background-color: #EFEFEF;

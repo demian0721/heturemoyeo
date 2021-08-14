@@ -85,7 +85,6 @@ const MyPage = () => {
 
 const Style = styled.div`
     align-items: center;
-    margin-top: 75px;
     width: 100vw;
     height: calc(100vh - 130px);
     background-color: #EFEFEF;

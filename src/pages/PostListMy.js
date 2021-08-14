@@ -44,7 +44,7 @@ const PostListMy = (props) => {
   };
   return (
     <Style>
-      <Grid height="">
+      <Grid style={{position:"fixed", top:0, zIndex:4}}>
         <Header>모임구하기</Header>
       </Grid>
 

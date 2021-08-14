@@ -56,7 +56,6 @@ const PostWrite = (props) => {
     setIsOpen(false);
   });
 
-
   const [postingContents, setPostingContents] = useState({
     title: postInfo ? postInfo.title : "",
     content: postInfo ? postInfo.content : "",
@@ -67,7 +66,7 @@ const PostWrite = (props) => {
     bring: postInfo ? postInfo.bring : "",
     tag: postInfo ? postInfo.tag : [],
     lat: postInfo ? postInfo.lat : 0,
-    lng: postInfo ? postInfo.lng: 0
+    lng: postInfo ? postInfo.lng : 0,
   });
 
   const isItPossibleToAdd = () => {
@@ -88,7 +87,7 @@ const PostWrite = (props) => {
 
   const selectFile = (event) => {
     const reader = new FileReader();
-    const file = event.target.files[0]
+    const file = event.target.files[0];
 
     if (file) {
       reader.readAsDataURL(file);
@@ -103,11 +102,14 @@ const PostWrite = (props) => {
   const addPost = () => {
     const isAvailable = isItPossibleToAdd();
     if (!isAvailable) return window.alert("각 항목은 필수 입력사항 입니다.");
-    dispatch(postActions.addPostDB(fileInput.current.files[0], postingContents));
+    dispatch(
+      postActions.addPostDB(fileInput.current.files[0], postingContents)
+    );
     dispatch(imgActions.setPreview(null));
-    setTimeout(() => { // dispatch -> addPostDB 액션 후, alert 를 띄우는 과정이 생략되고, 액션을 실행하지 못하는 것 떄문에, setTimeout을 넣어 3초를 기다린 후, 페이지를 이동하게 하였습니다.
-      window.location.href="/postlist"
-    }, 3000)
+    setTimeout(() => {
+      // dispatch -> addPostDB 액션 후, alert 를 띄우는 과정이 생략되고, 액션을 실행하지 못하는 것 떄문에, setTimeout을 넣어 3초를 기다린 후, 페이지를 이동하게 하였습니다.
+      window.location.href = "/postlist";
+    }, 3000);
   };
 
   useEffect(() => {
@@ -127,7 +129,10 @@ const PostWrite = (props) => {
     marker.setPosition(kakaoMap.getCenter());
     marker.setMap(kakaoMap);
     const getMapCenter = kakaoMap.getCenter();
-    setLocationCoords({ lat: getMapCenter.getLat(), lng: getMapCenter.getLng() });
+    setLocationCoords({
+      lat: getMapCenter.getLat(),
+      lng: getMapCenter.getLng(),
+    });
     getAddressDetailFromCoords(getMapCenter, (result, status) => {
       if (status === kakao.maps.services.Status.OK) {
         const data = result?.[0];
@@ -161,16 +166,8 @@ const PostWrite = (props) => {
     );
     marker = new kakao.maps.Marker({ position, image: markerImage });
     markerFromCenter();
-    kakao.maps.event.addListener(
-      kakaoMap,
-      "drag",
-      mapEventListener
-    );
-    kakao.maps.event.addListener(
-      kakaoMap,
-      "idle",
-      mapEventListener
-    );
+    kakao.maps.event.addListener(kakaoMap, "drag", mapEventListener);
+    kakao.maps.event.addListener(kakaoMap, "idle", mapEventListener);
     return () => {
       kakao.maps.event.removeListener(kakaoMap, "drag", mapEventListener);
       kakao.maps.event.removeListener(kakaoMap, "idle", mapEventListener);
@@ -186,7 +183,7 @@ const PostWrite = (props) => {
     <Style>
       <Permit width="" height="">
         <Grid width="" height="">
-          <Header>게시글 작성</Header>
+          <Header style={{ position: "fixed" }}>게시글 작성</Header>
         </Grid>
         <Grid
           width="360px"
@@ -222,7 +219,6 @@ const PostWrite = (props) => {
                 bg="#D4D4D4"
                 radius="10px"
                 margin="5px 0 0 0"
-
                 width=""
                 height=""
                 style={{ height: `${height}`, position: "relative" }}
@@ -230,11 +226,8 @@ const PostWrite = (props) => {
                 <LabelStyle htmlFor="input--file">
                   {!preview ? (
                     <>
-                     <AddAPhotoOutlinedIcon color="action"/>
-                      <Text 
-                        color="#646970" 
-                        fontSize="15px"
-                        marginLeft="10px">
+                      <AddAPhotoOutlinedIcon color="action" />
+                      <Text color="#646970" fontSize="15px" marginLeft="10px">
                         모임 대표 이미지 추가
                       </Text>
                     </>
@@ -255,13 +248,8 @@ const PostWrite = (props) => {
                 />
               </Grid>
             </Grid>
-            <Grid 
-              width="" 
-              height="" 
-              is_flex 
-              margin="20px 0 0 0" 
-              >
-              <div className='block' style={{ margin: "15px 5px 15px 5px" }}>
+            <Grid width="" height="" is_flex margin="20px 0 0 0">
+              <div className="block" style={{ margin: "15px 5px 15px 5px" }}>
                 <Text fontSize="13px" color="#888888" fontWeight="bold">
                   시작
                 </Text>
@@ -284,7 +272,7 @@ const PostWrite = (props) => {
                   }}
                 />
               </div>
-              <div className='block' style={{ margin: "15px 5px 15px 5px" }}>
+              <div className="block" style={{ margin: "15px 5px 15px 5px" }}>
                 <Text fontSize="13px" color="#888888" fontWeight="bold">
                   종료
                 </Text>
@@ -309,57 +297,57 @@ const PostWrite = (props) => {
               </div>
             </Grid>
             <div style={{ margin: "10px 5px 10px 5px" }}>
-            <Text fontSize="13px" color="#888888" fontWeight="bold">
-              장소
-            </Text>
-            <div className="flex self-center items-center">
-              <div
-                className="self-center items-center bg-green-300 cursor-pointer"
-                style={{
-                  paddingTop: "6.5px",
-                  paddingBottom: "6.5px",
-                  paddingRight: "3px",
-                  paddingLeft: "3px",
-                }}
-                onClick={() => {
-                  setViewModal(true);
-                  setIsOpen(true);
-                }}
-              >
-                <RoomIcon />
-              </div>
-              <div>
-                <Input
+              <Text fontSize="13px" color="#888888" fontWeight="bold">
+                장소
+              </Text>
+              <div className="flex self-center items-center">
+                <div
+                  className="self-center items-center bg-green-300 cursor-pointer"
                   style={{
-                    width: "300px",
-                    margin: "7px 5px 7px 5px",
-                    borderLeft: "none",
-                    borderRight: "none",
-                    borderTop: "none",
-                    borderBottom: "solid 2px #E5E5E5",
-                    boxShadow: "none",
+                    paddingTop: "6.5px",
+                    paddingBottom: "6.5px",
+                    paddingRight: "3px",
+                    paddingLeft: "3px",
                   }}
-                  padding="8px 0px"
-                  placeholder="장소(한글 주소로 출력)"
-                  type="text"
-                  value={inputValue}
-                  changeEvent={(e) => {
-                    setPostingContents({
-                      ...postingContents,
-                      place: e.target.value,
-                    });
+                  onClick={() => {
+                    setViewModal(true);
+                    setIsOpen(true);
                   }}
-                />
+                >
+                  <RoomIcon />
+                </div>
+                <div>
+                  <Input
+                    style={{
+                      width: "300px",
+                      margin: "7px 5px 7px 5px",
+                      borderLeft: "none",
+                      borderRight: "none",
+                      borderTop: "none",
+                      borderBottom: "solid 2px #E5E5E5",
+                      boxShadow: "none",
+                    }}
+                    padding="8px 0px"
+                    placeholder="장소(한글 주소로 출력)"
+                    type="text"
+                    value={inputValue}
+                    changeEvent={(e) => {
+                      setPostingContents({
+                        ...postingContents,
+                        place: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
               </div>
             </div>
-            </div>  
             <Grid is_flex>
               <div style={{ margin: "10px 5px 10px 5px" }}>
                 <Text fontSize="13px" color="#888888" fontWeight="bold">
                   정원
                 </Text>
                 <Input
-                  type="number" 
+                  type="number"
                   min="1"
                   style={{
                     width: "100%",
@@ -404,55 +392,60 @@ const PostWrite = (props) => {
                 />
               </div>
             </Grid>
-            <Text margin="10px 5px" color="#888888" fontWeight="bold" fontSize="small">
+            <Text
+              margin="10px 5px"
+              color="#888888"
+              fontWeight="bold"
+              fontSize="small"
+            >
               공개설정
             </Text>
 
             <Grid style={{ border: "1px solid #B2B2B2", margin: "10px 0px" }} />
             <div style={{ margin: "10px 15px 10px 5px" }}>
-            <div>
-              <Input
-                style={{
-                  width: "100%",
-                  border: "1.5px solid #white",
-                  margin: "7px 5px 7px 5px",
-                  borderLeft: "none",
-                  borderRight: "none",
-                  borderTop: "none",
-                  borderBottom: "solid 2px #E5E5E5",
-                  boxShadow: "none",
-                }}
-                padding="8px 0px"
-                placeholder="제목"
-                type="text"
-                changeEvent={(e) => {
-                  setPostingContents({
-                    ...postingContents,
-                    title: e.target.value,
-                  });
-                }}
-              />
-            </div>
-            <div>
-              <textarea
-                rows="9"
-                style={{
-                  width: "100%",
-                  border: "1.5px solid #white",
-                  margin: "7px 5px 7px 5px",
-                  boxShadow: "none",
-                  // borderBottom:"1.5px solid #E5E5E5",
-                }}
-                placeholder="내용"
-                type="text"
-                onChange={(e) => {
-                  setPostingContents({
-                    ...postingContents,
-                    content: e.target.value,
-                  });
-                }}
-              />
-            </div>
+              <div>
+                <Input
+                  style={{
+                    width: "100%",
+                    border: "1.5px solid #white",
+                    margin: "7px 5px 7px 5px",
+                    borderLeft: "none",
+                    borderRight: "none",
+                    borderTop: "none",
+                    borderBottom: "solid 2px #E5E5E5",
+                    boxShadow: "none",
+                  }}
+                  padding="8px 0px"
+                  placeholder="제목"
+                  type="text"
+                  changeEvent={(e) => {
+                    setPostingContents({
+                      ...postingContents,
+                      title: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+              <div>
+                <textarea
+                  rows="9"
+                  style={{
+                    width: "100%",
+                    border: "1.5px solid #white",
+                    margin: "7px 5px 7px 5px",
+                    boxShadow: "none",
+                    // borderBottom:"1.5px solid #E5E5E5",
+                  }}
+                  placeholder="내용"
+                  type="text"
+                  onChange={(e) => {
+                    setPostingContents({
+                      ...postingContents,
+                      content: e.target.value,
+                    });
+                  }}
+                />
+              </div>
             </div>
             <Grid style={{ border: "1px solid #B2B2B2", margin: "10px 0px" }} />
 
@@ -483,7 +476,7 @@ const PostWrite = (props) => {
                 }}
               />
             </div>
-            <Button 
+            <Button
               width="100%"
               height="auto"
               padding="12px 0"
@@ -494,8 +487,9 @@ const PostWrite = (props) => {
               color="#FFFFFF"
               className="custom_transition"
               style={{ fontWeight: "bold", border: "none" }}
-              hoverColor="#16C59B" 
-              onClick={addPost}>
+              hoverColor="#16C59B"
+              onClick={addPost}
+            >
               완료
             </Button>
           </Grid>
@@ -717,16 +711,14 @@ const InputArea = styled.textarea`
 `;
 
 const Style = styled.div`
-align-items: center;
-margin-top: 75px;
-width: 100vw;
-height: calc(100vh - 75px);
-background-color: #EFEFEF;
-//styled component use
+  align-items: center;
+  width: 100vw;
+  height: calc(100vh - 75px);
+  background-color: #efefef;
+  //styled component use
 `;
 
 PostWrite.propTypes = { ...PostWrite.propTypes, ...geoPropTypes };
-
 
 export default geolocated({
   positionOptions: { enableHighAccuracy: false },

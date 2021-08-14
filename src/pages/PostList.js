@@ -5,16 +5,16 @@ import { useSelector, useDispatch } from "react-redux";
 
 // REDUX
 import { postActions } from "../redux/modules/post";
-import { searchActions } from '../redux/modules/search';
+import { searchActions } from "../redux/modules/search";
 
 // FUNCTION
-import InfiniteScroll from '../common/infiniteScroll';
+import InfiniteScroll from "../common/infiniteScroll";
 
 // ELEMENTS
 import { Grid, Button } from "../elements/index";
-import SearchIcon from '@material-ui/icons/Search';
-import DateRangeOutlinedIcon from '@material-ui/icons/DateRangeOutlined';
-import CreateOutlinedIcon from '@material-ui/icons/CreateOutlined';
+import SearchIcon from "@material-ui/icons/Search";
+import DateRangeOutlinedIcon from "@material-ui/icons/DateRangeOutlined";
+import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
 
 // HISTORY
 import { history } from "../redux/configStore";
@@ -30,12 +30,12 @@ const PostList = (props) => {
 
   const inputword = useRef();
   // const searchDate = null;
-  
+
   useEffect(() => {
     dispatch(postActions.getPostsDB());
 
     return () => {
-      dispatch(postActions.getPosts([],0));
+      dispatch(postActions.getPosts([], 0));
     };
   }, []);
 
@@ -43,19 +43,18 @@ const PostList = (props) => {
     console.log(inputword.current.value);
     dispatch(searchActions.searchPostDB(inputword.current.value));
     history.push(`/postlist/search/${inputword.current.value}`);
-  }
-  const onKeyPress=(event)=>{
-    if(event.key=='Enter'){
-        search();
+  };
+  const onKeyPress = (event) => {
+    if (event.key == "Enter") {
+      search();
     }
-}
-  
+  };
+
   return (
     <Style>
-      <Grid style={{ position: "fixed", top: 0, zIndex: 4 }}>
+      <Grid>
         <Header>모임구하기</Header>
       </Grid>
-
       <Grid width="360px" height="" margin="auto">
         <Grid height="" bg="white">
           <Grid is_flex padding="18px">
@@ -112,19 +111,18 @@ const PostList = (props) => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid height="">
-        <Footer>group</Footer>
+      <Grid style={{ zIndex: 10 }}>
+        <Footer />
       </Grid>
     </Style>
   );
 };
 
 const Style = styled.div`
-    align-items: center;
-    margin-top: 75px;
-    width: 100vw;
-    height: 100%;
-    background-color: #EFEFEF;
+  align-items: center;
+  width: 100vw;
+  height: 100%;
+  background-color: #efefef;
 `;
 
 export default PostList;

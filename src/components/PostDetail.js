@@ -76,8 +76,7 @@ const Details = (props) => {
 
   const date = formattedDate(postDetails.startDate);
 
-  console.log(postDetails);
-  console.log(postDetails.profileImg);
+  console.log('프사',postDetails.profileImg);
   
   // const profileImg =
   //  if(postDetails.profileImg==null) {
@@ -127,7 +126,7 @@ const Details = (props) => {
               return (
                 <div
                   key={index}
-                  style={{width:"fit-content", margin: "10px 0px", backgroundColor: "#white", color: "#767676", borderRadius: "5px", padding: "3px 5px", fontSize:"10px", border:"0.6px solid #767676"}}
+                  style={{width:"fit-content", margin: "10px 5px 10px 0px", backgroundColor: "#white", color: "#767676", borderRadius: "5px", padding: "3px 5px", fontSize:"10px", border:"0.6px solid #767676"}}
                 >
                   {l}
                 </div>

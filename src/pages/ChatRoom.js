@@ -166,17 +166,19 @@ const ChatRoom = (props) => {
 
   return (
     <Fragment>
-      <Header />
       <div id="message-table" className="container mx-auto h-full w-full">
+        <Header />
         {/* ChatUI, 채팅 UI를 생성해줍니다. */}
-        <Chat
-          locale="en-US"
-          messages={messages}
-          renderMessageContent={handleMessageContent}
-          onSend={handleSendMessage}
-          placeholder="메세지를 입력해주세요."
-        />
-        <style>{ChatUICSS}</style>
+        <div id="message_chat-ui" style={{ height: '91vh' }}>
+          <Chat
+            locale="en-US"
+            messages={messages}
+            renderMessageContent={handleMessageContent}
+            onSend={handleSendMessage}
+            placeholder="메세지를 입력해주세요."
+          />
+          <style>{ChatUICSS}</style>
+        </div>
       </div>
     </Fragment>
   );

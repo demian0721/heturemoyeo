@@ -211,7 +211,121 @@ const Main = (props) => {
   const sendUserLocation = (userId, lat, lng) =>
     socket.emit("latlng", { userId, lat, lng });
 
+<<<<<<< HEAD
   // Event Listener to Socket.io
+=======
+  // 인풋박스에서 임의의 마커 추가해보기. (소켓통신)
+  // const submitAddMarker = () => {
+  //   const userId = document.getElementById("input__userId");
+  //   const locationLat = document.getElementById("input__location--lat");
+  //   const locationLng = document.getElementById("input__location--lng");
+  //   if (!userId?.value || !locationLat?.value || !locationLng?.value)
+  //     return alert("모든 데이터를 입력해 주세요");
+  //   if (
+  //     markers.filter((el) => el.markerUserId === Number(userId?.value))
+  //       .length >= 1
+  //   )
+  //     return alert(
+  //       `중복되는 아이디가 있습니다. (중복되는 아이디: ${userId?.value})`
+  //     );
+  //   addMarker(
+  //     global.map,
+  //     userId?.value,
+  //     new kakao.maps.LatLng(
+  //       Number(locationLat?.value),
+  //       Number(locationLng?.value)
+  //     )
+  //   );
+  //   sendUserLocation(
+  //     Number(userId.value),
+  //     Number(locationLat.value),
+  //     Number(locationLng.value)
+  //   );
+  //   alert(`마커가 생성되었습니다. (생성된 마커 아이디: ${userId?.value})`);
+  //   userId.value = "";
+  //   locationLat.value = "";
+  //   locationLng.value = "";
+  // };
+
+  // 카카오맵 생성하기
+  useEffect(() => {
+    Logger.info('[KakaoMap:LoadMap] Loaded KakaoMap, render to "div#map"');
+    const container = document.getElementById("map");
+    const options = {
+      center: new kakao.maps.LatLng(
+        props?.coords?.latitude,
+        props?.coords?.longitude
+      ),
+      level: 3,
+    };
+    global.map = new kakao.maps.Map(container, options);
+    return () => {
+      Logger.debug(
+        "[KakaoMap:Marker:Event:Clear] Clearing Click EventListener to markers"
+      );
+      markers.map((marker) =>
+        kakao.maps.event.removeListener(marker, "click", () =>
+          markerEventListener()
+        )
+      );
+    };
+  }, [geolocationMarker, setGeolocationMarker]);
+
+  if (!props.isGeolocationAvailable)
+    alert("해당 기기는 GeoLocation을 지원하지 않습니다!");
+  if (!props.isGeolocationEnabled)
+    alert("해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!");
+  if (
+    props.isGeolocationAvailable &&
+    props.isGeolocationEnabled &&
+    props?.coords &&
+    !!getUserData?.userId &&
+    !geolocationMarker
+  ) {
+    setGeolocationMarker(true);
+    setMyUserId(getUserData.userId);
+    setInterval(() => {
+      sendUserLocation(
+        getUserData.userId,
+        props.coords.latitude,
+        props.coords.longitude
+      );
+      // socket.emit("getPostList");
+    }, 2000);
+  }
+
+  // GET /api/post/posts/Location 받아오기
+  if (getPostLocationData?.list?.length !== 0 && !init) {
+    getPostLocationData.list.map((el) =>
+      addMarker(
+        global.map,
+        el.postId,
+        new kakao.maps.LatLng(
+          el.lat > 100 ? el.lng : el.lat,
+          el.lng < 100 ? el.lat : el.lng
+        ),
+        true)
+    );
+    setInit(true)
+  }
+
+  // useEffect(() => {
+  //   // Logger.debug(`[PostLocation] Get PostLocation...`)
+  //   getPostLocationData?.list?.map((el) => {
+  //     // Logger.info(`[PostLocation] Loaded PostLocation via postId: ${el.postId} (Lat: ${el.lat > 100 ? el.lng : el.lat} | Lng: ${el.lng < 100 ? el.lat : el.lng})`)
+  //     return addMarker(
+  //       global.map,
+  //       el.postId,
+  //       new kakao.maps.LatLng(
+  //         el.lat > 100 ? el.lng : el.lat,
+  //         el.lng < 100 ? el.lat : el.lng
+  //       ),
+  //       true
+  //     );
+  //   });
+  // }, [getPostLocationData]);
+
+>>>>>>> parent of a3a3636 (홈버튼 로케이션 수정)
   const userLocationListener = (data) => {
     markers.map((el) => el.setMap(null));
     markers.splice(0, markers.length);
@@ -243,7 +357,7 @@ const Main = (props) => {
   };
 
   const postLocationRemoveListener = (obj) => {
-    posts[obj.postId]?.setMap(null);
+    posts[obj.postId].setMap(null);
     delete posts[obj.postId];
   };
 

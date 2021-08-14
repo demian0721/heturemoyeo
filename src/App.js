@@ -45,10 +45,12 @@ function App() {
 
   useEffect(() => {
     if (token) {
-      dispatch(userActions.logInCheck(token));
-      dispatch(userActions.myInfoDB());
-      dispatch(userActions.relationDB());
-      dispatch(postActions.getPostLocationDB());
+      Promise.all([
+        dispatch(userActions.logInCheck(token)),
+        dispatch(userActions.myInfoDB()),
+        dispatch(userActions.relationDB()),
+        dispatch(postActions.getPostLocationDB())
+      ])
     } else {
       if (
         !token &&
@@ -60,7 +62,7 @@ function App() {
         return (window.location.href = "/login");
       }
     }
-  }, []);
+  }, [token]);
 
   return (
     <>

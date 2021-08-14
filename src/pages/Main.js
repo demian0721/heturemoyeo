@@ -1,13 +1,12 @@
 /* global kakao */
 // LIBRARY
 import React, { useEffect, useState, useRef, Fragment } from "react";
-import _ from "lodash";
 import { Transition } from "@headlessui/react";
 import { geolocated, geoPropTypes } from "react-geolocated";
 import { useSelector, useDispatch } from "react-redux";
 
 // REDUX
-import { userActions } from "../redux/modules/user";
+// import { userActions } from "../redux/modules/user";
 import { markerActions } from "../redux/modules/marker";
 import { postActions } from "../redux/modules/post";
 
@@ -29,9 +28,14 @@ import useOutsideClick from "../hooks/useOutsideClick";
 import MyLocationIcon from "@material-ui/icons/MyLocation";
 
 import Logger from "../utils/Logger";
-import { sleep } from "../utils";
+import MarkerImageObject from "../assets/markerImageObject";
 
 const Main = (props) => {
+  if (!props.isGeolocationAvailable)
+    alert("해당 기기는 GeoLocation을 지원하지 않습니다!");
+  if (!props.isGeolocationEnabled)
+    alert("해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!");
+
   const dispatch = useDispatch();
   const [geolocationMarker, setGeolocationMarker] = useState(false);
   const [markers, setMarkers] = useState([]);
@@ -42,14 +46,6 @@ const Main = (props) => {
   const [init, setInit] = useState(false);
   // const [callUserData, setCallUserData] = useState({})
   const ref = useRef();
-
-  const markerImageObj = {
-    me: "/assets/map_icon_me.png",
-    sameSchedule: "/assets/map_icon_same_group.png",
-    friend: "/assets/map_icon_friend.png",
-    anonymous: "/assets/map_icon_Frame1.png",
-    schedule: "/assets/map_icon_place.png",
-  };
 
   // 로그인 후, 유저 데이터
   const getUserData = useSelector((state) => state.user);
@@ -104,7 +100,7 @@ const Main = (props) => {
         markerData.isMe,
         markerData.isSchedule
       );
-      if (result) setMarkerData(result);
+      setMarkerData(result);
     }
   };
 
@@ -130,7 +126,7 @@ const Main = (props) => {
         isSameSchedule = true;
         isMe = false;
         isSchedule = false;
-        isMarkerImage = markerImageObj.sameSchedule;
+        isMarkerImage = MarkerImageObject.sameSchedule;
       } else if (
         myFriends?.includes(setMarkerId) &&
         !mySchedules?.includes(setMarkerId) &&
@@ -141,7 +137,7 @@ const Main = (props) => {
         isSameSchedule = false;
         isMe = false;
         isSchedule = false;
-        isMarkerImage = markerImageObj.friend;
+        isMarkerImage = MarkerImageObject.friend;
       } else if (
         !myFriends?.includes(setMarkerId) &&
         mySchedules?.includes(setMarkerId) &&
@@ -152,7 +148,7 @@ const Main = (props) => {
         isSameSchedule = true;
         isMe = false;
         isSchedule = false;
-        isMarkerImage = markerImageObj.sameSchedule;
+        isMarkerImage = MarkerImageObject.sameSchedule;
       } else if (
         !myFriends?.includes(setMarkerId) &&
         !mySchedules?.includes(setMarkerId) &&
@@ -163,14 +159,14 @@ const Main = (props) => {
         isSameSchedule = false;
         isMe = true;
         isSchedule = false;
-        isMarkerImage = markerImageObj.me;
+        isMarkerImage = MarkerImageObject.me;
       } else {
         // isFriend: false | isSameSchedules: false | isMe: false | schedule: false
         isFriend = false;
         isSameSchedule = false;
         isMe = false;
         isSchedule = false;
-        isMarkerImage = markerImageObj.anonymous;
+        isMarkerImage = MarkerImageObject.anonymous;
       }
     } else if (post) {
       // isFriend: false | isSameSchedules: false | isMe: false | schedule: true
@@ -178,8 +174,9 @@ const Main = (props) => {
       isSameSchedule = false;
       isMe = false;
       isSchedule = true;
-      isMarkerImage = markerImageObj.schedule;
+      isMarkerImage = MarkerImageObject.schedule;
     }
+    // Logger.verbose(`[AddMarker] ${post ? `Schedule, SchedulePostId` : `User, UserId`}: ${setMarkerId}`)
     const markerSize = new kakao.maps.Size(24, 24);
     const markerImageOptions = { offset: new kakao.maps.Point(23, 23) };
     const markerImage = new kakao.maps.MarkerImage(
@@ -214,104 +211,8 @@ const Main = (props) => {
   const sendUserLocation = (userId, lat, lng) =>
     socket.emit("latlng", { userId, lat, lng });
 
-  // 카카오맵 생성하기
-  useEffect(() => {
-    Logger.info('[KakaoMap:LoadMap] Loaded KakaoMap, render to "div#map"');
-    const container = document.getElementById("map");
-    const options = {
-      center: new kakao.maps.LatLng(
-        props?.coords?.latitude,
-        props?.coords?.longitude
-      ),
-      level: 3,
-    };
-    global.map = new kakao.maps.Map(container, options);
-    return () => {
-      Logger.debug(
-        "[KakaoMap:Marker:Event:Clear] Clearing Click EventListener to markers"
-      );
-      markers.map((marker) =>
-        kakao.maps.event.removeListener(marker, "click", () =>
-          markerEventListener(marker)
-        )
-      );
-    };
-  }, [geolocationMarker, setGeolocationMarker]);
-
-  if (!props.isGeolocationAvailable)
-    alert("해당 기기는 GeoLocation을 지원하지 않습니다!");
-  if (!props.isGeolocationEnabled)
-    alert("해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!");
-  if (
-    props.isGeolocationAvailable &&
-    props.isGeolocationEnabled &&
-    props?.coords &&
-    !!getUserData?.userId &&
-    !geolocationMarker
-  ) {
-    console.log("마커 생성할겝!");
-    setGeolocationMarker(true);
-    setMyUserId(getUserData.userId);
-    setInterval(() => {
-      sendUserLocation(
-        getUserData.userId,
-        props.coords.latitude,
-        props.coords.longitude
-      );
-    }, 2000);
-  }
-
-  // GET /api/post/posts/Location 받아오기
-  if (getPostLocationData?.length !== 0 && !init) {
-    getPostLocationData.map((el) =>
-      addMarker(
-        global.map,
-        el.postId,
-        new kakao.maps.LatLng(
-          el.lat > 100 ? el.lng : el.lat,
-          el.lng < 100 ? el.lat : el.lng
-        ),
-        true
-      )
-    );
-    setInit(true);
-  }
-
-  // useEffect(() => {
-  //   if (getPostLocationData?.list?.length !== 0 && !init) {
-  //     getPostLocationData.list.map((el) =>
-  //     addMarker(
-  //       global.map,
-  //       el.postId,
-  //       new kakao.maps.LatLng(
-  //         el.lat > 100 ? el.lng : el.lat,
-  //         el.lng < 100 ? el.lat : el.lng
-  //       ),
-  //       true
-  //     )
-  //   );
-  //   setInit(true);
-  //   }
-  // }, [init, setInit, getPostLocationData?.list]);
-
-  // useEffect(() => {
-  //   // Logger.debug(`[PostLocation] Get PostLocation...`)
-  //   getPostLocationData?.list?.map((el) => {
-  //     // Logger.info(`[PostLocation] Loaded PostLocation via postId: ${el.postId} (Lat: ${el.lat > 100 ? el.lng : el.lat} | Lng: ${el.lng < 100 ? el.lat : el.lng})`)
-  //     return addMarker(
-  //       global.map,
-  //       el.postId,
-  //       new kakao.maps.LatLng(
-  //         el.lat > 100 ? el.lng : el.lat,
-  //         el.lng < 100 ? el.lat : el.lng
-  //       ),
-  //       true
-  //     );
-  //   });
-  // }, [getPostLocationData]);
-
+  // Event Listener to Socket.io
   const userLocationListener = (data) => {
-    // console.log(markers.map(el => ({ userId: el.userId, position: el.position })))
     markers.map((el) => el.setMap(null));
     markers.splice(0, markers.length);
     setMarkers([]);
@@ -320,7 +221,8 @@ const Main = (props) => {
         addMarker(
           global.map,
           key,
-          new kakao.maps.LatLng(data[key].lat, data[key].lng)
+          new kakao.maps.LatLng(data[key].lat, data[key].lng),
+          false
         );
       }
     }
@@ -339,10 +241,73 @@ const Main = (props) => {
       );
     }
   };
+
   const postLocationRemoveListener = (obj) => {
     posts[obj.postId]?.setMap(null);
     delete posts[obj.postId];
   };
+
+  if (
+    props.isGeolocationAvailable &&
+    props.isGeolocationEnabled &&
+    props?.coords &&
+    getUserData?.userId &&
+    !geolocationMarker
+  ) {
+    setGeolocationMarker(true);
+  }
+
+  // 카카오맵 생성하기
+  useEffect(() => {
+    // if (!geolocationMarker) return;
+    Logger.info('[KakaoMap:LoadMap] Loaded KakaoMap, render to "div#map"');
+    const container = document.getElementById("map");
+    const options = {
+      center: new kakao.maps.LatLng(
+        props?.coords?.latitude,
+        props?.coords?.longitude
+      ),
+      level: 3,
+    };
+    global.map = new kakao.maps.Map(container, options);
+    setMyUserId(String(getUserData.userId));
+    setInterval(() => {
+      sendUserLocation(
+        getUserData.userId,
+        props?.coords?.latitude,
+        props?.coords?.longitude
+      );
+    }, 2000);
+    return () => {
+      Logger.debug(
+        "[KakaoMap:Marker:Event:Clear] Clearing Click EventListener to markers"
+      );
+      markers.map((marker) =>
+        kakao.maps.event.removeListener(marker, "click", () =>
+          markerEventListener(marker)
+        )
+      );
+    };
+  }, [geolocationMarker, getUserData.userId]);
+
+  useEffect(() => {
+    // GET /api/post/posts/Location 받아오기
+    if (getPostLocationData?.length !== 0 && !init) {
+      getPostLocationData.map((el) => {
+        addMarker(
+          global.map,
+          el.postId,
+          new kakao.maps.LatLng(
+            el.lat > 100 ? el.lng : el.lat,
+            el.lng < 100 ? el.lat : el.lng
+          ),
+          true
+        );
+      });
+      setInit(true);
+      return true;
+    }
+  }, [myUserId, getPostLocationData, init, setInit, global.map]);
 
   useEffect(() => {
     if (!geolocationMarker) return;
@@ -354,15 +319,14 @@ const Main = (props) => {
       alert("중복 로그인입니다. 로그인 페이지로 돌아갑니다.");
       window.location.href = "/login";
     });
-    // setMarkerToSchedule();
     return () => {
       Logger.debug(
         "[Socket.io:UserLocation:Event:Clear] Clearing All EventListener to Socket.io Client"
       );
       socket.removeAllListeners();
-      socket.disconnect();
+      // socket.disconnect();
     };
-  }, [myFriends, mySchedules, geolocationMarker]);
+  }, [myUserId]);
 
   return (
     <Fragment>

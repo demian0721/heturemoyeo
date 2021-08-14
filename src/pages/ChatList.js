@@ -1,8 +1,5 @@
-import React, { useEffect, useState, useRef, Fragment } from "react";
-import { Transition } from "@headlessui/react";
+import React, { useEffect, useState, Fragment } from "react";
 import socket from "socket.io-client";
-
-import useOutsideClick from "../hooks/useOutsideClick";
 
 import { useSelector, useDispatch } from "react-redux";
 import { postActions } from "../redux/modules/post";
@@ -50,9 +47,9 @@ const ChatList = () => {
 
   return (
     <Fragment>
-      {/* <Grid className='block'>
+      <Grid className='block'>
         <Header />
-      </Grid> */}
+      </Grid>
       <div className="container lg:mx-auto mx-4">
         {rooms?.length >= 1 ? (
           rooms?.map(ChatListCardComponent)

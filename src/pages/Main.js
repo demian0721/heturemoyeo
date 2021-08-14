@@ -265,7 +265,21 @@ const Main = (props) => {
     }
   };
 
-  const postLocationRemoveListener = (obj) => {
+  const newPostLocationListener = (obj) => {
+    if (obj?.postId !== null) {
+      addMarker(
+        global.map,
+        obj.postId,
+        new kakao.maps.LatLng(
+          obj.lat > 100 ? obj.lng : obj.lat,
+          obj.lng < 100 ? obj.lat : obj.lng
+        ),
+        true
+      );
+    }
+  }
+
+  const removePostLocationListener = (obj) => {
     if (posts[obj.postId]) {
       posts[obj.postId]?.setMap(null);
       delete posts[obj.postId];
@@ -276,17 +290,17 @@ const Main = (props) => {
   useEffect(() => {
     /*
      * Socket.io 와 ReactJS 의 통신:
-     * userLocation: 유저 마커 이벤트 안에 데이터를 받아, useLocationListener 라는 이벤트 핸들러를 실행하여, 마커를 수정함.
-     * postList: 모임 마커 이벤트 안에 데이터를 받아, postLocationListener 라는 이벤트 핸들러를 실행하여, 마커를 수정함.
-     * newPost: 새로운 모임이 생겼을때, 데이터를 받아 postLocationListener 라는 이벤트 핸들러를 실행하여, 마커를 생성하고, 그 외 마커들은 수정함.
-     * removePost: 원래 있던 모임이 삭제됐을때 해당 모임의 아이디를 받아와 postLocationRemoveListener 라는 이벤트 핸들러를 실행하여, 지도에서 마커를 삭제함.
+     * userLocation: 유저 마커 이벤트 안에 데이터를 받아, userLocationListener 라는 이벤트 핸들러를 실행하여, 마커를 수정함. (Return: [{ ... }, { ... }, ...])
+     * postList: 모임 마커 이벤트 안에 데이터를 받아, postLocationListener 라는 이벤트 핸들러를 실행하여, 마커를 수정함. (Return: [{ ... }, { ... }, ...])
+     * newPost: 새로운 모임이 생겼을때, 데이터를 받아 newPostLocationListener 라는 이벤트 핸들러를 실행하여, 마커를 생성함. (Return: { ... })
+     * removePost: 원래 있던 모임이 삭제됐을때 해당 모임의 아이디를 받아와 removePostLocationListener 라는 이벤트 핸들러를 실행하여, 지도에서 마커를 삭제함. (Return: { ... })
      */
     // if (myFriends?.length === 0 && mySchedules?.length === 0) return;
     if (!geolocationMarker) return;
     socket.on("userLocation", userLocationListener);
     socket.on("postList", postLocationListener);
-    socket.on("newPost", postLocationListener);
-    socket.on("removePost", postLocationRemoveListener);
+    socket.on("newPost", newPostLocationListener);
+    socket.on("removePost", removePostLocationListener);
     return () => {
       Logger.debug(
         "[Socket.io:RemoveAllListener] Clearing All EventListener to Socket.io Client and Removing UserLocation Markers"

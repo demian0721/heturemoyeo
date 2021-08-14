@@ -21,9 +21,19 @@ const ChatList = () => {
   const dispatch = useDispatch();
   const [rooms, setRooms] = useState([]);
   const posts = useSelector((state) => state.post.list);
+  /**
+   * useEffect 를 이용하여, useState 에 Redux Action dispatch 데이터 저장하기
+   */
   useEffect(() => setRooms(posts), [posts]);
+  /**
+   * 페이지를 처음 로드 했을때, 실행하는 부분입니다.
+   */
   useEffect(() => {
-    dispatch(postActions.getMyPostsDB());
+    dispatch(postActions.getMyPostsDB()); // Redux Post Action 안에 Reducer 를 이용하여 API 요청을 합니다. 그 다음 데이터를 받아옵니다.
+    /**
+     * Socket 서버에 연결합니다.
+     * 그 후, 이벤트를 선언합니다.
+     */
     const io = socket.connect("astraios.shop:4001/room", {
       path: "/socket.io",
     });
@@ -32,14 +42,22 @@ const ChatList = () => {
     );
     io.on("newRoom", (data) => rooms.push(data));
     io.on("removeRoom", (data) => {
+      /**
+       * 현재 state 안에 있는 postData 중에서 postId 와 socket.io 에서 data로 받아오는 postData의 postId 와 같지 않은 data만 빼와서 state 에 설정합니다.
+       * 왜냐하면, removeRoom 이라는 이벤트이기 때문에 state 안에서의 해당 postData가 없어져야, 페이지에서도 안 보이기 때문입니다.ㅈ
+       */
       const result = rooms.filter((el) => el.postId !== data.postId);
       setRooms(result);
     });
     io.on("disconnect", (socket) =>
-      Logger.error(`[Socket.io:Disconnect] Disconnected to Socket.io Server (Reason: ${socket})`)
+      Logger.error(
+        `[Socket.io:Disconnect] Disconnected to Socket.io Server (Reason: ${socket})`
+      )
     );
     return () => {
-      Logger.warn("[Socket.io:Disconnect] Disconnecting to Socket.io server...");
+      Logger.warn(
+        "[Socket.io:Disconnect] Disconnecting to Socket.io server..."
+      );
       io.removeAllListeners();
       io.disconnect();
     };
@@ -47,7 +65,7 @@ const ChatList = () => {
 
   return (
     <Fragment>
-      <Grid className='block'>
+      <Grid className="block">
         <Header />
       </Grid>
       <div className="container lg:mx-auto mx-4">

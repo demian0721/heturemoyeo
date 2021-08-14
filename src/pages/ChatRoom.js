@@ -7,6 +7,9 @@ import ChatUICSS from "!!raw-loader!@chatui/core/dist/index.css";
 import { useSelector, useDispatch } from "react-redux";
 import { chatActions } from "../redux/modules/chat";
 
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+
 import Logger from "../utils/Logger";
 
 /**
@@ -163,6 +166,7 @@ const ChatRoom = (props) => {
 
   return (
     <Fragment>
+      <Header />
       <div id="message-table" className="container mx-auto h-full w-full">
         {/* ChatUI, 채팅 UI를 생성해줍니다. */}
         <Chat

@@ -136,7 +136,6 @@ const Main = (props) => {
   const addMarker = (map, setMarkerId, position, post = false) => {
     let isFriend, isSameSchedule, isMe, isSchedule, isMarkerImage;
     setMarkerId = String(setMarkerId);
-    if (Number(setMarkerId) >= 100) return;
     if (!post) {
       if (
         myFriends?.includes(setMarkerId) &&

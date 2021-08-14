@@ -27,6 +27,7 @@ import useOutsideClick from "../hooks/useOutsideClick";
 // MATERIAL-UI
 import MyLocationIcon from "@material-ui/icons/MyLocation";
 
+// ETC
 import Logger from "../utils/Logger";
 import MarkerImageObject from "../assets/markerImageObject";
 
@@ -39,11 +40,10 @@ const Main = (props) => {
   const dispatch = useDispatch();
   const [geolocationMarker, setGeolocationMarker] = useState(false);
   const [markers, setMarkers] = useState([]);
-  const [posts] = useState({});
+  const [posts, setPosts] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   const [myUserId, setMyUserId] = useState(null);
   const [markerData, setMarkerData] = useState({});
-  const [init, setInit] = useState(false);
   // const [callUserData, setCallUserData] = useState({})
   const ref = useRef();
 
@@ -51,15 +51,23 @@ const Main = (props) => {
   const getUserData = useSelector((state) => state.user);
   const myFriends = useSelector((state) => state.user.friendUsers);
   const mySchedules = useSelector((state) => state.user.scheduleUsers);
-  const getMarkerData = useSelector((state) => state.marker); // 리덕스에서 유저 오버레이 정보를 저장해두는 상수
-  const getPostDetailData = useSelector((state) => state.post.postDetail); // 리덕스에서 일정 오버레이 정보를 저장해두는 상수
-  const getPostLocationData = useSelector((state) => state.post.list); // 일정 마커의 좌표 정보를 저장해두는 상수
+  const getMarkerData = useSelector((state) => state.marker);
+  const getPostDetailData = useSelector((state) => state.post.postDetail);
+  const getPostLocationsData = useSelector((state) => state.post.list);
 
   // 마커 클릭 이벤트 (바깥 영역 클릭 시 오버레이 닫기)
   useOutsideClick(ref, () => setIsOpen(false));
   useEffect(() => setMarkerData(getMarkerData), [getMarkerData]); // 상수에 저장되어 있던 오버레이 정보(유저)를 표시함
   useEffect(() => setMarkerData(getPostDetailData), [getPostDetailData]); // 상수에 저장되어 있던 오버레이 정보(일정)를 표시함
 
+  /**
+   * getDataFromAPI:
+   * 마커 를릭 이벤트를 실행할때 Redux Action 을 실행하기 위한 함수입니다.
+   * 해당 마커에 대한 Redux Action을 실행하기 위한, 인자와 변수입니다.
+   * 인자 값 같은 것들은, id 와 isFriend, isSameSchedule, isMe, isSchedule 입니다.
+   * 해당 인자값의 뜻대로 이해하시면 됩니다 :)
+   * 아래 조건에 맞춰, Redux Action 을 실행하고, 위에 있는 useEffect 에 데이터를 지정합니다.
+   */
   const getDataFromAPI = (id, isFriend, isSameSchedule, isMe, isSchedule) => {
     if (isMe) return getUserData;
     if (isFriend && !isSameSchedule && !isMe && !isSchedule)
@@ -80,6 +88,11 @@ const Main = (props) => {
     global?.map?.panTo(new kakao.maps.LatLng(lat, lng));
 
   // 마커 클릭 이벤트 (마커 클릭 시 오버레이 열기)
+  /**
+   * markerEventListener:
+   * 지도에 있는 마커를 클릭했을때 발생하는 이벤트를 핸들링 하는 핸들러입니다.
+   * 해당 마커를 클릭했을때 안에 있는 이벤트를 실행합니다.
+   */
   const markerEventListener = (markerData) => {
     // markerData 안에 postId, userId 등 값을 assign 하여, 넘겨받음.
     if (!isOpen) {
@@ -104,17 +117,22 @@ const Main = (props) => {
     }
   };
 
-  /**
-   * Marker Color set
-   * - Red: Me
-   * - Blue: Friend
-   * - Yellow: Same schedule
-   * - Gray: Anonymous
-   */
   // 마커 생성 및 생성되는 마커에 클릭이벤트 부여하기
+  /**
+   * AddMarker 함수:
+   * 지도 위에 마커를 생성하기 위한 함수입니다.
+   * 유저 마커 또는, 일정 마커를 생성하기 위해선, 해당 마커의 정보와 마커 이미지가 다르기 때문에, 해당 함수를 만들어서 작업하게 되었습니다.
+   * 해당 함수 안에 넘겨주는 인자값이 다양하고, 해당 마커가 유저인지 일정인지 구별하기 위해, Redux 안에서 api 에게 request 를 걸때,
+   * 데이터 안에 type을 넣어 구별하도록 하였습니다.
+   *
+   * myFriends 와 mySchedules 라는 Redux Action 을 만들어, Relation 이라고 정의하고, 해당 Action을 실행시켜, 나와 친구인지, 나와 같은 일정인지에 대해
+   * 구별하고 마커를 생성할 수 있도록 하였습니다.
+   * 해당 데이터를 이용하여, addMarker 함수 안의 조건문을 걸어, 카카오맵 마커 데이터안에, 배치하여 다른 이벤트에서도 사용할 수 있도록 하였습니다.
+   */
   const addMarker = (map, setMarkerId, position, post = false) => {
     let isFriend, isSameSchedule, isMe, isSchedule, isMarkerImage;
     setMarkerId = String(setMarkerId);
+    if (Number(setMarkerId) >= 100) return;
     if (!post) {
       if (
         myFriends?.includes(setMarkerId) &&
@@ -211,117 +229,7 @@ const Main = (props) => {
   const sendUserLocation = (userId, lat, lng) =>
     socket.emit("latlng", { userId, lat, lng });
 
-  // 인풋박스에서 임의의 마커 추가해보기. (소켓통신)
-  // const submitAddMarker = () => {
-  //   const userId = document.getElementById("input__userId");
-  //   const locationLat = document.getElementById("input__location--lat");
-  //   const locationLng = document.getElementById("input__location--lng");
-  //   if (!userId?.value || !locationLat?.value || !locationLng?.value)
-  //     return alert("모든 데이터를 입력해 주세요");
-  //   if (
-  //     markers.filter((el) => el.markerUserId === Number(userId?.value))
-  //       .length >= 1
-  //   )
-  //     return alert(
-  //       `중복되는 아이디가 있습니다. (중복되는 아이디: ${userId?.value})`
-  //     );
-  //   addMarker(
-  //     global.map,
-  //     userId?.value,
-  //     new kakao.maps.LatLng(
-  //       Number(locationLat?.value),
-  //       Number(locationLng?.value)
-  //     )
-  //   );
-  //   sendUserLocation(
-  //     Number(userId.value),
-  //     Number(locationLat.value),
-  //     Number(locationLng.value)
-  //   );
-  //   alert(`마커가 생성되었습니다. (생성된 마커 아이디: ${userId?.value})`);
-  //   userId.value = "";
-  //   locationLat.value = "";
-  //   locationLng.value = "";
-  // };
-
-  // 카카오맵 생성하기
-  useEffect(() => {
-    Logger.info('[KakaoMap:LoadMap] Loaded KakaoMap, render to "div#map"');
-    const container = document.getElementById("map");
-    const options = {
-      center: new kakao.maps.LatLng(
-        props?.coords?.latitude,
-        props?.coords?.longitude
-      ),
-      level: 3,
-    };
-    global.map = new kakao.maps.Map(container, options);
-    return () => {
-      Logger.debug(
-        "[KakaoMap:Marker:Event:Clear] Clearing Click EventListener to markers"
-      );
-      markers.map((marker) =>
-        kakao.maps.event.removeListener(marker, "click", () =>
-          markerEventListener()
-        )
-      );
-    };
-  }, [geolocationMarker, setGeolocationMarker]);
-
-  if (!props.isGeolocationAvailable)
-    alert("해당 기기는 GeoLocation을 지원하지 않습니다!");
-  if (!props.isGeolocationEnabled)
-    alert("해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!");
-  if (
-    props.isGeolocationAvailable &&
-    props.isGeolocationEnabled &&
-    props?.coords &&
-    !!getUserData?.userId &&
-    !geolocationMarker
-  ) {
-    setGeolocationMarker(true);
-    setMyUserId(getUserData.userId);
-    setInterval(() => {
-      sendUserLocation(
-        getUserData.userId,
-        props.coords.latitude,
-        props.coords.longitude
-      );
-      // socket.emit("getPostList");
-    }, 2000);
-  }
-
-  // GET /api/post/posts/Location 받아오기
-  if (getPostLocationData?.list?.length !== 0 && !init) {
-    getPostLocationData.list.map((el) =>
-      addMarker(
-        global.map,
-        el.postId,
-        new kakao.maps.LatLng(
-          el.lat > 100 ? el.lng : el.lat,
-          el.lng < 100 ? el.lat : el.lng
-        ),
-        true)
-    );
-    setInit(true)
-  }
-
-  // useEffect(() => {
-  //   // Logger.debug(`[PostLocation] Get PostLocation...`)
-  //   getPostLocationData?.list?.map((el) => {
-  //     // Logger.info(`[PostLocation] Loaded PostLocation via postId: ${el.postId} (Lat: ${el.lat > 100 ? el.lng : el.lat} | Lng: ${el.lng < 100 ? el.lat : el.lng})`)
-  //     return addMarker(
-  //       global.map,
-  //       el.postId,
-  //       new kakao.maps.LatLng(
-  //         el.lat > 100 ? el.lng : el.lat,
-  //         el.lng < 100 ? el.lat : el.lng
-  //       ),
-  //       true
-  //     );
-  //   });
-  // }, [getPostLocationData]);
-
+  // Socket.io Event Handler -----------------------------------
   const userLocationListener = (data) => {
     markers.map((el) => el.setMap(null));
     markers.splice(0, markers.length);
@@ -338,38 +246,77 @@ const Main = (props) => {
     }
   };
 
-  const postLocationListener = (obj) => {
-    if (obj?.postId !== null) {
-      addMarker(
-        global.map,
-        obj.postId,
-        new kakao.maps.LatLng(
-          obj.lat > 100 ? obj.lng : obj.lat,
-          obj.lng < 100 ? obj.lat : obj.lng
-        ),
-        true
-      );
+  const postLocationListener = (data) => {
+    for (const obj of data) {
+      if (obj?.postId !== null) {
+        addMarker(
+          global.map,
+          obj.postId,
+          new kakao.maps.LatLng(
+            obj.lat > 100 ? obj.lng : obj.lat,
+            obj.lng < 100 ? obj.lat : obj.lng
+          ),
+          true
+        );
+      }
     }
   };
 
   const postLocationRemoveListener = (obj) => {
-    posts[obj.postId].setMap(null);
-    delete posts[obj.postId];
+    if (posts[obj.postId]) {
+      posts[obj.postId]?.setMap(null);
+      delete posts[obj.postId];
+    }
   };
+  // ------------------------------------------------------------------
 
-  if (
-    props.isGeolocationAvailable &&
-    props.isGeolocationEnabled &&
-    props?.coords &&
-    getUserData?.userId &&
-    !geolocationMarker
-  ) {
-    setGeolocationMarker(true);
-  }
+  useEffect(() => {
+    /*
+     * Socket.io 와 ReactJS 의 통신:
+     * userLocation: 유저 마커 이벤트 안에 데이터를 받아, useLocationListener 라는 이벤트 핸들러를 실행하여, 마커를 수정함.
+     * postList: 모임 마커 이벤트 안에 데이터를 받아, postLocationListener 라는 이벤트 핸들러를 실행하여, 마커를 수정함.
+     * newPost: 새로운 모임이 생겼을때, 데이터를 받아 postLocationListener 라는 이벤트 핸들러를 실행하여, 마커를 생성하고, 그 외 마커들은 수정함.
+     * removePost: 원래 있던 모임이 삭제됐을때 해당 모임의 아이디를 받아와 postLocationRemoveListener 라는 이벤트 핸들러를 실행하여, 지도에서 마커를 삭제함.
+     */
+    // if (myFriends?.length === 0 && mySchedules?.length === 0) return;
+    if (!geolocationMarker) return;
+    socket.on("userLocation", userLocationListener);
+    socket.on("postList", postLocationListener);
+    socket.on("newPost", postLocationListener);
+    socket.on("removePost", postLocationRemoveListener);
+    return () => {
+      Logger.debug(
+        "[Socket.io:RemoveAllListener] Clearing All EventListener to Socket.io Client and Removing UserLocation Markers"
+      );
+      socket.removeAllListeners();
+      markers.map((marker) => {
+        kakao.maps.event.removeListener(marker, "click", () =>
+          markerEventListener()
+        );
+        // return marker.setMap(null);
+      });
+    };
+  }, [myFriends, mySchedules, geolocationMarker]);
+
+  useEffect(() => {
+    if (!geolocationMarker) return;
+    if (getPostLocationsData?.length !== 0 && Object.keys(posts).length === 0)
+      getPostLocationsData?.map((el) =>
+        addMarker(
+          global.map,
+          el.postId,
+          new kakao.maps.LatLng(
+            el.lat > 100 ? el.lng : el.lat,
+            el.lng < 100 ? el.lat : el.lng
+          ),
+          true
+        )
+      );
+  }, [geolocationMarker, getPostLocationsData]);
 
   // 카카오맵 생성하기
   useEffect(() => {
-    // if (!geolocationMarker) return;
+    if (!geolocationMarker) return;
     Logger.info('[KakaoMap:LoadMap] Loaded KakaoMap, render to "div#map"');
     const container = document.getElementById("map");
     const options = {
@@ -380,63 +327,29 @@ const Main = (props) => {
       level: 3,
     };
     global.map = new kakao.maps.Map(container, options);
-    setMyUserId(String(getUserData.userId));
+    // duplicate login, socket.on('closeEvent', (event) => { ... })
+    return () => {};
+  }, [geolocationMarker, setGeolocationMarker]);
+
+  if (
+    props.isGeolocationAvailable &&
+    props.isGeolocationEnabled &&
+    props?.coords &&
+    !!getUserData?.userId &&
+    !geolocationMarker
+  ) {
+    setGeolocationMarker(true);
+    setMyUserId(getUserData.userId);
+    dispatch(postActions.getPostLocationDB());
     setInterval(() => {
       sendUserLocation(
         getUserData.userId,
-        props?.coords?.latitude,
-        props?.coords?.longitude
+        props.coords.latitude,
+        props.coords.longitude
       );
+      // socket.emit("getPostList");
     }, 2000);
-    return () => {
-      Logger.debug(
-        "[KakaoMap:Marker:Event:Clear] Clearing Click EventListener to markers"
-      );
-      markers.map((marker) =>
-        kakao.maps.event.removeListener(marker, "click", () =>
-          markerEventListener(marker)
-        )
-      );
-    };
-  }, [geolocationMarker, getUserData.userId]);
-
-  useEffect(() => {
-    // GET /api/post/posts/Location 받아오기
-    if (getPostLocationData?.length !== 0 && !init) {
-      getPostLocationData.map((el) => {
-        addMarker(
-          global.map,
-          el.postId,
-          new kakao.maps.LatLng(
-            el.lat > 100 ? el.lng : el.lat,
-            el.lng < 100 ? el.lat : el.lng
-          ),
-          true
-        );
-      });
-      setInit(true);
-      return true;
-    }
-  }, [myUserId, getPostLocationData, init, setInit, global.map]);
-
-  useEffect(() => {
-    if (!geolocationMarker) return;
-    socket.on("userLocation", userLocationListener);
-    socket.on("newPost", postLocationListener);
-    socket.on("removePost", postLocationRemoveListener);
-    socket.on("closeEvent", (event) => {
-      sessionStorage.removeItem("token");
-      alert("중복 로그인입니다. 로그인 페이지로 돌아갑니다.");
-      window.location.href = "/login";
-    });
-    return () => {
-      Logger.debug(
-        "[Socket.io:UserLocation:Event:Clear] Clearing All EventListener to Socket.io Client"
-      );
-      socket.removeAllListeners();
-      // socket.disconnect();
-    };
-  }, [myUserId]);
+  }
 
   return (
     <Fragment>

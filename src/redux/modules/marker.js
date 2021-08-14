@@ -50,7 +50,7 @@ const targetFriendDB = (userId) => {
     instance
       .get(`/api/user/target/friend?userId=${userId}`)
       .then((res) => {
-        // console.log(res)
+        console.log(res)
         Object.assign(res.data, { type: 'user', exactType: "friend" });
         dispatch(targetFriend(res.data));
       })

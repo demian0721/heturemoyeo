@@ -56,7 +56,7 @@ const ChatRoom = (props) => {
   if (!init && myUserId && getChatDatas.length) {
     if (getChatDatas?.length >= 1) {
       getChatDatas.reverse()
-      Logger.debug(`[GetChatDatas] Get ChatDatas: ${getChatDatas.length}`)  
+      Logger.debug(`[GetChatDatas] Get ChatDatas: ${getChatDatas.length}`)
       getChatDatas.map((el) => {
         console.log(el)
         const data = {

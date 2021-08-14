@@ -25,19 +25,19 @@ const getDate = () => {
 };
 
 const getMessage = (message) => {
-  const regex = /\[(.*?)\]/gm;
-  const firstMatch = message.match(regex)?.shift();
-  const result = message.split(firstMatch).filter((el) => el.length !== 0).map((el) => el.trim()).join(" ")
+  // const regex = /\[(.*?)\]/gm;
+  // const firstMatch = message.match(regex).shift();
+  // const result = message.split(firstMatch).filter((el) => el.length !== 0).map((el) => el.trim()).join(" ")
   // return `${firstMatch} %c${result}`
   return message
 };
 
 const Logger = {
-  info: (message) => console.log(`%c${getDate()} [INFO] ${getMessage(message)}`, "color: #47ed4a;"),
-  debug: (message) => console.log(`%c${getDate()} [DEBUG] ${getMessage(message)}`, "color: #47eaed;"),
-  warn: (message) => console.log(`%c${getDate()} [WARN] ${getMessage(message)}`, "color: #edab47;"),
-  error: (message) => console.log(`%c${getDate()} [ERRRO] ${getMessage(message)}`, "color: #ed4747;"),
-  verbose: (message) => console.log(`%c${getDate()} [VERBOSE] ${getMessage(message)}`, "color: #8c8c8c;"),
+  info: (message) => console.log(`%c${getDate()} [INFO] ${getMessage(message)}`, "color: lightGreen;"),
+  debug: (message) => console.log(`%c${getDate()} [DEBUG] ${getMessage(message)}`, "color: cyan;"),
+  warn: (message) => console.log(`%c${getDate()} [WARN] ${getMessage(message)}`, "color: orange;"),
+  error: (message) => console.log(`%c${getDate()} [ERRRO] ${getMessage(message)}`, "color: red;"),
+  verbose: (message) => console.log(`%c${getDate()} [VERBOSE] ${getMessage(message)}`, "color: gray;"),
 };
 
 export default Logger;

@@ -182,7 +182,6 @@ const getPostLocationDB = () => {
     instance
       .get(`/api/post/posts/location`)
       .then((res) => {
-        console.log(res)
         dispatch(getPostLocation(res.data));
       })
       .catch((error) => {

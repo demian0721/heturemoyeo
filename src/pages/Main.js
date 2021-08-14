@@ -211,9 +211,6 @@ const Main = (props) => {
   const sendUserLocation = (userId, lat, lng) =>
     socket.emit("latlng", { userId, lat, lng });
 
-<<<<<<< HEAD
-  // Event Listener to Socket.io
-=======
   // 인풋박스에서 임의의 마커 추가해보기. (소켓통신)
   // const submitAddMarker = () => {
   //   const userId = document.getElementById("input__userId");
@@ -325,7 +322,6 @@ const Main = (props) => {
   //   });
   // }, [getPostLocationData]);
 
->>>>>>> parent of a3a3636 (홈버튼 로케이션 수정)
   const userLocationListener = (data) => {
     markers.map((el) => el.setMap(null));
     markers.splice(0, markers.length);

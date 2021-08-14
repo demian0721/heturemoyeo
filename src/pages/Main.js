@@ -381,8 +381,8 @@ const Main = (props) => {
               style={{
                 minWidth: "100vw",
                 maxWidth: "100vw",
-                minHeight: "94vh",
-                maxHeight: "94vh",
+                minHeight: "90vh",
+                maxHeight: "90vh",
               }}
             />
             {/* 오버레이 */}

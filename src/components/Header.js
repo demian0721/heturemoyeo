@@ -20,7 +20,7 @@ const Header = (props) => {
   return (
     <React.Fragment>
       <Grid is_flex="center" width="100%" minWidth="280px" height="75px" bg="#16C59B"
-      style={{position:"fixed", top:0, zIndex:4}}>
+      style={{position:"static", top:0, zIndex:4}}>
         <div style={{marginTop:"20px"}} onClick={() => { window.location.href='/'}}>
           {title==''? <Image src="/assets/logo_header.png"/>:<TitleBox>{title}</TitleBox>} 
           

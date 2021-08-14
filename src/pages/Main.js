@@ -83,15 +83,19 @@ const Main = (props) => {
     return {};
   };
 
-  // My Location 버튼 (내위치 찾기)
+  /**
+   * panTo:
+   * 인자값을 받아와 경도 위도를 기준으로 하여, 뷰포인트를 맵의 센터로 옮겨줍니다.
+   */
   const panTo = (lat, lng) =>
     global?.map?.panTo(new kakao.maps.LatLng(lat, lng));
 
-  // 마커 클릭 이벤트 (마커 클릭 시 오버레이 열기)
   /**
    * markerEventListener:
    * 지도에 있는 마커를 클릭했을때 발생하는 이벤트를 핸들링 하는 핸들러입니다.
    * 해당 마커를 클릭했을때 안에 있는 이벤트를 실행합니다.
+   *
+   * setIsOpen 라는 useState는 headless ui 를 사용하여, transtion 의 상태를 보여주기 위해 설정한 state 입니다.
    */
   const markerEventListener = (markerData) => {
     // markerData 안에 postId, userId 등 값을 assign 하여, 넘겨받음.

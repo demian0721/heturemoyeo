@@ -20,6 +20,7 @@ import { postActions } from "../redux/modules/post";
 
 // COMPONENTS
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import Permit from "../components/Permit";
 
 // ELEMENTS
@@ -428,7 +429,7 @@ const PostWrite = (props) => {
               </div>
               <div>
                 <textarea
-                  rows="9"
+                  rows="7"
                   style={{
                     width: "100%",
                     border: "1.5px solid #white",
@@ -628,6 +629,7 @@ const PostWrite = (props) => {
             </div>
           </Dialog>
         </Transition>
+        <Footer />
       </Permit>
     </Style>
   );

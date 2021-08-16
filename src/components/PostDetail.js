@@ -3,6 +3,9 @@ import React, { useEffect } from "react";
 import styled, { css } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 
+//UTILS
+import { formattedDate } from "../utils";
+
 //ELEMENTS
 import { Grid, Image, Text, Title, Button } from "../elements/index";
 import EventAvailableOutlinedIcon from '@material-ui/icons/EventAvailableOutlined';
@@ -60,19 +63,6 @@ const JoinToChatRoomFromPostId = (isExist, postId) => {
 
 const Details = (props) => {
   const postDetails = props.Details;
-
-  const formattedDate = (date) => {
-    const dateNow = new Date(date);
-    const year = dateNow.getFullYear();
-    const month =
-      String(dateNow.getMonth() + 1).length === 1
-        ? `0${dateNow.getMonth() + 1}`
-        : dateNow.getMonth() + 1;
-    const day =
-      String(dateNow.getDay()).length === 1
-        ? `0${dateNow.getDay()}`
-        : dateNow.getDay();
-    return `${year}. ${month}. ${day}`;};
 
   const date = formattedDate(postDetails.startDate);
 

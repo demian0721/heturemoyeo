@@ -1,9 +1,12 @@
 /* global kakao */
 // LIBRARY
 import React, { useEffect, useState, useRef, Fragment } from "react";
-import { Transition } from "@headlessui/react";
+import { Transition, Dialog } from "@headlessui/react";
 import { geolocated, geoPropTypes } from "react-geolocated";
 import { useSelector, useDispatch } from "react-redux";
+
+import { useRecoilState } from "recoil";
+import { ActiveInviteModal } from "../utils/recoil";
 
 // REDUX
 // import { userActions } from "../redux/modules/user";
@@ -40,12 +43,11 @@ const Main = (props) => {
   const dispatch = useDispatch();
   const [geolocationMarker, setGeolocationMarker] = useState(false);
   const [markers, setMarkers] = useState([]);
-  const [posts, setPosts] = useState({});
+  const [posts] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   const [myUserId, setMyUserId] = useState(null);
   const [markerData, setMarkerData] = useState({});
   // const [callUserData, setCallUserData] = useState({})
-  const ref = useRef();
 
   // 로그인 후, 유저 데이터
   const getUserData = useSelector((state) => state.user);
@@ -56,7 +58,6 @@ const Main = (props) => {
   const getPostLocationsData = useSelector((state) => state.post.list);
 
   // 마커 클릭 이벤트 (바깥 영역 클릭 시 오버레이 닫기)
-  useOutsideClick(ref, () => setIsOpen(false));
   useEffect(() => setMarkerData(getMarkerData), [getMarkerData]); // 상수에 저장되어 있던 오버레이 정보(유저)를 표시함
   useEffect(() => setMarkerData(getPostDetailData), [getPostDetailData]); // 상수에 저장되어 있던 오버레이 정보(일정)를 표시함
 
@@ -277,7 +278,7 @@ const Main = (props) => {
         true
       );
     }
-  }
+  };
 
   const removePostLocationListener = (obj) => {
     if (posts[obj.postId]) {
@@ -317,23 +318,6 @@ const Main = (props) => {
 
   useEffect(() => {
     if (!geolocationMarker) return;
-    if (getPostLocationsData?.length !== 0 && Object.keys(posts).length === 0)
-      getPostLocationsData?.map((el) =>
-        addMarker(
-          global.map,
-          el.postId,
-          new kakao.maps.LatLng(
-            el.lat > 100 ? el.lng : el.lat,
-            el.lng < 100 ? el.lat : el.lng
-          ),
-          true
-        )
-      );
-  }, [geolocationMarker, getPostLocationsData]);
-
-  // 카카오맵 생성하기
-  useEffect(() => {
-    if (!geolocationMarker) return;
     Logger.info('[KakaoMap:LoadMap] Loaded KakaoMap, render to "div#map"');
     const container = document.getElementById("map");
     const options = {
@@ -345,8 +329,26 @@ const Main = (props) => {
     };
     global.map = new kakao.maps.Map(container, options);
     // duplicate login, socket.on('closeEvent', (event) => { ... })
+    sendUserLocation(
+      getUserData.userId,
+      props.coords.latitude,
+      props.coords.longitude
+    );
+    if (getPostLocationsData?.length !== 0 && Object.keys(posts).length === 0) {
+      getPostLocationsData?.map((el) =>
+        addMarker(
+          global.map,
+          el.postId,
+          new kakao.maps.LatLng(
+            el.lat > 100 ? el.lng : el.lat,
+            el.lng < 100 ? el.lat : el.lng
+          ),
+          true
+        )
+      );
+    }
     return () => {};
-  }, [geolocationMarker, setGeolocationMarker]);
+  }, [getPostLocationsData, setGeolocationMarker]);
 
   if (
     props.isGeolocationAvailable &&
@@ -367,6 +369,16 @@ const Main = (props) => {
       // socket.emit("getPostList");
     }, 2000);
   }
+
+  const [showModal, setShowModal] = useRecoilState(ActiveInviteModal);
+
+  const ref = useRef();
+  useOutsideClick(ref, () => {
+    if (!showModal) setIsOpen(false);
+  });
+
+  const modalRef = useRef();
+  useOutsideClick(modalRef, () => setShowModal(false));
 
   return (
     <Fragment>
@@ -415,12 +427,82 @@ const Main = (props) => {
                         : "/assets/unknownProfile.jpg"
                     }
                     rating={markerData?.rating}
-                    isSchedule={markerData?.type === "post"}
+                    isType={markerData?.type ?? undefined}
                     id={markerData?.userId ?? markerData?.postId}
+                    myId={myUserId}
                     {...markerData}
                   />
                 </div>
               </div>
+            </Transition>
+            <Transition show={showModal} as={Fragment}>
+              <Dialog
+                as="div"
+                className="fixed inset-0 overflow-y-auto z-10"
+                onClose={() => setShowModal(false)}
+              >
+                <div ref={modalRef} className="min-h-screen px-4 text-center">
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                  >
+                    <Dialog.Overlay className="fixed inset-0" />
+                  </Transition.Child>
+                  <span
+                    className="inline-block h-screen align-middle"
+                    aria-hidden="true"
+                  >
+                    &#8203
+                  </span>
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0 scale-95"
+                    enterTo="opacity-100 scale-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100 scale-100"
+                    leaveTo="opacity-0 scale-95"
+                  >
+                    <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl self-center items-center">
+                      <Dialog.Title
+                        as="h3"
+                        className="text-lg font-medium leading-6 text-gray-900"
+                      >
+                        Title
+                      </Dialog.Title>
+                      <div className="mt-2 mb-2">
+                        <p className="text-sm text-gray-500">Description</p>
+                      </div>
+
+                      <div className="mt-4 space-x-4">
+                        <button
+                          type="button"
+                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 transition duration-300 ease-in-out"
+                          onClick={() => {
+                            setShowModal(false);
+                          }}
+                        >
+                          모임 초대하기
+                        </button>
+                        <button
+                          type="button"
+                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500 transition duration-300 ease-in-out"
+                          onClick={() => {
+                            setShowModal(false);
+                          }}
+                        >
+                          취소
+                        </button>
+                      </div>
+                    </div>
+                  </Transition.Child>
+                </div>
+              </Dialog>
             </Transition>
           </div>
           <Grid

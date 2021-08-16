@@ -65,33 +65,29 @@ const ChatList = () => {
 
   return (
     <Fragment>
-      <Grid className="block">
-        <Header />
-      </Grid>
-      <div className="container lg:mx-auto mx-4">
+      <Header />
+      <div className="container mx-auto my-4 space-y-4 w-full">
         {rooms?.length >= 1 ? (
-          rooms?.map(ChatListCardComponent)
+          rooms.map((el) => <ChatListCardComponent {...el} />)
         ) : (
           <div className="text-center font-bold text-lg">
             참여 중인 대화방이 존재하지 않아요!
           </div>
         )}
       </div>
-      <Grid className="block">
-        <Footer>chat</Footer>
-      </Grid>
+      <Footer>chat</Footer>
     </Fragment>
   );
 };
 
-function ChatListCardComponent(props) {
+function ChatListCardComponent({ children, ...props }) {
   return (
     <div
       key={props.postId}
-      className="rounded-lg px-5 py-4 my-4 mx-4 border border-gray-500 border-opacity-20 chatBoxShadow bg-gray-100 hover:bg-white transition cursor-pointer"
+      className="rounded-lg px-5 py-4 mx-4 border border-gray-500 border-opacity-20 chatBoxShadow bg-gray-100 hover:bg-white transition cursor-pointer"
       onClick={() => (window.location.href = `/chat/${props.postId}`)}
     >
-      <div key={props.postId} className="inline-flex items-center">
+      <div className="flex items-center self-center">
         <div
           className="block rounded-md w-24 h-24"
           style={{

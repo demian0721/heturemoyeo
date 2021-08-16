@@ -49,6 +49,13 @@ code {
   color: #5ac09d;
 }
 
+.selectedCard {
+  border-width: 3px;
+  border-color: rgba(90, 192, 157, 10);
+  border-radius: 0.375rem;
+  background-color: white;
+}
+
 input {
   text-decoration: none;
   outline: none;

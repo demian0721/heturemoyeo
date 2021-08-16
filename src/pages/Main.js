@@ -5,8 +5,12 @@ import { Transition, Dialog } from "@headlessui/react";
 import { geolocated, geoPropTypes } from "react-geolocated";
 import { useSelector, useDispatch } from "react-redux";
 
-import { useRecoilState } from "recoil";
-import { ActiveInviteModal } from "../utils/recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  ActiveInviteModal,
+  MyScheduleList,
+  SelectedPostCard,
+} from "../utils/recoil";
 
 // REDUX
 // import { userActions } from "../redux/modules/user";
@@ -311,8 +315,9 @@ const Main = (props) => {
         kakao.maps.event.removeListener(marker, "click", () =>
           markerEventListener()
         );
-        // return marker.setMap(null);
+        return marker?.setMap(null);
       });
+      for (const key in posts) posts[key]?.setMap(null);
     };
   }, [myFriends, mySchedules, geolocationMarker]);
 
@@ -347,7 +352,15 @@ const Main = (props) => {
         )
       );
     }
-    return () => {};
+    return () => {
+      markers.map((marker) => {
+        kakao.maps.event.removeListener(marker, "click", () =>
+          markerEventListener()
+        );
+        return marker?.setMap(null);
+      });
+      for (const key in posts) posts[key]?.setMap(null);
+    };
   }, [getPostLocationsData, setGeolocationMarker]);
 
   if (
@@ -371,6 +384,14 @@ const Main = (props) => {
   }
 
   const [showModal, setShowModal] = useRecoilState(ActiveInviteModal);
+  const myScheduleList = useRecoilValue(MyScheduleList);
+  const [showItems, setShowItems] = useState(false);
+  const [selectedCard, setSelectedCard] = useRecoilState(SelectedPostCard);
+
+  useEffect(() => {
+    setShowItems(true);
+    return () => setShowItems(false);
+  }, [myScheduleList]);
 
   const ref = useRef();
   useOutsideClick(ref, () => {
@@ -378,7 +399,30 @@ const Main = (props) => {
   });
 
   const modalRef = useRef();
-  useOutsideClick(modalRef, () => setShowModal(false));
+  useOutsideClick(modalRef, () => {
+    setShowModal(false);
+    setShowItems(false);
+  });
+
+  const handleModalClose = (clearSelect = true) => {
+    setShowModal(false);
+    setShowItems(false);
+    if (clearSelect) setSelectedCard(0);
+  };
+
+  const handleModalInvite = (clearSelect = true) => {
+    const filterScheduleList = myScheduleList?.filter(
+      (el) => el.postId === selectedCard
+    );
+    alert(
+      `Selected Schedule: ${
+        filterScheduleList?.length !== 0
+          ? `${filterScheduleList[0].title}(${filterScheduleList[0].postId}), Member: ${filterScheduleList[0].currentMember}/${filterScheduleList[0].maxMember}`
+          : undefined
+      }`
+    );
+    if (clearSelect) setSelectedCard(0);
+  };
 
   return (
     <Fragment>
@@ -400,12 +444,12 @@ const Main = (props) => {
             {/* 오버레이 */}
             <Transition
               show={isOpen}
-              enter="transition ease-out duration-100"
-              enterFrom="transform opacity-0"
-              enterTo="transform opacity-100"
-              leave="transition ease-in duration-75"
-              leaveFrom="transform opacity-100"
-              leaveTo="transform opacity-0"
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-300"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
               className="absolute left-0 right-0 bottom-0 border border-gray-300 rounded-t-lg bg-white py-4 topDropShadow"
               style={{ zIndex: 3 }}
             >
@@ -438,8 +482,8 @@ const Main = (props) => {
             <Transition show={showModal} as={Fragment}>
               <Dialog
                 as="div"
-                className="fixed inset-0 overflow-y-auto z-10"
-                onClose={() => setShowModal(false)}
+                className="fixed lg:mt-24 md:mt-20 mt-14 inset-0 z-10"
+                onClose={handleModalClose}
               >
                 <div ref={modalRef} className="min-h-screen px-4 text-center">
                   <Transition.Child
@@ -451,14 +495,8 @@ const Main = (props) => {
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                   >
-                    <Dialog.Overlay className="fixed inset-0" />
+                    <Dialog.Overlay className="fixed bottom-0 inset-0" />
                   </Transition.Child>
-                  <span
-                    className="inline-block h-screen align-middle"
-                    aria-hidden="true"
-                  >
-                    &#8203
-                  </span>
                   <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"
@@ -471,34 +509,78 @@ const Main = (props) => {
                     <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl self-center items-center">
                       <Dialog.Title
                         as="h3"
-                        className="text-lg font-medium leading-6 text-gray-900"
+                        className="text-base font-medium leading-6 text-gray-900"
                       >
-                        Title
+                        모임 초대하기
                       </Dialog.Title>
-                      <div className="mt-2 mb-2">
-                        <p className="text-sm text-gray-500">Description</p>
+                      <div className="mb-2">
+                        <p className="text-sm text-gray-500">
+                          아래 목록에서 원하는 모임에 초대해보세요.
+                        </p>
                       </div>
 
-                      <div className="mt-4 space-x-4">
-                        <button
-                          type="button"
-                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 transition duration-300 ease-in-out"
-                          onClick={() => {
-                            setShowModal(false);
-                          }}
-                        >
-                          모임 초대하기
-                        </button>
-                        <button
-                          type="button"
-                          className="inline-flex justify-center px-4 py-2 text-sm font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-red-500 transition duration-300 ease-in-out"
-                          onClick={() => {
-                            setShowModal(false);
-                          }}
-                        >
-                          취소
-                        </button>
+                      <div
+                        id="my-schedule-list"
+                        className="flex flex-wrap flex-initial overflow-y-scroll w-full space-y-2 bg-gray-300 rounded-md bg-opacity-25 p-2 border border-gray-400 border-opacity-25"
+                        style={{
+                          height:
+                            myScheduleList?.length === 0 ? "100px" : "305px",
+                        }}
+                      >
+                        {showItems && myScheduleList?.length === 0 ? (
+                          <div className="flex flex-wrap w-full bg-white selectedCard rounded-md trasition duration-300 ease-in-out shadow-xl self-center px-3 py-2 cursor-pointer text-center justify-center">
+                            내가 생성한 모임이 존재하지 않아요!
+                            <br />
+                            새로운 모임을 생성해보세요!
+                          </div>
+                        ) : (
+                          myScheduleList?.map((el, index) => (
+                            <InviteScheduleCard key={index} {...el} />
+                          ))
+                        )}
                       </div>
+
+                      {myScheduleList?.length === 0 ? (
+                        <>
+                          <div className="flex justify-between mt-4 space-x-4 w-full">
+                            <button
+                              type="button"
+                              className="inline-flex justify-center px-4 py-2 lg:text-sm text-xs font-medium tagItem border border-transparent rounded-md transition duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                              onClick={() =>
+                                (window.location.href = "/postwrite")
+                              }
+                            >
+                              모임 생성하기
+                            </button>
+                            <button
+                              type="button"
+                              className="inline-flex justify-center px-4 py-2 lg:text-sm text-xs font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 transition duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                              onClick={handleModalClose}
+                            >
+                              취소
+                            </button>
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="flex justify-between mt-4 space-x-4 w-full">
+                            <button
+                              type="button"
+                              className="flex justify-center px-4 py-2 lg:text-sm text-xs font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 transition duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                              onClick={() => handleModalInvite()}
+                            >
+                              모임 초대하기
+                            </button>
+                            <button
+                              type="button"
+                              className="flex justify-center px-4 py-2 lg:text-sm text-xs font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 transition duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                              onClick={handleModalClose}
+                            >
+                              취소
+                            </button>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </Transition.Child>
                 </div>
@@ -506,10 +588,11 @@ const Main = (props) => {
             </Transition>
           </div>
           <Grid
-            style={{ position: "fixed", top: "10%", left: "3%", zIndex: 99 }}
-            width="auto"
-            height="auto"
+            style={{ position: "fixed", zIndex: 5 }}
+            width="20"
+            height="20"
             overflow="visible"
+            className="lg:mt-28 mt-24 mt-20 lg:ml-10 ml-6 inset-0 w-20 h-20"
           >
             <Button
               shadow="rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;"
@@ -521,6 +604,7 @@ const Main = (props) => {
               margin="0 0 10px"
               radius="100%"
               className="custom_transition"
+              // className="fixed lg:mt-24 md:mt-20 mt-14 inset-0 z-10"
               clickEvent={() =>
                 panTo(props?.coords?.latitude, props?.coords?.longitude)
               }
@@ -534,6 +618,49 @@ const Main = (props) => {
     </Fragment>
   );
 };
+
+function InviteScheduleCard({ children, index, ...props }) {
+  const [selectedCard, setSelectedCard] = useRecoilState(SelectedPostCard);
+  return (
+    <div
+      key={index}
+      id="schedule-card"
+      className={`flex flex-wrap w-full ${
+        Number(props?.postId) === Number(selectedCard)
+          ? "selectedCard"
+          : "bg-gray-100 hover:bg-white border border-gray-400 border-opacity-25"
+      } rounded-md trasition duration-300 ease-in-out shadow-xl self-center px-3 py-2 cursor-pointer`}
+      data-postid={Number(props?.postId)}
+      onClick={() => {
+        setSelectedCard(Number(props?.postId));
+      }}
+    >
+      <div
+        className="block rounded-md w-12 h-12"
+        style={{
+          textAlign: "center",
+          backgroundImage: `url('${
+            props?.img ?? "/assets/unknownChatRoomImg.gif"
+          }')`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          float: "center",
+        }}
+      >
+        <span className="sr-only">post image</span>
+      </div>
+      <div className="block ml-2 self-center">
+        <div id="title" className="lg:text-base text-sm font-bold">
+          {props?.title}
+        </div>
+        <div id="member_count" className="lg:text-sm text-xs font-sm">
+          {props?.currentMember}/{props?.maxMember} 명
+        </div>
+      </div>
+    </div>
+  );
+}
 
 Main.propTypes = { ...Main.propTypes, ...geoPropTypes };
 

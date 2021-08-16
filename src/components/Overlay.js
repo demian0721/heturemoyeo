@@ -3,7 +3,9 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 import { useRecoilState } from "recoil";
-import { ActiveInviteModal } from "../utils/recoil";
+import { ActiveInviteModal, MyScheduleList } from "../utils/recoil";
+import axios from "../common/axios";
+import Logger from "../utils/Logger";
 
 import {
   People as PeopleIcon,
@@ -18,8 +20,31 @@ const rowRatingColor = (rating) => {
   else return "#009de0";
 };
 
+const getMyScheduleList = async ({
+  start = 0,
+  limit = 1000,
+  setFunction = () => {},
+}) => {
+  try {
+    const result = await axios.get(
+      `/api/post/posts/master?start=${start}&limit=${limit}`
+    );
+    Logger.info(
+      `[Component:Overlay:GetMYScheduleList] Loaded data from api to myScheduleList`
+    );
+    const resultData = result.data
+    setFunction?.(resultData);
+    return resultData;
+  } catch (e) {
+    Logger.error(
+      `[Component:Overlay:GetMyScheduleList] Failed to data from api (${e.name})`
+    );
+  }
+};
+
 const UserOverlay = ({ children, ...props }) => {
   const [showModal, setShowModal] = useRecoilState(ActiveInviteModal);
+  const [myScheduleList, setMyScheduleList] = useRecoilState(MyScheduleList);
   return (
     <>
       <div className="flex justify-start">
@@ -107,6 +132,7 @@ const UserOverlay = ({ children, ...props }) => {
               className="flex mt-2 py-4 font-bold tagItem transition duration-300 ease-in-out cursor-pointer rounded-md text-center justify-center"
               onClick={() => {
                 setShowModal(true);
+                getMyScheduleList({ setFunction: setMyScheduleList });
               }}
             >
               <p>모임 초대하기</p>

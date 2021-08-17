@@ -20,6 +20,7 @@ import { postActions } from "../redux/modules/post";
 
 // COMPONENTS
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import Permit from "../components/Permit";
 
 // ELEMENTS
@@ -189,12 +190,12 @@ const PostEdit = (props) => {
     <Style>
       <Permit width="" height="">
         <Grid width="" height="">
-          <Header>게시글 작성</Header>
+          <Header>게시글 수정</Header>
         </Grid>
         <Grid
-          width="360px"
+          width="100%"
           height=""
-          margin="auto"
+          margin="75px 0 55px 0"
           tabletStyle={() => {
             return css`
               width: 95%;
@@ -266,7 +267,7 @@ const PostEdit = (props) => {
               >
               <div className='block' style={{ margin: "15px 5px 15px 5px" }}>
                 <Text fontSize="13px" color="#888888" fontWeight="bold">
-                  시작일시
+                  시작
                 </Text>
                 <Input
                   placeholder="시작시간(연도월일)"
@@ -289,7 +290,7 @@ const PostEdit = (props) => {
               </div>
               <div className='block' style={{ margin: "15px 5px 15px 5px" }}>
                 <Text fontSize="13px" color="#888888" fontWeight="bold">
-                  종료일시
+                  종료
                 </Text>
                 <Input
                   placeholder="종료시간(연도월일)"
@@ -640,17 +641,11 @@ const PostEdit = (props) => {
             </div>
           </Dialog>
         </Transition>
+        <Footer />
       </Permit>
     </Style>
   );
 };
-
-const Td = styled.td`
-  padding-left: 5px;
-`;
-const Th = styled.th`
-  padding-right: 5px;
-`;
 
 const EnterButton = styled.button`
   width: 100%;
@@ -724,9 +719,8 @@ const InputArea = styled.textarea`
 
 const Style = styled.div`
 align-items: center;
-margin-top: 75px;
 width: 100vw;
-height: calc(100vh - 75px);
+height: 100%;
 background-color: #EFEFEF;
 //styled component use
 `;

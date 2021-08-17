@@ -26,7 +26,7 @@ import Overlay from "../components/Overlay";
 import Footer from "../components/Footer";
 
 // ELEMENTS
-import { Grid, Button } from "../elements/index";
+import { Grid, Button, Image } from "../elements/index";
 
 // HOOKS
 import useOutsideClick from "../hooks/useOutsideClick";
@@ -428,7 +428,22 @@ const Main = (props) => {
     <Fragment>
       {sessionStorage.token && (
         <>
-          <Header />
+          <Grid
+        is_flex="center"
+        width="100%"
+        minWidth="280px"
+        height="75px"
+        bg="#16C59B"
+        style={{ position: "static", top: 0, zIndex: 4 }}
+      >
+        <div
+          onClick={() => {
+            window.location.href = "/";
+          }}
+        >
+          <Image src="/assets/logo_header.png" />
+        </div>
+      </Grid>
           <div className="container">
             {/* kakao 맵 생성 */}
             <div

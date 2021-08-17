@@ -51,11 +51,10 @@ const SearchPostList = (props) => {
 
   return (
     <Style>
-      <Grid height="">
+      <Grid>
         <Header>모임구하기</Header>
       </Grid>
-
-      <Grid width="360px" height="" margin="auto">
+      <Grid width="100%" height="" margin="75px 0 55px 0">
         <Grid height="" bg="white">
           <Grid is_flex padding="18px">
             <Grid
@@ -123,7 +122,7 @@ const SearchPostList = (props) => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid height="">
+      <Grid style={{ zIndex: 10 }}>
         <Footer>group</Footer>
       </Grid>
     </Style>
@@ -132,10 +131,9 @@ const SearchPostList = (props) => {
 
 const Style = styled.div`
   align-items: center;
-  margin-top: 75px;
   width: 100vw;
   height: 100%;
-  background-color: #efefef;
+  /* background-color: #efefef; */
 `;
 
 export default SearchPostList;

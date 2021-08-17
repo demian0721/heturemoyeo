@@ -130,7 +130,8 @@ const SignupInfo = (props) => {
           <Grid
             padding="5px 0px 8px"
             // width="10vw"
-            margin="auto"
+            // margin="auto"
+            margin="0px 0px 140px 0px"
           >
             <Grid
               bg="#EFEFEF"
@@ -184,7 +185,7 @@ const SignupInfo = (props) => {
               {nicknameConfirm}
             </Text>
           </Grid>
-          <Grid is_flex padding="0px 0px 8px" margin="130px 0px 0px 0px">
+          <Grid is_flex padding="0px 0px 8px">
             <Input
               placeholder="닉네임을 입력해주세요."
               changeEvent={(event) => {

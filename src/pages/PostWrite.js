@@ -184,12 +184,12 @@ const PostWrite = (props) => {
     <Style>
       <Permit width="" height="">
         <Grid width="" height="">
-          <Header style={{ position: "fixed" }}>게시글 작성</Header>
+          <Header>게시글 작성</Header>
         </Grid>
         <Grid
-          width="360px"
+          width="100%"
           height=""
-          margin="auto"
+          margin="75px 0 55px 0"
           tabletStyle={() => {
             return css`
               width: 95%;
@@ -635,13 +635,6 @@ const PostWrite = (props) => {
   );
 };
 
-const Td = styled.td`
-  padding-left: 5px;
-`;
-const Th = styled.th`
-  padding-right: 5px;
-`;
-
 const EnterButton = styled.button`
   width: 100%;
   background-color: #a7aaad;
@@ -715,8 +708,8 @@ const InputArea = styled.textarea`
 const Style = styled.div`
   align-items: center;
   width: 100vw;
-  height: calc(100vh - 75px);
-  background-color: #efefef;
+  height: 100%;
+  background-color: #EFEFEF;
   //styled component use
 `;
 

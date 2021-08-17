@@ -15,7 +15,6 @@ import ChatList from "./ChatList";
 import ChatRoom from "./ChatRoom";
 import Setting from "./Setting";
 import SearchPostList from "./SearchPostList";
-import SearchPostListMy from "./SearchPostListMy";
 
 export {
   Main,
@@ -34,6 +33,5 @@ export {
   ChatList,
   ChatRoom,
   Setting,
-  SearchPostList,
-  SearchPostListMy
+  SearchPostList
 };

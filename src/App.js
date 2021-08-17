@@ -36,8 +36,7 @@ import {
   MProfile,
   ChatRoom,
   Setting,
-  SearchPostList,
-  SearchPostListMy,
+  SearchPostList
 } from "./pages/index";
 
 function App() {
@@ -108,11 +107,6 @@ function App() {
             path="/postlist/search/:keyword"
             exact
             component={SearchPostList}
-          />
-          <Route
-            path="/postlist/search/my/:keyword"
-            exact
-            component={SearchPostListMy}
           />
         </ConnectedRouter>
       </RecoilRoot>

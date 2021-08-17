@@ -35,7 +35,7 @@ const PostListMy = (props) => {
   const search = () => {
     console.log(inputword.current.value);
     dispatch(searchActions.searchPostDB(inputword.current.value));
-    history.push(`/postlist/search/my/${inputword.current.value}`);
+    history.push(`/postlist/search/${inputword.current.value}`);
   };
   const onKeyPress = (event) => {
     if (event.key == "Enter") {
@@ -44,28 +44,10 @@ const PostListMy = (props) => {
   };
   return (
     <Style>
-      <Grid style={{position:"fixed", top:0, zIndex:4, height:"75px"}}>
+      <Grid>
         <Header>모임구하기</Header>
       </Grid>
-
-      <Grid
-        width="360px"
-        height=""
-        margin="auto"
-        // padding="55px 40px 100.2px"
-        // shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-        tabletStyle={() => {
-          return css`
-            width: 95%;
-          `;
-        }}
-        mobileStyle={() => {
-          return css`
-            padding: 15px 20px;
-            width: 100vw;
-          `;
-        }}
-      >
+      <Grid width="100%" height="" margin="75px 0 55px 0">
         <Grid height="" bg="white">
           <Grid is_flex padding="18px">
             <Grid
@@ -75,7 +57,7 @@ const PostListMy = (props) => {
               bg="#EFEFEF"
               style={{ margin: "auto" }}
             >
-              <SearchIcon style={{ color: "#767676" }} />
+              <SearchIcon style={{ color: "#7B7B7B" }} />
               <input
                 placeholder="제목, 내용, 태그 또는 날짜"
                 style={{
@@ -123,7 +105,7 @@ const PostListMy = (props) => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid height="">
+      <Grid style={{ zIndex: 10 }}>
         <Footer>group</Footer>
       </Grid>
     </Style>
@@ -132,9 +114,8 @@ const PostListMy = (props) => {
 
 const Style = styled.div`
   align-items: center;
-  margin-top: 75px;
   width: 100vw;
-  height: calc(100vh - 130px);
+  height: 100%;
   background-color: #efefef;
 `;
 

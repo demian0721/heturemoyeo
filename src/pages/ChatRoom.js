@@ -7,6 +7,10 @@ import ChatUICSS from "!!raw-loader!@chatui/core/dist/index.css";
 import { useSelector, useDispatch } from "react-redux";
 import { chatActions } from "../redux/modules/chat";
 
+// ELEMENTS
+import { Grid, Image } from "../elements/index";
+
+// COMPONENTS
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
@@ -167,7 +171,22 @@ const ChatRoom = (props) => {
   return (
     <Fragment>
       <div id="message-table" className="container mx-auto h-full w-full">
-        <Header />
+      <Grid
+        is_flex="center"
+        width="100%"
+        minWidth="280px"
+        height="75px"
+        bg="#16C59B"
+        style={{ position: "static", top: 0, zIndex: 4 }}
+      >
+        <div
+          onClick={() => {
+            window.location.href = "/";
+          }}
+        >
+            <Image src="/assets/logo_header.png" />
+        </div>
+      </Grid>
         {/* ChatUI, 채팅 UI를 생성해줍니다. */}
         <div id="message_chat-ui" style={{ height: '91vh' }}>
           <Chat

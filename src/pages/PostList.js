@@ -55,7 +55,7 @@ const PostList = (props) => {
       <Grid>
         <Header>모임구하기</Header>
       </Grid>
-      <Grid width="100%" height="" margin="auto">
+      <Grid width="100%" height="" margin="75px 0 55px 0">
         <Grid height="" bg="white">
           <Grid is_flex padding="18px">
             <Grid
@@ -112,7 +112,7 @@ const PostList = (props) => {
         </Grid>
       </Grid>
       <Grid style={{ zIndex: 10 }}>
-        <Footer />
+      <Footer>group</Footer>
       </Grid>
     </Style>
   );

@@ -123,7 +123,7 @@ const SignupInfo = (props) => {
           `;
         }}
       >
-        <Title fontSize="25px" textAlign="left" margin="50px 0px 50px 10px">
+        <Title fontSize="25px" textAlign="left" margin="50px 0px 30px 10px">
           <span style={{ cursor: "pointer" }}>회원정보 입력</span>
         </Title>
         <Grid>
@@ -137,10 +137,10 @@ const SignupInfo = (props) => {
               radius="50%"
               width="15vw"
               maxWidth="150px"
-              minWidth="100px"
-              height="15vw"
+              minWidth="118px"
+              height="15vh"
               maxHeight="150px"
-              minHeight="100px"
+              minHeight="118px"
               margin="auto"
               style={{
                 position: "absolute",
@@ -154,8 +154,8 @@ const SignupInfo = (props) => {
                     <img
                       src="/assets/profile_image_avatar_only.png"
                       style={{
-                        width: "100px",
-                        height: "100px",
+                        width: "120px",
+                        height: "120px",
                         display: "block",
                         margin: "auto",
                       }}
@@ -178,10 +178,10 @@ const SignupInfo = (props) => {
                   left: 0,
                   top: 0,
                   radius: "50%",
-                  minWidth: "100px",
+                  minWidth: "120px",
                   height: "15vw",
                   maxHeight: "150px",
-                  minHeight: "100px",
+                  minHeight: "120px",
                   margin: "auto",
                   width: "15vw",
                   maxWidth: "150px",

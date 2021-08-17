@@ -61,7 +61,7 @@ const SignupInfo = (props) => {
   };
 
   const signup = () => {
-    userActions.signupDB(id, name, nickname, pwd, pwd, fileInput.current.files[0], statusMessage, likeItem); 
+    dispatch(userActions.signupDB(id, name, nickname, pwd, pwd, fileInput.current.files[0], statusMessage, likeItem)); 
     dispatch(imgActions.setPreview(null));
 
     window.alert("회원가입이 완료되었습니다. 다시 로그인해 주세요.");

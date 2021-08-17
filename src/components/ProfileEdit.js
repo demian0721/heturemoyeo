@@ -100,7 +100,6 @@ const ProfileEdit = (props) => {
   };
 
   //기존 비밀번호 확인파트 (기존 비밀번호 가져와서 대조해야함)
-
   const checkPWD = (val) => {
     if (val === "") {
       setPwdWarColor("red");
@@ -135,7 +134,6 @@ const ProfileEdit = (props) => {
   };
 
     //새 비밀번호 재확인파트
-
   const checkNPWD2 = (val) => {
     if (val === "") {
       setNPwd2WarColor("red");

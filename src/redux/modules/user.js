@@ -189,28 +189,19 @@ const nickCheck = (nick) => {
   };
 };
 
-const signupDB = (
-  email,
-  name,
-  nickname,
-  password,
-  confirm,
-  profileImg,
-  statusMessage,
-  likeItem
-) => {
+const signupDB = (email,name,nickname,password,confirm,profileImg,statusMessage,likeItem) => {
   return function (dispatch, getState, { history }) {
     dispatch(
       imgActions.uploadImageDB(profileImg, () => {
         const imgUrl = getState().image.imageUrl;
         const profileInfoAll = {
-          email,
-          name,
-          nickname,
-          password,
-          confirm,
-          statusMessage,
-          likeItem,
+          "email": email,
+          "name": name,
+          "nickname":nickname,
+          "password":password,
+          "confirm":confirm,
+          "statusMessage": statusMessage,
+          "likeItem" :likeItem,
           profileImg: imgUrl,
         };
         instance

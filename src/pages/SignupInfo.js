@@ -24,7 +24,7 @@ const SignupInfo = (props) => {
 
   const fileInput = useRef();
   const image = useSelector((state) => state.image);
-  const preview = !image.preview && props ? props.postImg : image.preview;
+  const preview = !image.preview ? "/assets/profile_image_avatar_only.png" : image.preview;
   // const [height, setHeight] = useState(preview ? "auto" : "100px");
   // const userlist = useSelector(state => state.user)
 
@@ -137,10 +137,10 @@ const SignupInfo = (props) => {
               radius="50%"
               width="15vw"
               maxWidth="150px"
-              minWidth="118px"
-              height="15vh"
+              minWidth="120px"
+              height="15vw"
               maxHeight="150px"
-              minHeight="118px"
+              minHeight="120px"
               margin="auto"
               style={{
                 position: "absolute",
@@ -149,19 +149,19 @@ const SignupInfo = (props) => {
               }}
             >
               <LabelStyle htmlFor="input--file">
-                {!preview ? (
-                  <>
-                    <img
-                      src="/assets/profile_image_avatar_only.png"
+                <img
+                      src={preview}
                       style={{
-                        width: "120px",
-                        height: "120px",
+                        minWidth: "120px",
+                        height: "15vw",
+                        maxHeight: "150px",
+                        minHeight: "120px",
+                        width: "15vw",
+                        maxWidth: "150px",
                         display: "block",
                         margin: "auto",
                       }}
                     />
-                  </>
-                ) : null}
               </LabelStyle>
 
               <InputFile
@@ -170,23 +170,6 @@ const SignupInfo = (props) => {
                 ref={fileInput}
                 accept="image/png, image/jpeg"
                 onChange={selectFile}
-              />
-
-              <img
-                style={{
-                  position: "absolute",
-                  left: 0,
-                  top: 0,
-                  radius: "50%",
-                  minWidth: "120px",
-                  height: "15vw",
-                  maxHeight: "150px",
-                  minHeight: "120px",
-                  margin: "auto",
-                  width: "15vw",
-                  maxWidth: "150px",
-                }}
-                src={preview}
               />
             </Grid>
           </Grid>

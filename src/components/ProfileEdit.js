@@ -66,7 +66,6 @@ const ProfileEdit = (props) => {
 
   const image = useSelector((state) => state.image);
   const preview = !image.preview && props ? userlist.profileImg : image.preview;
-  const [height, setHeight] = useState(preview ? "auto" : "380px");
 
   const editInfos = () => {
     dispatch(userActions.editInfos(fileInput.current.files[0],editInfo));
@@ -169,7 +168,6 @@ const ProfileEdit = (props) => {
 
       reader.onload = () => {
         dispatch(imgActions.setPreview(reader.result));
-        setHeight("auto");
       };
     }
   };

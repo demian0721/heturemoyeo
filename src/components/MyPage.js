@@ -63,7 +63,7 @@ const MyPage = () => {
             <Title fontSize="small" margin="10px 0px 0px 0px" style={{color:"#16C59B"}}>상태메세지</Title>
             <CreateIcon  style={{color:"#767676", fontSize:"12px", marginTop:'7px'}} onClick={editStatusMsg} />
             </Grid>
-            <textarea rows='2' id="status" label="status" value={statusMessage} onChange={changeStatus} style={{outlineStyle:"none", color:'#767676',  width:"100%", padding:'15px', fontSize:"14px", backgroundColor:"rgba(22, 197, 155,0.08)"}}></textarea>
+            <textarea rows='2' id="status" label="status" value={statusMessage} onChange={changeStatus} style={{outlineStyle:"none", color:'#767676',  width:"100%", padding:'15px', fontSize:"14px", backgroundColor:"white",border:"1px solid #BEBEBE",resize:"none"}}></textarea>
             {/* <SimpleModal status={userlist.statusMessage} /> */}
           </Grid>
       </Grid>

@@ -1,10 +1,14 @@
 // LIBRARY
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { css } from "styled-components";
 import "../Signup.scss";
 
 // Elements
 import { Grid, Button, Toggle, Vehicles } from "../elements";
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 
 // HISTORY
 import { history } from "../redux/configStore";
@@ -20,35 +24,36 @@ export class Terms extends Component {
       secondCheck: false,
       thirdCheck: false,
     };
-  }
-
-  selectAll = async (e) => {
-    let targets = document.querySelectorAll(".checkedBox");
-    console.log(targets);
-    await this.setState({ allCheck: !this.state.allCheck });
-    const { allCheck } = this.state;
-    for (let i = 0; i < targets.length; i++) {
-      targets[i].checked = allCheck;
-    }
   };
 
-  checkValidationOfSelectAll = () => {
-    let targets = document.querySelectorAll(".checkedBox");
-    for (let i = 0; i < targets.length; i++) {
-      if (!targets[i].checked) {
-        this.setState({ allCheck: false });
-        return;
-      }
-      this.setState({ allCheck: true });
-    }
-  };
+  // selectAll = async (e) => {
+  //   let targets = document.querySelectorAll(".checkedBox");
+  //   console.log(targets);
+  //   await this.setState({ allCheck: !this.state.allCheck });
+  //   const { allCheck } = this.state;
+  //   for (let i = 0; i < targets.length; i++) {
+  //     targets[i].checked = allCheck;
+  //   }
+  // };
+
+  // checkValidationOfSelectAll = () => {
+  //   let targets = document.querySelectorAll(".checkedBox");
+  //   for (let i = 0; i < targets.length; i++) {
+  //     if (!targets[i].checked) {
+  //       this.setState({ allCheck: false });
+  //       return;
+  //     }
+  //     this.setState({ allCheck: true });
+  //   }
+  // };
 
   componentDidUpdate() {
-    let target = document.querySelector(".checkBox");
-    target.checked = this.state.allCheck ? true : false;
-  }
-
-
+    console.log(this.state)
+    console.log(this.state.inputSign)
+    // let target = document.querySelector(".checkBox");
+    // target.checked = this.state.allCheck ? true : false;
+  };
+  
   render() {
     return (
       <div>
@@ -81,15 +86,16 @@ export class Terms extends Component {
                     <div className="joinInfoWrap">
                       <div className="joinInfoTitle">
                         <div className="infoTitle">
-                          <span>사용자 약관 전체 동의</span>
-                          <input
+                          <span style={{textAlign:"center"}}>사용자 약관 전체 동의</span>
+                          {this.state.inputSign==true ? <CheckCircleIcon style={{color:"#16C59B", width:"30px",height:"30px",textAlign:"center"}} onClick={() => this.setState({ inputSign: false,firstCheck: false,secondCheck: false,thirdCheck: false }) } />:<RadioButtonUncheckedIcon style={{color:"#16C59B", width:"30px",height:"30px",textAlign:"center"}} onClick={() => this.setState({ inputSign: true,firstCheck: true,secondCheck: true,thirdCheck: true })}/>}
+                          {/* <input
                             type="checkbox"
                             name="allCheck"
                             onClick={this.handleCheckBox}
                             className="checkBox"
                             style={{cursor:"pointer"}}
                             onChange={this.selectAll}
-                          />{" "}
+                          />{" "} */}
                         </div>
                       </div>
                       
@@ -99,12 +105,13 @@ export class Terms extends Component {
                         </div>
                         <div className="valueAgreement">
                           <span>
-                            <input
+                          {this.state.firstCheck==true ? <CheckBoxIcon style={{color:"#16C59B"}} onClick={() => this.setState({ firstCheck: false }) } />:<CheckBoxOutlineBlankIcon style={{color:"#16C59B"}} onClick={() => this.setState({ firstCheck: true })}/>}
+                            {/* <input
                               name="firstCheck"
                               type="checkbox"
                               className="checkedBox"
                               onChange={this.checkValidationOfSelectAll}
-                            />
+                            /> */}
                           </span>
                         </div>
                       </div>
@@ -124,12 +131,13 @@ export class Terms extends Component {
                           </div>
                           <div className="valueAgreement">
                             <span>
-                              <input
+                            {this.state.secondCheck==true ? <CheckBoxIcon style={{color:"#16C59B"}} onClick={() => this.setState({ secondCheck: false }) } />:<CheckBoxOutlineBlankIcon style={{color:"#16C59B"}} onClick={() => this.setState({ secondCheck: true })}/>}
+                              {/* <input
                                 name="secondCheck"
                                 type="checkbox"
                                 className="checkedBox"
                                 onChange={this.checkValidationOfSelectAll}
-                              />
+                              /> */}
                             </span>
                           </div>
                         </div>
@@ -151,12 +159,13 @@ export class Terms extends Component {
                           <div className="valueAgreement"
                           style={{fontWeight:""}}>
                             <span>
-                              <input
+                            {this.state.thirdCheck==true ? <CheckBoxIcon style={{color:"#16C59B"}} onClick={() => this.setState({ thirdCheck: false }) } />:<CheckBoxOutlineBlankIcon style={{color:"#16C59B"}} onClick={() => this.setState({ thirdCheck: true })}/>}
+                              {/* <input
                                 name="thirdCheck"
                                 type="checkbox"
                                 className="checkedBox"
                                 onChange={this.checkValidationOfSelectAll}
-                              />
+                              /> */}
                             </span>
                           </div>
                         </div>

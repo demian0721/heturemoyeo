@@ -5,6 +5,7 @@ import _ from "lodash";
 
 // Elements
 import { Text, Title, Input, Grid, Button, Image } from "../elements";
+import CameraAltIcon from '@material-ui/icons/CameraAlt';
 
 // HISTORY
 import { history } from "../redux/configStore";
@@ -24,8 +25,8 @@ const SignupInfo = (props) => {
   const fileInput = useRef();
   const image = useSelector((state) => state.image);
   const preview = !image.preview && props ? props.postImg : image.preview;
-  const [height, setHeight] = useState(preview ? "auto" : "380px");
-  const userlist = useSelector(state => state.user)
+  const [height, setHeight] = useState(preview ? "auto" : "100px");
+  // const userlist = useSelector(state => state.user)
 
   const [nickname, setNickname] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
@@ -37,7 +38,7 @@ const SignupInfo = (props) => {
   const id = tempInfo?.id;
   const pwd = tempInfo?.pwd;
   const name = tempInfo?.name;
-  const profileImg = userlist.profileImg;
+  // const profileImg = userlist.profileImg;
 
   useEffect(() => {
     if (!tempInfo){
@@ -117,17 +118,19 @@ const SignupInfo = (props) => {
         <Grid>
           <Grid padding="5px 0px 8px"
                 // width="10vw"
-                margin="auto">
+                margin="auto"
+                >
           <Grid
               bg="#EFEFEF"
-              radius="10px"
-              style={{ height: `${height}`, position: "relative" }}
+              radius="50px"
+              width="100px"
+              style={{ height: `${height}`, position: "relative", left: "50%", transform: "translateX(-50%)"}}
             >        
           <LabelStyle htmlFor="input--file">
                 {!preview ? (
                   <>
                     <img
-            src="/assets/profile_image.png"
+            src="/assets/profile_image_avatar_only.png"
             style={{
               width: "100px",
               height: "100px",

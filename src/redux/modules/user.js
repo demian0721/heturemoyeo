@@ -23,15 +23,21 @@ const REQUEST_FRIEND = "REQUEST_FRIEND";
 
 // ACTION CREATORS
 const myInfo = createAction(MY_INFO, (userInfo) => ({ userInfo }));
-const relation = createAction(RELATION, (userInfo) => ({ userInfo }))
+const relation = createAction(RELATION, (userInfo) => ({ userInfo }));
 const logIn = createAction(LOG_IN, (token) => ({ token }));
 const logOut = createAction(LOG_OUT);
-const checkDupEmail = createAction(CHECK_DUP_EMAIL, (is_check_email) => ({ is_check_email }));
-const checkDupNick = createAction(CHECK_DUP_NICKNAME, (is_check_nickname) => ({ is_check_nickname }));
+const checkDupEmail = createAction(CHECK_DUP_EMAIL, (is_check_email) => ({
+  is_check_email,
+}));
+const checkDupNick = createAction(CHECK_DUP_NICKNAME, (is_check_nickname) => ({
+  is_check_nickname,
+}));
 const tempSave = createAction(TEMP_SAVE, (tempInfo) => ({ tempInfo }));
 const editInfo = createAction(EDIT_INFO, (editInfo) => ({ editInfo }));
 const editStatus = createAction(EDIT_STATUS, (editStatus) => ({ editStatus }));
-const requestFriend = createAction(REQUEST_FRIEND, (requestFriend) => ({ requestFriend }));
+const requestFriend = createAction(REQUEST_FRIEND, (requestFriend) => ({
+  requestFriend,
+}));
 
 // INITIAL STATE
 const initialState = {
@@ -44,7 +50,7 @@ const initialState = {
   tempInfo: null,
   friendUsers: null,
   scheduleUsers: null,
-  relation: null
+  relation: null,
 };
 
 // MIDDLEWARE
@@ -61,7 +67,7 @@ const myInfoDB = () => {
   };
 };
 
-const editInfos = (image,doc) => {
+const editInfos = (image, doc) => {
   return function (dispatch, getState, { history }) {
     dispatch(
       imgActions.uploadImageDB(image, () => {
@@ -72,23 +78,23 @@ const editInfos = (image,doc) => {
         };
 
         instance
-          .put("/api/user", {...profileInfo})
+          .put("/api/user", { ...profileInfo })
           .then((res) => {
-            window.alert('프로필 수정이 완료되었습니다')
+            window.alert("프로필 수정이 완료되었습니다");
             dispatch(editInfo({ profileImg: imgUrl }));
             history.replace("/mypage");
           })
           .catch((error) => {
             window.alert("입력된 비밀번호가 올바르지 않습니다.");
           });
-        })
+      })
     );
   };
 };
 
 const editStatusMsg = (doc) => {
   return function (dispatch) {
-    console.log(doc)
+    console.log(doc);
     instance
       .put("/api/user/status", doc)
       .then((res) => {
@@ -105,7 +111,7 @@ const requestFriends = (doc) => {
     instance
       .post("/api/friend/", doc)
       .then((res) => {
-        window.alert('친구 신청이 완료되었습니다');
+        window.alert("친구 신청이 완료되었습니다");
       })
       .catch((error) => {
         console.error(error);
@@ -136,7 +142,7 @@ const loginAction = (user) => {
         dispatch(logIn(res.data.token));
         dispatch(myInfoDB());
         dispatch(relationDB());
-        window.location.href = "/"
+        window.location.href = "/";
       })
       .catch((error) => {
         console.error(error);
@@ -183,16 +189,42 @@ const nickCheck = (nick) => {
   };
 };
 
-const signupDB = (email, name, nickname, password, confirm, profileImg, statusMessage, likeItem) => {
-  instance
-    .post("/api/sign/", { email, name, nickname, password, confirm, profileImg, statusMessage, likeItem })
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+const signupDB = (
+  email,
+  name,
+  nickname,
+  password,
+  confirm,
+  profileImg,
+  statusMessage,
+  likeItem
+) => {
+  return function (dispatch, getState, { history }) {
+    dispatch(
+      imgActions.uploadImageDB(profileImg, () => {
+        const imgUrl = getState().image.imageUrl;
+        const profileInfoAll = {
+          email,
+          name,
+          nickname,
+          password,
+          confirm,
+          statusMessage,
+          likeItem,
+          profileImg: imgUrl,
+        };
+        instance
+          .post("/api/sign/", { ...profileInfoAll })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      })
+    );
   };
+};
 
 // REDUCER
 export default handleActions(
@@ -206,7 +238,7 @@ export default handleActions(
         draft.profileImg = action.payload.userInfo.profileImg;
         draft.statusMessage = action.payload.userInfo.statusMessage;
         draft.likeItem = action.payload.userInfo.likeItem;
-        draft.rating = action.payload.userInfo.rating
+        draft.rating = action.payload.userInfo.rating;
       }),
 
     [RELATION]: (state, action) =>
@@ -259,9 +291,9 @@ export default handleActions(
       }),
 
     [REQUEST_FRIEND]: (state, action) =>
-    produce(state, (draft) => {
-      draft.userId = action.payload.userId;
-    }),
+      produce(state, (draft) => {
+        draft.userId = action.payload.userId;
+      }),
   },
   initialState
 );

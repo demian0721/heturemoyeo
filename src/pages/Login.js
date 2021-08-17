@@ -32,10 +32,10 @@ const LogIn = (props) => {
 
   return (
     <React.Fragment>
-      <div style={{ paddingTop: "110px" }} />
+      {/* <div style={{ paddingTop: "110px" }} /> */}
       <Grid
         width="360px"
-        margin="50px auto"
+        margin="0px auto"
         padding="55px 40px 100.2px"
         shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
         tabletStyle={() => {

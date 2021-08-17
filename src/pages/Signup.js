@@ -65,7 +65,7 @@ const SignUp = (props) => {
     }
     if (!pwdVal(val)) {
       setPwdWarColor("red");
-      setPwdConfirm("비밀번호는 영문과 숫자, 특수문자를 각 1자 이상 포함해주세요.(8~20자) ");
+      setPwdConfirm("영문과 숫자, 특수문자 각 1자 이상 포함해주세요.(8~20자) ");
       return;
     }
     setPwdWarColor("green");
@@ -118,10 +118,10 @@ const SignUp = (props) => {
 
   return (
     <React.Fragment>
-      <div style={{ paddingTop: "110px" }} />
+      {/* <div style={{ paddingTop: "110px" }} /> */}
       <Grid
         width="360px"
-        margin="50px auto"
+        margin="0px auto"
         padding="5px 40px 41.2px"
         shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
         tabletStyle={() => {
@@ -140,16 +140,13 @@ const SignUp = (props) => {
           <span style={{ cursor: "pointer" }}>회원가입</span>
         </Title>
         <Grid>
-          {/* <Title fontSize="18px" margin="5px">
-            회원가입
-          </Title> */}
           <Grid padding="5px 0px 0px">
             <Text
               fontSize="12px"
               margin="0px"
               color={nameWarning}
               lineHeight="2"
-              textIndent="15px"
+              textIndent="3px"
             >
               {nameConfirm}
             </Text>
@@ -170,7 +167,7 @@ const SignUp = (props) => {
               margin="0px"
               color={idWarning}
               lineHeight="2"
-              textIndent="15px"
+              textIndent="3px"
               >
               {idConfirm}
             </Text>
@@ -210,7 +207,7 @@ const SignUp = (props) => {
               margin="0px"
               color={pwdWarning}
               lineHeight="2"
-              textIndent="15px"
+              textIndent="3px"
 
             >
               {pwdConfirm}
@@ -234,7 +231,7 @@ const SignUp = (props) => {
               margin="0px"
               color={pwdCheckWarning}
               lineHeight="2"
-              textIndent="15px"
+              textIndent="3px"
             >
               {pwdCheckConfirm}
             </Text>

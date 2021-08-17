@@ -55,7 +55,7 @@ const PostList = (props) => {
       <Grid>
         <Header>모임구하기</Header>
       </Grid>
-      <Grid width="360px" height="" margin="auto">
+      <Grid width="100%" height="" margin="auto">
         <Grid height="" bg="white">
           <Grid is_flex padding="18px">
             <Grid

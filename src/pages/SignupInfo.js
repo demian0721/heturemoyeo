@@ -21,10 +21,11 @@ const SignupInfo = (props) => {
   const dispatch = useDispatch();
   const debounce = _.debounce((value, setValue) => setValue(value), 300);
 
-  // const fileInput = useRef();
-  // const image = useSelector((state) => state.image);
-  // const preview = !image.preview && props ? props.postImg : image.preview;
-  // const [height, setHeight] = useState(preview ? "auto" : "380px");
+  const fileInput = useRef();
+  const image = useSelector((state) => state.image);
+  const preview = !image.preview && props ? props.postImg : image.preview;
+  const [height, setHeight] = useState(preview ? "auto" : "380px");
+  const userlist = useSelector(state => state.user)
 
   const [nickname, setNickname] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
@@ -36,7 +37,7 @@ const SignupInfo = (props) => {
   const id = tempInfo?.id;
   const pwd = tempInfo?.pwd;
   const name = tempInfo?.name;
-  const profileImg = "";
+  const profileImg = userlist.profileImg;
 
   useEffect(() => {
     if (!tempInfo){
@@ -60,26 +61,26 @@ const SignupInfo = (props) => {
   };
 
   const signup = () => {
-    userActions.signupDB(id, name, nickname, pwd, pwd, profileImg, statusMessage, likeItem); 
-    // dispatch(imgActions.setPreview(null));
+    userActions.signupDB(id, name, nickname, pwd, pwd, fileInput.current.files[0], statusMessage, likeItem); 
+    dispatch(imgActions.setPreview(null));
 
     window.alert("회원가입이 완료되었습니다. 다시 로그인해 주세요.");
     history.push("/login");
   };
 
-  // const selectFile = (event) => {
-  //   const reader = new FileReader();
-  //   const file = event.target.files[0];
+  const selectFile = (event) => {
+    const reader = new FileReader();
+    const file = event.target.files[0];
 
-  //   if (file) {
-  //     reader.readAsDataURL(file);
+    if (file) {
+      reader.readAsDataURL(file);
 
-  //     reader.onload = () => {
-  //       dispatch(imgActions.setPreview(reader.result));
-  //       setHeight("auto");
-  //     };
-  //   }
-  // };
+      reader.onload = () => {
+        dispatch(imgActions.setPreview(reader.result));
+        setHeight("auto");
+      };
+    }
+  };
 
   const nicknamedup = () => {
     if (nickname === "") {
@@ -92,10 +93,10 @@ const SignupInfo = (props) => {
 
   return (
     <React.Fragment>
-      <div style={{ paddingTop: "110px" }} />
+      {/* <div style={{ paddingTop: "110px" }} /> */}
       <Grid
         width="360px"
-        margin="50px auto"
+        margin="0px auto"
         padding="5px 40px 41.2px"
         shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
         tabletStyle={() => {
@@ -117,7 +118,7 @@ const SignupInfo = (props) => {
           <Grid padding="5px 0px 8px"
                 // width="10vw"
                 margin="auto">
-          {/* <Grid
+          <Grid
               bg="#EFEFEF"
               radius="10px"
               style={{ height: `${height}`, position: "relative" }}
@@ -150,7 +151,7 @@ const SignupInfo = (props) => {
                 style={{ position: "absolute", left: 0, top: 0 }}
                 src={preview}
               />        
-              </Grid> */}
+              </Grid>
           
           </Grid>
           <Grid padding="16px 0px 0px">
@@ -159,7 +160,7 @@ const SignupInfo = (props) => {
               margin="0px"
               color={nicknameWarning}
               lineHeight="2"
-              textIndent="15px"
+              textIndent="3px"
             >
               {nicknameConfirm}
             </Text>
@@ -246,25 +247,25 @@ const PosAbs = () => {
   `;
 };
 
-// const LabelStyle = styled.label`
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   width: 100%;
-//   height: 100%;
-//   cursor: pointer;
-//   font-size: 20px;
-//   box-sizing: border-box;
-//   ${PosAbs()};
-//   z-index: 3;
-// `;
+const LabelStyle = styled.label`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  font-size: 20px;
+  box-sizing: border-box;
+  ${PosAbs()};
+  z-index: 3;
+`;
 
-// const InputFile = styled.input`
-//   width: 1px;
-//   height: 1px;
-//   overflow: hidden;
-//   ${PosAbs()};
-// `;
+const InputFile = styled.input`
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  ${PosAbs()};
+`;
 
 SignupInfo.defaultProps = {};
 

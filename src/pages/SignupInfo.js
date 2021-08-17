@@ -5,7 +5,7 @@ import _ from "lodash";
 
 // Elements
 import { Text, Title, Input, Grid, Button, Image } from "../elements";
-import CameraAltIcon from '@material-ui/icons/CameraAlt';
+import CameraAltIcon from "@material-ui/icons/CameraAlt";
 
 // HISTORY
 import { history } from "../redux/configStore";
@@ -25,7 +25,7 @@ const SignupInfo = (props) => {
   const fileInput = useRef();
   const image = useSelector((state) => state.image);
   const preview = !image.preview && props ? props.postImg : image.preview;
-  const [height, setHeight] = useState(preview ? "auto" : "100px");
+  // const [height, setHeight] = useState(preview ? "auto" : "100px");
   // const userlist = useSelector(state => state.user)
 
   const [nickname, setNickname] = useState("");
@@ -33,7 +33,7 @@ const SignupInfo = (props) => {
   const [nicknameConfirm, setNicknameConfirm] = useState("");
   const [nicknameWarning, setNicknameWarColor] = useState("red");
 
-  const [likeItem, setLikeItem] = useState(["",""]);
+  const [likeItem, setLikeItem] = useState(["", ""]);
   const tempInfo = useSelector((state) => state.user.tempInfo);
   const id = tempInfo?.id;
   const pwd = tempInfo?.pwd;
@@ -41,10 +41,10 @@ const SignupInfo = (props) => {
   // const profileImg = userlist.profileImg;
 
   useEffect(() => {
-    if (!tempInfo){
+    if (!tempInfo) {
       history.push("/signup");
     }
-  }, [])
+  }, []);
   const checkNickname = (val) => {
     if (val === "") {
       setNicknameWarColor("red");
@@ -62,7 +62,18 @@ const SignupInfo = (props) => {
   };
 
   const signup = () => {
-    dispatch(userActions.signupDB(id, name, nickname, pwd, pwd, fileInput.current.files[0], statusMessage, likeItem)); 
+    dispatch(
+      userActions.signupDB(
+        id,
+        name,
+        nickname,
+        pwd,
+        pwd,
+        fileInput.current.files[0],
+        statusMessage,
+        likeItem
+      )
+    );
     dispatch(imgActions.setPreview(null));
 
     window.alert("회원가입이 완료되었습니다. 다시 로그인해 주세요.");
@@ -78,7 +89,7 @@ const SignupInfo = (props) => {
 
       reader.onload = () => {
         dispatch(imgActions.setPreview(reader.result));
-        setHeight("auto");
+        // setHeight("auto");
       };
     }
   };
@@ -113,31 +124,42 @@ const SignupInfo = (props) => {
         }}
       >
         <Title fontSize="25px" textAlign="left" margin="50px 0px 50px 10px">
-        <span style={{ cursor: "pointer" }}>회원정보 입력</span>
+          <span style={{ cursor: "pointer" }}>회원정보 입력</span>
         </Title>
         <Grid>
-          <Grid padding="5px 0px 8px"
-                // width="10vw"
-                margin="auto"
-                >
           <Grid
+            padding="5px 0px 8px"
+            // width="10vw"
+            margin="auto"
+          >
+            <Grid
               bg="#EFEFEF"
-              radius="50px"
-              width="100px"
-              style={{ height: `${height}`, position: "relative", left: "50%", transform: "translateX(-50%)"}}
-            >        
-          <LabelStyle htmlFor="input--file">
+              radius="50%"
+              width="15vw"
+              maxWidth="150px"
+              minWidth="100px"
+              height="15vw"
+              maxHeight="150px"
+              minHeight="100px"
+              margin="auto"
+              style={{
+                position: "absolute",
+                left: "50%",
+                transform: "translateX(-50%)",
+              }}
+            >
+              <LabelStyle htmlFor="input--file">
                 {!preview ? (
                   <>
                     <img
-            src="/assets/profile_image_avatar_only.png"
-            style={{
-              width: "100px",
-              height: "100px",
-              display: "block",
-              margin: "auto",
-            }}
-          />
+                      src="/assets/profile_image_avatar_only.png"
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        display: "block",
+                        margin: "auto",
+                      }}
+                    />
                   </>
                 ) : null}
               </LabelStyle>
@@ -150,12 +172,23 @@ const SignupInfo = (props) => {
                 onChange={selectFile}
               />
 
-              <Image
-                style={{ position: "absolute", left: 0, top: 0 }}
+              <img
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  top: 0,
+                  radius: "50%",
+                  minWidth: "100px",
+                  height: "15vw",
+                  maxHeight: "150px",
+                  minHeight: "100px",
+                  margin: "auto",
+                  width: "15vw",
+                  maxWidth: "150px",
+                }}
                 src={preview}
-              />        
-              </Grid>
-          
+              />
+            </Grid>
           </Grid>
           <Grid padding="16px 0px 0px">
             <Text
@@ -168,7 +201,7 @@ const SignupInfo = (props) => {
               {nicknameConfirm}
             </Text>
           </Grid>
-          <Grid is_flex padding="0px 0px 8px">
+          <Grid is_flex padding="0px 0px 8px" margin="130px 0px 0px 0px">
             <Input
               placeholder="닉네임을 입력해주세요."
               changeEvent={(event) => {
@@ -188,9 +221,7 @@ const SignupInfo = (props) => {
               bg="#A7AAAD"
               color="#FFFFFF"
               className="custom_transition"
-              style={{ cursor: "pointer",
-                      border: "none",
-                      fontWeight: "bold" }}
+              style={{ cursor: "pointer", border: "none", fontWeight: "bold" }}
               clickEvent={nicknamedup}
             >
               중복 확인
@@ -211,12 +242,11 @@ const SignupInfo = (props) => {
               padding="14px 7px"
               margin="0px 0px 30px 0px"
               changeEvent={(e) => {
-                setLikeItem(e.target.value.split(','));
+                setLikeItem(e.target.value.split(","));
               }}
             />
           </Grid>
-          <Grid padding="5px 0px"
-                margin="0px 0px 50px 0px">
+          <Grid padding="5px 0px" margin="0px 0px 50px 0px">
             <Button
               width="100%"
               height="auto"
@@ -226,16 +256,14 @@ const SignupInfo = (props) => {
               radius="5px"
               color="#FFFFFF"
               className="custom_transition"
-              style={{ fontWeight: "bold",
-                       border: "none" }}
-              hoverColor="#16C59B" 
+              style={{ fontWeight: "bold", border: "none" }}
+              hoverColor="#16C59B"
               clickEvent={signup}
               disabled={!nickname || !statusMessage}
             >
               완료
             </Button>
           </Grid>
-
         </Grid>
       </Grid>
     </React.Fragment>

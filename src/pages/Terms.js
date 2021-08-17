@@ -33,11 +33,19 @@ export class Terms extends Component {
 
   componentDidUpdate() {
     console.log(this.state.inputSign)
-    if(this.state.firstCheck==true && this.state.secondCheck==true && this.state.thirdCheck==true && (this.state.inputSign==false || this.state.allCheck==false)){
-      this.setState({ inputSign: true,allCheck: true, color:"white",bg:"#16C59B",hoverColor:"#16C59B",hoverBg:"white"})
+    if(this.state.firstCheck==true && this.state.secondCheck==true && this.state.thirdCheck==true && (this.state.inputSign==false)){
+      this.setState({ inputSign: true})
     };
 
-    if(this.state.allCheck==true && this.state.inputSign==true &&(this.state.firstCheck==false||this.state.secondCheck==false||this.state.thirdCheck==false)){
+    if(this.state.firstCheck==true && this.state.secondCheck==true && this.state.allCheck==false){
+      this.setState({allCheck: true, color:"white",bg:"#16C59B",hoverColor:"#16C59B",hoverBg:"white"})
+    };
+
+    if(this.state.inputSign==true &&(this.state.firstCheck==false||this.state.secondCheck==false||this.state.thirdCheck==false)){
+      this.setState({ inputSign: false})
+    };
+
+    if(this.state.allCheck==true &&(this.state.firstCheck==false||this.state.secondCheck==false)){
       this.setState({ inputSign: false,allCheck: false, color:"white",bg:"#B9B9B9",hoverColor:"white",hoverBg:"#B9B9B9" })
     };
   };
@@ -121,7 +129,7 @@ export class Terms extends Component {
                         </Toggle>
                         <div className="thirdAgreement">
                           <div className="keyAgreement">
-                            마케팅 정보 수신 동의 (필수)
+                            마케팅 정보 수신 동의 (선택)
                           </div>
                           <div className="valueAgreement"
                           style={{fontWeight:""}}>

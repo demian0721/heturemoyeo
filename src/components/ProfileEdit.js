@@ -65,7 +65,7 @@ const ProfileEdit = (props) => {
   const changeLikeItem = (e) => {setInfos({ ...editInfo, likeItem: e.target.value.split(',')}); console.log(e.target.value)}
 
   const image = useSelector((state) => state.image);
-  const preview = !image.preview && props ? props.postImg : image.preview;
+  const preview = !image.preview && props ? userlist.profileImg : image.preview;
   const [height, setHeight] = useState(preview ? "auto" : "380px");
 
   const editInfos = () => {
@@ -188,8 +188,7 @@ const ProfileEdit = (props) => {
                   margin="auto auto 30px" 
                   style={{ position: "block" }}
                 >
-                  <img src={!preview ? userlist.profileImg : preview} style={{position:'absolute',zIndex:2,borderRadius:"50%",width:"15vw", maxWidth:"150px", minWidth:"100px" , margin:"auto"}}/>
-                  <img src={userlist.profileImg? userlist.profileImg : "/assets/profile.png"} style={{position:'absolute',zIndex:1,borderRadius:"50%",width:"15vw", maxWidth:"150px", minWidth:"100px" , margin:"auto"}}/>
+                  <img src={!preview ? "/assets/profile.png" : preview} style={{position:'absolute',zIndex:2,borderRadius:"50%",width:"15vw", maxWidth:"150px", minWidth:"100px" ,height: "15vw",maxHeight:"150px", minHeight:"100px", margin:"auto"}}/>
                   <LabelStyle htmlFor="input--file">
                     {!preview ? null : null}
                   </LabelStyle>
@@ -199,10 +198,6 @@ const ProfileEdit = (props) => {
                     ref={fileInput}
                     accept="image/png, image/jpeg"
                     onChange={selectFile}
-                  />
-                  <Image
-                    style={{ position: "absolute", left: 0, top: 0 }}
-                    src={preview}
                   />
                 </Grid>
                 <img src="/assets/profile_image_camera_only.png" style={{position:"relative", zIndex:5, top:"75%", left:"75%"}}/>

@@ -13,6 +13,7 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 // HISTORY
 import { history } from "../redux/configStore";
 import search from "../redux/modules/search";
+import { Android } from "@material-ui/icons";
 
 export class Terms extends Component {
   constructor() {
@@ -23,41 +24,27 @@ export class Terms extends Component {
       firstCheck: false,
       secondCheck: false,
       thirdCheck: false,
+      color:"white",
+      bg:"#B9B9B9",
+      hoverColor:"white",
+      hoverBg:"#B9B9B9",
     };
   };
 
-  // selectAll = async (e) => {
-  //   let targets = document.querySelectorAll(".checkedBox");
-  //   console.log(targets);
-  //   await this.setState({ allCheck: !this.state.allCheck });
-  //   const { allCheck } = this.state;
-  //   for (let i = 0; i < targets.length; i++) {
-  //     targets[i].checked = allCheck;
-  //   }
-  // };
-
-  // checkValidationOfSelectAll = () => {
-  //   let targets = document.querySelectorAll(".checkedBox");
-  //   for (let i = 0; i < targets.length; i++) {
-  //     if (!targets[i].checked) {
-  //       this.setState({ allCheck: false });
-  //       return;
-  //     }
-  //     this.setState({ allCheck: true });
-  //   }
-  // };
-
   componentDidUpdate() {
-    console.log(this.state)
     console.log(this.state.inputSign)
-    // let target = document.querySelector(".checkBox");
-    // target.checked = this.state.allCheck ? true : false;
+    if(this.state.firstCheck==true && this.state.secondCheck==true && this.state.thirdCheck==true && (this.state.inputSign==false || this.state.allCheck==false)){
+      this.setState({ inputSign: true,allCheck: true, color:"white",bg:"#16C59B",hoverColor:"#16C59B",hoverBg:"white"})
+    };
+
+    if(this.state.allCheck==true && this.state.inputSign==true &&(this.state.firstCheck==false||this.state.secondCheck==false||this.state.thirdCheck==false)){
+      this.setState({ inputSign: false,allCheck: false, color:"white",bg:"#B9B9B9",hoverColor:"white",hoverBg:"#B9B9B9" })
+    };
   };
   
   render() {
     return (
       <div>
-        {/* <div style={{ paddingTop: "110px" }} /> */}
       <Grid
         width="360px"
         margin="0px auto"
@@ -86,16 +73,8 @@ export class Terms extends Component {
                     <div className="joinInfoWrap">
                       <div className="joinInfoTitle">
                         <div className="infoTitle">
-                          <span style={{textAlign:"center"}}>사용자 약관 전체 동의</span>
-                          {this.state.inputSign==true ? <CheckCircleIcon style={{color:"#16C59B", width:"30px",height:"30px",textAlign:"center"}} onClick={() => this.setState({ inputSign: false,firstCheck: false,secondCheck: false,thirdCheck: false }) } />:<RadioButtonUncheckedIcon style={{color:"#16C59B", width:"30px",height:"30px",textAlign:"center"}} onClick={() => this.setState({ inputSign: true,firstCheck: true,secondCheck: true,thirdCheck: true })}/>}
-                          {/* <input
-                            type="checkbox"
-                            name="allCheck"
-                            onClick={this.handleCheckBox}
-                            className="checkBox"
-                            style={{cursor:"pointer"}}
-                            onChange={this.selectAll}
-                          />{" "} */}
+                          <span style={{marginTop:"5px"}}>사용자 약관 전체 동의</span>
+                          {this.state.inputSign==true ? <CheckCircleIcon style={{color:"#16C59B", width:"30px",height:"30px",textAlign:"center"}} onClick={() => this.setState({ inputSign: false,firstCheck: false,secondCheck: false,thirdCheck: false,allCheck: false,color:"white",bg:"#B9B9B9",hoverColor:"white",hoverBg:"#B9B9B9" }) } />:<RadioButtonUncheckedIcon style={{color:"#16C59B", width:"30px",height:"30px",textAlign:"center"}} onClick={() => this.setState({ inputSign: true,firstCheck: true,secondCheck: true,thirdCheck: true ,allCheck: true,color:"white",bg:"#16C59B",hoverColor:"#16C59B",hoverBg:"white"})}/>}
                         </div>
                       </div>
                       
@@ -106,12 +85,6 @@ export class Terms extends Component {
                         <div className="valueAgreement">
                           <span>
                           {this.state.firstCheck==true ? <CheckBoxIcon style={{color:"#16C59B"}} onClick={() => this.setState({ firstCheck: false }) } />:<CheckBoxOutlineBlankIcon style={{color:"#16C59B"}} onClick={() => this.setState({ firstCheck: true })}/>}
-                            {/* <input
-                              name="firstCheck"
-                              type="checkbox"
-                              className="checkedBox"
-                              onChange={this.checkValidationOfSelectAll}
-                            /> */}
                           </span>
                         </div>
                       </div>
@@ -132,12 +105,6 @@ export class Terms extends Component {
                           <div className="valueAgreement">
                             <span>
                             {this.state.secondCheck==true ? <CheckBoxIcon style={{color:"#16C59B"}} onClick={() => this.setState({ secondCheck: false }) } />:<CheckBoxOutlineBlankIcon style={{color:"#16C59B"}} onClick={() => this.setState({ secondCheck: true })}/>}
-                              {/* <input
-                                name="secondCheck"
-                                type="checkbox"
-                                className="checkedBox"
-                                onChange={this.checkValidationOfSelectAll}
-                              /> */}
                             </span>
                           </div>
                         </div>
@@ -160,12 +127,6 @@ export class Terms extends Component {
                           style={{fontWeight:""}}>
                             <span>
                             {this.state.thirdCheck==true ? <CheckBoxIcon style={{color:"#16C59B"}} onClick={() => this.setState({ thirdCheck: false }) } />:<CheckBoxOutlineBlankIcon style={{color:"#16C59B"}} onClick={() => this.setState({ thirdCheck: true })}/>}
-                              {/* <input
-                                name="thirdCheck"
-                                type="checkbox"
-                                className="checkedBox"
-                                onChange={this.checkValidationOfSelectAll}
-                              /> */}
                             </span>
                           </div>
                         </div>
@@ -193,11 +154,12 @@ export class Terms extends Component {
               width="100%"
               height="auto"
               padding="12px 0"
-              bg="#16C59B"  
+              bg={this.state.bg}
+              hoverBg={this.state.hoverBg} 
               radius="5px"
-              color="#FFFFFF" 
+              color={this.state.color} 
               className="custom_transition"           
-              hoverColor="#16C59B"
+              hoverColor={this.state.hoverColor} 
               fontSize="15px"
               style={{ fontWeight: "bold",
                        border: "none" }}

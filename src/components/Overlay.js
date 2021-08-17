@@ -32,7 +32,7 @@ const getMyScheduleList = async ({
     Logger.info(
       `[Component:Overlay:GetMYScheduleList] Loaded data from api to myScheduleList`
     );
-    const resultData = result.data
+    const resultData = result.data;
     setFunction?.(resultData);
     return resultData;
   } catch (e) {
@@ -47,7 +47,7 @@ const UserOverlay = ({ children, ...props }) => {
   const [myScheduleList, setMyScheduleList] = useRecoilState(MyScheduleList);
   return (
     <>
-      <div className="flex justify-start">
+      <div data-userid={props.id} className="flex justify-start">
         {props?.image && (
           <div className="relative justify-center">
             <div id="userProfile-Image">

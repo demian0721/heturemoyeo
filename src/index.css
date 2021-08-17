@@ -49,6 +49,20 @@ code {
   color: #5ac09d;
 }
 
+#message_chat-ui > div > div.ChatFooter > div > div.Composer-actions > button {
+  background: #5ac09d;
+  color: white;
+  content: "전송" !important;
+}
+
+.Composer-input {
+  caret-color: #5ac09d !important;
+}
+
+.Composer-sendBtn {
+  content: "전송";
+}
+
 .selectedCard {
   border-width: 3px;
   border-color: rgba(90, 192, 157, 10);

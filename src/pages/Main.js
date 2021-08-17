@@ -19,6 +19,7 @@ import { postActions } from "../redux/modules/post";
 
 // COMMON
 import socket from "../common/socket";
+import axios from "../common/axios";
 
 // COMPONENTS
 import Header from "../components/Header";
@@ -414,13 +415,35 @@ const Main = (props) => {
     const filterScheduleList = myScheduleList?.filter(
       (el) => el.postId === selectedCard
     );
-    alert(
-      `Selected Schedule: ${
-        filterScheduleList?.length !== 0
-          ? `${filterScheduleList[0].title}(${filterScheduleList[0].postId}), Member: ${filterScheduleList[0].currentMember}/${filterScheduleList[0].maxMember}`
-          : undefined
-      }`
-    );
+    if (filterScheduleList?.length === 0)
+      return alert("초대할 모임을 클릭한 후, 다시 시도해주세요!");
+    if (filterScheduleList[0].userId === selectedCard)
+      return alert("나 자신을 초대할 수 없습니다!");
+    console.log({
+      userId: String(markerData?.userId),
+      postId: String(filterScheduleList[0].postId),
+    });
+    if (markerData?.userId && filterScheduleList[0].postId)
+      axios
+        .post("/api/room/invite", JSON.stringify({
+          userId: String(markerData?.userId),
+          postId: String(filterScheduleList[0].postId),
+        }))
+        .then((res) => {
+          console.log(res);
+          alert("성공적으로 초대하였어요!");
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("초대하는 도중 오류가 발생하였습니다!");
+        });
+    // alert(
+    //   `Selected Schedule: ${
+    //     filterScheduleList?.length !== 0
+    //       ? `${filterScheduleList[0].title}(PostId: ${filterScheduleList[0].postId}), Member: ${filterScheduleList[0].currentMember}/${filterScheduleList[0].maxMember}, to member via memberId: ${markerData?.userId}`
+    //       : undefined
+    //   }`
+    // );
     if (clearSelect) setSelectedCard(0);
   };
 
@@ -550,7 +573,7 @@ const Main = (props) => {
                           </div>
                         ) : (
                           myScheduleList?.map((el, index) => (
-                            <InviteScheduleCard key={index} {...el} />
+                            <InviteScheduleCard key={index} img={el?.postImg} {...el} />
                           ))
                         )}
                       </div>

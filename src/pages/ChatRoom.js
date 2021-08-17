@@ -60,11 +60,14 @@ const ChatRoom = (props) => {
         if (myUserId !== data.userId)
           appendMsg({
             type: "text",
-            content: { text: `${data.nickname}: ${data.message}` },
+            content: { text: data.message },
             position: "left",
             user: {
-              avatar:
-                "https://cdn.discordapp.com/attachments/869177664479567903/871045228159705088/profileBlank.png",
+              avatarUrl:
+                !data?.profileImg ?? String(data?.profileImg).length === 0
+                  ? "https://cdn.discordapp.com/attachments/869177664479567903/871045228159705088/profileBlank.png"
+                  : data?.profileImg,
+              name: data.nickname,
             },
           });
       })
@@ -92,23 +95,23 @@ const ChatRoom = (props) => {
       getChatDatas.reverse();
       Logger.debug(`[GetChatDatas] Get ChatDatas: ${getChatDatas.length}`);
       getChatDatas.map((el) => {
+        console.log(el);
         const data = {
           type: "text",
           content: {
-            text:
-              el.userId !== myUserId
-                ? `${el.nickname}: ${el.message}`
-                : el.message,
+            text: el.message,
           },
           position: el.userId === myUserId ? "right" : "left",
         };
-        if (el.userId !== myUserId)
-          Object.assign(data, {
-            user: {
-              avatar:
-                "https://cdn.discordapp.com/attachments/869177664479567903/871045228159705088/profileBlank.png",
-            },
-          });
+        Object.assign(data, {
+          user: {
+            [el.userId !== myUserId && "avatarUrl"]:
+              !el?.profileImg ?? String(el?.profileImg).length === 0
+                ? "https://cdn.discordapp.com/attachments/869177664479567903/871045228159705088/profileBlank.png"
+                : el.profileImg,
+            [el.userId !== myUserId && "name"]: el.nickname,
+          },
+        });
         if (el.userId) appendMsg(data);
         return data;
       });
@@ -152,13 +155,51 @@ const ChatRoom = (props) => {
   const handleMessageContent = (data) => {
     return (
       <>
-        <Bubble type="text">{data.content.text}</Bubble>
+        <div className='flex'>
+          <div
+            className="flex rounded-full w-10 h-10 mr-1"
+            style={{
+              textAlign: "center",
+              backgroundImage: `url('${data?.user?.avatarUrl}')`,
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+              float: "center",
+            }}
+          >
+            <span className="sr-only">profile image</span>
+          </div>
+          <div className="self-center">
+            {data?.user?.name && (
+              <div className="font-xs text-xs text-gray-400">
+                {data.user.name}
+              </div>
+            )}
+            <div className="flex flex-initial justify-between">
+              <div
+                className={`flex rounded-lg ${
+                  data?.user?.name ? "bg-white" : "bg-main text-white"
+                } text-left px-3 text-sm py-1 w-full overflow-x-hidden`}
+                style={{
+                  maxWidth: "380px",
+                  flexBasis: "content",
+                  display: "lnline-block",
+                  width: "100%",
+                }}
+              >
+                {data.content.text}
+              </div>
+            </div>
+          </div>
+        </div>
       </>
     );
   };
 
   const handleSendMessage = (type, val) => {
     if (type === "text" && val.trim()) {
+      if (val.trim().length > 200)
+        return alert("200자 이상은 전송할 수 없습니다!");
       appendMsg({
         type: "text",
         content: { text: val },
@@ -188,9 +229,9 @@ const ChatRoom = (props) => {
         </div>
       </Grid>
         {/* ChatUI, 채팅 UI를 생성해줍니다. */}
-        <div id="message_chat-ui" style={{ height: '91vh' }}>
+        <div id="message_chat-ui" style={{ height: "91vh" }}>
           <Chat
-            locale="en-US"
+            locale="ko-KR"
             messages={messages}
             renderMessageContent={handleMessageContent}
             onSend={handleSendMessage}

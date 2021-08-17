@@ -81,14 +81,12 @@ const getMorePostsDB = (limit = 7) => {
 const postDetailInfo = (postId) => {
   return function (dispatch) {
     instance
-      .get("/api/post", {
-        params: {
-          postId: postId,
-        },
-      })
+      .get("/api/post", { params: { postId } })
       .then((res) => {
-        Object.assign(res.data, { type: 'post', postId })
-        dispatch(postDetail(res.data));
+        const result = res.data;
+        Object.assign(result, { type: "post", postId });
+        console.log(`Post: Detail -> ${postId}`);
+        dispatch(postDetail(result));
       })
       .catch((error) => {
         console.error(error);

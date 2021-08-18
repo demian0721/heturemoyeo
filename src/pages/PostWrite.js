@@ -184,7 +184,7 @@ const PostWrite = (props) => {
     <Style>
       <Permit width="" height="">
         <Grid width="" height="">
-          <Header>게시글 작성</Header>
+          <Header id="write">게시글 작성</Header>
         </Grid>
         <Grid
           width="100%"

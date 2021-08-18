@@ -61,9 +61,9 @@ const Profile = (props) => {
 
 
 const Style = styled.div`
-    align-items: center;
-    margin-top: 15vh;
-    width: 100vw;
+  align-items: center;
+  margin-top: 15vh;
+  width: 100vw;
     //styled component use
 `;
 

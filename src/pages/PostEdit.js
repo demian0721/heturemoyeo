@@ -188,11 +188,9 @@ const PostEdit = (props) => {
 
   return (
     <Style>
-      <Permit width="" height="">
-        <Grid width="" height="">
-          <Header>게시글 수정</Header>
-        </Grid>
-        <Grid
+      <Permit style={{width:"", height:""}}>
+
+        {/* <Grid
           width="100%"
           height=""
           margin="75px 0 55px 0"
@@ -207,12 +205,12 @@ const PostEdit = (props) => {
               width: 100%;
             `;
           }}
-        >
+        > */}
           <Grid padding="8px" bg="white" width="" height="">
             <Grid
               width="320px"
               height=""
-              margin="0 30px 0 10px"
+              margin="0px 30px 0px 10px"
               tabletStyle={() => {
                 return css`
                   margin: 0 auto;
@@ -225,8 +223,7 @@ const PostEdit = (props) => {
               <Grid
                 bg="#D4D4D4"
                 radius="10px"
-                margin="5px 0 0 0"
-
+                margin="5px 0px 0px 0px"
                 width=""
                 height=""
                 style={{ height: `${height}`, position: "relative" }}
@@ -506,7 +503,7 @@ const PostEdit = (props) => {
               완료
             </Button>
           </Grid>
-        </Grid>
+        {/* </Grid> */}
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
             as="div"

@@ -4,6 +4,8 @@ import styled from "styled-components";
 
 //Elements
 import { Grid, Text, Image } from "../elements/index";
+import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 //History
 import { history } from "../redux/configStore";
@@ -15,28 +17,30 @@ import { history } from "../redux/configStore";
 
 const Header = (props) => {
   const title = props.children;
-
+  const id = props.id;
+  const width = props.width;
+  
+  console.log('test',id)
   return (
     <React.Fragment>
       <Grid
         is_flex="center"
-        width="100%"
         minWidth="280px"
         height="75px"
         bg="#16C59B"
-        style={{ position: "fixed", top: 0, zIndex: 4 }}
+        padding="20px"
+        width={width}
+        style={{ position: "fixed", top: 0, zIndex: 4, justifyContent:"space-between"}}
       >
-        <div
-          // onClick={() => {
-          //   window.location.href = "/";
-          // }}
-        >
-          {title == "" ? (
-            <Image src="/assets/logo_header.png" />
-          ) : (
-            <TitleBox>{title}</TitleBox>
-          )}
-        </div>
+        {id == "chatroom" ? <ArrowBackOutlinedIcon  style={{color:"white"}}/> : <div></div> }
+        {title == "" ? (<div id="header" onClick={() => {window.location.href = "/";}}>
+          <Image src="/assets/logo_header.png" /></div>) : (<TitleBox style={{cursor:"default"}}>{title}</TitleBox>)}
+        <Grid width="">
+          {id == "chatroom" ? <MoreHorizIcon style={{color:"white"}}/> : null }
+          {id == "detail" ? <Text color="white">삭제</Text> : null }
+          {id == "write" ? <Text color="white">게시</Text> : null }
+          {id =="" ? <div></div> : null}
+        </Grid>
       </Grid>
     </React.Fragment>
   );
@@ -54,6 +58,8 @@ const TitleBox = styled.text`
 
 Header.defaultProps = {
   children: "",
+  id:"",
+  width:"100%",
   // clickEvent: () => {history.push('/');},
 };
 

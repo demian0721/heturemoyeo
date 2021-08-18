@@ -236,6 +236,7 @@ const ProfileEdit = (props) => {
 const Style = styled.div`
     align-items: center;
     width: 100vw;
+    margin-top:75px;
     height: calc(100vh - 130px);
     background-color: #EFEFEF;
     //styled component use

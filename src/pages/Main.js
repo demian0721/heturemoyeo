@@ -22,7 +22,7 @@ import socket from "../common/socket";
 import axios from "../common/axios";
 
 // COMPONENTS
-import Header from "../components/Header";
+// import Header from "../components/Header";
 import Overlay from "../components/Overlay";
 import Footer from "../components/Footer";
 

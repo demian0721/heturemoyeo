@@ -1,21 +1,32 @@
-import React, { useEffect, useState, Fragment } from "react";
+// LIBRARY
+import React, { useRef, useEffect, useState, Fragment } from "react";
 import socket from "socket.io-client";
-
+import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { postActions } from "../redux/modules/post";
 
+// REDUX
+import { postActions } from "../redux/modules/post";
+import { searchActions } from "../redux/modules/search";
+
+// COMPONENTS
 import { Grid } from "../elements/index";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
+// ELEMENTS
 import Logger from "../utils/Logger";
 import { formattedDate } from "../utils";
-
 import {
   People as PeopleIcon,
   Place as PlaceIcon,
   Event as EventIcon,
+  Smartphone,
 } from "@material-ui/icons";
+import SearchIcon from "@material-ui/icons/Search";
+import DateRangeOutlinedIcon from "@material-ui/icons/DateRangeOutlined";
+
+// HISTORY
+import { history } from "../redux/configStore";
 
 const ChatList = () => {
   const dispatch = useDispatch();
@@ -63,10 +74,79 @@ const ChatList = () => {
     };
   }, []);
 
+  const inputword = useRef();
+  // const searchDate = null;
+
+  // useEffect(() => {
+  //   dispatch(postActions.getPostsDB());
+
+  //   return () => {
+  //     dispatch(postActions.getPosts([], 0));
+  //   };
+  // }, []);
+
+  // 대화방 내 검색 api 필요할듯 아직 구현 안됨
+  const search = () => {
+    console.log(inputword.current.value);
+    dispatch(searchActions.searchPostDB(inputword.current.value));
+    history.push(`/postlist/search/${inputword.current.value}`);
+  };
+  const onKeyPress = (event) => {
+    if (event.key == "Enter") {
+      search();
+    }
+  };
+
   return (
     <Fragment>
-      <Header />
+      <Grid>
+      <Header>대화방</Header>
+      </Grid>
+      <Grid width="100%" height="" margin="75px 0 55px 0">
+
+      <Grid is_flex padding="18px">
+            <Grid
+              is_flex
+              padding="8px 8px"
+              height=""
+              bg="#EFEFEF"
+              style={{ margin: "auto" }}
+            >
+              <SearchIcon style={{ color: "#7B7B7B" }} />
+              <input
+                type="text"
+                placeholder="제목, 내용, 태그 또는 날짜"
+                style={{
+                  padding: "0px 5px",
+                  width: "100%",
+                  backgroundColor: "#EFEFEF",
+                }}
+                ref={inputword}
+                onKeyPress={onKeyPress}
+              />
+            </Grid>
+            <DateRangeOutlinedIcon
+              style={{ marginLeft: "5px", color: "#7B7B7B" }}
+            />
+          </Grid>
+
+      <Grid margin="10px 10px 50px 10px">
+      <SmallTitle
+        style={{margin: "10px 20px 20px 10px"}}
+      >확정된 대화방</SmallTitle>
+      <Wrap>
+        <Decided/>
+        <Decided/>
+        <Decided/>
+        <Decided/>
+        <Decided/>
+        <Decided/>
+        <Decided/>
+        <Decided/>
+      </Wrap>
+      </Grid>          
       <div className="container mx-auto my-4 space-y-4 w-full">
+      <SmallTitle>대화방 목록</SmallTitle>       
         {rooms?.length >= 1 ? (
           rooms.map((el) => <ChatListCardComponent {...el} />)
         ) : (
@@ -74,8 +154,11 @@ const ChatList = () => {
             참여 중인 대화방이 존재하지 않아요!
           </div>
         )}
-      </div>
+      </div> 
+      </Grid>
+      <Grid style={{ zIndex: 10 }}>
       <Footer>chat</Footer>
+      </Grid>
     </Fragment>
   );
 };
@@ -132,5 +215,28 @@ function ChatListCardComponent({ children, ...props }) {
     </div>
   );
 }
+
+const Wrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 1000px;
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;      
+`;
+const Decided = styled.div`
+  background: url("./assets/unknownChatRoomImg.gif");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width:100px;
+  height: 100px;
+  border: 1px solid #000;
+  margin: auto 10px;
+  `;
+const SmallTitle = styled.div`
+  margin: 10px 20px 20px 20px;
+  font-weight: bold;
+`;
 
 export default ChatList;

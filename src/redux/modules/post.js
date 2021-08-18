@@ -95,12 +95,13 @@ const postDetailInfo = (postId) => {
 };
 
 const deleteAPost = (postId) => {
-  return function (dispatch) {
+  return function (dispatch, { history }) {
     instance
       .delete("/api/post", { data: { postId } })
       .then((res) => {
         dispatch(deletePost(postId));
         window.alert("모임구인이 삭제되었습니다");
+        history.push("/postlist");
       })
       .catch((error) => {
         console.error(error);

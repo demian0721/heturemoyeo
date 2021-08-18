@@ -27,13 +27,9 @@ const PostDetail = (props) => {
   const postDetails = useSelector((state) => state.post.postDetail);
   const is_loaded = useSelector((state) => state.post.is_loaded);
 
-  const deletepost = () => {
-    dispatch(postActions.deleteAPost(postId));
-  };
-
   return (
     <Style>
-      <Header id="detail"/>
+      <Header id="detail" postId={postId}/>
       {/* <Grid id="modifyBtn" height="" is_flex margin="10px 10px 0px 10px" position="relative" style={{ zIndex: "50", marginLeft: "80%" }}>
         <Text clickEvent={() => {history.push("/postmodify");}} margin="5px 5px 0px 5px" style={{ backgroundColor: null }}>Edit</Text>
         <Text onClick={deletepost} margin="5px 5px 0px 5px" style={{ cursor: "default" }}>삭제</Text>

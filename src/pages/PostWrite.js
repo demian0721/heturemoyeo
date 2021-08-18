@@ -184,7 +184,9 @@ const PostWrite = (props) => {
     <Style>
       <Permit width="" height="">
         <Grid width="" height="">
-          <Header id="write">게시글 작성</Header>
+          <Header id="write"
+           file={fileInput.current.files[0]} 
+           postingContents={postingContents}>게시글 작성</Header>
         </Grid>
         <Grid
           width="100%"

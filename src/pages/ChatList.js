@@ -143,6 +143,13 @@ const ChatList = () => {
         <Decided/>
         <Decided/>
         <Decided/>
+        <Decided/>
+        <Decided/>
+        <Decided/>
+        <Decided/>
+        <Decided/>
+        <Decided/>
+        <Decided/>
       </Wrap>
       </Grid>          
       <div className="container mx-auto my-4 space-y-4 w-full">
@@ -219,19 +226,20 @@ function ChatListCardComponent({ children, ...props }) {
 const Wrap = styled.div`
   display: flex;
   flex-direction: row;
-  width: 1000px;
+  width: 100%;
   white-space: nowrap;
   overflow-x: scroll;
-  overflow-y: hidden;      
+  overflow-y: hidden;
 `;
 const Decided = styled.div`
   background: url("./assets/unknownChatRoomImg.gif");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  width:100px;
+  width: 100px;
+  min-width: 100px;
   height: 100px;
-  border: 1px solid #000;
+  min-height: 100px;
   margin: auto 10px;
   `;
 const SmallTitle = styled.div`

@@ -426,8 +426,8 @@ const Main = (props) => {
     if (markerData?.userId && filterScheduleList[0].postId)
       axios
         .post("/api/room/invite", JSON.stringify({
-          userId: String(markerData?.userId),
-          postId: String(filterScheduleList[0].postId),
+          userId: Number(markerData?.userId),
+          postId: Number(filterScheduleList[0].postId),
         }))
         .then((res) => {
           console.log(res);

@@ -33,9 +33,13 @@ const PostListInvited = (props) => {
   // const searchDate = null;
 
   const [loaded, setLoaded] = useState(false);
+  const [invitedPosts, setInvitedPosts] = useState([]);
 
   useEffect(() => dispatch(postActions.getInvitedPostsDB()), []);
-  useEffect(() => setLoaded(true), [PostList]);
+  useEffect(() => {
+    setInvitedPosts(PostList);
+    setLoaded(true);
+  }, [PostList]);
 
   const search = () => {
     console.log(inputword.current.value);
@@ -82,14 +86,20 @@ const PostListInvited = (props) => {
 
           <PostListButton>invited</PostListButton>
 
-          {PostList && PostList.length === 0 ? (
+          {PostList && invitedPosts.length === 0 ? (
             <div className="text-center font-bold text-lg">
               초대된 모임이 존재하지 않아요!
             </div>
           ) : (
-            PostList.map((l, index) => {
+            invitedPosts.map((l, index) => {
               return (
-                <PostListCard key={l.id} idx={index} type="invited" {...l} />
+                <PostListCard
+                  key={l.id}
+                  idx={index}
+                  deleteCardFunction={(index) => setInvitedPosts((state) => state.filter((el, idx) => idx !== index))}
+                  type="invited"
+                  {...l}
+                />
               );
             })
           )}

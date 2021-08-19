@@ -132,6 +132,7 @@ const ChatRoom = (props) => {
       query: {
         postId: props.match.params.id,
       },
+      secure: true
     });
     socketClientEvents(io);
     dispatch(chatActions.getChatDB(props.match.params.id, 1000));

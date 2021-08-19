@@ -17,7 +17,10 @@ import { formattedDate } from "../utils";
 const PostListCard = (props) => {
   return (
     <Link to={`/postdetail/${props.postId}`}>
-      <PostCard style={{ width: "100%" }} className="items-center self-center">
+      <PostCard
+        style={{ width: "100%" }}
+        className="items-center self-center cursor-pointer"
+      >
         <PlaceImageComponent img={props.postImg} />
         <Grid margin="auto auto auto 14px" width="fit-content" align="left">
           <Text fontSize="17px" fontWeight="bold" color="black" marginTop="5px">
@@ -104,6 +107,136 @@ const PostListCard = (props) => {
   );
 };
 
+const InvitedListCard = (props) => {
+  return (
+    <>
+      <PostCard
+        style={{ width: "100%" }}
+        className="items-center self-center flex lg:flex-row flex-col"
+      >
+        <div className="flex lg:mb-0 mb-4 lg:float-none float-left">
+          <PlaceImageComponent img={props.postImg} />
+          <Grid margin="auto auto auto 14px" width="50vw" align="left">
+            <Text
+              fontSize="17px"
+              fontWeight="bold"
+              color="black"
+              marginTop="5px"
+            >
+              {props.title}
+            </Text>
+            <Grid is_flex>
+              <ListInfo id="member">
+                <PersonIcon
+                  style={{
+                    width: "15px",
+                    height: "15px",
+                    float: "left",
+                    color: "#7B7B7B",
+                  }}
+                />
+                {/* 인원 */}
+                <span
+                  style={{
+                    fontWeight: "normal",
+                    marginLeft: "3px",
+                    float: "left",
+                  }}
+                >
+                  {props.currentMember} / {props.maxMember} 명
+                </span>
+              </ListInfo>
+              <ListInfo id="date">
+                <EventAvailableOutlinedIcon
+                  style={{
+                    width: "15px",
+                    height: "15px",
+                    float: "left",
+                    color: "#7B7B7B",
+                    marginLeft: "10px",
+                  }}
+                />
+                <span style={{ fontWeight: "normal", marginLeft: "3px" }}>
+                  {formattedDate(props.startDate)}
+                </span>
+              </ListInfo>
+            </Grid>
+            <ListInfo id="place">
+              <RoomOutlinedIcon
+                style={{
+                  width: "17px",
+                  height: "17px",
+                  float: "left",
+                  color: "7B7B7B",
+                }}
+              />
+              {/* <Text fontSize="12px" fontWeight="bold" color="black" marginTop="5px"> */}
+              {/* 장소 */}
+              <span style={{ fontWeight: "normal", marginLeft: "1px" }}>
+                {props.place}
+              </span>
+              {/* </Text> */}
+            </ListInfo>
+            <ListInfo>
+              <div style={{ display: "flex" }}>
+                {props.tagItem?.map((l, index) => {
+                  return (
+                    <div
+                      key={index}
+                      style={{
+                        width: "fit-content",
+                        margin: "10px 3px 10px 0px",
+                        backgroundColor: "#white",
+                        color: "#",
+                        borderRadius: "5px",
+                        padding: "3px 5px",
+                        fontSize: "10px",
+                        border: "0.6px solid #767676",
+                      }}
+                    >
+                      {l}
+                    </div>
+                  );
+                })}
+              </div>
+            </ListInfo>
+          </Grid>
+        </div>
+        <div className="flex">
+          <div className="lg:block flex self-center lg:space-x-0 lg:space-y-2 space-x-4">
+            <div
+              onClick={() => props?.deleteCardFunction(props?.idx)}
+              className="text-center bg-green-100 text-green-600 hover:bg-green-300 hover:text-green-900 transition-colors duration-300 ease-in-out rounded-md px-7 py-2 block text-sm font-normal cursor-pointer"
+            >
+              수락
+            </div>
+            <div
+              onClick={() => props?.deleteCardFunction(props?.idx)}
+              className="text-center bg-red-100 text-red-600 hover:bg-red-300 hover:text-red-900 transition-colors duration-300 ease-in-out rounded-md px-7 py-2 block text-sm font-normal cursor-pointer"
+            >
+              거절
+            </div>
+            <Link to={`/postdetail/${props.postId}`}>
+              <div className="text-center bg-blue-100 text-blue-600 hover:bg-blue-300 hover:text-blue-900 transition-colors duration-300 ease-in-out rounded-md px-7 py-2 block text-sm font-normal cursor-pointer">
+                자세히 보기
+              </div>
+            </Link>
+          </div>
+        </div>
+      </PostCard>
+    </>
+  );
+};
+
+const ListCardRouter = (props) => {
+  switch (props.type) {
+    case "invited":
+      return <InvitedListCard {...props} />;
+    default:
+      return <PostListCard {...props} />;
+  }
+};
+
 function PlaceImageComponent(props) {
   return (
     <div className="inline-flex items-center">
@@ -135,7 +268,7 @@ const ListInfo = styled.div`
   margin-top: 5px;
 `;
 
-const PostCard = styled.button`
+const PostCard = styled.div`
   display: flex;
   justify-content: space-between;
   background-color: white;
@@ -144,4 +277,4 @@ const PostCard = styled.button`
   border-top: 0.4px solid rgba(118, 118, 118, 0.3);
 `;
 
-export default PostListCard;
+export default ListCardRouter;

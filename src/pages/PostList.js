@@ -2,6 +2,7 @@
 import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from 'react-router-dom'
 
 // REDUX
 import { postActions } from "../redux/modules/post";
@@ -93,21 +94,20 @@ const PostList = (props) => {
             height=""
             overflow="visible"
           >
-            <Button
-              // shadow="rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;"
-              // padding="12px"
-              margin="0 0 10px"
-              radius="100%"
-              color="white"
-              hoverColor="#16C59B"
-              borderColor="none"
-              clickEvent={() => {
-                history.push("/postwrite");
-              }}
-              style={{ cursor: "pointer", width: "50px", height: "50px" }}
-            >
-              <CreateOutlinedIcon />
-            </Button>
+            <Link to="/postwrite">
+              <Button
+                // shadow="rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;"
+                // padding="12px"
+                margin="0 0 10px"
+                radius="100%"
+                color="white"
+                hoverColor="#16C59B"
+                borderColor="none"
+                style={{ cursor: "pointer", width: "50px", height: "50px" }}
+              >
+                <CreateOutlinedIcon />
+              </Button>
+            </Link>
           </Grid>
         </Grid>
       </Grid>

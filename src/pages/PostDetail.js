@@ -17,6 +17,7 @@ import Header from "../components/Header";
 import Details from "../components/PostDetail";
 
 const PostDetail = (props) => {
+
   const postId = props.match.params.postid;
   const dispatch = useDispatch();
 
@@ -29,7 +30,7 @@ const PostDetail = (props) => {
 
   return (
     <Style>
-      <Header id="detail" postId={postId}/>
+      <Header id="detail" postId={postId} writer={postDetails.nickname}/>
       {/* <Grid id="modifyBtn" height="" is_flex margin="10px 10px 0px 10px" position="relative" style={{ zIndex: "50", marginLeft: "80%" }}>
         <Text clickEvent={() => {history.push("/postmodify");}} margin="5px 5px 0px 5px" style={{ backgroundColor: null }}>Edit</Text>
         <Text onClick={deletepost} margin="5px 5px 0px 5px" style={{ cursor: "default" }}>삭제</Text>

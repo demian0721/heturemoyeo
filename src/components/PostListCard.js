@@ -68,7 +68,11 @@ const PostListCard = (props) => {
         {/* </Text> */}
         </ListInfo>
         <ListInfo>
-        <div key='Tag' style={{width:"fit-content", margin: "10px 0px", backgroundColor: "#white", color: "#", borderRadius: "5px", padding: "3px 5px", fontSize:"10px", border:"0.6px solid #767676"}}>Tag</div>
+        <div style={{ display: "flex" }}>
+          {props.tagItem?.map((l, index) => {
+            return <div key={index} style={{width:"fit-content", margin: "10px 3px 10px 0px", backgroundColor: "#white", color: "#", borderRadius: "5px", padding: "3px 5px", fontSize:"10px", border:"0.6px solid #767676"}}>{l}</div>
+          })}
+        </div>
         </ListInfo>
       </Grid>
     </PostCard>

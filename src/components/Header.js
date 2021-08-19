@@ -1,5 +1,5 @@
 //Library
-import React from "react";
+import React, {useEffect} from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -10,10 +10,10 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 import { postActions } from "../redux/modules/post";
 import { chatActions } from "../redux/modules/chat";
+import { userActions } from '../redux/modules/user';
 
 //History
 import { history } from "../redux/configStore";
-
 
 //Image
 // import logo_header from '../../public/assets/logo_header';
@@ -21,7 +21,7 @@ import { history } from "../redux/configStore";
 //임포트 사용 항목 외 삭제요망
 
 const Header = (props) => {
-  console.log(props);
+  console.log('header',props);
   const dispatch = useDispatch();
 
   const title = props.children;
@@ -29,6 +29,10 @@ const Header = (props) => {
   const width = props.width;
   const postId = parseInt(props.postId);
   const chatId = parseInt(props.chatId);
+  const writer = props.writer;
+
+  useEffect(() => { dispatch(userActions.myInfoDB()) }, []);
+  const owner = useSelector(state => state.user.nickname);
   
   const deletepost = () => {
     dispatch(postActions.deleteAPost(postId));
@@ -41,6 +45,7 @@ const Header = (props) => {
   const confirmchat = () => {
     dispatch(chatActions.confirmAChat({"postId":chatId}));
   };
+  // console.log('작가와나',owner,writer)
 
   return (
     <React.Fragment>
@@ -59,7 +64,7 @@ const Header = (props) => {
         <Grid width="">
         {id == "chatroom" ? <Grid is_flex><Text color="white" clickEvent={confirmchat} style={{marginRight:"5px"}}>확정</Text><Text color="white" clickEvent={exitchat}>탈퇴</Text></Grid>  : null }
           {/* {id == "chatroom" ? <MoreHorizIcon style={{color:"white"}}/> : null } */}
-          {id == "detail" ? <Text color="white" clickEvent={deletepost}>삭제</Text> : null }
+          {id == "detail" && owner==writer ? <Text color="white" clickEvent={deletepost}>삭제</Text> : null }
           {id == "write" ? <Text color="white">게시</Text> : null }
           {id =="" ? <div></div> : null}
         </Grid>
@@ -84,6 +89,7 @@ Header.defaultProps = {
   width:"100%",
   postId:"",
   chatId:"",
+  writer:"",
   // clickEvent: () => {history.push('/');},
 };
 

@@ -279,7 +279,7 @@ const PostWrite = (props) => {
                   }}
                 />
               </div>
-              <DatePicker
+              {/* <DatePicker
                   locale={ko}
                   dateFormat="yyyy/MM/dd"
                   className="input-datepicker"
@@ -294,7 +294,7 @@ const PostWrite = (props) => {
                       startDate: e.target.value,
                     });
                   }}
-                />
+                /> */}
               <div className="block" style={{ margin: "15px 5px 15px 5px" }}>
                 <Text fontSize="13px" color="#888888" fontWeight="bold">
                   종료

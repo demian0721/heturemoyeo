@@ -1,6 +1,7 @@
 //Library
 import React, { useEffect } from 'react';
 import styled from "styled-components";
+import { Link } from 'react-router-dom'
 
 //Material-Ui
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
@@ -49,10 +50,12 @@ const MyPage = () => {
             {/* "https://i.imgur.com/2OeMYtb.png" */}
           </Grid>
           <Grid padding="20px 40px">
-            <Grid is_flex margin="auto" style={{justifyContent:"center"}}>
-              <Title onClick={() => { history.push('/mypageedit'); }} style={{ cursor: "default" }}>{userlist.nickname}</Title>
-              <ArrowForwardIosIcon style={{width:"18px"}} onClick={() => { history.push('/mypageedit'); }} />
-            </Grid>
+            <Link to="/mypageedit">
+              <Grid is_flex margin="auto" style={{justifyContent:"center"}}>
+                <Title style={{ cursor: "default" }}>{userlist.nickname}</Title>
+                <ArrowForwardIosIcon style={{width:"18px"}} />
+              </Grid>
+            </Link>
             <div style={{ display: "flex", justifyContent: "center" }}>
               {userlist.likeItem?.map((l, index) => {
                 return <div key={index} style={{ margin: "5px 3px", backgroundColor: "#white", color: "#767676", borderRadius: "5px", padding: "3px 5px", fontSize:"small", border:"1px solid #767676"}}>{l}</div>

@@ -66,6 +66,7 @@ const Details = (props) => {
   const postDetails = props.Details;
   const date = formattedDate(postDetails.startDate);
   const dispatch = useDispatch();
+  console.log('내용',props);
 
   return (
     <Grid height="32vh" width="30%" minWidth="360px" margin="auto">

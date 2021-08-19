@@ -99,7 +99,7 @@ const deleteAPost = (postId) => {
       .then((res) => {
         dispatch(deletePost(postId));
         window.alert("모임구인이 삭제되었습니다");
-        history.push("/postlist");
+        window.location.href = "/postlist";
       })
       .catch((error) => {
         console.error(error);

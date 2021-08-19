@@ -1,6 +1,7 @@
 // LIBRARY
 import React from "react";
 import styled from "styled-components";
+import { Link } from 'react-router-dom'
 
 // ELEMENTS
 import { Grid, Text } from "../elements/index";
@@ -14,11 +15,10 @@ import { history } from "../redux/configStore";
 import { formattedDate } from '../utils'
 
 const PostListCard = (props) => {
+  const postId = props.postId
   return (
+    <Link to={location => `/postdetail/${props.postId}`}>
     <PostCard
-      onClick={() => {
-        history.push("/postdetail/" + props.postId);
-      }}
       style={{ width: "100%"}}
       className="items-center self-center"
     >
@@ -72,6 +72,7 @@ const PostListCard = (props) => {
         </ListInfo>
       </Grid>
     </PostCard>
+    </Link>
   );
 };
 

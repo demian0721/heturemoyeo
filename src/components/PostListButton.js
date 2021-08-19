@@ -1,6 +1,7 @@
 //LIBRARY
 import React from "react";
 import styled from "styled-components";
+import { Link } from 'react-router-dom'
 
 //ELEMENTS
 import { Grid, Button } from "../elements/index";
@@ -15,68 +16,62 @@ const PostListButton = (props) => {
       <Buttonset>
         <Grid>
           {title == "all" ? (
-            <MButton
-              className="custom_transition"
-              style={{ borderBottom: "2px solid #16C59B", color: "#16C59B" }}
-              onClick={() => {
-                history.push("/postlist");
-              }}
-            >
-              전체 목록
-            </MButton>
+            <Link to="/postlist">
+              <MButton
+                className="custom_transition"
+                style={{ borderBottom: "2px solid #16C59B", color: "#16C59B" }}
+              >
+                전체 목록
+              </MButton>
+            </Link>
           ) : (
-            <MButton
-              className="custom_transition"
-              onClick={() => {
-                history.push("/postlist");
-              }}
-            >
-              전체 목록
-            </MButton>
+            <Link to="/postlist">
+              <MButton
+                className="custom_transition"
+              >
+                전체 목록
+              </MButton>
+            </Link>
           )}
         </Grid>
         <Grid>
           {title == "invited" ? (
-            <MButton
-              className="custom_transition"
-              style={{ borderBottom: "2px solid #16C59B", color: "#16C59B" }}
-              onClick={() => {
-                history.push("/postlist/invited");
-              }}
-            >
-              초대된 모임
-            </MButton>
+            <Link to="/postlist/invited">
+              <MButton
+                className="custom_transition"
+                style={{ borderBottom: "2px solid #16C59B", color: "#16C59B" }}
+              >
+                초대된 모임
+              </MButton>
+            </Link>
           ) : (
-            <MButton
-              className="custom_transition"
-              onClick={() => {
-                history.push("/postlist/invited");
-              }}
-            >
-              초대된 모임
-            </MButton>
+            <Link to="/postlist/invited">
+              <MButton
+                className="custom_transition"
+              >
+                초대된 모임
+              </MButton>
+            </Link>
           )}
         </Grid>
         <Grid>
           {title == "my" ? (
-            <MButton
-              className="custom_transition"
-              style={{ borderBottom: "2px solid #16C59B", color: "#16C59B" }}
-              onClick={() => {
-                history.push("/postlist/my");
-              }}
-            >
-              내 모임
-            </MButton>
+            <Link to="/postlist/my">
+              <MButton
+                className="custom_transition"
+                style={{ borderBottom: "2px solid #16C59B", color: "#16C59B" }}
+              >
+                내 모임
+              </MButton>
+            </Link>
           ) : (
-            <MButton
-              className="custom_transition"
-              onClick={() => {
-                history.push("/postlist/my");
-              }}
-            >
-              내 모임
-            </MButton>
+            <Link to="/postlist/my">
+              <MButton
+                className="custom_transition"
+              >
+                내 모임
+              </MButton>
+            </Link>
           )}
         </Grid>
       </Buttonset>

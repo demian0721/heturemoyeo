@@ -8,6 +8,8 @@ import { createAction, handleActions } from "redux-actions";
 const GET_CHAT = "GET_CHAT";
 const GET_MORE_CHAT = "GET_MORE_CHAT";
 const SEND_CHAT = "SEND_CHAT";
+const EXIT_CHAT = "EXIT_CHAT";
+const CONFIRM_CHAT = "CONFIRM_CHAT";
 
 // ACTION CREATOR
 const getChat = (chatList, start) => ({ type: GET_CHAT, chatList, start });
@@ -17,6 +19,8 @@ const getMoreChat = (chatList, start) => ({
   start,
 });
 const sendChat = (chatList, start) => ({ type: SEND_CHAT, chatList, start });
+const exitChat = (exitChat) => ({ exitChat });
+const confirmChat = (confirmChat) => ({ confirmChat });
 
 // INITIAL STATE
 const initialState = {
@@ -85,6 +89,33 @@ const sendChatDB = (postId, message) => {
   };
 };
 
+const exitAChat = (doc) => {
+  return function (dispatch) {
+    instance
+      .post("/api/room/exit", doc)
+      .then((res) => {
+        window.location.href = `/chat`;
+        window.alert("대화방에서 탈퇴하였습니다.");
+      })
+      .catch((error) => {
+        console.error(error.errorMessage);
+      });
+  };
+};
+
+const confirmAChat = (doc) => {
+  return function (dispatch) {
+    instance
+      .post("/api/room/confirm", doc)
+      .then((res) => {
+        window.alert("본 일정이 확정되었습니다.");
+      })
+      .catch((error) => {
+        console.error(error.errorMessage);
+      });
+  };
+};
+
 // REDUCER
 function chat(state = initialState, action) {
   switch (action.type) {
@@ -116,4 +147,6 @@ export const chatActions = {
   getChatDB,
   getMoreChatDB,
   sendChatDB,
+  exitAChat,
+  confirmAChat,
 };

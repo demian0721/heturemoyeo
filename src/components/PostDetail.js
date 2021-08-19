@@ -3,6 +3,9 @@ import React, { useEffect } from "react";
 import styled, { css } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 
+//Redux
+import { chatActions } from "../redux/modules/chat";
+
 //UTILS
 import { formattedDate } from "../utils";
 
@@ -15,11 +18,9 @@ import PersonIcon from '@material-ui/icons/Person';
 
 // HISTORY
 import { history } from "../redux/configStore";
-
 import axios from "../common/axios";
 
 function PlaceImageComponent(props) {
-
   return (
     <div className="inline-flex items-center">
       <div
@@ -63,15 +64,8 @@ const JoinToChatRoomFromPostId = (isExist, postId) => {
 
 const Details = (props) => {
   const postDetails = props.Details;
-
   const date = formattedDate(postDetails.startDate);
-
-  console.log('프사',postDetails.profileImg);
-  
-  // const profileImg =
-  //  if(postDetails.profileImg==null) {
-
-  // };
+  const dispatch = useDispatch();
 
   return (
     <Grid height="32vh" width="30%" minWidth="360px" margin="auto">

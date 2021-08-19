@@ -9,6 +9,7 @@ import ArrowBackOutlinedIcon from '@material-ui/icons/ArrowBackOutlined';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 import { postActions } from "../redux/modules/post";
+import { chatActions } from "../redux/modules/chat";
 
 //History
 import { history } from "../redux/configStore";
@@ -27,9 +28,18 @@ const Header = (props) => {
   const id = props.id;
   const width = props.width;
   const postId = parseInt(props.postId);
+  const chatId = parseInt(props.chatId);
   
   const deletepost = () => {
     dispatch(postActions.deleteAPost(postId));
+  };
+
+  const exitchat = () => {
+    dispatch(chatActions.exitAChat({"postId":chatId}));
+  };
+
+  const confirmchat = () => {
+    dispatch(chatActions.confirmAChat({"postId":chatId}));
   };
 
   return (
@@ -47,7 +57,8 @@ const Header = (props) => {
         {title == "" ? (<div id="header" onClick={() => {window.location.href = "/";}}>
           <Image src="/assets/logo_header.png" /></div>) : (<TitleBox style={{cursor:"default"}}>{title}</TitleBox>)}
         <Grid width="">
-          {id == "chatroom" ? <MoreHorizIcon style={{color:"white"}}/> : null }
+        {id == "chatroom" ? <Grid is_flex><Text color="white" clickEvent={confirmchat} style={{marginRight:"5px"}}>확정</Text><Text color="white" clickEvent={exitchat}>탈퇴</Text></Grid>  : null }
+          {/* {id == "chatroom" ? <MoreHorizIcon style={{color:"white"}}/> : null } */}
           {id == "detail" ? <Text color="white" clickEvent={deletepost}>삭제</Text> : null }
           {id == "write" ? <Text color="white">게시</Text> : null }
           {id =="" ? <div></div> : null}
@@ -72,6 +83,7 @@ Header.defaultProps = {
   id:"",
   width:"100%",
   postId:"",
+  chatId:"",
   // clickEvent: () => {history.push('/');},
 };
 

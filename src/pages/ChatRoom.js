@@ -27,7 +27,6 @@ const ChatRoom = (props) => {
   const getChatDatas = useSelector((state) => state.chat.chatList);
   const [init, setInit] = useState(false);
   const { messages, appendMsg } = useMessages([]); // @chatui/core 에 있는 훅을 사용하였씁니다.
-
   /**
    * SocketClientEvents:
    * Socket.io 에 연결한 후, 이벤트를 선언하는 함수입니다.
@@ -217,7 +216,9 @@ const ChatRoom = (props) => {
       style={{
         position: "static",
       }}
-      id="chatroom"/>
+      id="chatroom"
+      chatId={props.match.params.id}
+      />
         {/* ChatUI, 채팅 UI를 생성해줍니다. */}
         <div id="message_chat-ui" style={{ height: "91vh"}}>
           <Chat

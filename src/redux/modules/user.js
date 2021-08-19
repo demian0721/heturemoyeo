@@ -108,7 +108,7 @@ const editStatusMsg = (doc) => {
         dispatch(editInfo(res.data));
       })
       .catch((error) => {
-        console.error(error, "에러");
+        console.error(error.errorMessage);
       });
   };
 };

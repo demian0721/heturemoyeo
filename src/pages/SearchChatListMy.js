@@ -28,7 +28,7 @@ import DateRangeOutlinedIcon from "@material-ui/icons/DateRangeOutlined";
 // HISTORY
 import { history } from "../redux/configStore";
 
-const ChatList = () => {
+const SearchChatListMy = () => {
   const dispatch = useDispatch();
   const [rooms, setRooms] = useState([]);
   const posts = useSelector((state) => state.post.list);
@@ -78,16 +78,16 @@ const ChatList = () => {
   // const searchDate = null;
 
   // useEffect(() => {
-  //   dispatch(postActions.getPostsDB());
+  //   dispatch(searchActions.searchRoomDB(keyword));
 
   //   return () => {
-  //     dispatch(postActions.getPosts([], 0));
+  //     dispatch(searchActions.getSearchRoom([], 0));
   //   };
-  // }, []);
+  // }, [keyword]);
 
   const search = () => {
     console.log(inputword.current.value);
-    dispatch(searchActions.searchRoomDB(inputword.current.value));
+    dispatch(searchActions.searchChatDB(inputword.current.value));
     history.push(`/chatlist/search/${inputword.current.value}`);
   };
   const onKeyPress = (event) => {
@@ -247,4 +247,4 @@ const SmallTitle = styled.div`
   font-weight: bold;
 `;
 
-export default ChatList;
+export default SearchChatListMy;

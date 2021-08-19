@@ -39,6 +39,7 @@ import {
   ChatRoom,
   Setting,
   SearchPostList,
+  SearchChatListMy
 } from "./pages/index";
 
 function App() {
@@ -108,6 +109,7 @@ function App() {
             <Route path="/chat/:id" exact component={ChatRoom} />
             <Route path="/setting" exact component={Setting} />
             <Route path="/postlist/search/:keyword" exact component={SearchPostList} />
+            <Route path="/chatlist/search/:keyword" exact component={SearchChatListMy}/>
           </ConnectedRouter>
         </Provider>
       </RecoilRoot>

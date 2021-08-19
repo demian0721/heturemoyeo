@@ -92,7 +92,7 @@ const SearchPostList = (props) => {
               />
             ) : (
               <Text fontSize="23px" margin="30px 30px 0 80px">
-                {decodeURI(keyword)}에 대한 검색 결과가 없습니다.
+                '{decodeURI(keyword)}'에 대한 검색 결과가 없습니다.
               </Text>
             )}
           </>

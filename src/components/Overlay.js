@@ -42,6 +42,38 @@ const getMyScheduleList = async ({
   }
 };
 
+const UserOverlayDivideComponent = ({ force = false, ...props }) => {
+  return force ? (
+    <div
+      className={`flex border border-gary-500 rounded-full ${
+        props?.likeItem?.length === 0 ? "mb-1" : "my-1"
+      } w-full`}
+    >
+      <div className="sr-only">divide</div>
+    </div>
+  ) : props?.likeItem && props?.statusMessage ? (
+    <div
+      className={`flex border border-gary-500 rounded-full ${
+        props?.likeItem?.length === 0 ? "mb-1" : "my-1"
+      } w-full`}
+    >
+      <div className="sr-only">divide</div>
+    </div>
+  ) : !props?.likeItem && props?.statusMessage ? (
+    <div
+      className={`flex border border-gary-500 rounded-full ${
+        props?.likeItem?.length === 0 ? "mb-1" : "my-1"
+      } w-full`}
+    >
+      <div className="sr-only">divide</div>
+    </div>
+  ) : props?.likeItem && !props?.statusMessage ? (
+    ""
+  ) : (
+    ""
+  );
+};
+
 const UserOverlay = ({ children, ...props }) => {
   const [showModal, setShowModal] = useRecoilState(ActiveInviteModal);
   const [myScheduleList, setMyScheduleList] = useRecoilState(MyScheduleList);
@@ -67,7 +99,9 @@ const UserOverlay = ({ children, ...props }) => {
               >
                 <span className="sr-only">profile image</span>
               </div>
-              {props?.rating && (
+            </div>
+            {props?.rating && (
+              <>
                 <CircularProgressbar
                   className="w-20 h-20"
                   value={props?.rating}
@@ -77,15 +111,13 @@ const UserOverlay = ({ children, ...props }) => {
                     trailColor: "#e9e9e9",
                   })}
                 />
-              )}
-            </div>
-            {props?.rating && (
-              <div className="flex text-xs lg:text-base justify-center pt-1">
-                <div className="inline-flex">
-                  <p>Rating:</p>
-                  <p className="font-semibold ml-1">{props?.rating}</p>
+                <div className="flex text-xs lg:text-base justify-center pt-1">
+                  <div className="inline-flex">
+                    <p>Rating:</p>
+                    <p className="font-semibold ml-1">{props?.rating}</p>
+                  </div>
                 </div>
-              </div>
+              </>
             )}
           </div>
         )}
@@ -107,15 +139,9 @@ const UserOverlay = ({ children, ...props }) => {
                   );
                 })}
               </div>
-              <div
-                className={`flex border border-gary-500 rounded-full ${
-                  props?.likeItem?.length === 0 ? "mb-1" : "my-1"
-                } w-full`}
-              >
-                <div className="sr-only">divide</div>
-              </div>
             </>
           )}
+          <UserOverlayDivideComponent {...props} />
           {props?.statusMessage && (
             <div className="font-medium text-sm lg:text-base">
               {props.statusMessage}
@@ -124,11 +150,14 @@ const UserOverlay = ({ children, ...props }) => {
           {props?.scheduleTitle && (
             <div className="font-semibold text-sm lg:text-base">
               <span>{props.scheduleTitle}</span>
-                {props?.scheduleCount && Number(props?.scheduleCount - 1) !== 0
-                  ? <span className="ml-2 text-main inline-flex rounded-md lg:text-sm text-xs">
+              {props?.scheduleCount &&
+              Number(props?.scheduleCount - 1) !== 0 ? (
+                <span className="ml-2 text-main inline-flex rounded-md lg:text-sm text-xs">
                   외 {Number(props.scheduleCount) - 1}개
-                  </span>
-                  : ""}
+                </span>
+              ) : (
+                ""
+              )}
             </div>
           )}
           {props.myId !== props.id && (

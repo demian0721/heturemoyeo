@@ -5,7 +5,7 @@ import axios from 'axios';
 import { getToken } from './token';
 
 const instance = axios.create({
-    baseURL: 'http://astraios.shop:4001/',
+    baseURL: 'https://astraios.shop/',
 })
 
 instance.interceptors.request.use((config) => {

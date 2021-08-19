@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
 import { css } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 // REDUX
 import { postActions } from "../redux/modules/post";
@@ -26,27 +27,15 @@ import PostListButton from "../components/PostListButton";
 import axios from "../common/axios";
 
 const PostListInvited = (props) => {
-  const [invitePostList, setInvitePostList] = useState([]);
   const dispatch = useDispatch();
   const PostList = useSelector((state) => state.post.list);
   const inputword = useRef();
   // const searchDate = null;
 
-  useEffect(() => {
-    dispatch(postActions.getInvitedPostsDB());
-    if (!PostList ?? PostList?.length === 0) return;
-    PostList.map(async (el) => {
-      try {
-        const result = await axios.get("/api/post", {
-          params: { postId: el.postId },
-        });
-        const resultData = result.data
-        Object.assign(resultData, { PrevData: { ...el } });
-        invitePostList.push(resultData);
-      } catch (e) {}
-    });
-    return () => {};
-  }, []);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => dispatch(postActions.getInvitedPostsDB()), []);
+  useEffect(() => setLoaded(true), [PostList]);
 
   const search = () => {
     console.log(inputword.current.value);
@@ -57,7 +46,7 @@ const PostListInvited = (props) => {
     if (event.key == "Enter") {
       search();
     }
-  };  
+  };
 
   return (
     <Style>
@@ -93,13 +82,21 @@ const PostListInvited = (props) => {
 
           <PostListButton>invited</PostListButton>
 
-          {invitePostList && invitePostList.map((l, index) => {
-            return <PostListCard key={l.id} idx={index} {...l} />;
-          })}
+          {PostList && PostList.length === 0 ? (
+            <div className="text-center font-bold text-lg">
+              초대된 모임이 존재하지 않아요!
+            </div>
+          ) : (
+            PostList.map((l, index) => {
+              return (
+                <PostListCard key={l.id} idx={index} type="invited" {...l} />
+              );
+            })
+          )}
 
           <Grid
             padding="5px 0px"
-            style={{ position: "fixed", bottom: "8%", right: "5%", zIndex: 99 }}
+            style={{ position: "fixed", bottom: "8%", right: "5%", zIndex: 5 }}
             width="auto"
             height=""
             overflow="visible"
@@ -112,12 +109,14 @@ const PostListInvited = (props) => {
               color="white"
               hoverColor="#16C59B"
               borderColor="none"
-              clickEvent={() => {
-                history.push("/postwrite");
-              }}
+              // clickEvent={() => {
+              //   history.push("/postwrite");
+              // }}
               style={{ cursor: "pointer", width: "50px", height: "50px" }}
             >
-              <CreateOutlinedIcon />
+              <Link to="/postwrite">
+                <CreateOutlinedIcon />
+              </Link>
             </Button>
           </Grid>
         </Grid>

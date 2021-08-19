@@ -308,10 +308,14 @@ const Main = (props) => {
     socket.on("newPost", newPostLocationListener);
     socket.on("removePost", removePostLocationListener);
     return () => {
-      Logger.debug("[Socket.io:RemoveAllListener] Clearing All EventListener to Socket.io Client and Removing UserLocation Markers and Post Markers...");
+      Logger.debug(
+        "[Socket.io:RemoveAllListener] Clearing All EventListener to Socket.io Client and Removing UserLocation Markers and Post Markers..."
+      );
       socket.removeAllListeners();
       markers.map((marker) => {
-        kakao.maps.event.removeListener(marker, "click", () => markerEventListener());
+        kakao.maps.event.removeListener(marker, "click", () =>
+          markerEventListener()
+        );
         return marker?.setMap(null);
       });
       for (const key in posts) {
@@ -415,20 +419,28 @@ const Main = (props) => {
     if (filterScheduleList[0].userId === selectedCard)
       return alert("나 자신은 초대할 수 없습니다!");
     axios
-      .post("/api/room/invite", JSON.stringify({
-        userId: Number(markerData?.userId),
-        postId: Number(filterScheduleList[0].postId),
-      }))
+      .post(
+        "/api/room/invite",
+        JSON.stringify({
+          userId: Number(markerData?.userId),
+          postId: Number(filterScheduleList[0].postId),
+        })
+      )
       .then((res) => {
         alert("성공적으로 초대하였어요!");
       })
       .catch((err) => {
+        console.log(err);
         switch (err.response.status) {
-          case 406: alert("이미 초대된 사용자입니다!"); break;
-          default: alert("초대하는 도중 오류가 발생하였습니다!"); break;
+          case 406:
+            alert("이미 초대된 사용자입니다!");
+            break;
+          default:
+            alert("초대하는 도중 오류가 발생하였습니다!");
+            break;
         }
       });
-      handleModalClose(clearSelect)
+    handleModalClose(clearSelect);
   };
 
   return (
@@ -436,21 +448,21 @@ const Main = (props) => {
       {sessionStorage.token && (
         <>
           <Grid
-        is_flex="center"
-        width="100%"
-        minWidth="280px"
-        height="75px"
-        bg="#16C59B"
-        style={{ position: "static", top: 0, zIndex: 4 }}
-      >
-        <div
-          onClick={() => {
-            window.location.href = "/";
-          }}
-        >
-          <Image src="/assets/logo_header.png" />
-        </div>
-      </Grid>
+            is_flex="center"
+            width="100%"
+            minWidth="280px"
+            height="75px"
+            bg="#16C59B"
+            style={{ position: "static", top: 0, zIndex: 4 }}
+          >
+            <div
+              onClick={() => {
+                window.location.href = "/";
+              }}
+            >
+              <Image src="/assets/logo_header.png" />
+            </div>
+          </Grid>
           <div className="container">
             {/* kakao 맵 생성 */}
             <div
@@ -486,11 +498,11 @@ const Main = (props) => {
                           ? "/assets/unknownChatRoomImg.gif"
                           : markerData?.postImg
                         : markerData?.type === "user"
-                          ? !markerData?.profileImg ??
-                            String(markerData?.profileImg).length === 0
-                            ? "/assets/unknownProfile.jpg"
-                            : markerData?.profileImg
-                          : "/assets/unknownProfile.jpg"
+                        ? !markerData?.profileImg ??
+                          String(markerData?.profileImg).length === 0
+                          ? "/assets/unknownProfile.jpg"
+                          : markerData?.profileImg
+                        : "/assets/unknownProfile.jpg"
                     }
                     rating={markerData?.rating}
                     isType={markerData?.type ?? undefined}
@@ -543,10 +555,14 @@ const Main = (props) => {
 
                       <div
                         id="my-schedule-list"
-                        className={`flex flex-wrap flex-initial ${myScheduleList?.length >= 4 ? 'overflow-y-scroll' : 'overflow-hidden'} w-full space-y-2 bg-gray-300 rounded-md bg-opacity-25 p-2 border border-gray-400 border-opacity-25 content-start`}
+                        className={`flex flex-wrap flex-initial ${
+                          myScheduleList?.length >= 4
+                            ? "overflow-y-scroll"
+                            : "overflow-hidden"
+                        } w-full space-y-2 bg-gray-300 rounded-md bg-opacity-25 p-2 border border-gray-400 border-opacity-25 content-start`}
                         style={{
                           height:
-                            myScheduleList?.length === 0 ? "100px" : "305px"
+                            myScheduleList?.length === 0 ? "100px" : "305px",
                         }}
                       >
                         {showItems && myScheduleList?.length === 0 ? (
@@ -557,7 +573,11 @@ const Main = (props) => {
                           </div>
                         ) : (
                           myScheduleList?.map((el, index) => (
-                            <InviteScheduleCard key={index} img={el?.postImg} {...el} />
+                            <InviteScheduleCard
+                              key={index}
+                              img={el?.postImg}
+                              {...el}
+                            />
                           ))
                         )}
                       </div>
@@ -610,7 +630,7 @@ const Main = (props) => {
             </Transition>
           </div>
           <Grid
-            style={{ position: "fixed", zIndex: 5 }}
+            style={{ position: "fixed", zIndex: 2 }}
             width="20"
             height="20"
             overflow="visible"
@@ -623,7 +643,7 @@ const Main = (props) => {
               color="#16C59B"
               hoverColor="#fcfcfc"
               padding="12px"
-              margin="calc(100vh - 240px) 0px 0px calc(100vw - 120px)"
+              margin="calc(100vh - 230px) 0px 0px calc(100vw - 105px)"
               radius="100%"
               className="custom_transition"
               // className="fixed lg:mt-24 md:mt-20 mt-14 inset-0 z-10"

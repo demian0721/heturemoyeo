@@ -21,7 +21,6 @@ import { history } from "../redux/configStore";
 //임포트 사용 항목 외 삭제요망
 
 const Header = (props) => {
-  console.log('header',props);
   const dispatch = useDispatch();
 
   const title = props.children;
@@ -46,8 +45,6 @@ const Header = (props) => {
     dispatch(chatActions.confirmAChat({"postId":chatId}));
   };
 
-  console.log('작가와나',owner,writer)
-
   return (
     <React.Fragment>
       <Grid
@@ -60,7 +57,7 @@ const Header = (props) => {
         style={{ position: "fixed", top: 0, zIndex: 4, justifyContent:"space-between"}}
       >
         {id == "chatroom" ? <ArrowBackOutlinedIcon  style={{color:"white"}} onClick={() => {history.goBack();}}/> : <div></div> }
-        {title == "" ? (<div id="header" onClick={() => {window.location.href = "/";}}>
+        {title == "" ? (<div id="header" onClick={() => {window.location.href = "/";}}> 
           <Image src="/assets/logo_header.png" /></div>) : (<TitleBox style={{cursor:"default"}}>{title}</TitleBox>)}
         <Grid width="">
         {id == "chatroom" ? <Grid is_flex><Text color="white" clickEvent={confirmchat} style={{marginRight:"5px"}}>확정</Text><Text color="white" clickEvent={exitchat}>탈퇴</Text></Grid>  : null }

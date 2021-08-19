@@ -127,7 +127,7 @@ const ChatRoom = (props) => {
    * 소켓을 연결하고, 소켓 이벤트를 설정하고 기본적인 준비를 하는 곳입니다.
    */
   useEffect(() => {
-    const io = socket("astraios.shop:4001/chat", {
+    const io = socket("astraios.shop/chat", {
       path: "/socket.io",
       query: {
         postId: props.match.params.id,

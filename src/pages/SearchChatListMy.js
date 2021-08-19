@@ -31,7 +31,8 @@ import { history } from "../redux/configStore";
 const SearchChatListMy = () => {
   const dispatch = useDispatch();
   const [rooms, setRooms] = useState([]);
-  const posts = useSelector((state) => state.post.list);
+  const posts = useSelector((state) => state.search.list);
+  console.log('posts',posts);
   /**
    * useEffect 를 이용하여, useState 에 Redux Action dispatch 데이터 저장하기
    */
@@ -87,7 +88,7 @@ const SearchChatListMy = () => {
 
   const search = () => {
     console.log(inputword.current.value);
-    dispatch(searchActions.searchChatDB(inputword.current.value));
+    dispatch(searchActions.searchRoomDB(inputword.current.value));
     history.push(`/chatlist/search/${inputword.current.value}`);
   };
   const onKeyPress = (event) => {

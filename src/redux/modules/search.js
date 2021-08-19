@@ -86,6 +86,30 @@ const searchRoomDB = (keyword, limit = 5) => {
   };
 };
 
+const searchMoreRoomDB = (keyword, limit = 5) => {
+  return function (dispatch, getState) {
+    const start = getState().search.start;
+
+    if (start === null) return;
+
+    instance
+      .get(`/api/search/room?keyword=${keyword}&start=${start}&limit=${limit + 1}`)
+      .then((res) => {
+        if (res.data.length < limit + 1) {
+          dispatch(getSearchMoreRoom(res.data, null));
+          return;
+        }
+
+        if (res.data.length >= limit + 1) res.data.pop();
+
+        dispatch(getSearchMoreRoom(res.data, start + limit));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+};
+
 // REDUCER
 function search(state = initialState, action) {
   switch (action.type) {
@@ -95,8 +119,11 @@ function search(state = initialState, action) {
     case SEARCH_MORE_POST:
       return { list: [...state.list, ...action.searchPost], start: action.start,  };
 
-      case SEARCH_ROOM:
-        return { list: action.searchRoom, start: action.start };
+    case SEARCH_ROOM:
+      return { list: action.searchRoom, start: action.start };
+
+    case SEARCH_MORE_ROOM:
+      return { list: [...state.list, ...action.searchRoom], start: action.start,  };  
 
     default:
       return state;
@@ -110,5 +137,8 @@ export const searchActions = {
   getSearchMorePost,
   searchPostDB,
   searchMorePostDB,
+  getSearchRoom,
+  getSearchMoreRoom,
   searchRoomDB,
+  searchMoreRoomDB
 };

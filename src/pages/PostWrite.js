@@ -7,6 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dialog, Transition } from "@headlessui/react";
 import { geolocated, geoPropTypes } from "react-geolocated";
 import _ from "lodash";
+import DatePicker from "react-datepicker";
+import { ko } from "date-fns/esm/locale";
+import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 
 // TOKEN
 import { getToken } from "../common/token";
@@ -52,6 +55,8 @@ const PostWrite = (props) => {
   const [viewModal, setViewModal] = useState(false);
   const [loadMap, setLoadMap] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
   useOutsideClick(modalRef, () => {
     setViewModal(false);
@@ -180,7 +185,7 @@ const PostWrite = (props) => {
     alert("해당 기기는 GeoLocation을 지원하지 않습니다!");
   if (!props.isGeolocationEnabled)
     alert("해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!");
-
+  
   return (
     <Style>
       <Permit width="" height="">
@@ -274,6 +279,22 @@ const PostWrite = (props) => {
                   }}
                 />
               </div>
+              {/* <DatePicker
+                  locale={ko}
+                  dateFormat="yyyy/MM/dd"
+                  className="input-datepicker"
+                  minDate={new Date()}
+                  closeOnScroll={true}
+                  placeholderText=""
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                  onChange={(e) => {
+                    setPostingContents({
+                      ...postingContents,
+                      startDate: e.target.value,
+                    });
+                  }}
+                /> */}
               <div className="block" style={{ margin: "15px 5px 15px 5px" }}>
                 <Text fontSize="13px" color="#888888" fontWeight="bold">
                   종료

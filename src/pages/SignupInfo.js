@@ -180,7 +180,7 @@ const SignupInfo = (props) => {
               margin="0px"
               color={nicknameWarning}
               lineHeight="2"
-              textIndent="3px"
+              // textIndent="3px"
             >
               {nicknameConfirm}
             </Text>

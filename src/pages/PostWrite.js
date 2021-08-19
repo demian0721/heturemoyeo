@@ -203,7 +203,7 @@ const PostWrite = (props) => {
             `;
           }}
         >
-          <Grid padding="8px" bg="white" width="" height="">
+          <Grid padding="8px" bg="white" width="350px" height="" margin="auto">
             <Grid
               width="320px"
               height=""
@@ -436,6 +436,7 @@ const PostWrite = (props) => {
                     border: "1.5px solid #white",
                     margin: "7px 5px 7px 5px",
                     boxShadow: "none",
+                    resize:"none",
                     // borderBottom:"1.5px solid #E5E5E5",
                   }}
                   placeholder="내용"
@@ -496,6 +497,7 @@ const PostWrite = (props) => {
             </Button>
           </Grid>
         </Grid>
+        
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
             as="div"

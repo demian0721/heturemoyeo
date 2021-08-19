@@ -70,8 +70,8 @@ const Details = (props) => {
   return (
     <Grid height="32vh" width="30%" minWidth="360px" margin="auto">
       <PlaceImageComponent img={postDetails?.postImg} />
-      <Grid width="100px" height="100px" style={{zIndex:"50",position:"absolute",top:"33%",left:"40%",transform:"translateX(-50%)"}}>
-          <img src={postDetails.profileImg? postDetails.profileImg : "/assets/profile.png" }></img>
+      <Grid  width="100px" height="100px" radius="50%" style={{zIndex:"50",position:"absolute",top:"33%",left:"40%",transform:"translateX(-50%)"}}>
+          <img style={{width:"100px", height:"100px"}} src={postDetails.profileImg? postDetails.profileImg : "/assets/profile.png" }></img>
       </Grid>
       <Grid
         padding="18px"

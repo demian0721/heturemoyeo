@@ -146,7 +146,7 @@ const SignUp = (props) => {
               margin="0px"
               color={nameWarning}
               lineHeight="2"
-              textIndent="3px"
+              // textIndent="3px"
             >
               {nameConfirm}
             </Text>
@@ -167,7 +167,7 @@ const SignUp = (props) => {
               margin="0px"
               color={idWarning}
               lineHeight="2"
-              textIndent="3px"
+              // textIndent="3px"
               >
               {idConfirm}
             </Text>
@@ -207,8 +207,7 @@ const SignUp = (props) => {
               margin="0px"
               color={pwdWarning}
               lineHeight="2"
-              textIndent="3px"
-
+              // textIndent="3px"
             >
               {pwdConfirm}
             </Text>
@@ -231,7 +230,7 @@ const SignUp = (props) => {
               margin="0px"
               color={pwdCheckWarning}
               lineHeight="2"
-              textIndent="3px"
+              // textIndent="3px"
             >
               {pwdCheckConfirm}
             </Text>

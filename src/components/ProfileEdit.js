@@ -214,16 +214,16 @@ const ProfileEdit = (props) => {
             
             <Grid id="emailpass" margin="10px auto" bg="white" padding="20px 30px">
               <Title fontSize="small" style={{color:"#767676"}}>기존 비밀번호</Title>
-              <Input keyUp={(event) => {debounce(event.target.value, checkPWD);}} changeEvent={changePassword} value={editInfo.password} placeholder="기존 비밀번호" width="100%" margin="auto" style={{display:"block"}}></Input>
-              <Text fontSize="12px" margin="0px" color={pwdWarning} lineHeight="1" textIndent="0px">{pwdNotice}</Text>
+              <Input type="password" keyUp={(event) => {debounce(event.target.value, checkPWD);}} changeEvent={changePassword} value={editInfo.password} placeholder="기존 비밀번호" width="100%" margin="auto" style={{display:"block"}}></Input>
+              <Text fontSize="12px" margin="5px 0px 0px 0px" color={pwdWarning} lineHeight="1" textIndent="0px">{pwdNotice}</Text>
 
               <Text fontSize="small" color="blue" margin="10px 0px" style={{cursor:"pointer"}} clickEvent={() => { if(show==true){setShow(false);}else{setShow(true); setNPwd2Notice(""); setNPwd1Notice(""); setInfos({...editInfo,newpassword:"", confirm:""}); } }}>(비밀번호 변경)</Text>
               { show ? <Title fontSize="small" style={{color:"#767676"}}>새 비밀번호</Title> : null }
               { show ? <Input margin="0px" keyUp={(event) => {debounce(event.target.value, checkNPWD1);}}  changeEvent={changeNewpassword} value={editInfo.newpassword} placeholder="새 비밀번호" width="100%" style={{display:"block"}}/> : null }
-              { show ? <Text fontSize="12px" margin="0px" color={npwd1Warning} lineHeight="1" textIndent="0px">{npwd1Notice}</Text> : null }
+              { show ? <Text fontSize="12px" margin="5px 0px 0px 0px" color={npwd1Warning} lineHeight="1" textIndent="0px">{npwd1Notice}</Text> : null }
               { show ? <Title fontSize="small" style={{color:"#767676"}} margin="10px 0px 0px 0px">새 비밀번호 확인</Title> : null }
               { show ? <Input margin="0px" keyUp={(event) => {debounce(event.target.value, checkNPWD2);}}  changeEvent={changeConfirm} value={editInfo.confirm} placeholder="새 비밀번호 확인" width="100%" style={{display:"block"}}/> : null }
-              { show ? <Text fontSize="12px" margin="0px" color={npwd2Warning} lineHeight="1" textIndent="0px">{npwd2Notice}</Text> : null }
+              { show ? <Text fontSize="12px" margin="5px 0px 0px 0px" color={npwd2Warning} lineHeight="1" textIndent="0px">{npwd2Notice}</Text> : null }
 
               <Button className="custom_transition" width="100%" padding="15px" margin="20px auto" display="block" color="white" style={{minWidth:"100px",fontWeight:"bold", border: "none"}} hoverColor="#16C59B" clickEvent={editInfos}>수정 완료</Button>
             </Grid>

@@ -45,7 +45,8 @@ const Header = (props) => {
   const confirmchat = () => {
     dispatch(chatActions.confirmAChat({"postId":chatId}));
   };
-  // console.log('작가와나',owner,writer)
+
+  console.log('작가와나',owner,writer)
 
   return (
     <React.Fragment>

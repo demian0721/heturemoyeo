@@ -45,8 +45,8 @@ const MyPage = () => {
   return (
     <Style>
       <Grid width="50vw" height="" maxWidth="500px" minWidth="250px" margin="auto" style={{backgroundColor:"white",borderBottom:"1px solid #dddddd"}}>
-          <Grid width="20vw" maxWidth="120px" minWidth="30px" margin="40px auto 0px auto" style={{ display: "block", borderRadius: "50%" }}>
-            <Image src={userlist.profileImg? userlist.profileImg : "/assets/profile_image_avatar_only.png"} /> 
+          <Grid width="20vw" maxWidth="120px" minWidth="30px" height="20vw" maxHeight="120px" minHeight="30px" margin="40px auto 0px auto" style={{ display: "block", borderRadius: "50%" }}>
+            <img style={{width:"20vw", maxWidth:"120px", minWidth:"30px", height:"20vw", maxHeight:"120px", minHeight:"30px"}} src={userlist.profileImg? userlist.profileImg : "/assets/profile_image_avatar_only.png"} /> 
             {/* "https://i.imgur.com/2OeMYtb.png" */}
           </Grid>
           <Grid padding="20px 40px">

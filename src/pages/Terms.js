@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { css } from "styled-components";
 import "../Signup.scss";
+import { Link } from "react-router-dom";
 
 // Elements
 import { Grid, Button, Toggle, Vehicles } from "../elements";
@@ -276,44 +277,42 @@ export class Terms extends Component {
               </div>
             </div>
             <Grid padding="15px 0px 5px">
-              <Button
-                width="100%"
-                height="auto"
-                padding="12px 0"
-                bg={this.state.bg}
-                hoverBg={this.state.hoverBg}
-                radius="5px"
-                color={this.state.color}
-                className="custom_transition"
-                hoverColor={this.state.hoverColor}
-                fontSize="15px"
-                style={{ fontWeight: "bold", border: "none" }}
-                clickEvent={() => {
-                  history.push("/signup");
-                }}
-                disabled={!this.state.allCheck}
-              >
-                동의하고 가입하기
-              </Button>
+              <Link to="/signup">
+                <Button
+                  width="100%"
+                  height="auto"
+                  padding="12px 0"
+                  bg={this.state.bg}
+                  hoverBg={this.state.hoverBg}
+                  radius="5px"
+                  color={this.state.color}
+                  className="custom_transition"
+                  hoverColor={this.state.hoverColor}
+                  fontSize="15px"
+                  style={{ fontWeight: "bold", border: "none" }}
+                  disabled={!this.state.allCheck}
+                >
+                  동의하고 가입하기
+                </Button>
+              </Link>
             </Grid>
             <Grid padding="15px 0px 5px">
-              <Button
-                width="100%"
-                height="auto"
-                padding="12px 0"
-                bg="#16C59B"
-                radius="5px"
-                color="#FFFFFF"
-                className="custom_transition"
-                hoverColor="#16C59B"
-                fontSize="15px"
-                style={{ fontWeight: "bold", border: "none" }}
-                clickEvent={() => {
-                  history.push("/login");
-                }}
-              >
-                취소
-              </Button>
+              <Link to="/login">
+                <Button
+                  width="100%"
+                  height="auto"
+                  padding="12px 0"
+                  bg="#16C59B"
+                  radius="5px"
+                  color="#FFFFFF"
+                  className="custom_transition"
+                  hoverColor="#16C59B"
+                  fontSize="15px"
+                  style={{ fontWeight: "bold", border: "none" }}
+                >
+                  취소
+                </Button>
+              </Link>
             </Grid>
           </Grid>
         </Grid>

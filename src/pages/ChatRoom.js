@@ -212,7 +212,6 @@ const ChatRoom = (props) => {
   return (
     <Fragment>
       <div id="message-table" className="container mx-auto h-full w-full" style={{height:"91vh", paddingTop:"75px"}}>
-
       <Header 
       width="91%"
       style={{

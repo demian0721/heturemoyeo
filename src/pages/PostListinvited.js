@@ -1,14 +1,12 @@
 // LIBRARY
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
+import { css } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 
 // REDUX
 import { postActions } from "../redux/modules/post";
 import { searchActions } from "../redux/modules/search";
-
-// FUNCTION
-import InfiniteScroll from "../common/infiniteScroll";
 
 // ELEMENTS
 import { Grid, Button } from "../elements/index";
@@ -22,21 +20,32 @@ import { history } from "../redux/configStore";
 // COMPONENTS
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import PostListCard from "../components/PostListCard";
 import PostListButton from "../components/PostListButton";
 
-const PostList = (props) => {
+import axios from "../common/axios";
+
+const PostListInvited = (props) => {
+  const [invitePostList, setInvitePostList] = useState([]);
   const dispatch = useDispatch();
   const PostList = useSelector((state) => state.post.list);
-
   const inputword = useRef();
   // const searchDate = null;
 
   useEffect(() => {
-    dispatch(postActions.getPostsDB());
-
-    return () => {
-      dispatch(postActions.getPosts([], 0));
-    };
+    dispatch(postActions.getInvitedPostsDB());
+    if (!PostList ?? PostList?.length === 0) return;
+    PostList.map(async (el) => {
+      try {
+        const result = await axios.get("/api/post", {
+          params: { postId: el.postId },
+        });
+        const resultData = result.data
+        Object.assign(resultData, { PrevData: { ...el } });
+        invitePostList.push(resultData);
+      } catch (e) {}
+    });
+    return () => {};
   }, []);
 
   const search = () => {
@@ -45,10 +54,10 @@ const PostList = (props) => {
     history.push(`/postlist/search/${inputword.current.value}`);
   };
   const onKeyPress = (event) => {
-    if (event.key === "Enter") {
+    if (event.key == "Enter") {
       search();
     }
-  };
+  };  
 
   return (
     <Style>
@@ -67,7 +76,6 @@ const PostList = (props) => {
             >
               <SearchIcon style={{ color: "#7B7B7B" }} />
               <input
-                type="text"
                 placeholder="제목, 내용, 태그 또는 날짜"
                 style={{
                   padding: "0px 5px",
@@ -82,9 +90,12 @@ const PostList = (props) => {
               style={{ marginLeft: "5px", color: "#7B7B7B" }}
             />
           </Grid>
-          <PostListButton>all</PostListButton>
 
-          <InfiniteScroll postList={PostList} page="PostList" />
+          <PostListButton>invited</PostListButton>
+
+          {invitePostList && invitePostList.map((l, index) => {
+            return <PostListCard key={l.id} idx={index} {...l} />;
+          })}
 
           <Grid
             padding="5px 0px"
@@ -112,7 +123,7 @@ const PostList = (props) => {
         </Grid>
       </Grid>
       <Grid style={{ zIndex: 10 }}>
-      <Footer>group</Footer>
+        <Footer>group</Footer>
       </Grid>
     </Style>
   );
@@ -125,4 +136,4 @@ const Style = styled.div`
   background-color: #efefef;
 `;
 
-export default PostList;
+export default PostListInvited;

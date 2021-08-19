@@ -308,17 +308,15 @@ const Main = (props) => {
     socket.on("newPost", newPostLocationListener);
     socket.on("removePost", removePostLocationListener);
     return () => {
-      Logger.debug(
-        "[Socket.io:RemoveAllListener] Clearing All EventListener to Socket.io Client and Removing UserLocation Markers"
-      );
+      Logger.debug("[Socket.io:RemoveAllListener] Clearing All EventListener to Socket.io Client and Removing UserLocation Markers and Post Markers...");
       socket.removeAllListeners();
       markers.map((marker) => {
-        kakao.maps.event.removeListener(marker, "click", () =>
-          markerEventListener()
-        );
+        kakao.maps.event.removeListener(marker, "click", () => markerEventListener());
         return marker?.setMap(null);
       });
-      for (const key in posts) posts[key]?.setMap(null);
+      for (const key in posts) {
+        posts[key]?.setMap(null);
+      }
     };
   }, [myFriends, mySchedules, geolocationMarker]);
 
@@ -399,17 +397,14 @@ const Main = (props) => {
     if (!showModal) setIsOpen(false);
   });
 
-  const modalRef = useRef();
-  useOutsideClick(modalRef, () => {
-    setShowModal(false);
-    setShowItems(false);
-  });
-
   const handleModalClose = (clearSelect = true) => {
     setShowModal(false);
     setShowItems(false);
     if (clearSelect) setSelectedCard(0);
   };
+
+  const modalRef = useRef();
+  useOutsideClick(modalRef, () => handleModalClose(true));
 
   const handleModalInvite = (clearSelect = true) => {
     const filterScheduleList = myScheduleList?.filter(
@@ -418,33 +413,22 @@ const Main = (props) => {
     if (filterScheduleList?.length === 0)
       return alert("초대할 모임을 클릭한 후, 다시 시도해주세요!");
     if (filterScheduleList[0].userId === selectedCard)
-      return alert("나 자신을 초대할 수 없습니다!");
-    console.log({
-      userId: String(markerData?.userId),
-      postId: String(filterScheduleList[0].postId),
-    });
-    if (markerData?.userId && filterScheduleList[0].postId)
-      axios
-        .post("/api/room/invite", JSON.stringify({
-          userId: Number(markerData?.userId),
-          postId: Number(filterScheduleList[0].postId),
-        }))
-        .then((res) => {
-          console.log(res);
-          alert("성공적으로 초대하였어요!");
-        })
-        .catch((err) => {
-          console.log(err);
-          alert("초대하는 도중 오류가 발생하였습니다!");
-        });
-    // alert(
-    //   `Selected Schedule: ${
-    //     filterScheduleList?.length !== 0
-    //       ? `${filterScheduleList[0].title}(PostId: ${filterScheduleList[0].postId}), Member: ${filterScheduleList[0].currentMember}/${filterScheduleList[0].maxMember}, to member via memberId: ${markerData?.userId}`
-    //       : undefined
-    //   }`
-    // );
-    if (clearSelect) setSelectedCard(0);
+      return alert("나 자신은 초대할 수 없습니다!");
+    axios
+      .post("/api/room/invite", JSON.stringify({
+        userId: Number(markerData?.userId),
+        postId: Number(filterScheduleList[0].postId),
+      }))
+      .then((res) => {
+        alert("성공적으로 초대하였어요!");
+      })
+      .catch((err) => {
+        switch (err.response.status) {
+          case 406: alert("이미 초대된 사용자입니다!"); break;
+          default: alert("초대하는 도중 오류가 발생하였습니다!"); break;
+        }
+      });
+      handleModalClose(clearSelect)
   };
 
   return (
@@ -502,11 +486,11 @@ const Main = (props) => {
                           ? "/assets/unknownChatRoomImg.gif"
                           : markerData?.postImg
                         : markerData?.type === "user"
-                        ? !markerData?.profileImg ??
-                          String(markerData?.profileImg).length === 0
-                          ? "/assets/unknownProfile.jpg"
-                          : markerData?.profileImg
-                        : "/assets/unknownProfile.jpg"
+                          ? !markerData?.profileImg ??
+                            String(markerData?.profileImg).length === 0
+                            ? "/assets/unknownProfile.jpg"
+                            : markerData?.profileImg
+                          : "/assets/unknownProfile.jpg"
                     }
                     rating={markerData?.rating}
                     isType={markerData?.type ?? undefined}
@@ -559,10 +543,10 @@ const Main = (props) => {
 
                       <div
                         id="my-schedule-list"
-                        className="flex flex-wrap flex-initial overflow-y-scroll w-full space-y-2 bg-gray-300 rounded-md bg-opacity-25 p-2 border border-gray-400 border-opacity-25"
+                        className={`flex flex-wrap flex-initial ${myScheduleList?.length >= 4 ? 'overflow-y-scroll' : 'overflow-hidden'} w-full space-y-2 bg-gray-300 rounded-md bg-opacity-25 p-2 border border-gray-400 border-opacity-25 content-start`}
                         style={{
                           height:
-                            myScheduleList?.length === 0 ? "100px" : "305px",
+                            myScheduleList?.length === 0 ? "100px" : "305px"
                         }}
                       >
                         {showItems && myScheduleList?.length === 0 ? (

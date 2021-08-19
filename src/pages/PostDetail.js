@@ -35,22 +35,20 @@ const PostDetail = (props) => {
         <Text onClick={deletepost} margin="5px 5px 0px 5px" style={{ cursor: "default" }}>삭제</Text>
       </Grid> */}
 
-      <Grid width=""  height="" margin="">
-        {is_loaded && (
-          <Details Details={postDetails} postId={postId} />
-        )}
+      <Grid width="" height="" margin="">
+        {is_loaded && <Details Details={postDetails} postId={postId} />}
       </Grid>
     </Style>
   );
 };
 
 const Style = styled.div`
-    align-items: center;
-    margin-top: 75px;
-    /* width: 100vw; */
-    height: calc(100vh - 75px);
-    background-color: #EFEFEF;
-    //styled component use
+  align-items: center;
+  margin-top: 75px;
+  /* width: 100vw; */
+  height: calc(100vh - 75px);
+  background-color: #efefef;
+  //styled component use
 `;
 
 export default PostDetail;

@@ -2,9 +2,10 @@
 import React, { useEffect } from "react";
 import { ConnectedRouter } from "connected-react-router";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Provider } from 'react-redux'
 
 // HISTORY
-import { history } from "./redux/configStore";
+import store, { history } from './redux/configStore'
 
 import { RecoilRoot } from "recoil";
 
@@ -32,11 +33,12 @@ import {
   PostWrite,
   PostEdit,
   PostListMy,
+  PostListInvited,
   ChatList,
   MProfile,
   ChatRoom,
   Setting,
-  SearchPostList
+  SearchPostList,
 } from "./pages/index";
 
 function App() {
@@ -86,29 +88,28 @@ function App() {
         </Switch>
       </Router> */}
       <RecoilRoot>
-        <ConnectedRouter history={history}>
-          <Route exact path="/" component={Main} />
-          <Route path="/login" exact component={Login} />
-          <Route path="/terms" exact component={Terms} />
-          <Route path="/signup" exact component={Signup} />
-          <Route path="/signup/info" exact component={SignupInfo} />
-          <Route path="/mypage" exact component={Mypage} />
-          <Route path="/mypageedit" exact component={MypageEdit} />
-          <Route path="/profile:userid" exact component={MProfile} />
-          <Route path="/postlist" exact component={PostList} />
-          <Route path="/postlist/my" exact component={PostListMy} />
-          <Route path="/postdetail/:postid" exact component={PostDetail} />
-          <Route path="/postwrite" exact component={PostWrite} />
-          <Route path="/postdetail/edit" exact component={PostEdit} />
-          <Route path="/chat" exact component={ChatList} />
-          <Route path="/chat/:id" exact component={ChatRoom} />
-          <Route path="/setting" exact component={Setting} />
-          <Route
-            path="/postlist/search/:keyword"
-            exact
-            component={SearchPostList}
-          />
-        </ConnectedRouter>
+        <Provider store={store}>
+          <ConnectedRouter history={history}>
+            <Route exact path="/" component={Main} />
+            <Route path="/login" exact component={Login} />
+            <Route path="/terms" exact component={Terms} />
+            <Route path="/signup" exact component={Signup} />
+            <Route path="/signup/info" exact component={SignupInfo} />
+            <Route path="/mypage" exact component={Mypage} />
+            <Route path="/mypageedit" exact component={MypageEdit} />
+            <Route path="/profile/:userid" exact component={MProfile} />
+            <Route path="/postlist" exact component={PostList} />
+            <Route path="/postlist/my" exact component={PostListMy} />
+            <Route path="/postlist/invited" exact component={PostListInvited} />
+            <Route path="/postdetail/:postid" exact component={PostDetail} />
+            <Route path="/postwrite" exact component={PostWrite} />
+            <Route path="/postdetail/edit" exact component={PostEdit} />
+            <Route path="/chat" exact component={ChatList} />
+            <Route path="/chat/:id" exact component={ChatRoom} />
+            <Route path="/setting" exact component={Setting} />
+            <Route path="/postlist/search/:keyword" exact component={SearchPostList} />
+          </ConnectedRouter>
+        </Provider>
       </RecoilRoot>
     </>
   );

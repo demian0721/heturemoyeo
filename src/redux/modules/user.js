@@ -51,6 +51,8 @@ const initialState = {
   friendUsers: null,
   scheduleUsers: null,
   relation: null,
+  type: null,
+  exactType: null
 };
 
 // MIDDLEWARE
@@ -59,7 +61,12 @@ const myInfoDB = () => {
     instance
       .post("/api/user/me")
       .then((res) => {
-        dispatch(myInfo(res.data));
+        const result = res.data
+        Object.assign(result, {
+          type: 'user',
+          exactType: 'me'
+        })
+        dispatch(myInfo(result));
       })
       .catch((error) => {
         console.error(error);
@@ -230,6 +237,8 @@ export default handleActions(
         draft.statusMessage = action.payload.userInfo.statusMessage;
         draft.likeItem = action.payload.userInfo.likeItem;
         draft.rating = action.payload.userInfo.rating;
+        draft.type = action.payload.userInfo.type;
+        draft.exactType = action.payload.userInfo.exactType;
       }),
 
     [RELATION]: (state, action) =>

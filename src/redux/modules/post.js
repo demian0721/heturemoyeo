@@ -13,20 +13,18 @@ const GET_MORE_MY_POST = "GET_MORE_MY_POST";
 const ADD_POST = "ADD_POST";
 const POST_DELETE = "POST_DELETE";
 const GET_POST_LOCATION = "GET_POST_LOCATION";
+const GET_INTVITED_POST = 'GET_INVITED_POST'
 
 // ACTION CREATOR
 const getPosts = (posts, start) => ({ type: GET_POST, posts, start });
 const getMorePosts = (posts, start) => ({ type: GET_MORE_POST, posts, start });
 const postDetail = (postDetail) => ({ type: POST_DETAIL, postDetail });
 const getMyPosts = (posts, start) => ({ type: GET_MY_POST, posts, start });
-const getMoreMyPosts = (posts, start) => ({
-  type: GET_MORE_MY_POST,
-  posts,
-  start,
-});
+const getMoreMyPosts = (posts, start) => ({ type: GET_MORE_MY_POST, posts, start, });
 const addPost = (post) => ({ type: ADD_POST, post });
 const deletePost = (postId) => ({ type: POST_DELETE, postId });
 const getPostLocation = (postInfo) => ({ type: GET_POST_LOCATION, postInfo });
+const getInvitedPosts = (posts) => ({ type: GET_INTVITED_POST, posts })
 
 // INITIAL STATE
 const initialState = {
@@ -130,6 +128,19 @@ const getMyPostsDB = (limit = 50) => {
   };
 };
 
+const getInvitedPostsDB = () => {
+  return function (dispatch) {
+    instance
+      .get('/api/post/posts/invite')
+      .then(res => {
+        dispatch(getInvitedPosts(res.data))
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+}
+
 const getMoreMyPostsDB = (limit = 7) => {
   return function (dispatch, getState) {
     const start = getState().post.start;
@@ -225,6 +236,12 @@ function post(state = initialState, action) {
         list: [...state.list, ...action.postInfo],
       };
 
+    case GET_INTVITED_POST:
+      return {
+        ...state,
+        list: action.posts
+      }
+
     default:
       return state;
   }
@@ -239,11 +256,13 @@ export const postActions = {
   getMoreMyPosts,
   addPost,
   getPostLocation,
+  getInvitedPosts,
   getPostsDB,
   getMyPostsDB,
   getMorePostsDB,
   getMoreMyPostsDB,
   getPostLocationDB,
+  getInvitedPostsDB,
   addPostDB,
   postDetailInfo,
   deleteAPost,

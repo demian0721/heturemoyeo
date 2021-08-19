@@ -123,7 +123,12 @@ const UserOverlay = ({ children, ...props }) => {
           )}
           {props?.scheduleTitle && (
             <div className="font-semibold text-sm lg:text-base">
-              {props.scheduleTitle}
+              <span>{props.scheduleTitle}</span>
+                {props?.scheduleCount && Number(props?.scheduleCount - 1) !== 0
+                  ? <span className="ml-2 text-main inline-flex rounded-md lg:text-sm text-xs">
+                  외 {Number(props.scheduleCount) - 1}개
+                  </span>
+                  : ""}
             </div>
           )}
           {props.myId !== props.id && (

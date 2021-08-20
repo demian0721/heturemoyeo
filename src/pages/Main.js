@@ -245,7 +245,6 @@ const Main = (props) => {
     setMarkers([]);
     
     for (const userLocation of data) {
-      console.log(userLocation)
       if (userLocation !== null) {
         addMarker(
           global.map,

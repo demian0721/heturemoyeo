@@ -89,7 +89,9 @@ const ChatRoom = (props) => {
    * 이것은 useEffect로 옮길 예정입니다.
    * InfiniteScroll을 구현하기 위해, 배열을 reverse 하여 처리합니다.
    */
-  if (!init && myUserId && getChatDatas.length) {
+
+  useEffect(() => {
+    if (init) return;
     if (getChatDatas?.length >= 1) {
       getChatDatas.reverse();
       Logger.debug(`[GetChatDatas] Get ChatDatas: ${getChatDatas.length}`);
@@ -114,13 +116,46 @@ const ChatRoom = (props) => {
         if (el.userId) appendMsg(data);
         return data;
       });
+      appendMsg({
+        type: "system",
+        content: { text: "채팅방에 입장하셨습니다." },
+      });
+      setInit(true);
     }
-    appendMsg({
-      type: "system",
-      content: { text: "채팅방에 입장하셨습니다." },
-    });
-    setInit(true);
-  }
+  }, [init, setInit, getChatDatas]);
+
+  // if (!init && myUserId && getChatDatas.length) {
+  //   if (getChatDatas?.length >= 1) {
+  //     getChatDatas.reverse();
+  //     Logger.debug(`[GetChatDatas] Get ChatDatas: ${getChatDatas.length}`);
+  //     getChatDatas.map((el) => {
+  //       console.log(el);
+  //       const data = {
+  //         type: "text",
+  //         content: {
+  //           text: el.message,
+  //         },
+  //         position: el.userId === myUserId ? "right" : "left",
+  //       };
+  //       Object.assign(data, {
+  //         user: {
+  //           [el.userId !== myUserId && "avatarUrl"]:
+  //             !el?.profileImg ?? String(el?.profileImg).length === 0
+  //               ? "https://cdn.discordapp.com/attachments/869177664479567903/871045228159705088/profileBlank.png"
+  //               : el.profileImg,
+  //           [el.userId !== myUserId && "name"]: el.nickname,
+  //         },
+  //       });
+  //       if (el.userId) appendMsg(data);
+  //       return data;
+  //     });
+  //   }
+  //   appendMsg({
+  //     type: "system",
+  //     content: { text: "채팅방에 입장하셨습니다." },
+  //   });
+  //   setInit(true);
+  // }
 
   /**
    * 페이지가 로드됐을때 사용하는 useEffect 입니다.
@@ -131,7 +166,7 @@ const ChatRoom = (props) => {
       path: "/socket.io",
       query: {
         postId: props.match.params.id,
-      }
+      },
     });
     socketClientEvents(io);
     dispatch(chatActions.getChatDB(props.match.params.id, 1000));
@@ -154,7 +189,7 @@ const ChatRoom = (props) => {
   const handleMessageContent = (data) => {
     return (
       <>
-        <div className='flex'>
+        <div className="flex">
           <div
             className="flex rounded-full w-10 h-10 mr-1"
             style={{
@@ -178,7 +213,7 @@ const ChatRoom = (props) => {
               <div
                 className={`flex rounded-lg ${
                   data?.user?.name ? "bg-white" : "bg-main text-white"
-                } text-left px-3 text-sm py-1 w-full overflow-x-hidden`}
+                } text-left px-3 text-sm py-1 w-full overflow-x-hidden mt-0`}
                 style={{
                   maxWidth: "380px",
                   flexBasis: "content",
@@ -210,25 +245,27 @@ const ChatRoom = (props) => {
 
   return (
     <Fragment>
-      <div id="message-table" className="container mx-auto h-full w-full" style={{height:"91vh", paddingTop:"75px"}}>
-      <Header 
-      width="91%"
-      style={{
-        position: "static",
-      }}
-      id="chatroom"
-      chatId={props.match.params.id}
-      />
-        {/* ChatUI, 채팅 UI를 생성해줍니다. */}
-        <div id="message_chat-ui" style={{ height: "91vh"}}>
-          <Chat
-            locale="ko-KR"
-            messages={messages}
-            renderMessageContent={handleMessageContent}
-            onSend={handleSendMessage}
-            placeholder="메세지를 입력해주세요."
-          />
-          <style>{ChatUICSS}</style>
+      <div className="relative w-full h-screen">
+        <div
+          id="message-table"
+          className="container mx-auto w-auto h-auto flex flex-col"
+        >
+          <Header id="chatroom" chatId={props.match.params.id} />
+          {/* ChatUI, 채팅 UI를 생성해줍니다. */}
+          <div
+            id="message_chat-ui"
+            className="w-full"
+            style={{ height: "calc(100vh - 75px)" }}
+          >
+            <Chat
+              locale="ko-KR"
+              messages={messages}
+              renderMessageContent={handleMessageContent}
+              onSend={handleSendMessage}
+              placeholder="메세지를 입력해주세요."
+            />
+            <style>{ChatUICSS}</style>
+          </div>
         </div>
       </div>
     </Fragment>

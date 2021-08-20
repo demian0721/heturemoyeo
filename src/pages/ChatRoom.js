@@ -254,7 +254,7 @@ const ChatRoom = (props) => {
           {/* ChatUI, 채팅 UI를 생성해줍니다. */}
           <div
             id="message_chat-ui"
-            className="w-full"
+            className="fixed bottom-0 w-full"
             style={{ height: "calc(100vh - 75px)" }}
           >
             <Chat

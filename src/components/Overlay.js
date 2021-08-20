@@ -85,7 +85,7 @@ const UserOverlay = ({ children, ...props }) => {
             <div id="userProfile-Image">
               <div
                 className={`${
-                  props?.rating ? "fixed" : "block"
+                  props?.rating ? "absolute" : "block"
                 } rounded-full container mx-auto w-20 h-20`}
                 style={{
                   zIndex: -1,

@@ -154,7 +154,7 @@ const ChatList = () => {
       <div className="container mx-auto my-4 space-y-4 w-full">
       <SmallTitle>대화방 목록</SmallTitle>       
         {rooms?.length >= 1 ? (
-          rooms.map((el) => <ChatListCardComponent {...el} />)
+          rooms.map((el, index) => <ChatListCardComponent key={index} {...el} />)
         ) : (
           <div className="text-center font-bold text-lg">
             참여 중인 대화방이 존재하지 않아요!
@@ -169,10 +169,10 @@ const ChatList = () => {
   );
 };
 
-function ChatListCardComponent({ children, ...props }) {
+function ChatListCardComponent({ children, key, ...props }) {
   return (
     <div
-      key={props.postId}
+      key={props.key}
       className="rounded-lg px-5 py-4 mx-4 border border-gray-500 border-opacity-20 chatBoxShadow bg-gray-100 hover:bg-white transition cursor-pointer"
       onClick={() => (window.location.href = `/chat/${props.postId}`)}
     >

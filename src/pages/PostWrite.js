@@ -77,18 +77,33 @@ const PostWrite = (props) => {
     setIsOpen(false);
   });
 
+  useEffect(() => {dispatch(postActions.postDetailInfo(props.match.params.postid)) }, [])
+
+  const PostContent = useSelector((state) => state.post.postDetail);
+  console.log('wpahw',PostContent)
+
   const [postingContents, setPostingContents] = useState({
-    title: postInfo ? postInfo.title : "",
-    content: postInfo ? postInfo.content : "",
-    maxMember: postInfo ? postInfo.maxMember : "",
-    startDate: postInfo ? postInfo.startDate : "",
-    endDate: postInfo ? postInfo.endDate : "",
-    place: postInfo ? postInfo.place : "",
-    bring: postInfo ? postInfo.bring : "",
-    tag: postInfo ? postInfo.tag : [],
-    lat: postInfo ? postInfo.lat : 0,
-    lng: postInfo ? postInfo.lng : 0,
+    title: postInfo ? postInfo.title : PostContent? PostContent.title : "" ,
+    content: postInfo ? postInfo.content : PostContent? PostContent.content : "",
+    maxMember: postInfo ? postInfo.maxMember : PostContent? PostContent.maxMember : "",
+    startDate: postInfo ? postInfo.startDate : PostContent? PostContent.startDate : "",
+    endDate: postInfo ? postInfo.endDate : PostContent? PostContent.endDate : "",
+    place: postInfo ? postInfo.place : PostContent? PostContent.place : "",
+    bring: postInfo ? postInfo.bring : PostContent? PostContent.bring : "",
+    tag: postInfo ? postInfo.tag : PostContent? PostContent.tag : [],
+    lat: postInfo ? postInfo.lat : PostContent? PostContent.lat : 0,
+    lng: postInfo ? postInfo.lng : PostContent? PostContent.lng : 0,
   });
+
+
+  
+  if (props.match.params.postid === undefined){}else{
+    const PostDetail = PostContent;
+    // console.log('able',props.match.params.postid)
+  };
+
+  
+
 
   const isItPossibleToAdd = () => {
     if (
@@ -282,6 +297,7 @@ const PostWrite = (props) => {
                 {/* <Input
                   placeholder="시작시간(연도월일)"
                   type="date"
+                  value={postingContents.startDate}
                   changeEvent={(e) => {
                     setPostingContents({
                       ...postingContents,
@@ -334,6 +350,7 @@ const PostWrite = (props) => {
                 {/* <Input
                   placeholder="종료시간(연도월일)"
                   type="date"
+                  value={postingContents.endDate}
                   changeEvent={(e) => {
                     setPostingContents({
                       ...postingContents,
@@ -392,6 +409,7 @@ const PostWrite = (props) => {
                     paddingRight: "3px",
                     paddingLeft: "3px",
                   }}
+                  value={postingContents.place}
                   onClick={() => {
                     setViewModal(true);
                     setIsOpen(true);
@@ -442,6 +460,7 @@ const PostWrite = (props) => {
                   }}
                   padding="8px 0px"
                   placeholder="인원수(명)"
+                  value={postingContents.maxMember}
                   changeEvent={(e) => {
                     setPostingContents({
                       ...postingContents,
@@ -466,6 +485,7 @@ const PostWrite = (props) => {
                   padding="8px 0px"
                   placeholder="지참금(문자로 적기)"
                   type="text"
+                  value={postingContents.bring}
                   changeEvent={(e) => {
                     setPostingContents({
                       ...postingContents,
@@ -501,6 +521,7 @@ const PostWrite = (props) => {
                   padding="8px 0px"
                   placeholder="제목"
                   type="text"
+                  value={postingContents.title}
                   changeEvent={(e) => {
                     setPostingContents({
                       ...postingContents,
@@ -522,6 +543,7 @@ const PostWrite = (props) => {
                   }}
                   placeholder="내용"
                   type="text"
+                  value={postingContents.content}
                   onChange={(e) => {
                     setPostingContents({
                       ...postingContents,
@@ -550,6 +572,7 @@ const PostWrite = (props) => {
                 }}
                 placeholder="태그설정"
                 type="text"
+                value={postingContents.tag}
                 changeEvent={(e) => {
                   setPostingContents({
                     ...postingContents,

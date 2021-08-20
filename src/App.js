@@ -104,7 +104,7 @@ function App() {
             <Route path="/postlist/invited" exact component={PostListInvited} />
             <Route path="/postdetail/:postid" exact component={PostDetail} />
             <Route path="/postwrite" exact component={PostWrite} />
-            <Route path="/postdetail/edit" exact component={PostEdit} />
+            <Route path="/postdetail/edit/:postid" exact component={PostWrite} />
             <Route path="/chat" exact component={ChatList} />
             <Route path="/chat/:id" exact component={ChatRoom} />
             <Route path="/setting" exact component={Setting} />

@@ -45,9 +45,8 @@ const ChatList = () => {
      * Socket 서버에 연결합니다.
      * 그 후, 이벤트를 선언합니다.
      */
-    const io = socket.connect("astraios.shop/room", {
+    const io = socket.connect("https://astraios.shop/room", {
       path: "/socket.io",
-      secure: true
     });
     io.on("connect", () =>
       Logger.info(`[Socket.io:Connect] Connected to Socket.io server!`)

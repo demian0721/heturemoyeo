@@ -243,12 +243,14 @@ const Main = (props) => {
     markers.map((el) => el.setMap(null));
     markers.splice(0, markers.length);
     setMarkers([]);
-    for (const key in data) {
-      if (key !== null) {
+    
+    for (const userLocation of data) {
+      console.log(userLocation)
+      if (userLocation !== null) {
         addMarker(
           global.map,
-          key,
-          new kakao.maps.LatLng(data[key].lat, data[key].lng),
+          userLocation.key,
+          new kakao.maps.LatLng(userLocation.latitude, userLocation.longitude),
           false
         );
       }

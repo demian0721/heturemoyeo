@@ -2,10 +2,9 @@ import { getToken } from "./token";
 
 const io = require("socket.io-client");
 
-const socket = io("astraios.shop/location", {
+const socket = io("https://astraios.shop/location", {
   extraHeaders: { authorization: `${getToken()}` },
-  path: "/socket.io",
-  secure: true
+  path: "/socket.io"
 });
 
 export default socket;

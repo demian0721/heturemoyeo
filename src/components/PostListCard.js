@@ -13,6 +13,8 @@ import RoomOutlinedIcon from "@material-ui/icons/RoomOutlined";
 import { history } from "../redux/configStore";
 
 import { formattedDate } from "../utils";
+import axios from "../common/axios";
+import Logger from '../utils/Logger'
 
 const PostListCard = (props) => {
   return (
@@ -108,6 +110,19 @@ const PostListCard = (props) => {
 };
 
 const InvitedListCard = (props) => {
+  const handleButtonClick = async ({ type, props }) => {
+    if (!type || !['accept', 'reject'].includes(type)) return Logger.error(`[HandleButtonClick] type is not provided! (accept, reject)`)
+    const prefix = type === 'accept' ? '수락' : type === 'reject' ? '거절' : '알 수 없음'
+    try {
+      await axios.post(`/api/room/invite/${type === 'accept' ? 'accept' : type === 'reject' ? 'reject' : undefined}`, { inviteId: props?.inviteId ?? props?.InviteId })
+      alert(`성공적으로 ${prefix}하였어요!`)
+      props?.deleteCardFunction(props?.idx)
+    } catch (e) {
+      alert(`${prefix}하는 도중, 오류가 발생하였습니다!`)
+      console.log(e)
+    }
+  }
+
   return (
     <>
       <PostCard
@@ -205,22 +220,24 @@ const InvitedListCard = (props) => {
         <div className="flex">
           <div className="lg:block flex self-center lg:space-x-0 lg:space-y-2 space-x-4">
             <div
-              onClick={() => props?.deleteCardFunction(props?.idx)}
+              onClick={() => handleButtonClick({ type: 'accept', props })}
               className="text-center bg-green-100 text-green-600 hover:bg-green-300 hover:text-green-900 transition-colors duration-300 ease-in-out rounded-md px-7 py-2 block text-sm font-normal cursor-pointer"
             >
               수락
             </div>
             <div
-              onClick={() => props?.deleteCardFunction(props?.idx)}
+              onClick={() => handleButtonClick({ type: 'reject', props })}
               className="text-center bg-red-100 text-red-600 hover:bg-red-300 hover:text-red-900 transition-colors duration-300 ease-in-out rounded-md px-7 py-2 block text-sm font-normal cursor-pointer"
             >
               거절
             </div>
-            <Link to={`/postdetail/${props.postId}`}>
-              <div className="text-center bg-blue-100 text-blue-600 hover:bg-blue-300 hover:text-blue-900 transition-colors duration-300 ease-in-out rounded-md px-7 py-2 block text-sm font-normal cursor-pointer">
-                자세히 보기
-              </div>
-            </Link>
+            <div className='cursor-pointer'>
+              <Link to={`/postdetail/${props.postId}`}>
+                <div className="text-center bg-blue-100 text-blue-600 hover:bg-blue-300 hover:text-blue-900 transition-colors duration-300 ease-in-out rounded-md px-7 py-2 block text-sm font-normal">
+                  자세히 보기
+                </div>
+              </Link>
+            </div>
           </div>
         </div>
       </PostCard>

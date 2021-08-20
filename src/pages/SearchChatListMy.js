@@ -46,7 +46,7 @@ const SearchChatListMy = () => {
      * Socket 서버에 연결합니다.
      * 그 후, 이벤트를 선언합니다.
      */
-    const io = socket.connect("astraios.shop:4001/room", {
+    const io = socket.connect("https://astraios.shop/room", {
       path: "/socket.io",
     });
     io.on("connect", () =>

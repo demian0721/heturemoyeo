@@ -1,0 +1,10 @@
+.react-datepicker__day-name,
+.react-datepicker__day {
+  margin: 0.5rem !important;
+}
+/* .saturday {
+  color: rgb(0, 0, 255) ;
+}
+.sunday {
+  color: rgb(255, 0, 0) ;
+} */

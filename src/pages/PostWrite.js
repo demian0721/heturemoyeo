@@ -9,7 +9,10 @@ import { geolocated, geoPropTypes } from "react-geolocated";
 import _ from "lodash";
 import DatePicker from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
-import 'react-datepicker/dist/react-datepicker-cssmodules.css';
+import 'react-datepicker/dist/react-datepicker.css';
+import "../react-datepicker.css";
+import { addDays } from 'date-fns';
+import moment from 'moment';
 
 // TOKEN
 import { getToken } from "../common/token";
@@ -55,8 +58,19 @@ const PostWrite = (props) => {
   const [viewModal, setViewModal] = useState(false);
   const [loadMap, setLoadMap] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+
+  const [beginDate, setBeginDate] = useState(null);
+  const [finishDate, setFinishDate] = useState(null);
+
+  const filterPassedTime = (time) => {
+    const currentDate = new Date();
+    const selectedDate = new Date(time);
+
+    return currentDate.getTime() < selectedDate.getTime();
+  };
+  
+  const getDayName = (date) => { return date.toLocaleDateString('ko-KR', { weekday: 'long', }).substr(0, 1); }
+  const createDate = (date) => { return new Date(new Date(date.getFullYear() , date.getMonth() , date.getDate() , 0 , 0 , 0)); }
 
   useOutsideClick(modalRef, () => {
     setViewModal(false);
@@ -186,6 +200,11 @@ const PostWrite = (props) => {
   if (!props.isGeolocationEnabled)
     alert("해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!");
   
+  useEffect(()=> {
+    console.log(moment(beginDate).format("YYYY-MM-DD HH:mm:ss"));
+    console.log(postingContents);
+  },[beginDate, postingContents]) 
+
   return (
     <Style>
       <Permit width="" height="">
@@ -257,10 +276,10 @@ const PostWrite = (props) => {
             </Grid>
             <Grid width="" height="" is_flex margin="20px 0 0 0">
               <div className="block" style={{ margin: "15px 5px 15px 5px" }}>
-                <Text fontSize="13px" color="#888888" fontWeight="bold">
+                <Text fontSize="13px" color="#888888" fontWeight="bold" margin="0px 0px 8px 0px">
                   시작
                 </Text>
-                <Input
+                {/* <Input
                   placeholder="시작시간(연도월일)"
                   type="date"
                   changeEvent={(e) => {
@@ -277,29 +296,42 @@ const PostWrite = (props) => {
                     borderBottom: "solid 2px #E5E5E5",
                     boxShadow: "none",
                   }}
-                />
-              </div>
-              {/* <DatePicker
+                /> */}
+                <DatePicker
                   locale={ko}
-                  dateFormat="yyyy/MM/dd"
+                  dateFormat="yyyy-MM-dd H:mm"
                   className="input-datepicker"
                   minDate={new Date()}
+                  maxDate={addDays(new Date(), 7)}
                   closeOnScroll={true}
-                  placeholderText=""
-                  selected={startDate}
-                  onChange={(date) => setStartDate(date)}
-                  onChange={(e) => {
+                  placeholderText="시작을 설정해주세요"
+                  selected={beginDate}
+                  startDate={beginDate}
+                  // endDate={finishDate}
+                  selectsStart
+                  filterTime={filterPassedTime}
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  timeIntervals={15}
+                  timeCaption="시작시간"
+                  popperModifiers={{  preventOverflow: { enabled: true, }, }}
+                  dayClassName={date => getDayName(createDate(date)) === '토' ? "saturday" : getDayName(createDate(date)) === '일' ? "sunday" : undefined }
+                  // onChange={(date) => setBeginDate(date)}
+                  onChange={(date) => {
                     setPostingContents({
                       ...postingContents,
-                      startDate: e.target.value,
+                      startDate: date,
                     });
+                    setBeginDate(date);
                   }}
-                /> */}
+                />
+              </div>
+              
               <div className="block" style={{ margin: "15px 5px 15px 5px" }}>
-                <Text fontSize="13px" color="#888888" fontWeight="bold">
+                <Text fontSize="13px" color="#888888" fontWeight="bold" margin="0px 0px 8px 0px">
                   종료
                 </Text>
-                <Input
+                {/* <Input
                   placeholder="종료시간(연도월일)"
                   type="date"
                   changeEvent={(e) => {
@@ -315,6 +347,34 @@ const PostWrite = (props) => {
                     borderTop: "none",
                     borderBottom: "solid 2px #E5E5E5",
                     boxShadow: "none",
+                  }}
+                /> */}
+                <DatePicker
+                  locale={ko}
+                  dateFormat="yyyy/MM/dd H:mm"
+                  className="input-datepicker"
+                  minDate={beginDate}
+                  maxDate={addDays(new Date(), 14)}
+                  closeOnScroll={true}
+                  placeholderText="종료를 설정해주세요"
+                  selected={finishDate}
+                  startDate={beginDate}
+                  endDate={finishDate}
+                  selectsEnd
+                  filterTime={filterPassedTime}
+                  showTimeSelect
+                  timeFormat="HH:mm"
+                  timeIntervals={15}
+                  timeCaption="종료시간"
+                  popperModifiers={{  preventOverflow: { enabled: true, }, }}
+                  popperPlacement="auto"
+                  dayClassName={date => getDayName(createDate(date)) === '토' ? "saturday" : getDayName(createDate(date)) === '일' ? "sunday" : undefined }
+                  onChange={(date) => {
+                    setPostingContents({
+                      ...postingContents,
+                      endDate: date,
+                    });
+                    setFinishDate(date)
                   }}
                 />
               </div>
@@ -658,6 +718,9 @@ const PostWrite = (props) => {
     </Style>
   );
 };
+
+const CalendarContainer = styled.div`
+`;
 
 const EnterButton = styled.button`
   width: 100%;

@@ -20,7 +20,7 @@ import PersonIcon from "@material-ui/icons/Person";
 // HISTORY
 import { history } from "../redux/configStore";
 import axios from "../common/axios";
-import Logger from '../utils/Logger'
+import Logger from "../utils/Logger";
 
 function PlaceImageComponent(props) {
   return (
@@ -99,15 +99,12 @@ const handleButtonClick = async ({ type, props }) => {
   try {
     await axios.post(
       `/api/room/invite/${
-        type === "accept"
-          ? "accept"
-          : type === "reject"
-          ? "reject"
-          : undefined
+        type === "accept" ? "accept" : type === "reject" ? "reject" : undefined
       }`,
       { inviteId: props?.inviteId ?? props?.InviteId }
     );
     alert(`성공적으로 ${prefix}하였어요!`);
+    window.location.href = '/postlist/'
   } catch (e) {
     alert(`${prefix}하는 도중, 오류가 발생하였습니다!`);
     console.log(e);
@@ -318,13 +315,23 @@ const Details = (props) => {
         )?.length !== 0 ? (
           <div className="flex space-x-4 self-center align-center justify-center w-full">
             <div
-              onClick={() => handleButtonClick({ type: 'accept', props: invitedPosts.filter(el => el => Number(el.postId) === Number(postDetails?.postId))?.[0] })}
+              onClick={() =>
+                handleButtonClick({
+                  type: "accept",
+                  props: invitedPosts.filter((el) => Number(el.postId) === Number(postDetails?.postId))?.[0],
+                })
+              }
               className="text-center bg-green-100 text-green-600 hover:bg-green-300 hover:text-green-900 transition-colors duration-300 ease-in-out rounded-md px-7 py-2 block text-sm font-normal cursor-pointer"
             >
               수락
             </div>
             <div
-              onClick={() => alert("거절")}
+              onClick={() =>
+                handleButtonClick({
+                  type: "reject",
+                  props: invitedPosts.filter((el) =>Number(el.postId) === Number(postDetails?.postId))?.[0],
+                })
+              }
               className="text-center bg-red-100 text-red-600 hover:bg-red-300 hover:text-red-900 transition-colors duration-300 ease-in-out rounded-md px-7 py-2 block text-sm font-normal cursor-pointer"
             >
               거절

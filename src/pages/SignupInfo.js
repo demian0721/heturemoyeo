@@ -109,8 +109,9 @@ const SignupInfo = (props) => {
       <Grid
         width="360px"
         margin="0px auto"
-        padding="5px 40px 41.2px"
+        padding="25px 40px"
         shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+        minHeight="100vh"
         tabletStyle={() => {
           return css`
             width: 95%;
@@ -126,22 +127,24 @@ const SignupInfo = (props) => {
         <Title fontSize="25px" textAlign="left" margin="50px 0px 30px 10px">
           <span style={{ cursor: "pointer" }}>회원정보 입력</span>
         </Title>
-        <Grid>
+        <Grid height="">
           <Grid
             padding="5px 0px 8px"
             // width="10vw"
             // margin="auto"
-            margin="0px 0px 140px 0px"
+            margin="0px 0px 150px 0px"
           >
             <Grid
               bg="#EFEFEF"
               radius="50%"
-              width="15vw"
-              maxWidth="150px"
-              minWidth="120px"
-              height="15vw"
-              maxHeight="150px"
-              minHeight="120px"
+              // width="15vw"
+              // maxWidth="150px"
+              // minWidth="120px"
+              // height="15vw"
+              // maxHeight="150px"
+              // minHeight="120px"
+              width="150px"
+              height="150px"
               margin="auto"
               style={{
                 position: "absolute",
@@ -153,12 +156,14 @@ const SignupInfo = (props) => {
                 <img
                       src={preview}
                       style={{
-                        minWidth: "120px",
-                        height: "15vw",
-                        maxHeight: "150px",
-                        minHeight: "120px",
-                        width: "15vw",
-                        maxWidth: "150px",
+                        // minWidth: "120px",
+                        // height: "15vw",
+                        // maxHeight: "150px",
+                        // minHeight: "120px",
+                        // width: "15vw",
+                        // maxWidth: "150px",
+                        width: "150px",
+                        height: "150px",
                         display: "block",
                         margin: "auto",
                       }}

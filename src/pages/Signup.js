@@ -122,8 +122,9 @@ const SignUp = (props) => {
       <Grid
         width="360px"
         margin="0px auto"
-        padding="5px 40px 41.2px"
+        padding="50px 40px"
         shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+        minHeight="100vh"
         tabletStyle={() => {
           return css`
             width: 95%;
@@ -139,7 +140,7 @@ const SignUp = (props) => {
         <Title fontSize="25px" textAlign="left" margin="50px 0px 50px 10px">
           <span style={{ cursor: "pointer" }}>회원가입</span>
         </Title>
-        <Grid>
+        <Grid height="">
           <Grid padding="5px 0px 0px">
             <Text
               fontSize="12px"

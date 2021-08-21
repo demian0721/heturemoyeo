@@ -87,6 +87,8 @@ export class Terms extends Component {
           margin="0px auto"
           padding="15px 40px 50px"
           shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+          minHeight="100vh"
+          overflow="hidden"
           tabletStyle={() => {
             return css`
               width: 95%;
@@ -99,7 +101,7 @@ export class Terms extends Component {
             `;
           }}
         >
-          <Grid padding="18px">
+          <Grid padding="18px" height="">
             <div className="Signup">
               <div className="signupContainer">
                 <div className="signupBoard">
@@ -110,7 +112,7 @@ export class Terms extends Component {
                       <div className="joinInfoWrap">
                         <div className="joinInfoTitle">
                           <div className="infoTitle">
-                            <span style={{ marginTop: "5px" }}>
+                            <span style={{ marginTop: "7px" }}>
                               사용자 약관 전체 동의
                             </span>
                             {this.state.totalCheck == true ? (

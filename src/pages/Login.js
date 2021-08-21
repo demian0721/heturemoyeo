@@ -32,12 +32,13 @@ const LogIn = (props) => {
 
   return (
     <React.Fragment>
-      {/* <div style={{ paddingTop: "110px" }} /> */}
+      {/* <div style={{ padding: "auto"}}> */}
       <Grid
         width="360px"
         margin="0px auto"
-        padding="55px 40px 100.2px"
+        padding="100px 40px"
         shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+        height="100vh"
         tabletStyle={() => {
           return css`
             width: 95%;
@@ -62,7 +63,7 @@ const LogIn = (props) => {
           />
         </Title>
 
-        <Grid padding="18px" margin="50px 0px 0px 0px">
+        <Grid padding="18px" margin="50px 0px 0px 0px" height="">
           {/* <Title fontSize="18px" margin="5px">
             로그인
           </Title> */}
@@ -184,6 +185,7 @@ const LogIn = (props) => {
           </Grid>
         </Grid>
       </Grid>
+      {/* </div> */}
     </React.Fragment>
   );
 };

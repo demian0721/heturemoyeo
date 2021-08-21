@@ -31,14 +31,18 @@ const LogIn = (props) => {
   };
 
   return (
-    <React.Fragment>
+    // <React.Fragment>
+    <Style>
       {/* <div style={{ padding: "auto"}}> */}
       <Grid
-        width="360px"
+        // width="360px"
+        minWidth="280px"
+        maxWidth="360px"
         margin="0px auto"
-        padding="100px 40px"
-        shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-        height="100vh"
+        // height="100vh"
+        // padding="150px 40px"
+        // shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+
         tabletStyle={() => {
           return css`
             width: 95%;
@@ -186,9 +190,22 @@ const LogIn = (props) => {
         </Grid>
       </Grid>
       {/* </div> */}
-    </React.Fragment>
+    {/* </React.Fragment> */}
+    </Style>
   );
 };
+
+const Style = styled.div`
+  align-items: center;
+  position: fixed;
+  top: 18%;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  /* height: 100vh; */
+  /* background-color: #efefef; */
+
+`;
 
 LogIn.defaultProps = {};
 

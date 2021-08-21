@@ -44,43 +44,41 @@ const MyPage = () => {
 
   return (
     <Style>
-      <Grid width="50vw" height="" maxWidth="500px" minWidth="250px" margin="auto" style={{backgroundColor:"white",borderBottom:"1px solid #dddddd"}}>
-          <Grid width="20vw" maxWidth="120px" minWidth="30px" height="20vw" maxHeight="120px" minHeight="30px" margin="40px auto 0px auto" style={{ display: "block", borderRadius: "50%" }}>
-            <img style={{width:"20vw", maxWidth:"120px", minWidth:"30px", height:"20vw", maxHeight:"120px", minHeight:"30px"}} src={userlist.profileImg? userlist.profileImg : "/assets/profile_image_avatar_only.png"} /> 
-            {/* "https://i.imgur.com/2OeMYtb.png" */}
-          </Grid>
-          <Grid padding="20px 40px">
-            <Link to="/mypageedit">
-              <Grid is_flex margin="auto" style={{justifyContent:"center"}}>
-                <Title style={{ cursor: "default" }}>{userlist.nickname}</Title>
-                <ArrowForwardIosIcon style={{width:"18px"}} />
-              </Grid>
-            </Link>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              {userlist.likeItem?.map((l, index) => {
-                return <div key={index} style={{ margin: "5px 3px", backgroundColor: "#white", color: "#767676", borderRadius: "5px", padding: "3px 5px", fontSize:"small", border:"1px solid #767676"}}>{l}</div>
-              })}
-            </div>
-
-            <Grid is_flex align='center' >
-            <Title fontSize="small" margin="10px 0px 0px 0px" style={{color:"#16C59B"}}>상태메세지</Title>
-            <CreateIcon  style={{color:"#767676", fontSize:"12px", marginTop:'7px'}} onClick={editStatusMsg} />
+      <Grid  width="100vw" height=""  maxWidth="540px" margin="auto" style={{}}>
+        <Grid style={{backgroundColor:"white",borderBottom:"1px solid #dddddd"}}>
+            <Grid width="20vw" maxWidth="120px" minWidth="30px" height="20vw" maxHeight="120px" minHeight="30px" margin="40px auto 0px auto" style={{ display: "block", borderRadius: "50%" }}>
+              <img style={{width:"20vw", maxWidth:"120px", minWidth:"30px", height:"20vw", maxHeight:"120px", minHeight:"30px"}} src={userlist.profileImg? userlist.profileImg : "/assets/profile_image_avatar_only.png"} /> 
+              {/* "https://i.imgur.com/2OeMYtb.png" */}
             </Grid>
-            <textarea rows='2' id="status" label="status" value={statusMessage} onChange={changeStatus} style={{outlineStyle:"none", color:'#767676',  width:"100%", padding:'15px', fontSize:"14px", backgroundColor:"white",border:"1px solid #BEBEBE",resize:"none"}}></textarea>
-            {/* <SimpleModal status={userlist.statusMessage} /> */}
-          </Grid>
+            <Grid padding="20px 40px" margin="auto" style={{justifyContent:"center",maxWidth:"500px"}}>
+              <Link to="/mypageedit">
+                <Grid is_flex margin="auto" style={{justifyContent:"center"}}>
+                  <Title style={{ cursor: "default" }}>{userlist.nickname}</Title>
+                  <ArrowForwardIosIcon style={{width:"18px"}} />
+                </Grid>
+              </Link>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                {userlist.likeItem?.map((l, index) => {
+                  return <div key={index} style={{ margin: "5px 3px", backgroundColor: "#white", color: "#767676", borderRadius: "5px", padding: "3px 5px", fontSize:"small", border:"1px solid #767676"}}>{l}</div>
+                })}
+              </div>
+
+              <Grid is_flex align='center' margin="auto">
+              <Title fontSize="small" margin="10px 0px 0px 0px" style={{color:"#16C59B"}}>상태메세지</Title>
+              <CreateIcon  style={{color:"#767676", fontSize:"12px", marginTop:'7px'}} onClick={editStatusMsg} />
+              </Grid>
+              <textarea rows='2' id="status" label="status" value={statusMessage} onChange={changeStatus} style={{outlineStyle:"none", color:'#767676',  width:"100%", maxWidth:"420px", padding:'15px', fontSize:"14px", backgroundColor:"white",border:"1px solid #BEBEBE",resize:"none"}}></textarea>
+              {/* <SimpleModal status={userlist.statusMessage} /> */}
+            </Grid>
+        </Grid>
+        
+        <Grid width="100vw" height="">
+          <div style={{ alignItems: "center" , width:"100vw"}}>
+            <Button width="100%" color="#767676" padding="10px 30px" margin="15px 0px 0px 0px" display="block" bg="white" radius='0px' style={{ justifyContent:'space-between', display:"flex", maxWidth:"540px",borderLeft:"1px solid white",borderRight:"1px solid white"}} clickEvent={() => {window.location.href = '/setting'}}><p>설정</p> <ArrowForwardIosIcon style={{width:"15px"}}/></Button>
+            <Button width="100%" color="#767676" padding="10px 30px" margin="-1px 0px 0px 0px" display="block" bg="white" radius='0px' style={{ justifyContent:'space-between', display:"flex", maxWidth:"540px",borderLeft:"1px solid white",borderRight:"1px solid white"}} clickEvent={() => {dispatch(userActions.logOut());window.location.href = '/login'}}>로그아웃 <ArrowForwardIosIcon style={{width:"15px"}} onClick={editStatusMsg}/></Button>
+          </div>
+        </Grid>
       </Grid>
-      
-      <Grid width="50vw" height="" maxWidth="500px" minWidth="250px"  margin="auto">
-        <div style={{ alignItems: "center" }}>
-          <Button width="100%" color="#767676" padding="10px 30px" margin="15px 0px 0px 0px" display="block" bg="white" radius='0px' style={{ minWidth: "100px" , justifyContent:'space-between', display:"flex"}} clickEvent={() => {window.location.href = '/setting'}}><p>설정</p> <ArrowForwardIosIcon style={{width:"15px"}}/></Button>
-          <Button width="100%" color="#767676" padding="10px 30px" margin="-1px 0px 0px 0px" display="block" bg="white" radius='0px' style={{ minWidth: "100px", justifyContent:'space-between', display:"flex" }} clickEvent={() => {
-            dispatch(userActions.logOut());
-            window.location.href = '/login'
-          }}>로그아웃 <ArrowForwardIosIcon style={{width:"15px"}} onClick={editStatusMsg}/></Button>
-        </div>
-      </Grid>
-      
     </Style>
   )
 };

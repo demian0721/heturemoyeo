@@ -175,7 +175,7 @@ const ProfileEdit = (props) => {
     
     return (
         <Style>
-          <Grid  width="50vw" height=""  maxWidth="500px" minWidth="250px" margin="auto" style={{}}>
+          <Grid  width="100vw" height=""  maxWidth="540px" margin="auto" style={{}}>
             <Grid id="profile" bg="white" padding="20px 30px" >
               {/* 높이 고정이라 Ref 안쓰는듯? */}
               <Grid width="15vw" maxWidth="150px" minWidth="100px" height="15vw" maxHeight="150px" minHeight="100px" margin="auto auto 30px" style={{position:"block"}}>
@@ -225,7 +225,7 @@ const ProfileEdit = (props) => {
               { show ? <Input margin="0px" keyUp={(event) => {debounce(event.target.value, checkNPWD2);}}  changeEvent={changeConfirm} value={editInfo.confirm} placeholder="새 비밀번호 확인" width="100%" style={{display:"block"}}/> : null }
               { show ? <Text fontSize="12px" margin="5px 0px 0px 0px" color={npwd2Warning} lineHeight="1" textIndent="0px">{npwd2Notice}</Text> : null }
 
-              <Button className="custom_transition" width="100%" padding="15px" margin="20px auto" display="block" color="white" style={{minWidth:"100px",fontWeight:"bold", border: "none"}} hoverColor="#16C59B" clickEvent={editInfos}>수정 완료</Button>
+              <Button className="custom_transition" width="100%" padding="15px" margin="20px auto" display="block" color="white" style={{fontWeight:"bold", border: "none"}} hoverColor="#16C59B" clickEvent={editInfos}>수정 완료</Button>
             </Grid>
           </Grid>
         </Style>

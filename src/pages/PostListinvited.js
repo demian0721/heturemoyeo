@@ -54,7 +54,7 @@ const PostListInvited = (props) => {
 
   return (
     <Style>
-      <Grid>
+      <Grid height="">
         <Header>모임구하기</Header>
       </Grid>
       <Grid width="100%" height="" margin="75px 0 55px 0">
@@ -87,7 +87,7 @@ const PostListInvited = (props) => {
           <PostListButton>invited</PostListButton>
 
           {PostList && invitedPosts.length === 0 ? (
-            <div className="text-center font-bold text-lg">
+            <div className="text-center font-bold text-lg" style={{backgroundColor: "#efefef", paddingTop:"30px"}}>
               초대된 모임이 존재하지 않아요!
             </div>
           ) : (
@@ -131,7 +131,7 @@ const PostListInvited = (props) => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid style={{ zIndex: 10 }}>
+      <Grid style={{ zIndex: 10 }} height="">
         <Footer>group</Footer>
       </Grid>
     </Style>
@@ -141,7 +141,7 @@ const PostListInvited = (props) => {
 const Style = styled.div`
   align-items: center;
   width: 100vw;
-  height: 100%;
+  height: calc(100vh - 55px);
   background-color: #efefef;
 `;
 

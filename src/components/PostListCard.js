@@ -24,11 +24,11 @@ const PostListCard = (props) => {
         className="items-center self-center cursor-pointer"
       >
         <PlaceImageComponent img={props.postImg} />
-        <Grid margin="auto auto auto 14px" width="fit-content" align="left">
+        <Grid margin="auto auto auto 14px" width="fit-content" height="" align="left">
           <Text fontSize="17px" fontWeight="bold" color="black" marginTop="5px">
             {props.title}
           </Text>
-          <Grid is_flex>
+          <Grid is_flex height="">
             <ListInfo id="member">
               <PersonIcon
                 style={{
@@ -82,7 +82,7 @@ const PostListCard = (props) => {
           </ListInfo>
           <ListInfo>
             <div style={{ display: "flex" }}>
-              {props.tagItem?.map((l, index) => {
+              {props.tag?.map((l, index) => {
                 return (
                   <div
                     key={index}
@@ -131,7 +131,7 @@ const InvitedListCard = (props) => {
       >
         <div className="flex lg:mb-0 mb-4 lg:float-none float-left">
           <PlaceImageComponent img={props.postImg} />
-          <Grid margin="auto auto auto 14px" width="50vw" align="left">
+          <Grid margin="auto auto auto 14px" width="50vw" height="" align="left">
             <Text
               fontSize="17px"
               fontWeight="bold"
@@ -140,7 +140,7 @@ const InvitedListCard = (props) => {
             >
               {props.title}
             </Text>
-            <Grid is_flex>
+            <Grid is_flex height="" >
               <ListInfo id="member">
                 <PersonIcon
                   style={{
@@ -200,7 +200,7 @@ const InvitedListCard = (props) => {
                       key={index}
                       style={{
                         width: "fit-content",
-                        margin: "10px 3px 10px 0px",
+                        margin: "5px 3px 5px 0px",
                         backgroundColor: "#white",
                         color: "#",
                         borderRadius: "5px",

@@ -53,7 +53,7 @@ const PostList = (props) => {
 
   return (
     <Style>
-      <Grid>
+      <Grid height="">
         <Header>모임구하기</Header>
       </Grid>
       <Grid width="100%" height="" margin="75px 0 55px 0">
@@ -111,7 +111,7 @@ const PostList = (props) => {
           </Grid>
         </Grid>
       </Grid>
-      <Grid style={{ zIndex: 10 }}>
+      <Grid style={{ zIndex: 10 }}  height="">
       <Footer>group</Footer>
       </Grid>
     </Style>
@@ -121,7 +121,7 @@ const PostList = (props) => {
 const Style = styled.div`
   align-items: center;
   width: 100vw;
-  height: 100%;
+  height: calc(100vh - 55px);
   background-color: #efefef;
 `;
 

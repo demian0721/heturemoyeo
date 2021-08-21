@@ -68,9 +68,9 @@ const Header = (props) => {
         }
         // style={{ position: "flex", zIndex: 4, justifyContent: "space-between" }}
       >
-        {id == "chatroom" ? (
+        {(id == "chatroom"||id == "detail") ? (
           <ArrowBackOutlinedIcon
-            style={{ color: "white" }}
+            style={{ color: "white" ,cursor:"Pointer"}}
             onClick={() => {
               history.goBack();
             }}
@@ -78,40 +78,47 @@ const Header = (props) => {
         ) : (
           <div></div>
         )}
+        
         {title == "" ? (
-          <div
+          <Grid height="" width=""
             id="header"
             onClick={() => {
               window.location.href = "/";
             }}
           >
             <Image src="/assets/logo_header.png" />
-          </div>
+          </Grid>
         ) : (
           <TitleBox style={{ cursor: "default" }}>{title}</TitleBox>
         )}
+
         <Grid width="">
           {id == "chatroom" ? (
             <Grid is_flex>
               <Text
                 color="white"
                 clickEvent={confirmchat}
-                style={{ marginRight: "5px" }}
+                style={{ marginRight: "5px",cursor:"Pointer" }}
               >
                 확정
               </Text>
-              <Text color="white" clickEvent={exitchat}>
+              <Text color="white" clickEvent={exitchat} style={{cursor:"Pointer"}}>
                 탈퇴
               </Text>
             </Grid>
           ) : null}
           {/* {id == "chatroom" ? <MoreHorizIcon style={{color:"white"}}/> : null } */}
           {id == "detail" && owner == writer ? (
-            <Text color="white" clickEvent={deletepost}>
+            <Grid is_flex>
+              <Text color="white" clickEvent={() => {
+              window.location.href = `/postdetail/edit/${postId}`;
+            }} style={{cursor:"Pointer"}}>수정</Text>
+            <Text color="white" clickEvent={deletepost} margin="0px 0px 0px 5px" style={{cursor:"Pointer"}}>
               삭제
             </Text>
+            </Grid>
           ) : null}
-          {id == "write" ? <Text color="white">게시</Text> : null}
+          {id == "write" ? <Text color="white" style={{cursor:"Pointer"}}>게시</Text> : null}
           {id == "" ? <div></div> : null}
         </Grid>
       </Grid>

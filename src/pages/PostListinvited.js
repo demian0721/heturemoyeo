@@ -1,7 +1,6 @@
 // LIBRARY
 import React, { useRef, useEffect, useState } from "react";
 import styled from "styled-components";
-import { css } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -24,16 +23,14 @@ import Header from "../components/Header";
 import PostListCard from "../components/PostListCard";
 import PostListButton from "../components/PostListButton";
 
-import axios from "../common/axios";
-
 const PostListInvited = (props) => {
   const dispatch = useDispatch();
   const PostList = useSelector((state) => state.post.list);
   const inputword = useRef();
   // const searchDate = null;
 
-  const [loaded, setLoaded] = useState(false);
   const [invitedPosts, setInvitedPosts] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => dispatch(postActions.getInvitedPostsDB()), []);
   useEffect(() => {
@@ -47,7 +44,7 @@ const PostListInvited = (props) => {
     history.push(`/postlist/search/${inputword.current.value}`);
   };
   const onKeyPress = (event) => {
-    if (event.key == "Enter") {
+    if (event.key === "Enter") {
       search();
     }
   };
@@ -102,7 +99,8 @@ const PostListInvited = (props) => {
                 />
               );
             })
-          )}
+          )
+        }
 
           <Grid
             padding="5px 0px"

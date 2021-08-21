@@ -52,6 +52,7 @@ const Main = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [myUserId, setMyUserId] = useState(null);
   const [markerData, setMarkerData] = useState({});
+  const [loaded, setLoaded] = useState(false);
   // const [callUserData, setCallUserData] = useState({})
 
   // 로그인 후, 유저 데이터
@@ -63,8 +64,14 @@ const Main = (props) => {
   const getPostLocationsData = useSelector((state) => state.post.list);
 
   // 마커 클릭 이벤트 (바깥 영역 클릭 시 오버레이 닫기)
-  useEffect(() => setMarkerData(getMarkerData), [getMarkerData]); // 상수에 저장되어 있던 오버레이 정보(유저)를 표시함
-  useEffect(() => setMarkerData(getPostDetailData), [getPostDetailData]); // 상수에 저장되어 있던 오버레이 정보(일정)를 표시함
+  useEffect(() => {
+    setMarkerData(getMarkerData);
+    setLoaded(true);
+  }, [getMarkerData]); // 상수에 저장되어 있던 오버레이 정보(유저)를 표시함
+  useEffect(() => {
+    setMarkerData(getPostDetailData);
+    setLoaded(true);
+  }, [getPostDetailData]); // 상수에 저장되어 있던 오버레이 정보(일정)를 표시함
 
   /**
    * getDataFromAPI:
@@ -104,6 +111,11 @@ const Main = (props) => {
    * setIsOpen 라는 useState는 headless ui 를 사용하여, transtion 의 상태를 보여주기 위해 설정한 state 입니다.
    */
   const markerEventListener = (markerData) => {
+    // loaded State를 변경하는 if 문
+    // 내 마커 데이터는 페이지가 로드 되면서 부터 가지고 있기 때문에, 굳이 다시 불러올 필요가 없다.
+    // 그래서 그 외 마커는 useEffect 에서 데이터를 받아오면서 loaded State를 true로 변경하지만,
+    // 해당 데이터는 다시 불러오지 않기 때문에, if 문으로 처리해준다.
+    if (markerData.isMe) setLoaded(true);
     // markerData 안에 postId, userId 등 값을 assign 하여, 넘겨받음.
     if (!isOpen) {
       setIsOpen(true);
@@ -243,7 +255,7 @@ const Main = (props) => {
     markers.map((el) => el.setMap(null));
     markers.splice(0, markers.length);
     setMarkers([]);
-    
+
     for (const userLocation of data) {
       if (userLocation !== null) {
         addMarker(
@@ -400,6 +412,7 @@ const Main = (props) => {
   const ref = useRef();
   useOutsideClick(ref, () => {
     if (!showModal) setIsOpen(false);
+    if (loaded) setLoaded(false);
   });
 
   const handleModalClose = (clearSelect = true) => {
@@ -478,7 +491,7 @@ const Main = (props) => {
             />
             {/* 오버레이 */}
             <Transition
-              show={isOpen}
+              show={loaded && isOpen}
               enter="ease-out duration-300"
               enterFrom="opacity-0"
               enterTo="opacity-100"
@@ -507,7 +520,7 @@ const Main = (props) => {
                     }
                     rating={markerData?.rating}
                     isType={markerData?.type ?? undefined}
-                    id={markerData?.userId ?? markerData?.postId}
+                    id={markerData?.type === 'post' ? markerData?.postId : markerData?.type === 'user' ? markerData?.userId : undefined}
                     myId={myUserId}
                     {...markerData}
                   />

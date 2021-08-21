@@ -31,11 +31,15 @@ import { history } from "../redux/configStore";
 const ChatList = () => {
   const dispatch = useDispatch();
   const [rooms, setRooms] = useState([]);
+  const [loaded, setLoaded] = useState(false);
   const posts = useSelector((state) => state.post.list);
   /**
    * useEffect 를 이용하여, useState 에 Redux Action dispatch 데이터 저장하기
    */
-  useEffect(() => setRooms(posts), [posts]);
+  useEffect(() => {
+    setRooms(posts)
+    setLoaded(true)
+  }, [posts]);
   /**
    * 페이지를 처음 로드 했을때, 실행하는 부분입니다.
    */
@@ -153,13 +157,18 @@ const ChatList = () => {
       </Grid>          
       <div className="container mx-auto my-4 space-y-4 w-full">
       <SmallTitle>대화방 목록</SmallTitle>       
-        {rooms?.length >= 1 ? (
+      {
+      loaded
+      ? 
+        rooms?.length >= 1 ? (
           rooms.map((el, index) => <ChatListCardComponent key={index} {...el} />)
         ) : (
           <div className="text-center font-bold text-lg">
             참여 중인 대화방이 존재하지 않아요!
           </div>
-        )}
+        )
+      : ''
+      }
       </div> 
       </Grid>
       <Grid style={{ zIndex: 10 }}>

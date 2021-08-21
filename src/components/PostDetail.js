@@ -52,7 +52,7 @@ function PlaceImageComponent(props) {
 
 function UserProfileImageComponent(props) {
   return (
-    <div className="fixed z-10 ml-7 top-0 lg:mt-80 mt-64">
+    <div className="fixed z-10 top-0 left-0 ml-6">
       <div
         className="w-24 h-24"
         style={{
@@ -104,7 +104,7 @@ const handleButtonClick = async ({ type, props }) => {
       { inviteId: props?.inviteId ?? props?.InviteId }
     );
     alert(`성공적으로 ${prefix}하였어요!`);
-    window.location.href = '/postlist/'
+    window.location.href = "/postlist/";
   } catch (e) {
     alert(`${prefix}하는 도중, 오류가 발생하였습니다!`);
     console.log(e);
@@ -129,7 +129,6 @@ const Details = (props) => {
   return (
     <Grid height="32vh" width="30%" minWidth="360px" margin="auto">
       <PlaceImageComponent img={postDetails?.postImg} />
-      <UserProfileImageComponent img={postDetails?.profileImg} />
       <Grid
         padding="18px"
         width="30%"
@@ -153,6 +152,7 @@ const Details = (props) => {
           style={{ borderBottom: "1px solid #E2E2E2" }}
         >
           <Grid is_flex>
+            <UserProfileImageComponent img={postDetails?.profileImg} />
             <Title color="black" fontWeight="800" fontSize="20px">
               {postDetails?.title}
             </Title>
@@ -318,7 +318,9 @@ const Details = (props) => {
               onClick={() =>
                 handleButtonClick({
                   type: "accept",
-                  props: invitedPosts.filter((el) => Number(el.postId) === Number(postDetails?.postId))?.[0],
+                  props: invitedPosts.filter(
+                    (el) => Number(el.postId) === Number(postDetails?.postId)
+                  )?.[0],
                 })
               }
               className="text-center bg-green-100 text-green-600 hover:bg-green-300 hover:text-green-900 transition-colors duration-300 ease-in-out rounded-md px-7 py-2 block text-sm font-normal cursor-pointer"
@@ -329,7 +331,9 @@ const Details = (props) => {
               onClick={() =>
                 handleButtonClick({
                   type: "reject",
-                  props: invitedPosts.filter((el) =>Number(el.postId) === Number(postDetails?.postId))?.[0],
+                  props: invitedPosts.filter(
+                    (el) => Number(el.postId) === Number(postDetails?.postId)
+                  )?.[0],
                 })
               }
               className="text-center bg-red-100 text-red-600 hover:bg-red-300 hover:text-red-900 transition-colors duration-300 ease-in-out rounded-md px-7 py-2 block text-sm font-normal cursor-pointer"

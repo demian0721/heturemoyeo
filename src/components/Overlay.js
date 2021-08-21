@@ -43,6 +43,15 @@ const getMyScheduleList = async ({
 };
 
 const UserOverlayDivideComponent = ({ force = false, ...props }) => {
+  /**
+   * UserOverlayDivideComponent: (유저 오버레이 디바이더 컴포넌트)
+   * 말 그대로 figma에 디자인 되어 있는 우저 닉네임, 유저가 설정한 태그, 상태 메세지 등을 분활하기 위한 디바이더이다.
+   * 아래 있는 조건 연산자 같은 경우, 모든 경우를 대비하여 만들게 되었다.
+   * 강제로 집어 넣을 경우, force 변수를 true로 값을 주면 강제로 넣을 수 있다.
+   * 그러지 않으면, props 로 받아온 값을 토대로, 조건 연산자를 거쳐 디바이더를 표시할지 않할지 결정한다.
+   * div 엘리먼트가 있는 곳이 디바이더를 표시하는 조건 연산자 안의 리턴 값이다.
+   * 그 외 div 엘리먼트 대신 "" 스트링 문자열이 있다면, 디바이더를 표시하지 않는 것이다.
+   */
   return force ? (
     <div
       className={`flex border border-gary-500 rounded-full ${
@@ -51,7 +60,7 @@ const UserOverlayDivideComponent = ({ force = false, ...props }) => {
     >
       <div className="sr-only">divide</div>
     </div>
-  ) : props?.likeItem && props?.statusMessage ? (
+  ) : props?.nickname && props?.likeItem && props?.statusMessage ? (
     <div
       className={`flex border border-gary-500 rounded-full ${
         props?.likeItem?.length === 0 ? "mb-1" : "my-1"
@@ -59,7 +68,7 @@ const UserOverlayDivideComponent = ({ force = false, ...props }) => {
     >
       <div className="sr-only">divide</div>
     </div>
-  ) : !props?.likeItem && props?.statusMessage ? (
+  ) : props?.nickname && !props?.likeItem && props?.statusMessage ? (
     <div
       className={`flex border border-gary-500 rounded-full ${
         props?.likeItem?.length === 0 ? "mb-1" : "my-1"
@@ -67,11 +76,18 @@ const UserOverlayDivideComponent = ({ force = false, ...props }) => {
     >
       <div className="sr-only">divide</div>
     </div>
-  ) : props?.likeItem && !props?.statusMessage ? (
-    ""
-  ) : (
-    ""
-  );
+  ) : "" 
+  // props?.nickname && !props?.likeItem && !props?.statusMessage ? (
+  //   ""
+  // ) : !props?.nickname && !props?.likeItem && !props?.statusMessage ? (
+  //   ""
+  // ) : props?.nickname && props?.likeItem && !props?.statusMessage ? (
+  //   ""
+  // ) : !props?.nickname && props?.likeItem && !props?.statusMessage ? (
+  //   ""
+  // ) : (
+  //   ""
+  // );
 };
 
 const UserOverlay = ({ children, ...props }) => {
@@ -123,7 +139,8 @@ const UserOverlay = ({ children, ...props }) => {
         )}
         <div className="flex-grow ml-4">
           <div className="font-bold text-lg lg:text-2xl">
-            {props?.nickname ?? "Anonymous"}
+            {/* {props?.nickname ?? "Anonymous"} */}
+            {props?.nickname ?? ""}
           </div>
           {props?.likeItem && (
             <>
@@ -233,7 +250,7 @@ const PostOverlay = ({ children, ...props }) => {
         id="button"
         className="flex mt-2 py-4 font-bold tagItem transition duration-300 ease-in-out cursor-pointer rounded-md text-center justify-center"
         onClick={() => {
-          window.location.href = `/postdetail/${props.id}`;
+          window.location.href = `/postdetail/${props?.id}`;
         }}
       >
         <p>참여하기</p>

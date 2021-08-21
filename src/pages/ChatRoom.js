@@ -26,7 +26,7 @@ const ChatRoom = (props) => {
   const myUserId = useSelector((state) => state.user.userId);
   const getChatDatas = useSelector((state) => state.chat.chatList);
   const [init, setInit] = useState(false);
-  const { messages, appendMsg } = useMessages([]); // @chatui/core 에 있는 훅을 사용하였씁니다.
+  const { messages, appendMsg } = useMessages([]); // @chatui/core 에 있는 훅을 사용하였습니다.
   /**
    * SocketClientEvents:
    * Socket.io 에 연결한 후, 이벤트를 선언하는 함수입니다.
@@ -96,7 +96,6 @@ const ChatRoom = (props) => {
       getChatDatas.reverse();
       Logger.debug(`[GetChatDatas] Get ChatDatas: ${getChatDatas.length}`);
       getChatDatas.map((el) => {
-        console.log(el);
         const data = {
           type: "text",
           content: {
@@ -246,25 +245,24 @@ const ChatRoom = (props) => {
   return (
     <Fragment>
       <div className="relative w-full h-screen">
-        <div
-          id="message-table"
-          className="container mx-auto w-auto h-auto flex flex-col"
-        >
-          <Header id="chatroom" chatId={props.match.params.id} />
-          {/* ChatUI, 채팅 UI를 생성해줍니다. */}
-          <div
-            id="message_chat-ui"
-            className="fixed bottom-0 w-full"
-            style={{ height: "calc(100vh - 75px)" }}
-          >
-            <Chat
-              locale="ko-KR"
-              messages={messages}
-              renderMessageContent={handleMessageContent}
-              onSend={handleSendMessage}
-              placeholder="메세지를 입력해주세요."
-            />
-            <style>{ChatUICSS}</style>
+        <div id="message-table" className="container mx-auto">
+          <div className="flex flex-col">
+            <Header id="chatroom" width="100%" chatId={props.match.params.id} />
+            {/* ChatUI, 채팅 UI를 생성해줍니다. */}
+            <div
+              id="message_chat-ui"
+              className="container mx-auto fixed bottom-0 left-0 right-0 w-full"
+              style={{ height: "calc(100vh - 75px)" }}
+            >
+              <Chat
+                locale="ko-KR"
+                messages={messages}
+                renderMessageContent={handleMessageContent}
+                onSend={handleSendMessage}
+                placeholder="메세지를 입력해주세요."
+              />
+              <style>{ChatUICSS}</style>
+            </div>
           </div>
         </div>
       </div>

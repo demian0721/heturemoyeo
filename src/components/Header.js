@@ -58,7 +58,11 @@ const Header = (props) => {
         width={width}
         style={
           id === "chatroom"
-            ? { position: "flex", zIndex: 4, justifyContent: "space-between" }
+            ? {
+                position: "flex",
+                zIndex: 4,
+                justifyContent: "space-between",
+              }
             : {
                 position: "fixed",
                 top: 0,

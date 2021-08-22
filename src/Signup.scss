@@ -16,45 +16,25 @@
 }
 
 .Signup {
-  width: 100px;
-  position: relative;
+  width: 100%;
   background-color: #ffffff;
   font-family: "Gothic A1", sans-serif;
+  @include flex-center;
   .signupContainer {
-    @include flex-center;
     .signupBoard {
-      width: 0px;
       background-color: $color-white;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-left: 220px;
-
-      header {
-        width: 300px;
-        height: 14px;
-        display: flex;
-        justify-content: center;
-        span {
-          font-size: 51px;
-          font-family: "Raleway", sans-serif;
-          color: rgb(193, 193, 193);
-          letter-spacing: -3px;
-        }
-      }
       .joinInfoBoard {
+        min-width: 260px;
         .infoSection {
-          // width: 300px;
-          min-width: 280px;
-          max-width: 360px;
-          // margin-right: 10px;
-          // margin-bottom: 50px;
           margin: 0px auto;
           .joinInfoWrap {
             width: inherit;
             .joinInfoTitle {
               padding: 5px 0 15px 0;
-              height: 40px;
+              height: 45px;
               border-bottom: 2px solid $color-black;
               .infoTitle {
                 font-size: 15px;
@@ -71,7 +51,7 @@
               font-weight: 600;
               border-bottom: 1px solid rgb(244, 244, 244);
               padding-bottom: 8px;
-              padding-top: 30px;
+              padding-top: 10px;
               .keyAgreement {
                 padding-top: 32px;
               }
@@ -152,25 +132,6 @@
               ::-webkit-scrollbar {
                 display: none;
               }
-            }
-          }
-          .signupBtnWrap {
-            height: 67px;
-            padding-top: 20px;
-            margin-top: 30px;
-            margin-bottom: 30px;
-            border-top: 2px solid $color-black;
-            .falseBtn {
-              width: 515px;
-              height: 45px;
-              border-radius: 45px;
-              color: $color-white;
-              font-weight: bold;
-              font-size: 18px;
-              background-color: rgb(46, 48, 57);
-            }
-            .signupBtn {
-              cursor: pointer;
             }
           }
         }

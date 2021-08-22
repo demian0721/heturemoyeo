@@ -83,13 +83,9 @@ export class Terms extends Component {
     return (
       <Style>
         <Grid
-          // width="360px"
           minWidth="280px"
-          maxWidth="360px"
+          maxWidth="300px"
           margin="0px auto"
-          // padding="15px 40px 50px"
-          // shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-          // minHeight="100vh"
           overflow-y="scroll"
           tabletStyle={() => {
             return css`
@@ -103,19 +99,20 @@ export class Terms extends Component {
             `;
           }}
         >
-          <Grid padding="18px" height="">
+          <Grid 
+            padding="18px" 
+            height=""
+            >
             <div className="Signup">
               <div className="signupContainer">
                 <div className="signupBoard">
-                  <header></header>
-
                   <div className="joinInfoBoard">
                     <section className="infoSection">
                       <div className="joinInfoWrap">
                         <div className="joinInfoTitle">
                           <div className="infoTitle">
                             <span style={{ marginTop: "7px" }}>
-                              사용자 약관 전체 동의
+                              헤쳐모여 사용자 약관 전체 동의
                             </span>
                             {this.state.totalCheck == true ? (
                               <CheckCircleIcon
@@ -280,7 +277,7 @@ export class Terms extends Component {
                 </div>
               </div>
             </div>
-            <Grid padding="15px 0px 5px">
+            <Grid padding="15px 0px 5px" margin="10px 0px 0px 0px">
               <Link to="/signup">
                 <Button
                   width="100%"
@@ -326,14 +323,10 @@ export class Terms extends Component {
 }
 
 const Style = styled.div`
-  align-items: center;
-  justify-content: center;
+  top: 10%;
   position: absolute;
   margin: auto;
   width: 100vw;
-  /* height: 100vh; */
-  /* height: 100vh; */
-  /* background-color: #efefef; */
 
 `;
 

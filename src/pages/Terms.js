@@ -1,6 +1,6 @@
 // LIBRARY
 import React, { Component } from "react";
-import { css } from "styled-components";
+import styled, { css } from "styled-components";
 import "../Signup.scss";
 import { Link } from "react-router-dom";
 
@@ -81,14 +81,16 @@ export class Terms extends Component {
 
   render() {
     return (
-      <div>
+      <Style>
         <Grid
-          width="360px"
+          // width="360px"
+          minWidth="280px"
+          maxWidth="360px"
           margin="0px auto"
-          padding="15px 40px 50px"
-          shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-          minHeight="100vh"
-          overflow="hidden"
+          // padding="15px 40px 50px"
+          // shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+          // minHeight="100vh"
+          overflow-y="scroll"
           tabletStyle={() => {
             return css`
               width: 95%;
@@ -191,7 +193,7 @@ export class Terms extends Component {
                           <Toggle>
                             <Vehicles
                               infoTitle="개인정보 수집 및 이용 동의"
-                              first="1. 수집항목 : [필수] 이름, 아이디(이메일주소), 암호화된 비밀번호, 닉네임"
+                              first="1. 수집항목 : [필수] 이름, 아이디(휴대폰 번호), 암호화된 비밀번호, 닉네임"
                               second="2. 수집 및 이용목적 : 헤쳐모여 서비스(이하 '서비스')는 사용자 본인 확인 등의 회원관리, 보안 및 프라이버시 측면에서 사용자가 안심하고 이용할 수 있는 서비스 이용환경 구축, 서비스 방문 및 관심사 등에 기반한 맞춤형 서비스 제공, 이벤트 정보 및 참여기회 제공 등을 목적으로 합니다."
                               third="3. 보관기간 : 회원탈퇴 등 개인정보 이용목적 달성 시까지 보관합니다. 단, 상법 및 ‘전자상거래 등에서의 소비자 보호에 관한 법률’ 등 관련 법령에 의하여 일정 기간 보관이 필요한 경우에는 해당 기간 동안 보관합니다."
                               fourth="4. 동의 거부권 등에 대한 고지 : 정보주체는 개인정보의 수집 및 이용 동의를 거부할 권리가 있으나, 이 경우 서비스 이용이 제한될 수 있습니다."
@@ -265,7 +267,7 @@ export class Terms extends Component {
                             <Vehicles
                               infoTitle="'헤쳐모여' 프로모션 및 이벤트,
                         마케팅 정보 안내 등을 주 목적으로 하며 수신 동의 시
-                        이메일에 수신 동의 처리됩니다.
+                        휴대폰 번호에 수신 동의 처리됩니다.
                         동의하실 경우에 회원가입과 서비스 이용이 가능하며 동의하신
                         이후에 정보 수신 시 안내에 따라 수신 동의를 철회할 수
                         있습니다."
@@ -318,9 +320,21 @@ export class Terms extends Component {
             </Grid>
           </Grid>
         </Grid>
-      </div>
+      </Style>
     );
   }
 }
+
+const Style = styled.div`
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  margin: auto;
+  width: 100vw;
+  /* height: 100vh; */
+  /* height: 100vh; */
+  /* background-color: #efefef; */
+
+`;
 
 export default Terms;

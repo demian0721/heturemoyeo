@@ -18,17 +18,17 @@
 .Signup {
   width: 100px;
   position: relative;
-  background-color: rgb(244, 244, 244);
+  background-color: #ffffff;
   font-family: "Gothic A1", sans-serif;
   .signupContainer {
     @include flex-center;
     .signupBoard {
-      width: 300px;
+      width: 0px;
       background-color: $color-white;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-left: 156px;
+      margin-left: 220px;
 
       header {
         width: 300px;
@@ -44,9 +44,12 @@
       }
       .joinInfoBoard {
         .infoSection {
-          width: 260px;
-          margin-right: 10px;
-          margin-bottom: 50px;
+          // width: 300px;
+          min-width: 280px;
+          max-width: 360px;
+          // margin-right: 10px;
+          // margin-bottom: 50px;
+          margin: 0px auto;
           .joinInfoWrap {
             width: inherit;
             .joinInfoTitle {

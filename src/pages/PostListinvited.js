@@ -84,7 +84,7 @@ const PostListInvited = (props) => {
           <PostListButton>invited</PostListButton>
 
           {PostList && invitedPosts.length === 0 ? (
-            <div className="text-center font-bold text-lg" style={{backgroundColor: "#efefef", paddingTop:"30px"}}>
+            <div className="text-center font-bold text-lg" style={{backgroundColor: "#efefef", paddingTop:"30px", height:"calc(100vh - 250px)"}}>
               초대된 모임이 존재하지 않아요!
             </div>
           ) : (

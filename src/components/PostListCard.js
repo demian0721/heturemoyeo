@@ -14,124 +14,43 @@ import { history } from "../redux/configStore";
 
 import { formattedDate } from "../utils";
 import axios from "../common/axios";
-import Logger from '../utils/Logger'
+import Logger from "../utils/Logger";
 
-const PostListCard = (props) => {
-  return (
-    <Link to={`/postdetail/${props.postId}`}>
-      <PostCard
-        style={{ width: "100%" }}
-        className="items-center self-center cursor-pointer"
+const PostListCard = ({ children, ...props }) => {
+  const tagItems = props.tag?.map((l, index) => {
+    return (
+      <div
+        key={index}
+        style={{
+          width: "fit-content",
+          margin: "10px 3px 10px 0px",
+          backgroundColor: "#white",
+          color: "#",
+          borderRadius: "5px",
+          padding: "3px 5px",
+          fontSize: "10px",
+          border: "0.6px solid #767676",
+        }}
       >
-        <PlaceImageComponent img={props.postImg} />
-        <Grid margin="auto auto auto 14px" width="fit-content" height="" align="left">
-          <Text fontSize="17px" fontWeight="bold" color="black" marginTop="5px">
-            {props.title}
-          </Text>
-          <Grid is_flex height="">
-            <ListInfo id="member">
-              <PersonIcon
-                style={{
-                  width: "15px",
-                  height: "15px",
-                  float: "left",
-                  color: "#7B7B7B",
-                }}
-              />
-              {/* 인원 */}
-              <span
-                style={{
-                  fontWeight: "normal",
-                  marginLeft: "3px",
-                  float: "left",
-                }}
-              >
-                {props.currentMember} / {props.maxMember} 명
-              </span>
-            </ListInfo>
-            <ListInfo id="date">
-              <EventAvailableOutlinedIcon
-                style={{
-                  width: "15px",
-                  height: "15px",
-                  float: "left",
-                  color: "#7B7B7B",
-                  marginLeft: "10px",
-                }}
-              />
-              <span style={{ fontWeight: "normal", marginLeft: "3px" }}>
-                {formattedDate(props.startDate)}
-              </span>
-            </ListInfo>
-          </Grid>
-          <ListInfo id="place">
-            <RoomOutlinedIcon
-              style={{
-                width: "17px",
-                height: "17px",
-                float: "left",
-                color: "7B7B7B",
-              }}
-            />
-            {/* <Text fontSize="12px" fontWeight="bold" color="black" marginTop="5px"> */}
-            {/* 장소 */}
-            <span style={{ fontWeight: "normal", marginLeft: "1px" }}>
-              {props.place}
-            </span>
-            {/* </Text> */}
-          </ListInfo>
-          <ListInfo>
-            <div style={{ display: "flex" }}>
-              {props.tag?.map((l, index) => {
-                return (
-                  <div
-                    key={index}
-                    style={{
-                      width: "fit-content",
-                      margin: "10px 3px 10px 0px",
-                      backgroundColor: "#white",
-                      color: "#",
-                      borderRadius: "5px",
-                      padding: "3px 5px",
-                      fontSize: "10px",
-                      border: "0.6px solid #767676",
-                    }}
-                  >
-                    {l}
-                  </div>
-                );
-              })}
-            </div>
-          </ListInfo>
-        </Grid>
-      </PostCard>
-    </Link>
-  );
-};
-
-const InvitedListCard = (props) => {
-  const handleButtonClick = async ({ type, props }) => {
-    if (!type || !['accept', 'reject'].includes(type)) return Logger.error(`[HandleButtonClick] type is not provided! (accept, reject)`)
-    const prefix = type === 'accept' ? '수락' : type === 'reject' ? '거절' : '알 수 없음'
-    try {
-      await axios.post(`/api/room/invite/${type === 'accept' ? 'accept' : type === 'reject' ? 'reject' : undefined}`, { inviteId: props?.inviteId ?? props?.InviteId })
-      alert(`성공적으로 ${prefix}하였어요!`)
-      props?.deleteCardFunction(props?.idx)
-    } catch (e) {
-      alert(`${prefix}하는 도중, 오류가 발생하였습니다!`)
-      console.log(e)
-    }
-  }
+        {l}
+      </div>
+    );
+  });
 
   return (
-    <>
-      <PostCard
-        style={{ width: "100%" }}
-        className="items-center self-center flex lg:flex-row flex-col"
-      >
-        <div className="flex lg:mb-0 mb-4 lg:float-none float-left">
+    <div key={props.key}>
+      <Link to={`/postdetail/${props.postId}`}>
+        <PostCard
+          style={{ width: "100%" }}
+          className="items-center self-center cursor-pointer"
+        >
           <PlaceImageComponent img={props.postImg} />
-          <Grid margin="auto auto auto 14px" width="50vw" height="" align="left">
+          <Grid
+            margin="auto auto auto 14px"
+            width="fit-content"
+            height=""
+            align="left"
+          >
             <Text
               fontSize="17px"
               fontWeight="bold"
@@ -140,7 +59,7 @@ const InvitedListCard = (props) => {
             >
               {props.title}
             </Text>
-            <Grid is_flex height="" >
+            <Grid is_flex height="">
               <ListInfo id="member">
                 <PersonIcon
                   style={{
@@ -193,59 +112,172 @@ const InvitedListCard = (props) => {
               {/* </Text> */}
             </ListInfo>
             <ListInfo>
-              <div style={{ display: "flex" }}>
-                {props.tagItem?.map((l, index) => {
-                  return (
-                    <div
-                      key={index}
-                      style={{
-                        width: "fit-content",
-                        margin: "5px 3px 5px 0px",
-                        backgroundColor: "#white",
-                        color: "#",
-                        borderRadius: "5px",
-                        padding: "3px 5px",
-                        fontSize: "10px",
-                        border: "0.6px solid #767676",
-                      }}
-                    >
-                      {l}
-                    </div>
-                  );
-                })}
-              </div>
+              <div style={{ display: "flex" }}>{tagItems}</div>
             </ListInfo>
           </Grid>
-        </div>
-        <div className="flex">
-          <div className="lg:block flex self-center lg:space-x-0 lg:space-y-2 space-x-4">
-            <div
-              onClick={() => handleButtonClick({ type: 'accept', props })}
-              className="text-center bg-green-100 text-green-600 hover:bg-green-300 hover:text-green-900 transition-colors duration-300 ease-in-out rounded-md px-7 py-2 block text-sm font-normal cursor-pointer"
+        </PostCard>
+      </Link>
+    </div>
+  );
+};
+
+const InvitedListCard = ({ children, ...props }) => {
+  const handleButtonClick = async ({ type, props }) => {
+    if (!type || !["accept", "reject"].includes(type))
+      return Logger.error(
+        `[HandleButtonClick] type is not provided! (accept, reject)`
+      );
+    const prefix =
+      type === "accept" ? "수락" : type === "reject" ? "거절" : "알 수 없음";
+    try {
+      await axios.post(
+        `/api/room/invite/${
+          type === "accept"
+            ? "accept"
+            : type === "reject"
+            ? "reject"
+            : undefined
+        }`,
+        { inviteId: props?.inviteId ?? props?.InviteId }
+      );
+      alert(`성공적으로 ${prefix}하였어요!`);
+      props?.deleteCardFunction(props?.idx);
+    } catch (e) {
+      alert(`${prefix}하는 도중, 오류가 발생하였습니다!`);
+      console.log(e);
+    }
+  };
+
+  const tagItems = props.tagItem?.map((l, index) => {
+    return (
+      <div
+        key={index}
+        style={{
+          width: "fit-content",
+          margin: "5px 3px 5px 0px",
+          backgroundColor: "#white",
+          color: "#",
+          borderRadius: "5px",
+          padding: "3px 5px",
+          fontSize: "10px",
+          border: "0.6px solid #767676",
+        }}
+      >
+        {l}
+      </div>
+    );
+  });
+
+  return (
+    <>
+      <div key={props.key}>
+        <PostCard
+          style={{ width: "100%" }}
+          className="items-center self-center flex lg:flex-row flex-col"
+        >
+          <div className="flex lg:mb-0 mb-4 lg:float-none float-left">
+            <PlaceImageComponent img={props.postImg} />
+            <Grid
+              margin="auto auto auto 14px"
+              width="50vw"
+              height=""
+              align="left"
             >
-              수락
-            </div>
-            <div
-              onClick={() => handleButtonClick({ type: 'reject', props })}
-              className="text-center bg-red-100 text-red-600 hover:bg-red-300 hover:text-red-900 transition-colors duration-300 ease-in-out rounded-md px-7 py-2 block text-sm font-normal cursor-pointer"
-            >
-              거절
-            </div>
-            <div className='cursor-pointer'>
-              <Link to={`/postdetail/${props.postId}`}>
-                <div className="text-center bg-blue-100 text-blue-600 hover:bg-blue-300 hover:text-blue-900 transition-colors duration-300 ease-in-out rounded-md px-7 py-2 block text-sm font-normal">
-                  자세히 보기
-                </div>
-              </Link>
+              <Text
+                fontSize="17px"
+                fontWeight="bold"
+                color="black"
+                marginTop="5px"
+              >
+                {props.title}
+              </Text>
+              <Grid is_flex height="">
+                <ListInfo id="member">
+                  <PersonIcon
+                    style={{
+                      width: "15px",
+                      height: "15px",
+                      float: "left",
+                      color: "#7B7B7B",
+                    }}
+                  />
+                  {/* 인원 */}
+                  <span
+                    style={{
+                      fontWeight: "normal",
+                      marginLeft: "3px",
+                      float: "left",
+                    }}
+                  >
+                    {props.currentMember} / {props.maxMember} 명
+                  </span>
+                </ListInfo>
+                <ListInfo id="date">
+                  <EventAvailableOutlinedIcon
+                    style={{
+                      width: "15px",
+                      height: "15px",
+                      float: "left",
+                      color: "#7B7B7B",
+                      marginLeft: "10px",
+                    }}
+                  />
+                  <span style={{ fontWeight: "normal", marginLeft: "3px" }}>
+                    {formattedDate(props.startDate)}
+                  </span>
+                </ListInfo>
+              </Grid>
+              <ListInfo id="place">
+                <RoomOutlinedIcon
+                  style={{
+                    width: "17px",
+                    height: "17px",
+                    float: "left",
+                    color: "7B7B7B",
+                  }}
+                />
+                {/* <Text fontSize="12px" fontWeight="bold" color="black" marginTop="5px"> */}
+                {/* 장소 */}
+                <span style={{ fontWeight: "normal", marginLeft: "1px" }}>
+                  {props.place}
+                </span>
+                {/* </Text> */}
+              </ListInfo>
+              <ListInfo>
+                <div style={{ display: "flex" }}>{tagItems}</div>
+              </ListInfo>
+            </Grid>
+          </div>
+          <div className="flex">
+            <div className="lg:block flex self-center lg:space-x-0 lg:space-y-2 space-x-4">
+              <div
+                onClick={() => handleButtonClick({ type: "accept", props })}
+                className="text-center bg-green-100 text-green-600 hover:bg-green-300 hover:text-green-900 transition-colors duration-300 ease-in-out rounded-md px-7 py-2 block text-sm font-normal cursor-pointer"
+              >
+                수락
+              </div>
+              <div
+                onClick={() => handleButtonClick({ type: "reject", props })}
+                className="text-center bg-red-100 text-red-600 hover:bg-red-300 hover:text-red-900 transition-colors duration-300 ease-in-out rounded-md px-7 py-2 block text-sm font-normal cursor-pointer"
+              >
+                거절
+              </div>
+              <div className="cursor-pointer">
+                <Link to={`/postdetail/${props.postId}`}>
+                  <div className="text-center bg-blue-100 text-blue-600 hover:bg-blue-300 hover:text-blue-900 transition-colors duration-300 ease-in-out rounded-md px-7 py-2 block text-sm font-normal">
+                    자세히 보기
+                  </div>
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
-      </PostCard>
+        </PostCard>
+      </div>
     </>
   );
 };
 
-const ListCardRouter = (props) => {
+const ListCardRouter = ({ children, ...props }) => {
   switch (props.type) {
     case "invited":
       return <InvitedListCard {...props} />;

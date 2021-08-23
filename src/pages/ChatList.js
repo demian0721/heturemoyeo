@@ -182,68 +182,77 @@ const ChatList = () => {
   );
 };
 
-function ChatListCardComponent({ children, key, ...props }) {
+function ChatListCardComponent({ children, ...props }) {
   return (
-    <div className='cursor-pointer' key={props.key}>
-          <Link to={`/chat/${props.postId}`}>
-      <div
-        className="rounded-lg px-5 py-4 mx-4 border border-gray-500 border-opacity-20 chatBoxShadow bg-gray-100 hover:bg-white transition"
-        // onClick={() => (window.location.href = `/chat/${props.postId}`)}
-      >
-        <div className="flex items-center self-center">
-          <div
-            className="block rounded-md w-24 h-24"
-            style={{
-              textAlign: "center",
-              backgroundImage: `url('${
-                !props?.postImg || String(props.postImg).length === 0
-                  ? "/assets/unknownChatRoomImg.gif"
-                  : props.postImg
-              }')`,
-              backgroundSize: "cover",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
-              float: "center",
-            }}
-          >
-            <div className="absolute text-main">
-              <LabelIcon className="transform rotate-90 h-5 w-5 z-10" />
-            </div>
-            {/* <div className="absolute p-1 rounded-full bg-main z-10 animate-ping">
+    <div className="cursor-pointer" key={props.key}>
+      <Link to={`/chat/${props.postId}`}>
+        <div
+          className="rounded-lg px-5 py-4 mx-4 border border-gray-500 border-opacity-20 chatBoxShadow bg-gray-100 hover:bg-white transition"
+          // onClick={() => (window.location.href = `/chat/${props.postId}`)}
+        >
+          <div className="flex items-center self-center">
+            <div
+              className="block rounded-md w-24 h-24"
+              style={{
+                textAlign: "center",
+                backgroundImage: `url('${
+                  !props?.postImg || String(props.postImg).length === 0
+                    ? "/assets/unknownChatRoomImg.gif"
+                    : props.postImg
+                }')`,
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
+                float: "center",
+              }}
+            >
+              {/* <div className="absolute p-1 rounded-full bg-main z-10 animate-ping">
             <span className="sr-only">ping</span>
           </div>
           <div className="absolute p-1 rounded-full bg-main z-10">
             <span className="sr-only">ping</span>
           </div> */}
 
-            <span className="sr-only">X</span>
-          </div>
-          <div className="block ml-4">
-            <div className="text-black font-semibold">{props.title}</div>
-            <div className="font-normal text-sm text-gray-500">
-              <div className="inline-flex">
-                <PeopleIcon fontSize="small" />
-                <p className="ml-1">
-                  {props.currentMember}/{props.maxMember}
-                </p>
-              </div>
+              <span className="sr-only">X</span>
             </div>
-            <div className="font-normal text-sm text-gray-500">
-              <div className="inline-flex">
-                <PlaceIcon fontSize="small" />
-                <p className="ml-1">{props.place}</p>
+            <div className="block ml-4">
+              <div className="inline-flex text-black font-semibold space-x-2">
+                <span>{props.title}</span>
+                {
+                  props?.confirm && (
+                    <img
+                    alt="confirm-icon"
+                    src="/assets/confirm.svg"
+                    width={45}
+                    height={20}
+                  />
+                  )
+                }
               </div>
-            </div>
-            <div className="font-normal text-sm text-gray-500">
-              <div className="inline-flex">
-                <EventIcon fontSize="small" />
-                <p className="ml-1">{formattedDate(props.startDate)}</p>
+              <div className="font-normal text-sm text-gray-500">
+                <div className="inline-flex">
+                  <PeopleIcon fontSize="small" />
+                  <p className="ml-1">
+                    {props.currentMember}/{props.maxMember}
+                  </p>
+                </div>
+              </div>
+              <div className="font-normal text-sm text-gray-500">
+                <div className="inline-flex">
+                  <PlaceIcon fontSize="small" />
+                  <p className="ml-1">{props.place}</p>
+                </div>
+              </div>
+              <div className="font-normal text-sm text-gray-500">
+                <div className="inline-flex">
+                  <EventIcon fontSize="small" />
+                  <p className="ml-1">{formattedDate(props.startDate)}</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
     </div>
   );
 }

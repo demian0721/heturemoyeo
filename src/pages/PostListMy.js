@@ -47,7 +47,12 @@ const PostListMy = (props) => {
       <Grid height="">
         <Header>모임구하기</Header>
       </Grid>
-      <Grid width="100%" height="" margin="75px auto 55px auto" maxWidth="540px">
+      <Grid
+        width="100%"
+        height=""
+        margin="75px auto 55px auto"
+        maxWidth="540px"
+      >
         <Grid height="" bg="white">
           <Grid is_flex padding="18px">
             <Grid
@@ -116,7 +121,7 @@ const PostListMy = (props) => {
 const Style = styled.div`
   align-items: center;
   width: 100vw;
-  height:100%;
+  height: 100%;
   background-color: #efefef;
 `;
 

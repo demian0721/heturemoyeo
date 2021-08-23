@@ -9,6 +9,7 @@ import { Grid, Text, Image } from "../elements/index";
 import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 import { Transition } from "@headlessui/react";
 import useOutsideClick from "../hooks/useOutsideClick";
@@ -28,12 +29,12 @@ import { history } from "../redux/configStore";
 //임포트 사용 항목 외 삭제요망
 
 // 목록 UI 내 유저프로필 객체
-const UserProfileComponent = ({ key, myData, ...props }) => {
+const UserProfileComponent = ({ myData, postData, ...props }) => {
+  console.log("MyData", myData);
+  console.log("postData", postData);
+  console.log("Props", props);
   return (
-    <div
-      key={key}
-      className="flex rounded-md self-center p-2 listBtn transition duration-300 ease-in-out"
-    >
+    <div key={props.key} className="flex rounded-md self-center p-2">
       {props?.confirm && (
         <>
           <div className="absolute p-1 rounded-full bg-main z-10 animate-ping">
@@ -65,6 +66,17 @@ const UserProfileComponent = ({ key, myData, ...props }) => {
       <div className="flex ml-2 self-center font-medium text-base">
         {props?.nickname}
       </div>
+      {postData?.userId === props?.userId &&
+        postData?.userId !== props?.userId && (
+          <>
+            <div className="flex flex-grow">
+              <span className="sr-only">KICK_BTN</span>
+            </div>
+            <div className="flex self-center justify-end flex-shrink flex-basis-0 px-2 py-2 rounded-full bg-red-200 text-red-600 hover:bg-red-300 hover:text-red-900 transition duration-300 ease-in-out">
+              <ExitToAppIcon style={{ fontSize: "15px" }} />
+            </div>
+          </>
+        )}
     </div>
   );
 };
@@ -79,8 +91,12 @@ const Header = (props) => {
   const chatId = parseInt(props.chatId);
   const writer = props.writer;
 
-  useEffect(() => dispatch(userActions.myInfoDB()), []);
+  useEffect(() => {
+    dispatch(userActions.myInfoDB());
+    dispatch(postActions.postDetailInfo(chatId));
+  }, []);
   const userData = useSelector((state) => state.user);
+  const getPostData = useSelector((state) => state.post.postDetail);
   const owner = userData.nickname;
   const deletepost = () => dispatch(postActions.deleteAPost(postId));
   const exitchat = () => dispatch(chatActions.exitAChat({ postId: chatId }));
@@ -95,10 +111,10 @@ const Header = (props) => {
     setMenuIsShow(false);
   });
 
-  const [memberList, setMemberList] = useState([]);
-  // useEffect(() => {
-  // }, []);
+  const [postData, setPostData] = useState({});
+  useEffect(() => setPostData(getPostData), [getPostData]);
 
+  const [memberList, setMemberList] = useState([]);
   const getMemberList = async () => {
     try {
       const result = await axios.get("/api/room/info", {
@@ -228,6 +244,7 @@ const Header = (props) => {
                           <UserProfileComponent
                             key={index}
                             myData={myData}
+                            postData={postData}
                             {...el}
                           />
                         ))}

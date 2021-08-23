@@ -83,24 +83,27 @@ const PostListInvited = (props) => {
 
           <PostListButton>invited</PostListButton>
 
-          {PostList && invitedPosts.length === 0 ? (
-            <div className="text-center font-bold text-lg" style={{backgroundColor: "#efefef", paddingTop:"30px", height:"calc(100vh - 250px)"}}>
-              초대된 모임이 존재하지 않아요!
-            </div>
-          ) : (
-            invitedPosts.map((l, index) => {
-              return (
-                <PostListCard
-                  key={l.id}
-                  idx={index}
-                  deleteCardFunction={(index) => setInvitedPosts((state) => state.filter((el, idx) => idx !== index))}
-                  type="invited"
-                  {...l}
-                />
-              );
-            })
-          )
-        }
+          {
+            loaded ?
+              PostList && invitedPosts.length !== 0 ? (
+                invitedPosts.map((l, index) => {
+                  return (
+                    <PostListCard
+                      key={l.id}
+                      idx={index}
+                      deleteCardFunction={(index) => setInvitedPosts((state) => state.filter((el, idx) => idx !== index))}
+                      type="invited"
+                      {...l}
+                    />
+                  );
+                })
+              ) : (
+                <div className="text-center font-bold text-lg" style={{backgroundColor: "#efefef", paddingTop:"30px", height:"calc(100vh - 250px)"}}>
+                초대된 모임이 존재하지 않아요!
+              </div>
+              )
+            : ""
+          }
 
           <Grid
             padding="5px 0px"

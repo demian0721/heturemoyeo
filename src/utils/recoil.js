@@ -14,3 +14,8 @@ export const SelectedPostCard = atom({
   key: "SelectedPostCard",
   default: 0,
 });
+
+export const ChatRoomSideBar = atom({
+  key: 'ChatRoomSideBar',
+  default: false
+})

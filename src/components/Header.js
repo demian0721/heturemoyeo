@@ -15,6 +15,9 @@ import CloseIcon from "@material-ui/icons/Close";
 import { Transition } from "@headlessui/react";
 import useOutsideClick from "../hooks/useOutsideClick";
 
+import { useRecoilState } from "recoil";
+import { ChatRoomSideBar } from "../utils/recoil";
+
 import { postActions } from "../redux/modules/post";
 import { chatActions } from "../redux/modules/chat";
 import { userActions } from "../redux/modules/user";
@@ -54,24 +57,29 @@ const UserProfileComponent = ({ myData, postData, ...props }) => {
     const ref = useRef();
     const [kickMember, setKickMember] = useState({});
     const [showConfirm, setShowConfirm] = useState(false);
+    const [menuIsShow, setMenuIsShow] = useRecoilState(ChatRoomSideBar);
     useOutsideClick(ref, () => setShowConfirm(false));
     return (
       <>
         {postData?.userId === myData?.userId &&
         postData?.userId !== props?.userId ? (
           <>
-            <div className="flex flex-grow">
-              <span className="sr-only">KICK_BTN</span>
-            </div>
-            <div
-              onClick={() => {
-                setShowConfirm(true);
-                setKickMember(props);
-              }}
-              className="flex self-center justify-end flex-shrink flex-basis-0 px-2 py-2 rounded-full bg-red-200 text-red-600 hover:bg-red-300 hover:text-red-900 transition duration-300 ease-in-out cursor-pointer"
-            >
-              <ExitToAppIcon style={{ fontSize: "15px" }} />
-            </div>
+            {!postData?.isConfirm && (
+              <>
+                <div className="flex flex-grow">
+                  <span className="sr-only">KICK_BTN</span>
+                </div>
+                <div
+                  onClick={() => {
+                    setShowConfirm(true);
+                    setKickMember(props);
+                  }}
+                  className="flex self-center justify-end flex-shrink flex-basis-0 px-2 py-2 rounded-full bg-red-200 text-red-600 hover:bg-red-300 hover:text-red-900 transition duration-300 ease-in-out cursor-pointer"
+                >
+                  <ExitToAppIcon style={{ fontSize: "15px" }} />
+                </div>
+              </>
+            )}
           </>
         ) : postData?.userId !== myData?.userId &&
           postData?.userId === props?.userId ? (
@@ -127,11 +135,15 @@ const UserProfileComponent = ({ myData, postData, ...props }) => {
                     alert(
                       `성공적으로 유저 ${kickMember.nickname} 을(를) 추방하였어요!`
                     );
+                    setShowConfirm(false);
+                    setMenuIsShow(false);
                   } catch (e) {
                     console.error(e);
                     alert(
                       `유저 ${kickMember.nickname} 을(를) 추방하는 도중 오류가 발생하였어요!`
                     );
+                    setShowConfirm(false);
+                    setMenuIsShow(false);
                   }
                 }}
                 className="flex-grow flex-shrink flex-basis-0 px-4 py-1 rounded-md bg-blue-200 text-blue-600 hover:bg-blue-300 hover:text-blue-900 transition duration-300 ease-in-out"
@@ -139,7 +151,10 @@ const UserProfileComponent = ({ myData, postData, ...props }) => {
                 추방
               </button>
               <button
-                onClick={() => setShowConfirm(false)}
+                onClick={() => {
+                  setShowConfirm(false);
+                  setMenuIsShow(false);
+                }}
                 className="flex-grow flex-shrink flex-basis-0 px-4 py-1 rounded-md bg-red-200 text-red-600 hover:bg-red-300 hover:text-red-900 transition duration-300 ease-in-out"
               >
                 취소
@@ -221,12 +236,10 @@ const Header = (props) => {
     dispatch(chatActions.confirmAChat({ postId: chatId }));
 
   const [show, setShow] = useState(false);
-  const [menuIsShow, setMenuIsShow] = useState(false);
+  const [menuIsShow, setMenuIsShow] = useRecoilState(ChatRoomSideBar);
   const [myData, setMyData] = useState({});
   const menuRef = useRef();
-  useOutsideClick(menuRef, () => {
-    setMenuIsShow(false);
-  });
+  useOutsideClick(menuRef, () => setMenuIsShow(false));
 
   const [postData, setPostData] = useState({});
   useEffect(() => setPostData(getPostData), [getPostData]);
@@ -250,10 +263,6 @@ const Header = (props) => {
       console.error(e);
     }
   };
-
-  // const [sideIsShow, setSideIsShow] = useState(false);
-  // const sideRef = useRef();
-  // useOutsideClick(sideRef, () => setSideIsShow(false));
 
   return (
     <Fragment>
@@ -324,7 +333,6 @@ const Header = (props) => {
                 onClick={() => {
                   setMenuIsShow(true);
                   getMemberList();
-                  // Get chat member list data from api via https://astraios.shop/api/room/info?postId={postId}
                 }}
               >
                 <MoreHorizIcon className="w-4 h-4" />
@@ -382,7 +390,7 @@ const Header = (props) => {
                         <button
                           onClick={() => {
                             confirmchat();
-                            getMemberList();
+                            setMenuIsShow(false);
                           }}
                           className="flex-grow flex-shrink flex-basis-0 px-8 py-2 rounded-md bg-blue-200 text-blue-600 hover:bg-blue-300 hover:text-blue-900 transition duration-300 ease-in-out"
                         >

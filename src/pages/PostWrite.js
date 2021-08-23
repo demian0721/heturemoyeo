@@ -9,10 +9,10 @@ import { geolocated, geoPropTypes } from "react-geolocated";
 import _ from "lodash";
 import DatePicker from "react-datepicker";
 import { ko } from "date-fns/esm/locale";
-import 'react-datepicker/dist/react-datepicker.css';
+import "react-datepicker/dist/react-datepicker.css";
 import "../react-datepicker.css";
-import { addDays } from 'date-fns';
-import moment from 'moment';
+import { addDays } from "date-fns";
+import moment from "moment";
 
 // TOKEN
 import { getToken } from "../common/token";
@@ -68,9 +68,15 @@ const PostWrite = (props) => {
 
     return currentDate.getTime() < selectedDate.getTime();
   };
-  
-  const getDayName = (date) => { return date.toLocaleDateString('ko-KR', { weekday: 'long', }).substr(0, 1); }
-  const createDate = (date) => { return new Date(new Date(date.getFullYear() , date.getMonth() , date.getDate() , 0 , 0 , 0)); }
+
+  const getDayName = (date) => {
+    return date.toLocaleDateString("ko-KR", { weekday: "long" }).substr(0, 1);
+  };
+  const createDate = (date) => {
+    return new Date(
+      new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
+    );
+  };
 
   useOutsideClick(modalRef, () => {
     setViewModal(false);
@@ -78,7 +84,7 @@ const PostWrite = (props) => {
   });
 
   const [postingContents, setPostingContents] = useState({
-    title: postInfo ? postInfo.title : "" ,
+    title: postInfo ? postInfo.title : "",
     content: postInfo ? postInfo.content : "",
     maxMember: postInfo ? postInfo.maxMember : "",
     startDate: postInfo ? postInfo.startDate : "",
@@ -199,11 +205,13 @@ const PostWrite = (props) => {
     alert("해당 기기는 GeoLocation을 지원하지 않습니다!");
   if (!props.isGeolocationEnabled)
     alert("해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!");
-  
-  useEffect(()=> {
+
+  useEffect(() => {
     console.log(moment(beginDate).format("YYYY-MM-DD HH:mm:ss"));
     // console.log(postingContents);
-  },[beginDate, postingContents]) 
+  }, [beginDate, postingContents]);
+
+  const [checked, setChecked] = useState(false);
 
   return (
     <Style>
@@ -239,7 +247,11 @@ const PostWrite = (props) => {
                 `;
               }}
             >
-              <Title fontSize="14px" margin="30px 0px 15px 0px" style={{ color: "#535353" }}>
+              <Title
+                fontSize="14px"
+                margin="30px 0px 15px 0px"
+                style={{ color: "#535353" }}
+              >
                 대표 이미지
               </Title>
               <Grid id="image"
@@ -318,8 +330,14 @@ const PostWrite = (props) => {
                   timeIntervals={15}
                   timeCaption="시작시간"
                   withPortal
-                  popperModifiers={{preventOverflow: { enabled: true}}}
-                  dayClassName={date => getDayName(createDate(date)) === '토' ? "saturday" : getDayName(createDate(date)) === '일' ? "sunday" : undefined }
+                  popperModifiers={{ preventOverflow: { enabled: true } }}
+                  dayClassName={(date) =>
+                    getDayName(createDate(date)) === "토"
+                      ? "saturday"
+                      : getDayName(createDate(date)) === "일"
+                      ? "sunday"
+                      : undefined
+                  }
                   // onChange={(date) => setBeginDate(date)}
                   onChange={(date) => {
                     setPostingContents({
@@ -372,15 +390,21 @@ const PostWrite = (props) => {
                   timeIntervals={15}
                   timeCaption="종료시간"
                   withPortal
-                  popperModifiers={{  preventOverflow: { enabled: true, }, }}
+                  popperModifiers={{ preventOverflow: { enabled: true } }}
                   popperPlacement="auto"
-                  dayClassName={date => getDayName(createDate(date)) === '토' ? "saturday" : getDayName(createDate(date)) === '일' ? "sunday" : undefined }
+                  dayClassName={(date) =>
+                    getDayName(createDate(date)) === "토"
+                      ? "saturday"
+                      : getDayName(createDate(date)) === "일"
+                      ? "sunday"
+                      : undefined
+                  }
                   onChange={(date) => {
                     setPostingContents({
                       ...postingContents,
                       endDate: date,
                     });
-                    setFinishDate(date)
+                    setFinishDate(date);
                   }}
                 />
               </div>
@@ -389,9 +413,11 @@ const PostWrite = (props) => {
               <Text fontSize="14px" color="#535353" fontWeight="bold">
                 장소
               </Text>
-              <div className="flex self-center items-center">
+              <div className="inline-flex self-center items-center">
                 <div
-                  className="self-center items-center bg-green-300 cursor-pointer"
+                  className={`flex self-center items-center ${
+                    checked ? "cursor-default bg-gray-300" : "bg-green-300 cursor-pointer"
+                  }`}
                   style={{
                     paddingTop: "6.5px",
                     paddingBottom: "6.5px",
@@ -400,13 +426,14 @@ const PostWrite = (props) => {
                   }}
                   value={postingContents.place}
                   onClick={() => {
+                    if (checked) return
                     setViewModal(true);
                     setIsOpen(true);
                   }}
                 >
                   <RoomIcon />
                 </div>
-                <div>
+                <div className="flex self-center">
                   <InputBox
                     style={{
                       width: "100vw",
@@ -420,7 +447,7 @@ const PostWrite = (props) => {
                     }}
                     placeholder="장소(한글 주소로 출력)"
                     type="text"
-                    value={inputValue}
+                    value={checked ? "온라인 모임" : inputValue}
                     onChange={(e) => {
                       setPostingContents({
                         ...postingContents,
@@ -430,6 +457,25 @@ const PostWrite = (props) => {
                   />
                 </div>
               </div>
+              <div className="block ml-10 self-center">
+                    <input
+                      id="online-schedule"
+                      type="checkbox"
+                      name="온라인모임"
+                      defaultChecked={checked}
+                      onChange={() => {
+                        setChecked((state) => {
+                          setPostingContents({
+                            ...postingContents,
+                            place: !state ? '온라인 모임' : "",
+                          });
+                          return !state
+                        });
+                      }}
+                      // ref='checkbox'
+                    />
+                    <span className="inline-flex ml-1">온라인 모임 여부</span>
+                  </div>
             </div>
             <Grid is_flex style={{justifyContent:"space-between"}}>
               <div style={{ margin: "10px 5px",width:"22%"}}>
@@ -496,14 +542,14 @@ const PostWrite = (props) => {
             <Grid style={{ border: "1px solid #B2B2B2", margin: "10px 0px" }} />
             <div style={{ margin: "10px 15px 10px 5px" }}>
               <div>
-              <Text
-                color="#535353"
-                fontWeight="bold"
-                fontSize="14px"
-                margin="10px 0px"
-              >
-                제목
-              </Text>
+                <Text
+                  color="#535353"
+                  fontWeight="bold"
+                  fontSize="14px"
+                  margin="10px 0px"
+                >
+                  제목
+                </Text>
                 <InputBox
                   style={{
                     border: "1.5px solid #white",
@@ -526,14 +572,14 @@ const PostWrite = (props) => {
                 />
               </div>
               <div>
-              <Text
-                color="#535353"
-                fontWeight="bold"
-                fontSize="14px"
-                margin="30px 0px 17px 0px"
-              >
-                내용
-              </Text>
+                <Text
+                  color="#535353"
+                  fontWeight="bold"
+                  fontSize="14px"
+                  margin="30px 0px 17px 0px"
+                >
+                  내용
+                </Text>
                 <Textarea
                   rows="10"
                   placeholder="내용을 입력하세요"
@@ -595,7 +641,7 @@ const PostWrite = (props) => {
             </Button>
           </Grid>
         </Grid>
-        
+
         <Transition appear show={isOpen} as={Fragment}>
           <Dialog
             as="div"
@@ -749,15 +795,14 @@ const Textarea = styled.textarea`
 
 const InputBox = styled.input`
   width: 100%;
-  border: solid 1.5px #A7AAAD;
+  border: solid 1.5px #a7aaad;
   padding: 14px 2px;
   ::placeholder {
     font-size: 16px;
   }
 `;
 
-const CalendarContainer = styled.div`
-`;
+const CalendarContainer = styled.div``;
 
 // const EnterButton = styled.button`
 //   width: 100%;
@@ -834,7 +879,7 @@ const Style = styled.div`
   /* position: absolute; */
   width: 100vw;
   height: 100%;
-  background-color: #EFEFEF;
+  background-color: #efefef;
 `;
 
 PostWrite.propTypes = { ...PostWrite.propTypes, ...geoPropTypes };

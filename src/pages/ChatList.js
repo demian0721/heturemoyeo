@@ -104,78 +104,80 @@ const ChatList = () => {
 
   return (
     <Fragment>
-      <Grid>
-        <Header>대화방</Header>
-      </Grid>
-      <Grid width="100%" height="" margin="75px 0 55px 0">
-        <Grid is_flex padding="18px">
-          <Grid
-            is_flex
-            padding="8px 8px"
-            height=""
-            bg="#EFEFEF"
-            style={{ margin: "auto" }}
-          >
-            <SearchIcon style={{ color: "#7B7B7B" }} />
-            <input
-              type="text"
-              placeholder="제목, 내용, 태그 또는 날짜"
-              style={{
-                padding: "0px 5px",
-                width: "100%",
-                backgroundColor: "#EFEFEF",
-              }}
-              ref={inputword}
-              onKeyPress={onKeyPress}
+      <Style>
+        <Grid>
+          <Header>대화방</Header>
+        </Grid>
+        <Grid width="100%" height="" margin="75px auto 55px auto" maxWidth="540px" bg="white">
+          <Grid is_flex padding="18px">
+            <Grid
+              is_flex
+              padding="8px 8px"
+              height=""
+              bg="#EFEFEF"
+              style={{ margin: "auto" }}
+            >
+              <SearchIcon style={{ color: "#7B7B7B" }} />
+              <input
+                type="text"
+                placeholder="제목, 내용, 태그 또는 날짜"
+                style={{
+                  padding: "0px 5px",
+                  width: "100%",
+                  backgroundColor: "#EFEFEF",
+                }}
+                ref={inputword}
+                onKeyPress={onKeyPress}
+              />
+            </Grid>
+            <DateRangeOutlinedIcon
+              style={{ marginLeft: "5px", color: "#7B7B7B" }}
             />
           </Grid>
-          <DateRangeOutlinedIcon
-            style={{ marginLeft: "5px", color: "#7B7B7B" }}
-          />
-        </Grid>
 
-        <Grid margin="10px 10px 50px 10px">
-          <SmallTitle style={{ margin: "10px 20px 20px 10px" }}>
-            확정된 대화방
-          </SmallTitle>
-          <Wrap>
-            <Decided />
-            <Decided />
-            <Decided />
-            <Decided />
-            <Decided />
-            <Decided />
-            <Decided />
-            <Decided />
-            <Decided />
-            <Decided />
-            <Decided />
-            <Decided />
-            <Decided />
-            <Decided />
-            <Decided />
-          </Wrap>
-        </Grid>
-        <div className="container mx-auto my-4 space-y-4 w-full">
-          <SmallTitle>대화방 목록</SmallTitle>
-          {loaded ? (
-            rooms?.length >= 1 ? (
-              rooms.map((el, index) => (
-                <ChatListCardComponent key={index} {...el} />
-              ))
+          <Grid margin="10px 10px 50px 10px">
+            <SmallTitle style={{ margin: "10px 20px 20px 10px" }}>
+              확정된 대화방
+            </SmallTitle>
+            <Wrap>
+              <Decided />
+              <Decided />
+              <Decided />
+              <Decided />
+              <Decided />
+              <Decided />
+              <Decided />
+              <Decided />
+              <Decided />
+              <Decided />
+              <Decided />
+              <Decided />
+              <Decided />
+              <Decided />
+              <Decided />
+            </Wrap>
+          </Grid>
+          <div className="container mx-auto my-4 space-y-4 w-full">
+            <SmallTitle>대화방 목록</SmallTitle>
+            {loaded ? (
+              rooms?.length >= 1 ? (
+                rooms.map((el, index) => (
+                  <ChatListCardComponent key={index} {...el} />
+                ))
+              ) : (
+                <div className="text-center font-bold text-lg">
+                  참여 중인 대화방이 존재하지 않아요!
+                </div>
+              )
             ) : (
-              <div className="text-center font-bold text-lg">
-                참여 중인 대화방이 존재하지 않아요!
-              </div>
-            )
-          ) : (
-            ""
-          )}
-        </div>
-      </Grid>
-      <Grid style={{ zIndex: 10 }}>
-        <Footer>chat</Footer>
-      </Grid>
+              ""
+            )}
+          </div>
+        </Grid>
+        <Grid style={{ zIndex: 10 }}>
+          <Footer>chat</Footer>
+        </Grid>
+      </Style>
     </Fragment>
   );
 };
@@ -269,6 +271,13 @@ const Decided = styled.div`
 const SmallTitle = styled.div`
   margin: 10px 20px 20px 20px;
   font-weight: bold;
+`;
+
+const Style = styled.div`
+  align-items: center;
+  width: 100vw;
+  height: 100%;
+  background-color: #efefef;
 `;
 
 export default ChatList;

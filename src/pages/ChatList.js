@@ -3,6 +3,7 @@ import React, { useRef, useEffect, useState, Fragment } from "react";
 import socket from "socket.io-client";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 // REDUX
 import { postActions } from "../redux/modules/post";
@@ -22,6 +23,7 @@ import {
   Event as EventIcon,
   Smartphone,
 } from "@material-ui/icons";
+import LabelIcon from "@material-ui/icons/Label";
 import SearchIcon from "@material-ui/icons/Search";
 import DateRangeOutlinedIcon from "@material-ui/icons/DateRangeOutlined";
 
@@ -37,8 +39,8 @@ const ChatList = () => {
    * useEffect 를 이용하여, useState 에 Redux Action dispatch 데이터 저장하기
    */
   useEffect(() => {
-    setRooms(posts)
-    setLoaded(true)
+    setRooms(posts);
+    setLoaded(true);
   }, [posts]);
   /**
    * 페이지를 처음 로드 했을때, 실행하는 부분입니다.
@@ -103,76 +105,76 @@ const ChatList = () => {
   return (
     <Fragment>
       <Grid>
-      <Header>대화방</Header>
+        <Header>대화방</Header>
       </Grid>
       <Grid width="100%" height="" margin="75px 0 55px 0">
-
-      <Grid is_flex padding="18px">
-            <Grid
-              is_flex
-              padding="8px 8px"
-              height=""
-              bg="#EFEFEF"
-              style={{ margin: "auto" }}
-            >
-              <SearchIcon style={{ color: "#7B7B7B" }} />
-              <input
-                type="text"
-                placeholder="제목, 내용, 태그 또는 날짜"
-                style={{
-                  padding: "0px 5px",
-                  width: "100%",
-                  backgroundColor: "#EFEFEF",
-                }}
-                ref={inputword}
-                onKeyPress={onKeyPress}
-              />
-            </Grid>
-            <DateRangeOutlinedIcon
-              style={{ marginLeft: "5px", color: "#7B7B7B" }}
+        <Grid is_flex padding="18px">
+          <Grid
+            is_flex
+            padding="8px 8px"
+            height=""
+            bg="#EFEFEF"
+            style={{ margin: "auto" }}
+          >
+            <SearchIcon style={{ color: "#7B7B7B" }} />
+            <input
+              type="text"
+              placeholder="제목, 내용, 태그 또는 날짜"
+              style={{
+                padding: "0px 5px",
+                width: "100%",
+                backgroundColor: "#EFEFEF",
+              }}
+              ref={inputword}
+              onKeyPress={onKeyPress}
             />
           </Grid>
+          <DateRangeOutlinedIcon
+            style={{ marginLeft: "5px", color: "#7B7B7B" }}
+          />
+        </Grid>
 
-      <Grid margin="10px 10px 50px 10px">
-      <SmallTitle
-        style={{margin: "10px 20px 20px 10px"}}
-      >확정된 대화방</SmallTitle>
-      <Wrap>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-      </Wrap>
-      </Grid>          
-      <div className="container mx-auto my-4 space-y-4 w-full">
-      <SmallTitle>대화방 목록</SmallTitle>       
-      {
-      loaded
-      ? 
-        rooms?.length >= 1 ? (
-          rooms.map((el, index) => <ChatListCardComponent key={index} {...el} />)
-        ) : (
-          <div className="text-center font-bold text-lg">
-            참여 중인 대화방이 존재하지 않아요!
-          </div>
-        )
-      : ''
-      }
-      </div> 
+        <Grid margin="10px 10px 50px 10px">
+          <SmallTitle style={{ margin: "10px 20px 20px 10px" }}>
+            확정된 대화방
+          </SmallTitle>
+          <Wrap>
+            <Decided />
+            <Decided />
+            <Decided />
+            <Decided />
+            <Decided />
+            <Decided />
+            <Decided />
+            <Decided />
+            <Decided />
+            <Decided />
+            <Decided />
+            <Decided />
+            <Decided />
+            <Decided />
+            <Decided />
+          </Wrap>
+        </Grid>
+        <div className="container mx-auto my-4 space-y-4 w-full">
+          <SmallTitle>대화방 목록</SmallTitle>
+          {loaded ? (
+            rooms?.length >= 1 ? (
+              rooms.map((el, index) => (
+                <ChatListCardComponent key={index} {...el} />
+              ))
+            ) : (
+              <div className="text-center font-bold text-lg">
+                참여 중인 대화방이 존재하지 않아요!
+              </div>
+            )
+          ) : (
+            ""
+          )}
+        </div>
       </Grid>
       <Grid style={{ zIndex: 10 }}>
-      <Footer>chat</Footer>
+        <Footer>chat</Footer>
       </Grid>
     </Fragment>
   );
@@ -180,53 +182,66 @@ const ChatList = () => {
 
 function ChatListCardComponent({ children, key, ...props }) {
   return (
-    <div
-      key={props.key}
-      className="rounded-lg px-5 py-4 mx-4 border border-gray-500 border-opacity-20 chatBoxShadow bg-gray-100 hover:bg-white transition cursor-pointer"
-      onClick={() => (window.location.href = `/chat/${props.postId}`)}
-    >
-      <div className="flex items-center self-center">
-        <div
-          className="block rounded-md w-24 h-24"
-          style={{
-            textAlign: "center",
-            backgroundImage: `url('${
-              !props?.postImg || String(props.postImg).length === 0
-                ? "/assets/unknownChatRoomImg.gif"
-                : props.postImg
-            }')`,
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            float: "center",
-          }}
-        >
-          <span className="sr-only">X</span>
-        </div>
-        <div className="block ml-4">
-          <div className="text-black font-semibold">{props.title}</div>
-          <div className="font-normal text-sm text-gray-500">
-            <div className="inline-flex">
-              <PeopleIcon fontSize="small" />
-              <p className="ml-1">
-                {props.currentMember}/{props.maxMember}
-              </p>
+    <div className='cursor-pointer' key={props.key}>
+          <Link to={`/chat/${props.postId}`}>
+      <div
+        className="rounded-lg px-5 py-4 mx-4 border border-gray-500 border-opacity-20 chatBoxShadow bg-gray-100 hover:bg-white transition"
+        // onClick={() => (window.location.href = `/chat/${props.postId}`)}
+      >
+        <div className="flex items-center self-center">
+          <div
+            className="block rounded-md w-24 h-24"
+            style={{
+              textAlign: "center",
+              backgroundImage: `url('${
+                !props?.postImg || String(props.postImg).length === 0
+                  ? "/assets/unknownChatRoomImg.gif"
+                  : props.postImg
+              }')`,
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+              float: "center",
+            }}
+          >
+            <div className="absolute text-main">
+              <LabelIcon className="transform rotate-90 h-5 w-5 z-10" />
             </div>
+            {/* <div className="absolute p-1 rounded-full bg-main z-10 animate-ping">
+            <span className="sr-only">ping</span>
           </div>
-          <div className="font-normal text-sm text-gray-500">
-            <div className="inline-flex">
-              <PlaceIcon fontSize="small" />
-              <p className="ml-1">{props.place}</p>
+          <div className="absolute p-1 rounded-full bg-main z-10">
+            <span className="sr-only">ping</span>
+          </div> */}
+
+            <span className="sr-only">X</span>
+          </div>
+          <div className="block ml-4">
+            <div className="text-black font-semibold">{props.title}</div>
+            <div className="font-normal text-sm text-gray-500">
+              <div className="inline-flex">
+                <PeopleIcon fontSize="small" />
+                <p className="ml-1">
+                  {props.currentMember}/{props.maxMember}
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="font-normal text-sm text-gray-500">
-            <div className="inline-flex">
-              <EventIcon fontSize="small" />
-              <p className="ml-1">{formattedDate(props.startDate)}</p>
+            <div className="font-normal text-sm text-gray-500">
+              <div className="inline-flex">
+                <PlaceIcon fontSize="small" />
+                <p className="ml-1">{props.place}</p>
+              </div>
+            </div>
+            <div className="font-normal text-sm text-gray-500">
+              <div className="inline-flex">
+                <EventIcon fontSize="small" />
+                <p className="ml-1">{formattedDate(props.startDate)}</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
+    </Link>
     </div>
   );
 }
@@ -250,7 +265,7 @@ const Decided = styled.div`
   height: 100px;
   min-height: 100px;
   margin: auto 10px;
-  `;
+`;
 const SmallTitle = styled.div`
   margin: 10px 20px 20px 20px;
   font-weight: bold;

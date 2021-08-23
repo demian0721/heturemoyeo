@@ -45,7 +45,6 @@ const targetAllDB = (userId) => {
           userId,
         });
         dispatch(targetAll(result));
-        console.log(`User: Anonymous -> ${userId}`);
       })
       .catch((error) => {
         console.error(error);
@@ -64,7 +63,6 @@ const targetFriendDB = (userId) => {
           exactType: "friend",
           userId,
         });
-        console.log(`User: Friend -> ${userId}`);
         dispatch(targetFriend(result));
       })
       .catch((error) => {
@@ -85,7 +83,6 @@ const targetPostDB = (userId) => {
           exactType: "sameSchedule",
           userId,
         });
-        console.log(`User: SameSchedule -> ${userId}`);
         dispatch(targetPost(result));
       })
       .catch((error) => {

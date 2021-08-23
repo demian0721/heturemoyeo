@@ -87,7 +87,6 @@ const postDetailInfo = (postId) => {
       .then((res) => {
         const result = res.data;
         Object.assign(result, { type: "post", postId });
-        console.log(`Post: Detail -> ${postId}`);
         dispatch(postDetail(result));
       })
       .catch((error) => {

@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useRef, Fragment } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import socket from "socket.io-client";
-import Chat, { Bubble, useMessages } from "@chatui/core";
+import Chat, { useMessages } from "@chatui/core";
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import ChatUICSS from "!!raw-loader!@chatui/core/dist/index.css";
 
 import { useSelector, useDispatch } from "react-redux";
 import { chatActions } from "../redux/modules/chat";
+import { postActions } from "../redux/modules/post";
 
 // ELEMENTS
 import { Grid, Image } from "../elements/index";
@@ -25,17 +26,19 @@ const ChatRoom = (props) => {
   const dispatch = useDispatch();
   const myUserId = useSelector((state) => state.user.userId);
   const getChatDatas = useSelector((state) => state.chat.chatList);
+  const getChatRoomData = useSelector((state) => state.post.postDetail);
   const [init, setInit] = useState(false);
   const { messages, appendMsg } = useMessages([]); // @chatui/core 에 있는 훅을 사용하였습니다.
+
   /**
    * SocketClientEvents:
    * Socket.io 에 연결한 후, 이벤트를 선언하는 함수입니다.
    */
   const socketClientEvents = (socket) => {
     socket
-      .on("connect", (data) => {
-        Logger.info(`[Socket.io:Connect] Connected to Socket.io server!`);
-      })
+      .on("connect", (data) =>
+        Logger.info(`[Socket.io:Connect] Connected to Socket.io server!`)
+      )
       /**
        * Socket.io Event: Join
        * 해당 이벤트는 유저가 채팅방에 들어왔을때 실행하는 이벤트입니다.
@@ -74,11 +77,10 @@ const ChatRoom = (props) => {
         Logger.error(
           `[Socket.io:Disconnect] Disconnected to Socket.io Server (Reason: ${socket})`
         )
+      )
+      .on("error", (error) =>
+        Logger.error(`[Socket.io:Error] Socket.io error occurred!\n${error}`)
       );
-
-    socket.on("error", (error) =>
-      Logger.error(`[Socket.io:Error] Socket.io error occurred!\n${error}`)
-    );
   };
 
   //getChatDatas의 데이터가 없는데 userId가 먼저 받아왔을 때
@@ -89,12 +91,10 @@ const ChatRoom = (props) => {
    * 이것은 useEffect로 옮길 예정입니다.
    * InfiniteScroll을 구현하기 위해, 배열을 reverse 하여 처리합니다.
    */
-
   useEffect(() => {
     if (init) return;
     if (getChatDatas?.length >= 1) {
       getChatDatas.reverse();
-      Logger.debug(`[GetChatDatas] Get ChatDatas: ${getChatDatas.length}`);
       getChatDatas.map((el) => {
         const data = {
           type: "text",
@@ -121,7 +121,7 @@ const ChatRoom = (props) => {
       });
       setInit(true);
     }
-  }, [init, setInit, getChatDatas]);
+  }, [init, setInit, getChatDatas, myUserId]);
 
   // if (!init && myUserId && getChatDatas.length) {
   //   if (getChatDatas?.length >= 1) {
@@ -161,14 +161,19 @@ const ChatRoom = (props) => {
    * 소켓을 연결하고, 소켓 이벤트를 설정하고 기본적인 준비를 하는 곳입니다.
    */
   useEffect(() => {
-    const io = socket("https://astraios.shop/chat", {
-      path: "/socket.io",
-      query: {
-        postId: props.match.params.id,
-      },
-    });
+    const io = socket(
+      `https://astraios.shop/chat?postId=${props.match.params.id}`,
+      {
+        extraHeaders: {
+          authorization: sessionStorage.getItem("token"),
+        },
+        path: "/socket.io",
+        secure: true,
+      }
+    );
     socketClientEvents(io);
     dispatch(chatActions.getChatDB(props.match.params.id, 1000));
+    dispatch(postActions.postDetailInfo(props.match.params.id));
     return () => {
       Logger.warn(
         "[Socket.io:Disconnect] Disconnecting to Socket.io server..."
@@ -247,7 +252,12 @@ const ChatRoom = (props) => {
       <div className="relative w-full h-screen">
         <div id="message-table" className="container mx-auto">
           <div className="flex flex-col">
-            <Header id="chatroom" width="100%" chatId={props.match.params.id} />
+            <Header
+              id="chatroom"
+              title={getChatRoomData?.title}
+              width="100%"
+              chatId={props.match.params.id}
+            />
             {/* ChatUI, 채팅 UI를 생성해줍니다. */}
             <div
               id="message_chat-ui"

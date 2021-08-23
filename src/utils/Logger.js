@@ -36,7 +36,7 @@ const Logger = {
   info: (message) => console.log(`%c${getDate()} [INFO] ${getMessage(message)}`, "color: lightGreen;"),
   debug: (message) => console.log(`%c${getDate()} [DEBUG] ${getMessage(message)}`, "color: cyan;"),
   warn: (message) => console.log(`%c${getDate()} [WARN] ${getMessage(message)}`, "color: orange;"),
-  error: (message) => console.log(`%c${getDate()} [ERRRO] ${getMessage(message)}`, "color: red;"),
+  error: (message) => console.log(`%c${getDate()} [ERROR] ${getMessage(message)}`, "color: red;"),
   verbose: (message) => console.log(`%c${getDate()} [VERBOSE] ${getMessage(message)}`, "color: gray;"),
 };
 

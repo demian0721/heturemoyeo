@@ -31,18 +31,11 @@ const LogIn = (props) => {
   };
 
   return (
-    // <React.Fragment>
     <Style>
-      {/* <div style={{ padding: "auto"}}> */}
       <Grid
-        // width="360px"
         minWidth="280px"
-        maxWidth="360px"
+        maxWidth="300px"
         margin="0px auto"
-        // height="100vh"
-        // padding="150px 40px"
-        // shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-
         tabletStyle={() => {
           return css`
             width: 95%;
@@ -68,12 +61,9 @@ const LogIn = (props) => {
         </Title>
 
         <Grid padding="18px" margin="50px 0px 0px 0px" height="">
-          {/* <Title fontSize="18px" margin="5px">
-            로그인
-          </Title> */}
           <Grid padding="8px 0px">
             <Text color="#495057" fontSize="15px">
-              이메일
+              핸드폰 번호
             </Text>
             <Input
               placeholder=""
@@ -84,7 +74,6 @@ const LogIn = (props) => {
                 borderBottom: "solid 2px #A7AAAD",
                 boxShadow: "none",
               }}
-              // focus={outLine:"solid 2px #16C59B"}
               changeEvent={(event) => {
                 setUserInfo({ ...userInfo, email: event.target.value });
               }}
@@ -169,28 +158,12 @@ const LogIn = (props) => {
                 }}
                 onClick={() => (window.location.href = "/terms")}
               >
-                {" "}
                 회원가입
               </span>
             </Text>
-            {/* <Button
-              width="100%"
-              height="auto"
-              padding="12px 0"
-              bg="#A7AAAD"
-              hoverColor="#ccc"
-              fontSize="15px"
-              clickEvent={() => {
-                window.location.href = "/terms";
-              }}
-            >
-              회원가입
-            </Button> */}
           </Grid>
         </Grid>
       </Grid>
-      {/* </div> */}
-    {/* </React.Fragment> */}
     </Style>
   );
 };
@@ -202,9 +175,6 @@ const Style = styled.div`
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  /* height: 100vh; */
-  /* background-color: #efefef; */
-
 `;
 
 LogIn.defaultProps = {};

@@ -86,7 +86,6 @@ export class Terms extends Component {
           minWidth="280px"
           maxWidth="300px"
           margin="0px auto"
-          overflow-y="scroll"
           tabletStyle={() => {
             return css`
               width: 95%;

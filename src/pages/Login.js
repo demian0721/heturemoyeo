@@ -13,12 +13,12 @@ import { BorderBottom } from "@material-ui/icons";
 const LogIn = (props) => {
   const dispatch = useDispatch();
 
-  const [userInfo, setUserInfo] = useState({ email: "", password: "" });
+  const [userInfo, setUserInfo] = useState({ phone: "", password: "" });
   const [warningText, setWarningText] = useState("");
 
   const login = () => {
-    if (!userInfo.email) {
-      setWarningText("이메일이 입력되지 않았습니다.");
+    if (!userInfo.phone) {
+      setWarningText("번호가 입력되지 않았습니다.");
       return;
     }
 
@@ -75,7 +75,7 @@ const LogIn = (props) => {
                 boxShadow: "none",
               }}
               changeEvent={(event) => {
-                setUserInfo({ ...userInfo, email: event.target.value });
+                setUserInfo({ ...userInfo, phone: event.target.value });
               }}
               padding="4px 4px"
               keyPress={(event) => {

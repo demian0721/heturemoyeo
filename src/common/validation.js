@@ -1,8 +1,15 @@
 //EMAIL(ID) 
-export const idVal = (email) => {
-    const _reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+// export const idVal = (email) => {
+//     const _reg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
-    return _reg.test(email);
+//     return _reg.test(email);
+// };
+
+//PHONE(ID)
+export const idVal = (phone) => {
+    const _reg = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
+
+    return _reg.test(phone);
 };
 
 //PASSWORD

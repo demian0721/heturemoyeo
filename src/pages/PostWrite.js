@@ -306,7 +306,7 @@ const PostWrite = (props) => {
                   minDate={new Date()}
                   maxDate={addDays(new Date(), 7)}
                   // closeOnScroll={true}
-                  placeholderText="시작을 설정해주세요"
+                  placeholderText="시작을 설정하세요"
                   selected={beginDate}
                   startDate={beginDate}
                   // endDate={finishDate}
@@ -360,7 +360,7 @@ const PostWrite = (props) => {
                   minDate={beginDate}
                   maxDate={addDays(new Date(), 14)}
                   // closeOnScroll={true}
-                  placeholderText="종료를 설정해주세요"
+                  placeholderText="종료를 설정하세요"
                   selected={finishDate}
                   startDate={beginDate}
                   endDate={finishDate}
@@ -416,7 +416,7 @@ const PostWrite = (props) => {
                       borderBottom: "solid 2px #E5E5E5",
                       boxShadow: "none",
                     }}
-                    placeholder="장소(한글 주소로 출력)"
+                    placeholder="한글 주소로 출력됩니다"
                     type="text"
                     value={inputValue}
                     onChange={(e) => {
@@ -470,7 +470,7 @@ const PostWrite = (props) => {
                     boxShadow: "none",
                   }}
                   padding="8px 0px"
-                  placeholder="문자로 작성해주세요"
+                  placeholder="문자로 작성하세요"
                   type="text"
                   value={postingContents.bring}
                   onChange={(e) => {
@@ -512,7 +512,7 @@ const PostWrite = (props) => {
                     borderBottom: "solid 2px #E5E5E5",
                     boxShadow: "none",
                   }}
-                  placeholder="제목을 입력해주세요"
+                  placeholder="제목을 입력하세요"
                   type="text"
                   value={postingContents.title}
                   onChange={(e) => {
@@ -534,7 +534,7 @@ const PostWrite = (props) => {
               </Text>
                 <Textarea
                   rows="10"
-                  placeholder="내용을 입력해주세요"
+                  placeholder="내용을 입력하세요"
                   type="text"
                   value={postingContents.content}
                   onChange={(e) => {
@@ -562,7 +562,7 @@ const PostWrite = (props) => {
                   width: "100%",
                   border: "1.5px solid #white",
                 }}
-                placeholder="태그를 설정해주세요(예시단어: 걷기, 산책)"
+                placeholder="태그를 설정하세요(예시단어: 걷기, 산책)"
                 type="text"
                 value={postingContents.tag}
                 onChange={(e) => {

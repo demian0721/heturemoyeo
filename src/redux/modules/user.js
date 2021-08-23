@@ -14,20 +14,25 @@ const MY_INFO = "MY_INFO";
 const RELATION = "RELATION";
 const LOG_IN = "LOG_IN";
 const LOG_OUT = "LOG_OUT";
-const CHECK_DUP_EMAIL = "CHECK_DUP_EMAIL";
+const CHECK_DUP_PHONE = "CHECK_DUP_PHONE";
+const CHECK_DUP_AUTH = "CHECK_DUP_AUTH";
 const CHECK_DUP_NICKNAME = "CHECK_DUP_NICKNAME";
 const TEMP_SAVE = "TEMP_SAVE";
 const EDIT_INFO = "EDIT_INFO";
 const EDIT_STATUS = "EDIT_STATUS";
 const REQUEST_FRIEND = "REQUEST_FRIEND";
+const RECEIVE_AUTH = "RECEIVE_AUTH";
 
 // ACTION CREATORS
 const myInfo = createAction(MY_INFO, (userInfo) => ({ userInfo }));
 const relation = createAction(RELATION, (userInfo) => ({ userInfo }));
 const logIn = createAction(LOG_IN, (token) => ({ token }));
 const logOut = createAction(LOG_OUT);
-const checkDupEmail = createAction(CHECK_DUP_EMAIL, (is_check_email) => ({
-  is_check_email,
+const checkDupPhone = createAction(CHECK_DUP_PHONE, (is_check_phone) => ({
+  is_check_phone,
+}));
+const checkDupAuth = createAction(CHECK_DUP_AUTH, (is_check_auth) => ({
+  is_check_auth,
 }));
 const checkDupNick = createAction(CHECK_DUP_NICKNAME, (is_check_nickname) => ({
   is_check_nickname,
@@ -38,12 +43,14 @@ const editStatus = createAction(EDIT_STATUS, (editStatus) => ({ editStatus }));
 const requestFriend = createAction(REQUEST_FRIEND, (requestFriend) => ({
   requestFriend,
 }));
+const receiveAuth = createAction(RECEIVE_AUTH, (receiveAuth) => ({ receiveAuth }));
 
 // INITIAL STATE
 const initialState = {
   token: null,
   is_login: false,
-  is_check_email: false,
+  is_check_phone: false,
+  is_check_auth: false,
   is_check_nickname: false,
   userId: null,
   nickname: null,
@@ -52,7 +59,8 @@ const initialState = {
   scheduleUsers: null,
   relation: null,
   type: null,
-  exactType: null
+  exactType: null,
+  receiveAuth: null
 };
 
 // MIDDLEWARE
@@ -166,17 +174,47 @@ const logInCheck = (token) => {
   };
 };
 
-const emailCheck = (id) => {
+// checkdupemail명 바꿀것
+const phoneNumCheck = (id) => {
   return function (dispatch) {
     instance
       .post("/api/sign/email", { email: id })
       .then((res) => {
-        dispatch(checkDupEmail(true));
+        dispatch(checkDupPhone(true));
         window.alert("사용 가능한 번호입니다.");
       })
       .catch((error) => {
-        dispatch(checkDupEmail(false));
+        dispatch(checkDupPhone(false));
         window.alert("이미 가입된 번호입니다.");
+      });
+  };
+};
+const receiveAuthNum = (phone) => {
+  return function (dispatch) {
+    instance
+      .post("/api/sign/phone", { phone: phone })
+      .then((res) => {
+        dispatch(checkDupPhone(true));
+        window.alert("사용 가능한 번호입니다.");
+      })
+      .catch((error) => {
+        dispatch(checkDupPhone(false));
+        window.alert("이미 가입된 번호입니다.");
+      });
+  };
+};
+
+const authNumCheck = (authInfo) => {
+  return function (dispatch) {
+    instance
+      .post("/api/sign/phone/auth", authInfo )
+      .then((res) => {
+        dispatch(checkDupAuth(true));
+        window.alert("인증번호가 확인되었습니다.");
+      })
+      .catch((error) => {
+        dispatch(checkDupAuth(false));
+        window.alert("인증번호가 일치하지 않습니다.");  
       });
   };
 };
@@ -196,13 +234,13 @@ const nickCheck = (nick) => {
   };
 };
 
-const signupDB = (email,name,nickname,password,confirm,profileImg,statusMessage,likeItem) => {
+const signupDB = (phone,name,nickname,password,confirm,profileImg,statusMessage,likeItem) => {
   return function (dispatch, getState, { history }) {
     dispatch(
       imgActions.uploadImageDB(profileImg, () => {
         const imgUrl = getState().image.imageUrl;
         const profileInfoAll = {
-          "email": email,
+          "phone": phone,
           "name": name,
           "nickname":nickname,
           "password":password,
@@ -230,7 +268,7 @@ export default handleActions(
     [MY_INFO]: (state, action) =>
       produce(state, (draft) => {
         draft.userId = action.payload.userInfo.userId;
-        draft.email = action.payload.userInfo.email;
+        draft.phone = action.payload.userInfo.phone;
         draft.name = action.payload.userInfo.name;
         draft.nickname = action.payload.userInfo.nickname;
         draft.profileImg = action.payload.userInfo.profileImg;
@@ -262,11 +300,20 @@ export default handleActions(
         draft.is_login = false;
       }),
 
-    [CHECK_DUP_EMAIL]: (state, action) =>
+    [CHECK_DUP_PHONE]: (state, action) =>
       produce(state, (draft) => {
-        draft.is_check_email = action.payload.is_check_email;
+        draft.is_check_phone = action.payload.is_check_phone;
+      }),
+    
+    [CHECK_DUP_AUTH]: (state, action) =>
+      produce(state, (draft) => {
+        draft.is_check_auth = action.payload.is_check_auth;
       }),
 
+    [RECEIVE_AUTH]: (state, action) =>
+      produce(state, (draft) => {
+        draft.receiveAuth = action.payload.receiveAuth;
+      }),
     [CHECK_DUP_NICKNAME]: (state, action) =>
       produce(state, (draft) => {
         draft.is_check_nickname = action.payload.is_check_nickname;
@@ -307,7 +354,9 @@ const userActions = {
   relation,
   relationDB,
   signupDB,
-  emailCheck,
+  phoneNumCheck,
+  authNumCheck,
+  receiveAuthNum,
   nickCheck,
   tempSave,
   editInfos,

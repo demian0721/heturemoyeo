@@ -11,7 +11,6 @@ import { searchActions } from "../redux/modules/search";
 // ELEMENTS
 import { Grid, Button } from "../elements/index";
 import SearchIcon from "@material-ui/icons/Search";
-import DateRangeOutlinedIcon from "@material-ui/icons/DateRangeOutlined";
 import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
 
 // HISTORY
@@ -30,7 +29,6 @@ const PostListMy = (props) => {
   }, []);
   const PostList = useSelector((state) => state.post.list);
   const inputword = useRef();
-  // const searchDate = null;
 
   const search = () => {
     console.log(inputword.current.value);
@@ -64,7 +62,7 @@ const PostListMy = (props) => {
             >
               <SearchIcon style={{ color: "#7B7B7B" }} />
               <input
-                placeholder="제목, 내용, 태그 또는 날짜"
+                placeholder="제목, 내용, 또는 태그"
                 style={{
                   padding: "0px 5px",
                   width: "100%",
@@ -74,9 +72,6 @@ const PostListMy = (props) => {
                 onKeyPress={onKeyPress}
               />
             </Grid>
-            <DateRangeOutlinedIcon
-              style={{ marginLeft: "5px", color: "#7B7B7B" }}
-            />
           </Grid>
 
           <PostListButton>my</PostListButton>
@@ -94,8 +89,6 @@ const PostListMy = (props) => {
             overflow="visible"
           >
             <Button
-              // shadow="rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;"
-              // padding="12px"
               margin="0 0 10px"
               radius="100%"
               color="white"

@@ -14,7 +14,6 @@ import InfiniteScroll from "../common/infiniteScroll";
 // ELEMENTS
 import { Grid, Button } from "../elements/index";
 import SearchIcon from "@material-ui/icons/Search";
-import DateRangeOutlinedIcon from "@material-ui/icons/DateRangeOutlined";
 import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
 
 // HISTORY
@@ -30,7 +29,6 @@ const PostList = (props) => {
   const PostList = useSelector((state) => state.post.list);
 
   const inputword = useRef();
-  // const searchDate = null;
 
   useEffect(() => {
     dispatch(postActions.getPostsDB());
@@ -69,7 +67,7 @@ const PostList = (props) => {
               <SearchIcon style={{ color: "#7B7B7B" }} />
               <input
                 type="text"
-                placeholder="제목, 내용, 태그 또는 날짜"
+                placeholder="제목, 내용, 또는 태그"
                 style={{
                   padding: "0px 5px",
                   width: "100%",
@@ -79,9 +77,6 @@ const PostList = (props) => {
                 onKeyPress={onKeyPress}
               />
             </Grid>
-            <DateRangeOutlinedIcon
-              style={{ marginLeft: "5px", color: "#7B7B7B" }}
-            />
           </Grid>
           <PostListButton>all</PostListButton>
 
@@ -96,8 +91,6 @@ const PostList = (props) => {
           >
             <Link to="/postwrite">
               <Button
-                // shadow="rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;"
-                // padding="12px"
                 margin="0 0 10px"
                 radius="100%"
                 color="white"
@@ -121,7 +114,6 @@ const PostList = (props) => {
 const Style = styled.div`
   align-items: center;
   width: 100vw;
-  /* height: calc(100vh - 55px); */
   height:100%;
   background-color: #EFEFEF;
 `;

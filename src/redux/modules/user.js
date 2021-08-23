@@ -21,7 +21,7 @@ const TEMP_SAVE = "TEMP_SAVE";
 const EDIT_INFO = "EDIT_INFO";
 const EDIT_STATUS = "EDIT_STATUS";
 const REQUEST_FRIEND = "REQUEST_FRIEND";
-const RECEIVE_AUTH = "RECEIVE_AUTH";
+// const RECEIVE_AUTH = "RECEIVE_AUTH";
 
 // ACTION CREATORS
 const myInfo = createAction(MY_INFO, (userInfo) => ({ userInfo }));
@@ -44,7 +44,7 @@ const requestFriend = createAction(REQUEST_FRIEND, (requestFriend) => ({
   requestFriend,
 }));
 
-const receiveAuth = createAction(RECEIVE_AUTH, (authId) => ({ authId }));
+// const receiveAuth = createAction(RECEIVE_AUTH, (authId) => ({ authId }));
 
 // INITIAL STATE
 const initialState = {
@@ -215,7 +215,7 @@ const receiveAuthNum = (phone) => {
       .then((res) => {
         dispatch(checkDupPhone(true));
         window.alert("인증 메세지가 발송되었습니다");
-        dispatch(receiveAuth(res.data.authId));
+        // dispatch(receiveAuth(res.data.authId));
       })
       .catch((error) => {
         dispatch(checkDupPhone(false));
@@ -336,10 +336,10 @@ export default handleActions(
         draft.is_check_auth = action.payload.is_check_auth;
       }),
 
-    [RECEIVE_AUTH]: (state, action) =>
-      produce(state, (draft) => {
-        draft.authId = action.payload.authId;
-      }),
+    // [RECEIVE_AUTH]: (state, action) =>
+    //   produce(state, (draft) => {
+    //     draft.authId = action.payload.authId;
+    //   }),
     
     [CHECK_DUP_NICKNAME]: (state, action) =>
       produce(state, (draft) => {

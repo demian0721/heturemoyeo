@@ -21,7 +21,7 @@ const TEMP_SAVE = "TEMP_SAVE";
 const EDIT_INFO = "EDIT_INFO";
 const EDIT_STATUS = "EDIT_STATUS";
 const REQUEST_FRIEND = "REQUEST_FRIEND";
-// const RECEIVE_AUTH = "RECEIVE_AUTH";
+const RECEIVE_AUTH = "RECEIVE_AUTH";
 
 // ACTION CREATORS
 const myInfo = createAction(MY_INFO, (userInfo) => ({ userInfo }));
@@ -43,7 +43,8 @@ const editStatus = createAction(EDIT_STATUS, (editStatus) => ({ editStatus }));
 const requestFriend = createAction(REQUEST_FRIEND, (requestFriend) => ({
   requestFriend,
 }));
-// const receiveAuth = createAction(RECEIVE_AUTH, (receiveAuth) => ({ receiveAuth }));
+
+const receiveAuth = createAction(RECEIVE_AUTH, (authId) => ({ authId }));
 
 // INITIAL STATE
 const initialState = {
@@ -60,6 +61,7 @@ const initialState = {
   relation: null,
   type: null,
   exactType: null,
+  authId: null
   // receiveAuth: null
 };
 
@@ -196,6 +198,7 @@ const receiveAuthNum = (phone) => {
       .then((res) => {
         dispatch(checkDupPhone(true));
         window.alert("인증 메세지가 발송되었습니다");
+        dispatch(receiveAuth(res.data.authId));
       })
       .catch((error) => {
         dispatch(checkDupPhone(false));
@@ -239,12 +242,13 @@ const nickCheck = (nick) => {
   };
 };
 
-const signupDB = (phone,name,nickname,password,confirm,profileImg,statusMessage,likeItem) => {
+const signupDB = (authId,phone,name,nickname,password,confirm,profileImg,statusMessage,likeItem) => {
   return function (dispatch, getState, { history }) {
     dispatch(
       imgActions.uploadImageDB(profileImg, () => {
         const imgUrl = getState().image.imageUrl;
         const profileInfoAll = {
+          "authId": authId,
           "phone": phone,
           "name": name,
           "nickname":nickname,
@@ -315,19 +319,21 @@ export default handleActions(
         draft.is_check_auth = action.payload.is_check_auth;
       }),
 
-    // [RECEIVE_AUTH]: (state, action) =>
-    //   produce(state, (draft) => {
-    //     draft.receiveAuth = action.payload.receiveAuth;
-    //   }),
+    [RECEIVE_AUTH]: (state, action) =>
+      produce(state, (draft) => {
+        draft.authId = action.payload.authId;
+      }),
     
     [CHECK_DUP_NICKNAME]: (state, action) =>
       produce(state, (draft) => {
         draft.is_check_nickname = action.payload.is_check_nickname;
       }),
+
     [TEMP_SAVE]: (state, action) =>
       produce(state, (draft) => {
         draft.tempInfo = action.payload.tempInfo;
       }),
+
     [EDIT_INFO]: (state, action) =>
       produce(state, (draft) => {
         draft.nickname = action.payload.infos.nickname;

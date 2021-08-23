@@ -20,12 +20,8 @@ const SignUp = (props) => {
   const dispatch = useDispatch();
   const debounce = _.debounce((value, setValue) => setValue(value), 300);
   const signupNext = () => {
-    // if (id === ""|| pwd === ""|| name === "") 
-    //   return window.alert(
-    //     "입력하지 않은 항목이 있습니다."
-    //     );
     
-    const userInfo = {id, pwd, name}
+    const userInfo = {id, pwd, name, authId}
     dispatch(userActions.tempSave(userInfo))
     history.push("/signup/info");
   }
@@ -45,6 +41,8 @@ const SignUp = (props) => {
   const [authData, setAuthData] = useState("");
   const [authWarning, setAuthWarColor] = useState("red");
   const [authConfirm, setAuthConfirm] = useState("");
+  const [authId, setAuthId] = useState("");
+
   const checkID = (val) => {
     if (val === "") {
       setIdWarColor("red");
@@ -218,7 +216,12 @@ const SignUp = (props) => {
               style={{ cursor: "pointer",
                       border: "none",
                       fontWeight: "bold" }}
-              clickEvent={nickname}
+              disabled=""
+              clickEvent={(e) => {
+                nickname();
+                e.preventDefault();  
+                e.currentTarget.disabled = true ;
+              }}
             >
               인증번호 <br/> 받기
             </Button>
@@ -316,7 +319,7 @@ const SignUp = (props) => {
                        border: "none" }}
               hoverColor="#16C59B"  
               clickEvent={signupNext}
-              disabled={!id || !pwd || !name || !(pwd===pwdCheck)}
+              disabled={!id || !pwd || !name || !(pwd===pwdCheck) || !authId}
             >
               다음
             </Button>

@@ -99,12 +99,12 @@ const SearchChatListMy = () => {
 
   return (
     <Fragment>
-      <Grid>
-      <Header>대화방</Header>
-      </Grid>
-      <Grid width="100%" height="" margin="75px 0 55px 0">
-
-      <Grid is_flex padding="18px">
+      <Style>
+        <Grid>
+          <Header>대화방</Header>
+        </Grid>
+        <Grid width="100%" height="" margin="75px auto 55px auto" maxWidth="540px" bg="white">
+          <Grid is_flex padding="18px ">
             <Grid
               is_flex
               padding="8px 8px"
@@ -125,47 +125,48 @@ const SearchChatListMy = () => {
                 onKeyPress={onKeyPress}
               />
             </Grid>
-            <DateRangeOutlinedIcon
-              style={{ marginLeft: "5px", color: "#7B7B7B" }}
-            />
+              <DateRangeOutlinedIcon
+                style={{ marginLeft: "5px", color: "#7B7B7B" }}
+              />
           </Grid>
 
-      <Grid margin="10px 10px 50px 10px">
-      <SmallTitle
-        style={{margin: "10px 20px 20px 10px"}}
-      >확정된 대화방</SmallTitle>
-      <Wrap>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-        <Decided/>
-      </Wrap>
-      </Grid>          
-      <div className="container mx-auto my-4 space-y-4 w-full">
-      <SmallTitle>대화방 목록</SmallTitle>       
-        {rooms?.length >= 1 ? (
-          rooms.map((el) => <ChatListCardComponent {...el} />)
-        ) : (
-          <div className="text-center font-bold text-lg">
-            참여 중인 대화방이 존재하지 않아요!
-          </div>
-        )}
-      </div> 
-      </Grid>
-      <Grid style={{ zIndex: 10 }}>
-      <Footer>chat</Footer>
-      </Grid>
+          <Grid margin="10px 10px 50px 10px">
+            <SmallTitle
+              style={{margin: "10px 20px 20px 10px"}}
+            >확정된 대화방</SmallTitle>
+            <Wrap>
+              <Decided/>
+              <Decided/>
+              <Decided/>
+              <Decided/>
+              <Decided/>
+              <Decided/>
+              <Decided/>
+              <Decided/>
+              <Decided/>
+              <Decided/>
+              <Decided/>
+              <Decided/>
+              <Decided/>
+              <Decided/>
+              <Decided/>
+            </Wrap>
+          </Grid>          
+          <div className="container mx-auto mt-4 space-y-4 w-full">
+          <SmallTitle>대화방 목록</SmallTitle>       
+            {rooms?.length >= 1 ? (
+              rooms.map((el) => <ChatListCardComponent {...el} />)
+            ) : (
+              <div className="text-center font-bold text-lg" style={{ paddingTop:"30px",backgroundColor: "#efefef",height:"calc(100vh - 490px)"}}>
+                참여 중인 대화방이 존재하지 않아요!
+              </div>
+            )}
+          </div> 
+        </Grid>
+          <Grid style={{ zIndex: 10 }}>
+            <Footer>chat</Footer>
+          </Grid>
+      </Style>
     </Fragment>
   );
 };
@@ -247,5 +248,13 @@ const SmallTitle = styled.div`
   margin: 10px 20px 20px 20px;
   font-weight: bold;
 `;
+
+const Style = styled.div`
+  align-items: center;
+  width: 100vw;
+  height: 100%;
+  background-color: #efefef;
+`;
+
 
 export default SearchChatListMy;

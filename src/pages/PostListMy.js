@@ -75,7 +75,7 @@ const PostListMy = (props) => {
           </Grid>
 
           <PostListButton>my</PostListButton>
-
+          
           {PostList.map((l, index) => {
             console.log(l)
             return <PostListCard key={l.id} idx={index} {...l} />;

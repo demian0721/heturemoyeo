@@ -54,7 +54,7 @@ const SearchPostList = (props) => {
       <Grid>
         <Header>모임구하기</Header>
       </Grid>
-      <Grid width="100%" height="" margin="75px 0 55px 0">
+      <Grid width="100%" height="" margin="75px auto 55px auto" maxWidth="540px">
         <Grid height="" bg="white">
           <Grid is_flex padding="18px">
             <Grid
@@ -91,9 +91,9 @@ const SearchPostList = (props) => {
                 keyword={keyword}
               />
             ) : (
-              <Text fontSize="23px" margin="30px 30px 0 80px">
+              <div className="text-center font-bold text-lg" style={{ paddingTop:"30px",backgroundColor: "#efefef",height:"calc(100vh - 250px)"}}>
                 '{decodeURI(keyword)}'에 대한 검색 결과가 없습니다.
-              </Text>
+              </div>
             )}
           </>
 
@@ -133,7 +133,7 @@ const Style = styled.div`
   align-items: center;
   width: 100vw;
   height: 100%;
-  /* background-color: #efefef; */
+  background-color: #efefef;
 `;
 
 export default SearchPostList;

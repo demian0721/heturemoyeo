@@ -41,6 +41,10 @@ const SignUp = (props) => {
   const [name, setName] = useState("");
   const [nameConfirm, setNameConfirm] = useState("");
   const [nameWarning, setNameWarColor] = useState("red");
+
+  const [authData, setAuthData] = useState("");
+  const [authWarning, setAuthWarColor] = useState("red");
+  const [authConfirm, setAuthConfirm] = useState("");
   const checkID = (val) => {
     if (val === "") {
       setIdWarColor("red");
@@ -112,9 +116,27 @@ const SignUp = (props) => {
       window.alert("핸드폰 번호가 입력되지 않았습니다.");
       return;
     }
-    dispatch(userActions.emailCheck(id));
+    dispatch(userActions.phoneNumCheck(id));
     setIdConfirm("");
   };
+
+  const checkAuth = (val) => {
+    if (val === "") {
+      setAuthWarColor("red");
+      setAuthConfirm("인증번호가 입력되지 않았습니다.");
+      return;
+    }
+  }
+
+  const authnumber = () => {
+    if (authData === "") {
+      window.alert("인증번호가 입력되지 않았습니다.");
+      return;
+    }
+    const authInfo = {id, authData}
+    dispatch(userActions.authNumCheck(authInfo));
+    setAuthConfirm("");
+  }
 
   return (
     <Style>
@@ -152,7 +174,7 @@ const SignUp = (props) => {
               {nameConfirm}
             </Text>
             <InputBox 
-              placeholder="성함을 입력해주세요"
+              placeholder="성함을 입력하세요"
               onChange={(e) => {
                 setName(e.target.value);
               }}
@@ -161,6 +183,7 @@ const SignUp = (props) => {
               }}
             />
           </Grid>
+
           <Grid padding="16px 0px 0px">
             <Text
               fontSize="12px"
@@ -172,9 +195,10 @@ const SignUp = (props) => {
               {idConfirm}
             </Text>
           </Grid>
-          <Grid is_flex padding="0px 0px 16px">
+
+          <Grid is_flex padding="0px 0px 8px">
             <InputBox
-              placeholder="핸드폰 번호를 입력해주세요"
+              placeholder="핸드폰번호를 '-'없이 입력하세요"
               onChange={(event) => {
                 setId(event.target.value);
               }}
@@ -184,7 +208,7 @@ const SignUp = (props) => {
             />
             <Button
               margin="0px 0px 0px 6px"
-              width="40%"
+              width="30%"
               height="auto"
               padding="10px 0"
               fontSize="13px"
@@ -199,19 +223,29 @@ const SignUp = (props) => {
               인증번호 <br/> 받기
             </Button>
           </Grid>
+          <Grid padding="8px 0px 0px">
+            <Text
+              fontSize="12px"
+              margin="0px"
+              color={authWarning}
+              lineHeight="2"
+              >
+              {authConfirm}
+            </Text>
+          </Grid>
           <Grid is_flex padding="0px 0px 8px">
             <InputBox
-              placeholder="인증번호를 입력해주세요"
+              placeholder="인증번호(6자리)를 입력하세요"
               onChange={(event) => {
-                setId(event.target.value);
+                setAuthData(event.target.value);
               }}
               onKeyUp={(event) => {
-                debounce(event.target.value, checkID);
+                debounce(event.target.value, checkAuth);
               }}
             />
             <Button
               margin="0px 0px 0px 6px"
-              width="40%"
+              width="30%"
               height="auto"
               padding="16px 0"
               fontSize="13px"
@@ -221,7 +255,7 @@ const SignUp = (props) => {
               style={{ cursor: "pointer",
                       border: "none",
                       fontWeight: "bold" }}
-              clickEvent={nickname}
+              clickEvent={authnumber}
             >
               확인
             </Button>
@@ -233,10 +267,10 @@ const SignUp = (props) => {
               color={pwdWarning}
               lineHeight="2"
             >
-              {pwdConfirm}
+              {pwdConfirm} 
             </Text>
             <InputBox
-              placeholder="비밀번호를 입력해주세요"
+              placeholder="비밀번호를 입력하세요"
               type="password"
               onChange={(e) => {
                 setPwd(e.target.value);
@@ -257,7 +291,7 @@ const SignUp = (props) => {
               {pwdCheckConfirm}
             </Text>
             <InputBox
-              placeholder="비밀번호를 한번 더 입력해주세요"
+              placeholder="비밀번호를 한번 더 입력하세요"
               type="password"
               onChange={(e) => {
                 setPwdCheck(e.target.value);

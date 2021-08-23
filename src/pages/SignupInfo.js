@@ -192,7 +192,7 @@ const SignupInfo = (props) => {
           </Grid>
           <Grid is_flex padding="0px 0px 8px">
             <InputBox
-              placeholder="닉네임을 입력해주세요"
+              placeholder="닉네임을 입력하세요"
               onChange={(event) => {
                 setNickname(event.target.value);
               }}
@@ -217,7 +217,7 @@ const SignupInfo = (props) => {
           </Grid>
           <Grid padding="5px 0px 8px">
             <InputBox
-              placeholder="상태메세지를 입력해주세요"
+              placeholder="상태메세지를 입력하세요"
               onChange={(event) => {
                 setStatusMessage(event.target.value);
               }}
@@ -226,7 +226,7 @@ const SignupInfo = (props) => {
           <Grid padding="5px 0px 8px"
                 margin="0px 0px 20px 0px">
             <InputBox
-              placeholder="관심사를 입력해주세요(예시: 런닝, 산책)"
+              placeholder="관심사를 입력하세요(예시: 런닝, 산책)"
               margin="0px 0px 30px 0px"
               onChange={(e) => {
                 setLikeItem(e.target.value.split(","));

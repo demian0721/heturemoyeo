@@ -53,7 +53,9 @@ function PlaceImageComponent(props) {
 
 function UserProfileImageComponent(props) {
   return (
-    <div className="fixed z-1 top-4 left-2/3 right-1/4 mr-6">
+    <div 
+    // className=//"fixed z-1 top-4 left-2/3 right-1/4 mr-6"
+    >
       <div
         className="w-24 h-24"
         style={{
@@ -114,7 +116,14 @@ const handleButtonClick = async ({ type, props }) => {
 
 const Details = (props) => {
   const postDetails = props.Details;
-  const date = formattedDate(postDetails.startDate);
+  const sthr = "0" + new Date(postDetails.startDate).getHours();
+  const stmt = "0" + new Date(postDetails.startDate).getMinutes();
+  const sthour = sthr.slice(-2)+":"+stmt.slice(-2);
+  const edhr = "0" + new Date(postDetails.endDate).getHours();
+  const edmt = "0" + new Date(postDetails.endDate).getMinutes();
+  const edhour = edhr.slice(-2)+":"+edmt.slice(-2);
+  const stdate = formattedDate(postDetails.startDate);
+  const eddate = formattedDate(postDetails.endDate);
   const dispatch = useDispatch();
 
   const PostList = useSelector((state) => state.post.list);
@@ -155,49 +164,54 @@ const Details = (props) => {
           style={{ borderBottom: "1px solid #E2E2E2" }}
         >
           <Grid is_flex>
-            <UserProfileImageComponent img={postDetails?.profileImg} />
-            <Title color="black" fontWeight="800" fontSize="20px">
-              {postDetails?.title}
-            </Title>
-            <Text
-              color="#16C59B"
-              margin="0px 0px 0px 10px"
-              fontSize="14px"
-              fontWeight="bold"
-              // style={{ minWidth: "45px" }}
-            >
-              {postDetails?.currentMember}/{postDetails?.maxMember}명
-            </Text>
-          </Grid>
-          <Text
-            color="black"
-            margin="10px auto"
-            fontSize="medium"
-            // style={{ minHeight: "50px" }}
-          >
-            {postDetails?.content}
-          </Text>
-
-          <Grid is_flex id="tag">
-            {postDetails?.tag?.map((l, index) => {
-              return (
-                <div
-                  key={index}
-                  style={{
-                    width: "fit-content",
-                    margin: "10px 5px 10px 0px",
-                    backgroundColor: "#white",
-                    color: "#767676",
-                    borderRadius: "5px",
-                    padding: "3px 5px",
-                    fontSize: "10px",
-                    border: "0.6px solid #767676",
-                  }}
+            <Grid>
+              <Grid is_flex>
+                {/* <UserProfileImageComponent img={postDetails?.profileImg} /> */}
+                <Title color="black" fontWeight="800" fontSize="20px">
+                  {postDetails?.title}
+                </Title>
+                <Text
+                  color="#16C59B"
+                  margin="0px 0px 0px 10px"
+                  fontSize="14px"
+                  fontWeight="bold"
+                  // style={{ minWidth: "45px" }}
                 >
-                  {l}
-                </div>
-              );
-            })}
+                  {postDetails?.currentMember}/{postDetails?.maxMember}명
+                </Text>
+              </Grid>
+              <Text
+                color="black"
+                margin="10px auto"
+                fontSize="medium"
+                // style={{ minHeight: "50px" }}
+              >
+                {postDetails?.content}
+              </Text>
+
+              <Grid is_flex id="tag">
+                {postDetails?.tag?.map((l, index) => {
+                  return (
+                    <div
+                      key={index}
+                      style={{
+                        width: "fit-content",
+                        margin: "10px 5px 10px 0px",
+                        backgroundColor: "#white",
+                        color: "#767676",
+                        borderRadius: "5px",
+                        padding: "3px 5px",
+                        fontSize: "10px",
+                        border: "0.6px solid #767676",
+                      }}
+                    >
+                      {l}
+                    </div>
+                  );
+                })}
+              </Grid>
+            </Grid>
+            <UserProfileImageComponent img={postDetails?.profileImg} />
           </Grid>
         </Grid>
         {/* 필요없어진 방장 프로필n종료시각n닫기 */}
@@ -230,14 +244,22 @@ const Details = (props) => {
                 // marginLeft:"10px"
               }}
             />
-            <Text
-              color="#808080"
-              margin="0px 5px"
-              fontSize="12px"
-              fontWeight="bold"
-            >
-              {date}
-            </Text>
+            {stdate==eddate ? <Text
+                color="#808080"
+                margin="0px 5px"
+                fontSize="12px"
+                fontWeight="bold"
+              >
+                {stdate}
+              </Text> : <Text
+                color="#808080"
+                margin="0px 5px"
+                fontSize="12px"
+                fontWeight="bold"
+              >
+                {stdate}~{eddate}
+              </Text> }
+            
             <AccessTimeOutlinedIcon
               style={{
                 width: "19px",
@@ -247,14 +269,20 @@ const Details = (props) => {
                 marginLeft: "10px",
               }}
             />
-            <Text
-              color="#808080"
-              margin="0px 5px"
-              fontSize="12px"
-              fontWeight="bold"
-            >
-              00:00~00:00
-            </Text>
+            
+              {sthour==edhour ? <Text
+                  color="#808080"
+                  margin="0px 5px"
+                  fontSize="12px"
+                  fontWeight="bold"
+                >{sthour}</Text> : <Text
+                color="#808080"
+                margin="0px 5px"
+                fontSize="12px"
+                fontWeight="bold"
+                >{sthour}~{edhour}
+              </Text>}
+            
           </Grid>
           <Grid id="pplndate" is_flex margin="15px 0px" width="" height="">
             <PersonIcon

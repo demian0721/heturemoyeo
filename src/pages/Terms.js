@@ -326,7 +326,6 @@ const Style = styled.div`
   position: absolute;
   margin: auto;
   width: 100vw;
-
 `;
 
 export default Terms;

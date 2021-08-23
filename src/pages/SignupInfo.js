@@ -104,14 +104,14 @@ const SignupInfo = (props) => {
   };
 
   return (
-    <React.Fragment>
-      {/* <div style={{ paddingTop: "110px" }} /> */}
+    <Style>
       <Grid
-        width="360px"
+        minWidth="280px"
+        maxWidth="300px"
         margin="0px auto"
-        padding="25px 40px"
-        shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-        minHeight="100vh"
+        padding="18px"
+        // shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+        // minHeight="100vh"
         tabletStyle={() => {
           return css`
             width: 95%;
@@ -124,8 +124,8 @@ const SignupInfo = (props) => {
           `;
         }}
       >
-        <Title fontSize="25px" textAlign="left" margin="50px 0px 30px 10px">
-          <span style={{ cursor: "pointer" }}>회원정보 입력</span>
+        <Title fontSize="25px" textAlign="left" margin="50px 0px 25px 0px">
+          <span>회원정보 입력</span>
         </Title>
         <Grid height="">
           <Grid
@@ -191,21 +191,20 @@ const SignupInfo = (props) => {
             </Text>
           </Grid>
           <Grid is_flex padding="0px 0px 8px">
-            <Input
-              placeholder="닉네임을 입력해주세요."
-              changeEvent={(event) => {
+            <InputBox
+              placeholder="닉네임을 입력해주세요"
+              onChange={(event) => {
                 setNickname(event.target.value);
               }}
-              keyUp={(event) => {
+              onKeyUp={(event) => {
                 debounce(event.target.value, checkNickname);
               }}
-              padding="14px 7px"
             />
             <Button
               margin="0px 0px 0px 6px"
               width="40%"
               height="auto"
-              padding="16px 0"
+              padding="17px 0"
               fontSize="13px"
               bg="#A7AAAD"
               color="#FFFFFF"
@@ -217,20 +216,19 @@ const SignupInfo = (props) => {
             </Button>
           </Grid>
           <Grid padding="5px 0px 8px">
-            <Input
-              placeholder="상태메세지를 입력해주세요."
-              padding="14px 7px"
-              changeEvent={(event) => {
+            <InputBox
+              placeholder="상태메세지를 입력해주세요"
+              onChange={(event) => {
                 setStatusMessage(event.target.value);
               }}
             />
           </Grid>
-          <Grid padding="5px 0px 8px">
-            <Input
-              placeholder="관심사를 입력해주세요.(예시: 배드민턴)"
-              padding="14px 7px"
+          <Grid padding="5px 0px 8px"
+                margin="0px 0px 20px 0px">
+            <InputBox
+              placeholder="관심사를 입력해주세요(예시단어: 런닝, 산책)"
               margin="0px 0px 30px 0px"
-              changeEvent={(e) => {
+              onChange={(e) => {
                 setLikeItem(e.target.value.split(","));
               }}
             />
@@ -255,9 +253,25 @@ const SignupInfo = (props) => {
           </Grid>
         </Grid>
       </Grid>
-    </React.Fragment>
+    </Style>
   );
 };
+
+const InputBox = styled.input`
+  width: 100%;
+  border: solid 2px #A7AAAD;
+  padding: 14px 7px;
+  ::placeholder {
+    font-size: 14px;
+  }
+`;
+
+const Style = styled.div`
+  top: 10%;
+  position: absolute;
+  margin: auto;
+  width: 100vw;
+`;
 
 const PosAbs = () => {
   return css`

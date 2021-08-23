@@ -172,11 +172,11 @@ const emailCheck = (id) => {
       .post("/api/sign/email", { email: id })
       .then((res) => {
         dispatch(checkDupEmail(true));
-        window.alert("사용 가능한 이메일입니다.");
+        window.alert("사용 가능한 번호입니다.");
       })
       .catch((error) => {
         dispatch(checkDupEmail(false));
-        window.alert("이미 존재하는 이메일입니다.");
+        window.alert("이미 가입된 번호입니다.");
       });
   };
 };

@@ -1,7 +1,7 @@
 // LIBRARY
 import React, { useState } from "react";
 import _ from "lodash";
-import { css } from "styled-components";
+import styled, { css } from "styled-components";
 
 // ELEMENTS
 import { Text, Title, Input, Grid, Button } from "../elements";
@@ -44,12 +44,12 @@ const SignUp = (props) => {
   const checkID = (val) => {
     if (val === "") {
       setIdWarColor("red");
-      setIdConfirm("이메일이 입력되지 않았습니다.");
+      setIdConfirm("핸드폰 번호가 입력되지 않았습니다.");
       return;
     }
     if (!idVal(val)) {
       setIdWarColor("red");
-      setIdConfirm("이메일이 형식에 맞지 않습니다.(영어, 알파벳 4~20자)");
+      setIdConfirm("핸드폰 번호가 형식에 맞지 않습니다.");
       return;
     }
 
@@ -65,7 +65,7 @@ const SignUp = (props) => {
     }
     if (!pwdVal(val)) {
       setPwdWarColor("red");
-      setPwdConfirm("영문과 숫자, 특수문자 각 1자 이상 포함해주세요.(8~20자) ");
+      setPwdConfirm("영문, 숫자, 특수문자 1자 이상 포함해주세요.(8~20자) ");
       return;
     }
     setPwdWarColor("green");
@@ -109,7 +109,7 @@ const SignUp = (props) => {
 
   const nickname = () => {
     if (id === "") {
-      window.alert("이메일이 입력되지 않았습니다.");
+      window.alert("핸드폰 번호가 입력되지 않았습니다.");
       return;
     }
     dispatch(userActions.emailCheck(id));
@@ -117,14 +117,14 @@ const SignUp = (props) => {
   };
 
   return (
-    <React.Fragment>
-      {/* <div style={{ paddingTop: "110px" }} /> */}
+    <Style>
       <Grid
-        width="360px"
+        minWidth="280px"
+        maxWidth="300px"
         margin="0px auto"
-        padding="50px 40px"
-        shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-        minHeight="100vh"
+        padding="18px"
+        // shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+        // minHeight="100vh"
         tabletStyle={() => {
           return css`
             width: 95%;
@@ -137,8 +137,8 @@ const SignUp = (props) => {
           `;
         }}
       >
-        <Title fontSize="25px" textAlign="left" margin="50px 0px 50px 10px">
-          <span style={{ cursor: "pointer" }}>회원가입</span>
+        <Title fontSize="25px" textAlign="left" margin="50px 0px 25px 0px">
+          <span>회원가입</span>
         </Title>
         <Grid height="">
           <Grid padding="5px 0px 0px">
@@ -151,15 +151,14 @@ const SignUp = (props) => {
             >
               {nameConfirm}
             </Text>
-            <Input
-              placeholder="성함을 입력해주세요."
-              changeEvent={(e) => {
+            <InputBox 
+              placeholder="성함을 입력해주세요"
+              onChange={(e) => {
                 setName(e.target.value);
               }}
-              keyUp={(event) => {
+              onKeyUp={(event) => {
                 debounce(event.target.value, checkName);
               }}
-              padding="14px 7px"
             />
           </Grid>
           <Grid padding="16px 0px 0px">
@@ -173,16 +172,42 @@ const SignUp = (props) => {
               {idConfirm}
             </Text>
           </Grid>
-          <Grid is_flex padding="0px 0px 8px">
-            <Input
-              placeholder="이메일을 입력해주세요."
-              changeEvent={(event) => {
+          <Grid is_flex padding="0px 0px 16px">
+            <InputBox
+              placeholder="핸드폰 번호를 입력해주세요"
+              onChange={(event) => {
                 setId(event.target.value);
               }}
-              keyUp={(event) => {
+              onKeyUp={(event) => {
                 debounce(event.target.value, checkID);
               }}
-              padding="14px 7px"
+            />
+            <Button
+              margin="0px 0px 0px 6px"
+              width="40%"
+              height="auto"
+              padding="10px 0"
+              fontSize="13px"
+              bg="#A7AAAD"
+              color="#FFFFFF"
+              className="custom_transition"
+              style={{ cursor: "pointer",
+                      border: "none",
+                      fontWeight: "bold" }}
+              clickEvent={nickname}
+            >
+              인증번호 <br/> 받기
+            </Button>
+          </Grid>
+          <Grid is_flex padding="0px 0px 8px">
+            <InputBox
+              placeholder="인증번호를 입력해주세요"
+              onChange={(event) => {
+                setId(event.target.value);
+              }}
+              onKeyUp={(event) => {
+                debounce(event.target.value, checkID);
+              }}
             />
             <Button
               margin="0px 0px 0px 6px"
@@ -198,53 +223,48 @@ const SignUp = (props) => {
                       fontWeight: "bold" }}
               clickEvent={nickname}
             >
-              중복 확인
+              확인
             </Button>
           </Grid>
-          
           <Grid padding="5px 0px 8px">
             <Text
               fontSize="12px"
               margin="0px"
               color={pwdWarning}
               lineHeight="2"
-              // textIndent="3px"
             >
               {pwdConfirm}
             </Text>
-            <Input
-              placeholder="비밀번호를 입력해주세요."
+            <InputBox
+              placeholder="비밀번호를 입력해주세요"
               type="password"
-              changeEvent={(e) => {
+              onChange={(e) => {
                 setPwd(e.target.value);
               }}
-              keyUp={(event) => {
+              onKeyUp={(event) => {
                 debounce(event.target.value, checkPWD);
               }}
-              padding="14px 7px"
             />
           </Grid>
           <Grid padding="5px 0px 8px"
-                margin="0px 0px 30px 0px">
+                margin="0px 0px 20px 0px">
             <Text
               fontSize="12px"
               margin="0px"
               color={pwdCheckWarning}
               lineHeight="2"
-              // textIndent="3px"
             >
               {pwdCheckConfirm}
             </Text>
-            <Input
-              placeholder="비밀번호를 한번 더 입력해주세요."
+            <InputBox
+              placeholder="비밀번호를 한번 더 입력해주세요"
               type="password"
-              changeEvent={(e) => {
+              onChange={(e) => {
                 setPwdCheck(e.target.value);
               }}
-              keyUp={(event) => {
+              onKeyUp={(event) => {
                 debounce(event.target.value, checkPWD2nd);
               }}
-              padding="14px 7px"
             />
           </Grid>
           <Grid padding="5px 0px"
@@ -269,9 +289,23 @@ const SignUp = (props) => {
           </Grid>
         </Grid>
       </Grid>
-    </React.Fragment>
+      </Style>
   );
 };
+const InputBox = styled.input`
+  width: 100%;
+  border: solid 2px #A7AAAD;
+  padding: 14px 7px;
+  ::placeholder {
+    font-size: 14px;
+  }
+`;
+const Style = styled.div`
+  top: 10%;
+  position: absolute;
+  margin: auto;
+  width: 100vw;
+`;
 
 SignUp.defaultProps = {};
 

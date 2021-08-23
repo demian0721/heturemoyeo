@@ -91,6 +91,14 @@ const PostEdition = (props) => {
     lng: props.Details.lng,
   });
 
+  if (props.Details.postImg==preview){
+    var img = props.Details.postImg;
+    // console.log('이미지 no',img);
+  }else{
+    var img = fileInput.current.files[0];
+    // console.log('이미지 yes',img);
+  };
+
   const isItPossibleToEdit = () => {
     if (
       preview &&
@@ -125,7 +133,7 @@ const PostEdition = (props) => {
     const isAvailable = isItPossibleToEdit();
     if (!isAvailable) return window.alert("각 항목은 필수 입력사항 입니다.");
     dispatch(
-      postActions.editPostDB(fileInput.current.files[0], postingContents)
+      postActions.editPostDB(img, postingContents)
     );
     dispatch(imgActions.setPreview(null));
     setTimeout(() => {

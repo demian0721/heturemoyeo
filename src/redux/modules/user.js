@@ -86,26 +86,43 @@ const myInfoDB = () => {
 
 const editInfos = (image, doc) => {
   return function (dispatch, getState, { history }) {
-    dispatch(
-      imgActions.uploadImageDB(image, () => {
-        const imgUrl = getState().image.imageUrl;
-        const profileInfo = {
-          ...doc,
-          profileImg: imgUrl,
-        };
-
-        instance
-          .put("/api/user", { ...profileInfo })
-          .then((res) => {
-            window.alert("프로필 수정이 완료되었습니다");
-            dispatch(editInfo({ profileImg: imgUrl }));
-            history.replace("/mypage");
-          })
-          .catch((error) => {
-            window.alert("입력된 비밀번호가 올바르지 않습니다.");
-          });
-      })
-    );
+    if(image.length>0){
+      const profileInfo = {
+        ...doc,
+        profileImg: image,
+      };
+      instance
+        .put("/api/user", { ...profileInfo })
+        .then((res) => {
+          window.alert("프로필 수정이 완료되었습니다");
+          dispatch(editInfo({ profileImg: image }));
+          history.replace("/mypage");
+        })
+        .catch((error) => {
+          window.alert("입력된 비밀번호가 올바르지 않습니다.");
+        });
+    }else{
+      dispatch(
+        imgActions.uploadImageDB(image, () => {
+          const imgUrl = getState().image.imageUrl;
+          const profileInfo = {
+            ...doc,
+            profileImg: imgUrl,
+          };
+  
+          instance
+            .put("/api/user", { ...profileInfo })
+            .then((res) => {
+              window.alert("프로필 수정이 완료되었습니다");
+              dispatch(editInfo({ profileImg: imgUrl }));
+              history.replace("/mypage");
+            })
+            .catch((error) => {
+              window.alert("입력된 비밀번호가 올바르지 않습니다.");
+            });
+        })
+      );
+    };
   };
 };
 

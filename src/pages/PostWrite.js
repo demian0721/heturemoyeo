@@ -409,7 +409,6 @@ const PostWrite = (props) => {
                 <div>
                   <InputBox
                     style={{
-                      width: "450px",
                       width: "100vw",
                       maxWidth:"465px",
                       margin: "7px 5px 7px 5px",

@@ -54,7 +54,7 @@ const PostListInvited = (props) => {
       <Grid height="">
         <Header>모임구하기</Header>
       </Grid>
-      <Grid width="100%" height="" margin="75px 0 55px 0">
+      <Grid width="100%" height="" margin="75px auto 55px auto" maxWidth="540px">
         <Grid height="" bg="white">
           <Grid is_flex padding="18px">
             <Grid

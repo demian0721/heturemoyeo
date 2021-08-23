@@ -56,7 +56,7 @@ const PostList = (props) => {
       <Grid height="">
         <Header>모임구하기</Header>
       </Grid>
-      <Grid width="100%" height="" margin="75px 0 55px 0">
+      <Grid width="100%" height="" margin="75px auto 55px auto" maxWidth="540px">
         <Grid height="" bg="white">
           <Grid is_flex padding="18px">
             <Grid
@@ -121,7 +121,8 @@ const PostList = (props) => {
 const Style = styled.div`
   align-items: center;
   width: 100vw;
-  height: calc(100vh - 55px);
+  /* height: calc(100vh - 55px); */
+  height:100%;
   background-color: #efefef;
 `;
 

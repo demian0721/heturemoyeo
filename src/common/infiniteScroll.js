@@ -39,7 +39,7 @@ const InfiniteScroll = ({ postList, page, postId, keyword }) => {
     }, [target]);
 
     return (
-        <Grid height="" margin="0px 0px 55px 0px">
+        <Grid height="" margin="0px 0px 0px 0px">
             {postList.map((post, idx)=>{
                 const isLast = idx === postList.length -1;
 

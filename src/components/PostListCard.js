@@ -249,22 +249,22 @@ const InvitedListCard = ({ children, ...props }) => {
             </Grid>
           </div>
           <div className="flex">
-            <div className="lg:block flex self-center lg:space-x-0 lg:space-y-2 space-x-4">
+            <div className="lg:block flex self-center lg:space-x-0 lg:space-y-2 lg:space-x-4 space-x-2">
               <div
                 onClick={() => handleButtonClick({ type: "accept", props })}
-                className="text-center bg-green-100 text-green-600 hover:bg-green-300 hover:text-green-900 transition-colors duration-300 ease-in-out rounded-md px-7 py-2 block text-sm font-normal cursor-pointer"
+                className="text-center bg-green-100 text-green-600 hover:bg-green-300 hover:text-green-900 transition-colors duration-300 ease-in-out rounded-md lg:px-7 px-5 py-2 block lg:text-sm text-xs font-normal cursor-pointer"
               >
                 수락
               </div>
               <div
                 onClick={() => handleButtonClick({ type: "reject", props })}
-                className="text-center bg-red-100 text-red-600 hover:bg-red-300 hover:text-red-900 transition-colors duration-300 ease-in-out rounded-md px-7 py-2 block text-sm font-normal cursor-pointer"
+                className="text-center bg-red-100 text-red-600 hover:bg-red-300 hover:text-red-900 transition-colors duration-300 ease-in-out rounded-md lg:px-7 px-5 py-2 block lg:text-sm text-xs font-normal cursor-pointer"
               >
                 거절
               </div>
               <div className="cursor-pointer">
                 <Link to={`/postdetail/${props.postId}`}>
-                  <div className="text-center bg-blue-100 text-blue-600 hover:bg-blue-300 hover:text-blue-900 transition-colors duration-300 ease-in-out rounded-md px-7 py-2 block text-sm font-normal">
+                  <div className="text-center bg-blue-100 text-blue-600 hover:bg-blue-300 hover:text-blue-900 transition-colors duration-300 ease-in-out rounded-md lg:px-7 px-5 py-2 block lg:text-sm text-xs font-normal">
                     자세히 보기
                   </div>
                 </Link>

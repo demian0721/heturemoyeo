@@ -108,7 +108,13 @@ const ChatList = () => {
         <Grid>
           <Header>대화방</Header>
         </Grid>
-        <Grid width="100%" height="" margin="75px auto 55px auto" maxWidth="540px" bg="white">
+        <Grid
+          width="100%"
+          height=""
+          margin="75px auto 55px auto"
+          maxWidth="540px"
+          bg="white"
+        >
           <Grid is_flex padding="18px">
             <Grid
               is_flex
@@ -134,30 +140,7 @@ const ChatList = () => {
               style={{ marginLeft: "5px", color: "#7B7B7B" }}
             />
           </Grid>
-
-          <Grid margin="10px 10px 50px 10px">
-            <SmallTitle style={{ margin: "10px 20px 20px 10px" }}>
-              확정된 대화방
-            </SmallTitle>
-            <Wrap>
-              <Decided />
-              <Decided />
-              <Decided />
-              <Decided />
-              <Decided />
-              <Decided />
-              <Decided />
-              <Decided />
-              <Decided />
-              <Decided />
-              <Decided />
-              <Decided />
-              <Decided />
-              <Decided />
-              <Decided />
-            </Wrap>
-          </Grid>
-          <div className="container mx-auto my-4 space-y-4 w-full">
+          <div className="container mx-auto my-4 space-y-3 w-full">
             <SmallTitle>대화방 목록</SmallTitle>
             {loaded ? (
               rooms?.length >= 1 ? (
@@ -187,7 +170,7 @@ function ChatListCardComponent({ children, ...props }) {
     <div className="cursor-pointer" key={props.key}>
       <Link to={`/chat/${props.postId}`}>
         <div
-          className="rounded-lg px-5 py-4 mx-4 border border-gray-500 border-opacity-20 chatBoxShadow bg-gray-100 hover:bg-white transition"
+          className="rounded-lg px-2 py-2 mx-3 border border-gray-500 border-opacity-20 chatBoxShadow bg-gray-100 hover:bg-white transition"
           // onClick={() => (window.location.href = `/chat/${props.postId}`)}
         >
           <div className="flex items-center self-center">
@@ -216,18 +199,18 @@ function ChatListCardComponent({ children, ...props }) {
               <span className="sr-only">X</span>
             </div>
             <div className="block ml-4">
-              <div className="inline-flex text-black font-semibold space-x-2">
-                <span>{props.title}</span>
-                {
-                  props?.confirm && (
+              <div className="inline-flex text-black font-semibold self-center">
+                {props?.isConfirm && ( // get posts confirm in data function an not exist.
+                  <div className="mr-1 self-center">
                     <img
-                    alt="confirm-icon"
-                    src="/assets/confirm.svg"
-                    width={45}
-                    height={20}
-                  />
-                  )
-                }
+                      alt="confirm-icon"
+                      src="/assets/confirm.svg"
+                      width={45}
+                      height={20}
+                    />
+                  </div>
+                )}
+                <span>{props.title}</span>
               </div>
               <div className="font-normal text-sm text-gray-500">
                 <div className="inline-flex">

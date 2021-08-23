@@ -57,6 +57,10 @@ code {
   color: #377862;
 }
 
+.hoverText:hover {
+  color: #377862;
+}
+
 #message_chat-ui > div > div.ChatFooter > div > div.Composer-actions > button {
   background: #5ac09d;
   color: white;

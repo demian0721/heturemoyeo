@@ -10,6 +10,7 @@ import ArrowBackOutlinedIcon from "@material-ui/icons/ArrowBackOutlined";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import CloseIcon from "@material-ui/icons/Close";
 
 import { Transition } from "@headlessui/react";
 import useOutsideClick from "../hooks/useOutsideClick";
@@ -26,21 +27,143 @@ import { history } from "../redux/configStore";
 //Image
 // import logo_header from '../../public/assets/logo_header';
 
-//임포트 사용 항목 외 삭제요망
-
 // 목록 UI 내 유저프로필 객체
 const UserProfileComponent = ({ myData, postData, ...props }) => {
-  console.log("MyData", myData);
-  console.log("postData", postData);
-  console.log("Props", props);
+  const UserProfileBtnOrIconComponent = ({ myData, postData, ...props }) => {
+    const UserProfileModeratorComponent = () => {
+      return (
+        <>
+          <div className="flex flex-grow">
+            <span className="sr-only">MODERATOR_ICON</span>
+          </div>
+          <div className="flex self-center justify-end flex-shrink flex-basis-0 text-yellow-300">
+            <img
+              alt="moderator-crown"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Font_Awesome_5_solid_crown.svg/1279px-Font_Awesome_5_solid_crown.svg.png"
+              width={25}
+              height={30}
+              style={{
+                WebkitFilter: "opacity(.4) drop-shadow(0 0 0 #ffb300)",
+                filter: "opacity(.4) drop-shadow(0 0 0 #ffb300)",
+              }}
+            />
+          </div>
+        </>
+      );
+    };
+    const ref = useRef();
+    const [kickMember, setKickMember] = useState({});
+    const [showConfirm, setShowConfirm] = useState(false);
+    useOutsideClick(ref, () => setShowConfirm(false));
+    return (
+      <>
+        {postData?.userId === myData?.userId &&
+        postData?.userId !== props?.userId ? (
+          <>
+            <div className="flex flex-grow">
+              <span className="sr-only">KICK_BTN</span>
+            </div>
+            <div
+              onClick={() => {
+                setShowConfirm(true);
+                setKickMember(props);
+              }}
+              className="flex self-center justify-end flex-shrink flex-basis-0 px-2 py-2 rounded-full bg-red-200 text-red-600 hover:bg-red-300 hover:text-red-900 transition duration-300 ease-in-out cursor-pointer"
+            >
+              <ExitToAppIcon style={{ fontSize: "15px" }} />
+            </div>
+          </>
+        ) : postData?.userId !== myData?.userId &&
+          postData?.userId === props?.userId ? (
+          <UserProfileModeratorComponent />
+        ) : postData?.userId === myData?.userId &&
+          postData?.userId === props?.userId ? (
+          <UserProfileModeratorComponent />
+        ) : (
+          ""
+        )}
+        <Transition
+          show={showConfirm}
+          enter="transition ease-in-out duration-300"
+          enterFrom="transform opacity-0 scale-95"
+          enterTo="transform opacity-100 scale-100"
+          leave="transition ease-in-out duration-300"
+          leaveFrom="transform opacity-100 scale-100"
+          leaveTo="transform opacity-0 scale-95"
+          className="absolute left-0 right-0 transform-gpu bg-white"
+          style={{ zIndex: 3 }}
+        >
+          <div
+            ref={ref}
+            className="block rounded-md border border-gray-300 border-opacity-75 px-3 py-2 mx-2 bg-whtie bg-opacity-100 shadow-md"
+          >
+            <div className="flex font-bold text-base self-center">
+              <div
+                onClick={() => setShowConfirm(false)}
+                className="inline-flex cursor-pointer hoverText transition duration-300 ease-in-out self-center"
+              >
+                <CloseIcon />
+              </div>
+              정말로 추방하시겠습니까?
+            </div>
+            <div className="text-sm">
+              해당 유저
+              <span className="tagItem px-1 text-xs mx-1 rounded-md inline-flex transition duration-300 ease-in-out self-center">
+                ({kickMember?.nickname})
+              </span>
+              를(을) 추방할꺼임? 그럼 왼쪽 ㅇㅇ 아니면 오른쪽 ㅇㅇ
+            </div>
+            <div className="flex border border-gary-500 rounded-full my-1 w-full">
+              <div className="sr-only">divide</div>
+            </div>
+            <div className="flex justify-between space-x-4 mt-2 text-sm">
+              <button
+                onClick={async () => {
+                  try {
+                    await axios.post("/api/room/kick", {
+                      userId: Number(kickMember.userId),
+                      postId: Number(postData?.postId),
+                    });
+                    alert(
+                      `성공적으로 유저 ${kickMember.nickname} 을(를) 추방하였어요!`
+                    );
+                  } catch (e) {
+                    console.error(e);
+                    alert(
+                      `유저 ${kickMember.nickname} 을(를) 추방하는 도중 오류가 발생하였어요!`
+                    );
+                  }
+                }}
+                className="flex-grow flex-shrink flex-basis-0 px-4 py-1 rounded-md bg-blue-200 text-blue-600 hover:bg-blue-300 hover:text-blue-900 transition duration-300 ease-in-out"
+              >
+                추방
+              </button>
+              <button
+                onClick={() => setShowConfirm(false)}
+                className="flex-grow flex-shrink flex-basis-0 px-4 py-1 rounded-md bg-red-200 text-red-600 hover:bg-red-300 hover:text-red-900 transition duration-300 ease-in-out"
+              >
+                취소
+              </button>
+            </div>
+          </div>
+        </Transition>
+      </>
+    );
+  };
   return (
     <div key={props.key} className="flex rounded-md self-center p-2">
       {props?.confirm && (
         <>
-          <div className="absolute p-1 rounded-full bg-main z-10 animate-ping">
+          <div
+            className="absolute p-1 rounded-full bg-main animate-ping"
+            style={{ zIndex: 2 }}
+          >
             <span className="sr-only">ping</span>
           </div>
-          <div className="absolute p-1 rounded-full bg-main z-10">
+          <div
+            className="absolute p-1 rounded-full bg-main"
+            style={{ zIndex: 2 }}
+          >
             <span className="sr-only">ping</span>
           </div>
         </>
@@ -66,17 +189,11 @@ const UserProfileComponent = ({ myData, postData, ...props }) => {
       <div className="flex ml-2 self-center font-medium text-base">
         {props?.nickname}
       </div>
-      {postData?.userId === props?.userId &&
-        postData?.userId !== props?.userId && (
-          <>
-            <div className="flex flex-grow">
-              <span className="sr-only">KICK_BTN</span>
-            </div>
-            <div className="flex self-center justify-end flex-shrink flex-basis-0 px-2 py-2 rounded-full bg-red-200 text-red-600 hover:bg-red-300 hover:text-red-900 transition duration-300 ease-in-out">
-              <ExitToAppIcon style={{ fontSize: "15px" }} />
-            </div>
-          </>
-        )}
+      <UserProfileBtnOrIconComponent
+        myData={myData}
+        postData={postData}
+        {...props}
+      />
     </div>
   );
 };
@@ -284,7 +401,7 @@ const Header = (props) => {
                     </div>
                   ) : (
                     <div className="tagItem transition duration-300 ease-in-out px-8 py-2 rounded-md mt-2 mx-auto">
-                      확정된 모임입니다!
+                      확정한 모임입니다!
                     </div>
                   )}
                 </div>

@@ -25,9 +25,9 @@ import { imgActions } from "../redux/modules/image";
 import { postActions } from "../redux/modules/post";
 
 // COMPONENTS
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import Permit from "../components/Permit";
+import Header from "./Header";
+import Footer from "./Footer";
+import Permit from "./Permit";
 
 // ELEMENTS
 import { Grid, Input, Image, Title, Text, Button } from "../elements/index";
@@ -39,8 +39,9 @@ import RoomIcon from "@material-ui/icons/Search";
 import useOutsideClick from "../hooks/useOutsideClick";
 import { Today } from "@material-ui/icons";
 
-const PostWrite = (props) => {
+const PostEdition = (props) => {
   let { postInfo } = props;
+  console.log('context22',props)
 
   const dispatch = useDispatch();
 
@@ -50,7 +51,7 @@ const PostWrite = (props) => {
   const image = useSelector((state) => state.image);
   const preview = !image.preview && props ? props.postImg : image.preview;
 
-  const [height, setHeight] = useState(preview ? "auto" : "228px");
+  const [height, setHeight] = useState(preview ? "auto" : "128px");
 
   const [location, setLocation] = useState({});
   const [locationCoords, setLocationCoords] = useState({});
@@ -77,17 +78,19 @@ const PostWrite = (props) => {
     setIsOpen(false);
   });
 
-  const [postingContents, setPostingContents] = useState({
-    title: postInfo ? postInfo.title : "" ,
-    content: postInfo ? postInfo.content : "",
-    maxMember: postInfo ? postInfo.maxMember : "",
-    startDate: postInfo ? postInfo.startDate : "",
-    endDate: postInfo ? postInfo.endDate : "",
-    place: postInfo ? postInfo.place : "",
-    bring: postInfo ? postInfo.bring : "",
-    tag: postInfo ? postInfo.tag : [],
-    lat: postInfo ? postInfo.lat : 0,
-    lng: postInfo ? postInfo.lng : 0,
+  // useEffect(() => {dispatch(postActions.postDetailInfo(props.match.params.postid)) }, [])
+
+  const [postingContents, setPostingContents] = React.useState({
+    title: props.Details.title ,
+    content: props.Details.content,
+    maxMember: props.Details.maxMember,
+    startDate: props.Details.startDate,
+    endDate: props.Details.endDate,
+    place: props.Details.place,
+    bring: props.Details.bring,
+    tag: props.Details.tag,
+    lat: props.Details.lat,
+    lng: props.Details.lng,
   });
 
   const isItPossibleToAdd = () => {
@@ -202,44 +205,39 @@ const PostWrite = (props) => {
   
   useEffect(()=> {
     console.log(moment(beginDate).format("YYYY-MM-DD HH:mm:ss"));
-    // console.log(postingContents);
+    console.log(postingContents);
   },[beginDate, postingContents]) 
 
   return (
-    <Style>
-      <Permit height="">
-        <Grid height="">
-          <Header id="write">게시글 작성</Header>
-        </Grid>
+      <Permit width="" height="">
         <Grid
           width="100%"
           height=""
-          margin="75px auto 55px auto"
-          maxWidth="540px"
-          // tabletStyle={() => {
-          //   return css`
-          //     width: 95%;
-          //   `;
-          // }}
-          // mobileStyle={() => {
-          //   return css`
-          //     padding: 15px 20px;
-          //     width: 100%;
-          //   `;
-          // }}
+          margin="75px 0 55px 0"
+          tabletStyle={() => {
+            return css`
+              width: 95%;
+            `;
+          }}
+          mobileStyle={() => {
+            return css`
+              padding: 15px 20px;
+              width: 100%;
+            `;
+          }}
         >
-          <Grid padding="15px" bg="#FFFFFF" height="" margin="auto">
+          <Grid padding="8px" bg="white" width="350px" height="" margin="auto">
             <Grid
               width="320px"
               height=""
-              margin="0 15px 0 5px"
+              margin="0 30px 0 10px"
               tabletStyle={() => {
                 return css`
                   margin: 0 auto;
                 `;
               }}
             >
-              <Title fontSize="14px" margin="30px 0px 15px 0px" style={{ color: "#535353" }}>
+              <Title fontSize="15px" style={{ colo: "#535353" }}>
                 대표 이미지
               </Title>
               <Grid
@@ -275,9 +273,9 @@ const PostWrite = (props) => {
                 />
               </Grid>
             </Grid>
-            <Grid is_flex margin="20px 0 0 0" style={{justifyContent:"space-between"}} width="100%">
-              <div className="block" style={{ margin: "15px 5px 15px 5px"}}>
-                <Text fontSize="14px" color="#535353" fontWeight="bold" margin="0px 0px 14px 0px">
+            <Grid width="" height="" is_flex margin="20px 0 0 0">
+              <div className="block" style={{ margin: "15px 5px 15px 5px" }}>
+                <Text fontSize="13px" color="#888888" fontWeight="bold" margin="0px 0px 8px 0px">
                   시작
                 </Text>
                 {/* <Input
@@ -305,7 +303,7 @@ const PostWrite = (props) => {
                   className="input-datepicker"
                   minDate={new Date()}
                   maxDate={addDays(new Date(), 7)}
-                  // closeOnScroll={true}
+                  closeOnScroll={true}
                   placeholderText="시작을 설정해주세요"
                   selected={beginDate}
                   startDate={beginDate}
@@ -316,8 +314,7 @@ const PostWrite = (props) => {
                   timeFormat="HH:mm"
                   timeIntervals={15}
                   timeCaption="시작시간"
-                  withPortal
-                  popperModifiers={{preventOverflow: { enabled: true}}}
+                  popperModifiers={{  preventOverflow: { enabled: true, }, }}
                   dayClassName={date => getDayName(createDate(date)) === '토' ? "saturday" : getDayName(createDate(date)) === '일' ? "sunday" : undefined }
                   // onChange={(date) => setBeginDate(date)}
                   onChange={(date) => {
@@ -331,7 +328,7 @@ const PostWrite = (props) => {
               </div>
               
               <div className="block" style={{ margin: "15px 5px 15px 5px" }}>
-                <Text fontSize="14px" color="#535353" fontWeight="bold" margin="0px 0px 14px 0px">
+                <Text fontSize="13px" color="#888888" fontWeight="bold" margin="0px 0px 8px 0px">
                   종료
                 </Text>
                 {/* <Input
@@ -355,11 +352,11 @@ const PostWrite = (props) => {
                 /> */}
                 <DatePicker
                   locale={ko}
-                  dateFormat="yyyy-MM-dd H:mm"
+                  dateFormat="yyyy/MM/dd H:mm"
                   className="input-datepicker"
                   minDate={beginDate}
                   maxDate={addDays(new Date(), 14)}
-                  // closeOnScroll={true}
+                  closeOnScroll={true}
                   placeholderText="종료를 설정해주세요"
                   selected={finishDate}
                   startDate={beginDate}
@@ -370,7 +367,6 @@ const PostWrite = (props) => {
                   timeFormat="HH:mm"
                   timeIntervals={15}
                   timeCaption="종료시간"
-                  withPortal
                   popperModifiers={{  preventOverflow: { enabled: true, }, }}
                   popperPlacement="auto"
                   dayClassName={date => getDayName(createDate(date)) === '토' ? "saturday" : getDayName(createDate(date)) === '일' ? "sunday" : undefined }
@@ -385,7 +381,7 @@ const PostWrite = (props) => {
               </div>
             </Grid>
             <div style={{ margin: "10px 5px 10px 5px" }}>
-              <Text fontSize="14px" color="#535353" fontWeight="bold">
+              <Text fontSize="13px" color="#888888" fontWeight="bold">
                 장소
               </Text>
               <div className="flex self-center items-center">
@@ -406,9 +402,9 @@ const PostWrite = (props) => {
                   <RoomIcon />
                 </div>
                 <div>
-                  <InputBox
+                  <Input
                     style={{
-                      width: "450px",
+                      width: "300px",
                       margin: "7px 5px 7px 5px",
                       borderLeft: "none",
                       borderRight: "none",
@@ -416,10 +412,11 @@ const PostWrite = (props) => {
                       borderBottom: "solid 2px #E5E5E5",
                       boxShadow: "none",
                     }}
+                    padding="8px 0px"
                     placeholder="장소(한글 주소로 출력)"
                     type="text"
                     value={inputValue}
-                    onChange={(e) => {
+                    changeEvent={(e) => {
                       setPostingContents({
                         ...postingContents,
                         place: e.target.value,
@@ -429,14 +426,14 @@ const PostWrite = (props) => {
                 </div>
               </div>
             </div>
-            <Grid is_flex style={{justifyContent:"space-between"}}>
+            <Grid is_flex>
               <div style={{ margin: "10px 5px 10px 5px" }}>
-                <Text fontSize="14px" color="#535353" fontWeight="bold">
+                <Text fontSize="13px" color="#888888" fontWeight="bold">
                   정원
                 </Text>
-                <InputBox
+                <Input
                   type="number"
-                  min="2"
+                  min="1"
                   style={{
                     width: "100%",
                     borderLeft: "none",
@@ -448,7 +445,7 @@ const PostWrite = (props) => {
                   padding="8px 0px"
                   placeholder="인원수(명)"
                   value={postingContents.maxMember}
-                  onChange={(e) => {
+                  changeEvent={(e) => {
                     setPostingContents({
                       ...postingContents,
                       maxMember: e.target.value,
@@ -457,10 +454,10 @@ const PostWrite = (props) => {
                 />
               </div>
               <div style={{ margin: "15px 5px" }}>
-                <Text fontSize="14px" color="#535353" fontWeight="bold">
+                <Text fontSize="13px" color="#888888" fontWeight="bold">
                   지참금
                 </Text>
-                <InputBox
+                <Input
                   style={{
                     width: "100%",
                     borderLeft: "none",
@@ -470,10 +467,10 @@ const PostWrite = (props) => {
                     boxShadow: "none",
                   }}
                   padding="8px 0px"
-                  placeholder="문자로 작성해주세요"
+                  placeholder="지참금(문자로 적기)"
                   type="text"
                   value={postingContents.bring}
-                  onChange={(e) => {
+                  changeEvent={(e) => {
                     setPostingContents({
                       ...postingContents,
                       bring: e.target.value,
@@ -482,7 +479,7 @@ const PostWrite = (props) => {
                 />
               </div>
             </Grid>
-            {/* <Text
+            <Text
               margin="10px 5px"
               color="#888888"
               fontWeight="bold"
@@ -491,31 +488,25 @@ const PostWrite = (props) => {
               공개설정
             </Text>
 
-            <Grid style={{ border: "1px solid #B2B2B2", margin: "10px 0px" }} /> */}
+            <Grid style={{ border: "1px solid #B2B2B2", margin: "10px 0px" }} />
             <div style={{ margin: "10px 15px 10px 5px" }}>
               <div>
-              <Text
-                color="#535353"
-                fontWeight="bold"
-                fontSize="14px"
-                margin="10px 0px"
-              >
-                제목
-              </Text>
-                <InputBox
+                <Input
                   style={{
+                    width: "100%",
                     border: "1.5px solid #white",
-                    // margin: "7px auto",
+                    margin: "7px 5px 7px 5px",
                     borderLeft: "none",
                     borderRight: "none",
                     borderTop: "none",
                     borderBottom: "solid 2px #E5E5E5",
                     boxShadow: "none",
                   }}
-                  placeholder="제목을 입력해주세요"
+                  padding="8px 0px"
+                  placeholder="제목"
                   type="text"
                   value={postingContents.title}
-                  onChange={(e) => {
+                  changeEvent={(e) => {
                     setPostingContents({
                       ...postingContents,
                       title: e.target.value,
@@ -524,17 +515,17 @@ const PostWrite = (props) => {
                 />
               </div>
               <div>
-              <Text
-                color="#535353"
-                fontWeight="bold"
-                fontSize="14px"
-                margin="30px 0px 17px 0px"
-              >
-                내용
-              </Text>
-                <Textarea
-                  rows="10"
-                  placeholder="내용을 입력해주세요"
+                <textarea
+                  rows="7"
+                  style={{
+                    width: "100%",
+                    border: "1.5px solid #white",
+                    margin: "7px 5px 7px 5px",
+                    boxShadow: "none",
+                    resize:"none",
+                    // borderBottom:"1.5px solid #E5E5E5",
+                  }}
+                  placeholder="내용"
                   type="text"
                   value={postingContents.content}
                   onChange={(e) => {
@@ -553,19 +544,20 @@ const PostWrite = (props) => {
                 color="#535353"
                 fontWeight="bold"
                 fontSize="14px"
-                margin="10px 0px"
+                margin="3px 5px"
               >
                 태그입력
               </Text>
-              <InputBox
+              <Input
                 style={{
                   width: "100%",
                   border: "1.5px solid #white",
+                  // borderBottom:"1.5px solid #E5E5E5",
                 }}
-                placeholder="태그를 설정해주세요(예시단어: 걷기, 산책)"
+                placeholder="태그설정"
                 type="text"
                 value={postingContents.tag}
-                onChange={(e) => {
+                changeEvent={(e) => {
                   setPostingContents({
                     ...postingContents,
                     tag: String(e.target.value).includes(",")
@@ -579,7 +571,7 @@ const PostWrite = (props) => {
               width="100%"
               height="auto"
               padding="12px 0"
-              margin="20px 0px 50px 0px"
+              margin="0px 0px 20px"
               fontSize="18px"
               bg="#16C59B"
               radius="5px"
@@ -728,44 +720,22 @@ const PostWrite = (props) => {
             </div>
           </Dialog>
         </Transition>
-        <Footer />
       </Permit>
-    </Style>
   );
 };
-const Textarea = styled.textarea`
-  width: 100%;
-  padding: 0px 2px;
-  border: none;
-  margin: 7px auto;
-  outline: none;
-  resize: none;
-  ::placeholder {
-    font-size: 16px;
-  }
-`;
-
-const InputBox = styled.input`
-  width: 100%;
-  border: solid 1.5px #A7AAAD;
-  padding: 14px 2px;
-  ::placeholder {
-    font-size: 16px;
-  }
-`;
 
 const CalendarContainer = styled.div`
 `;
 
-// const EnterButton = styled.button`
-//   width: 100%;
-//   background-color: #a7aaad;
-//   padding: 10px;
-//   margin: 10px auto;
-//   font-size: 12px;
-//   display: flex;
-//   justify-content: center;
-// `;
+const EnterButton = styled.button`
+  width: 100%;
+  background-color: #a7aaad;
+  padding: 10px;
+  margin: 10px auto;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+`;
 
 const PosAbs = () => {
   return css`
@@ -827,17 +797,9 @@ const InputArea = styled.textarea`
   }
 `;
 
-const Style = styled.div`
-  align-items: center;
-  /* position: absolute; */
-  width: 100vw;
-  height: 100%;
-  background-color: #EFEFEF;
-`;
-
-PostWrite.propTypes = { ...PostWrite.propTypes, ...geoPropTypes };
+PostEdition.propTypes = { ...PostEdition.propTypes, ...geoPropTypes };
 
 export default geolocated({
   positionOptions: { enableHighAccuracy: false },
   userDecisionTimeout: 500,
-})(PostWrite);
+})(PostEdition);

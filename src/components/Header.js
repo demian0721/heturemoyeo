@@ -313,11 +313,6 @@ const Header = (props) => {
               </Text>
             </Grid>
           ) : null}
-          {id === "write" ? (
-            <Text color="white" style={{ cursor: "Pointer" }}>
-              게시
-            </Text>
-          ) : null}
           {id === "" ? <div></div> : null}
         </Grid>
       </Grid>

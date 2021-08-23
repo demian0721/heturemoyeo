@@ -149,7 +149,7 @@ const LogIn = (props) => {
           </Grid>
           <Grid padding="5px 0px">
             <Text textAlign="center" fontSize="12px">
-              계정이 없으신가요?
+              계정이 없으신가요? 
               <span
                 style={{
                   cursor: "pointer",
@@ -158,7 +158,7 @@ const LogIn = (props) => {
                 }}
                 onClick={() => (window.location.href = "/terms")}
               >
-                회원가입
+                &nbsp;회원가입
               </span>
             </Text>
           </Grid>

@@ -226,7 +226,7 @@ const SignupInfo = (props) => {
           <Grid padding="5px 0px 8px"
                 margin="0px 0px 20px 0px">
             <InputBox
-              placeholder="관심사를 입력해주세요(예시단어: 런닝, 산책)"
+              placeholder="관심사를 입력해주세요(예시: 런닝, 산책)"
               margin="0px 0px 30px 0px"
               onChange={(e) => {
                 setLikeItem(e.target.value.split(","));

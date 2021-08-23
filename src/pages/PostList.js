@@ -123,7 +123,7 @@ const Style = styled.div`
   width: 100vw;
   /* height: calc(100vh - 55px); */
   height:100%;
-  background-color: #efefef;
+  background-color: #EFEFEF;
 `;
 
 export default PostList;

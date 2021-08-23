@@ -31,8 +31,7 @@ const MyPage = () => {
   useEffect(() => { if (!getToken()) { history.replace('/login'); } }, []);
 
   const userlist = useSelector(state => state.user)
-  console.log(userlist)
-  const [statusMessage, setStatus] = React.useState(userlist.status);
+  const [statusMessage, setStatus] = React.useState(userlist.statusMessage);
 
   const changeStatus = (n) => {setStatus(n.target.value);
     console.log(statusMessage)};
@@ -64,8 +63,10 @@ const MyPage = () => {
               </div>
 
               <Grid is_flex align='center' margin="auto">
-              <Title fontSize="small" margin="10px 0px 0px 0px" style={{color:"#16C59B"}}>상태메세지</Title>
-              <CreateIcon  style={{color:"#767676", fontSize:"12px", marginTop:'7px'}} onClick={editStatusMsg} />
+              <button onClick={editStatusMsg} style={{display:"flex"}}>
+                <Title fontSize="small" margin="10px 0px 0px 0px" style={{color:"#16C59B"}}>상태메세지</Title>
+                <CreateIcon  style={{color:"#767676", fontSize:"20px", marginTop:'7px',wdith:"20px"}} />
+              </button>
               </Grid>
               <textarea rows='2' id="status" label="status" value={statusMessage} onChange={changeStatus} style={{outlineStyle:"none", color:'#767676',  width:"100%", maxWidth:"420px", padding:'15px', fontSize:"14px", backgroundColor:"white",border:"1px solid #BEBEBE",resize:"none"}}></textarea>
               {/* <SimpleModal status={userlist.statusMessage} /> */}

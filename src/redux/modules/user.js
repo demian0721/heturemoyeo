@@ -133,8 +133,10 @@ const editStatusMsg = (doc) => {
       .put("/api/user/status", doc)
       .then((res) => {
         dispatch(editInfo(res.data));
+        window.alert("상태메세지가 변경되었습니다.");
       })
       .catch((error) => {
+        window.alert("상태메세지가 변경되지 않았습니다.");
         console.error(error.errorMessage);
       });
   };

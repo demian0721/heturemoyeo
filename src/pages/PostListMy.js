@@ -116,7 +116,7 @@ const PostListMy = (props) => {
 const Style = styled.div`
   align-items: center;
   width: 100vw;
-  height: calc(100vh - 55px);
+  height:100%;
   background-color: #efefef;
 `;
 

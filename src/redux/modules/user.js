@@ -21,7 +21,7 @@ const TEMP_SAVE = "TEMP_SAVE";
 const EDIT_INFO = "EDIT_INFO";
 const EDIT_STATUS = "EDIT_STATUS";
 const REQUEST_FRIEND = "REQUEST_FRIEND";
-const RECEIVE_AUTH = "RECEIVE_AUTH";
+// const RECEIVE_AUTH = "RECEIVE_AUTH";
 
 // ACTION CREATORS
 const myInfo = createAction(MY_INFO, (userInfo) => ({ userInfo }));
@@ -43,7 +43,7 @@ const editStatus = createAction(EDIT_STATUS, (editStatus) => ({ editStatus }));
 const requestFriend = createAction(REQUEST_FRIEND, (requestFriend) => ({
   requestFriend,
 }));
-const receiveAuth = createAction(RECEIVE_AUTH, (receiveAuth) => ({ receiveAuth }));
+// const receiveAuth = createAction(RECEIVE_AUTH, (receiveAuth) => ({ receiveAuth }));
 
 // INITIAL STATE
 const initialState = {
@@ -60,7 +60,7 @@ const initialState = {
   relation: null,
   type: null,
   exactType: null,
-  receiveAuth: null
+  // receiveAuth: null
 };
 
 // MIDDLEWARE
@@ -174,32 +174,37 @@ const logInCheck = (token) => {
   };
 };
 
-// checkdupemail명 바꿀것
-const phoneNumCheck = (id) => {
-  return function (dispatch) {
-    instance
-      .post("/api/sign/email", { email: id })
-      .then((res) => {
-        dispatch(checkDupPhone(true));
-        window.alert("사용 가능한 번호입니다.");
-      })
-      .catch((error) => {
-        dispatch(checkDupPhone(false));
-        window.alert("이미 가입된 번호입니다.");
-      });
-  };
-};
+// const phoneNumCheck = (id) => {
+//   return function (dispatch) {
+//     instance
+//       .post("/api/sign/email", { phone: id })
+//       .then((res) => {
+//         dispatch(checkDupPhone(true));
+//         window.alert("사용 가능한 번호입니다.");
+//       })
+//       .catch((error) => {
+//         dispatch(checkDupPhone(false));
+//         window.alert("이미 가입된 번호입니다.");
+//       });
+//   };
+// };
+
 const receiveAuthNum = (phone) => {
   return function (dispatch) {
     instance
       .post("/api/sign/phone", { phone: phone })
       .then((res) => {
         dispatch(checkDupPhone(true));
-        window.alert("사용 가능한 번호입니다.");
+        window.alert("인증 메세지가 발송되었습니다");
       })
       .catch((error) => {
         dispatch(checkDupPhone(false));
-        window.alert("이미 가입된 번호입니다.");
+        if (error.response.status == 412) {
+          window.alert("해당 번호는 이미 사용 중입니다.")
+        }
+        else {
+          window.alert("인증 메시지에 발송에 실패하였습니다.");
+        }
       });
   };
 };
@@ -310,10 +315,11 @@ export default handleActions(
         draft.is_check_auth = action.payload.is_check_auth;
       }),
 
-    [RECEIVE_AUTH]: (state, action) =>
-      produce(state, (draft) => {
-        draft.receiveAuth = action.payload.receiveAuth;
-      }),
+    // [RECEIVE_AUTH]: (state, action) =>
+    //   produce(state, (draft) => {
+    //     draft.receiveAuth = action.payload.receiveAuth;
+    //   }),
+    
     [CHECK_DUP_NICKNAME]: (state, action) =>
       produce(state, (draft) => {
         draft.is_check_nickname = action.payload.is_check_nickname;
@@ -354,7 +360,6 @@ const userActions = {
   relation,
   relationDB,
   signupDB,
-  phoneNumCheck,
   authNumCheck,
   receiveAuthNum,
   nickCheck,

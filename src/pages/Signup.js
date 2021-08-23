@@ -116,7 +116,7 @@ const SignUp = (props) => {
       window.alert("핸드폰 번호가 입력되지 않았습니다.");
       return;
     }
-    dispatch(userActions.phoneNumCheck(id));
+    dispatch(userActions.receiveAuthNum(id));
     setIdConfirm("");
   };
 
@@ -133,7 +133,7 @@ const SignUp = (props) => {
       window.alert("인증번호가 입력되지 않았습니다.");
       return;
     }
-    const authInfo = {id, authData}
+    const authInfo = {phone: id, authData}
     dispatch(userActions.authNumCheck(authInfo));
     setAuthConfirm("");
   }

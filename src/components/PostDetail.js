@@ -38,7 +38,8 @@ function PlaceImageComponent(props) {
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
           float: "center",
-          width: "30vw",
+          width: "100vw",
+          maxWidth:"540px",
           minWidth: "360px",
           height: "32vh",
           borderRadius: "0px",
@@ -52,7 +53,7 @@ function PlaceImageComponent(props) {
 
 function UserProfileImageComponent(props) {
   return (
-    <div className="fixed z-10 top-0 left-0 ml-6">
+    <div className="fixed z-1 top-4 left-2/3 right-1/4 mr-6">
       <div
         className="w-24 h-24"
         style={{
@@ -127,14 +128,16 @@ const Details = (props) => {
   }, [PostList]);
 
   return (
-    <Grid height="32vh" width="30%" minWidth="360px" margin="auto">
-      <PlaceImageComponent img={postDetails?.postImg} />
+    <Grid height="calc(100vh - 75px)"   width="100vw" maxWidth="540px" minWidth="280px" margin="auto">
+      <PlaceImageComponent img={postDetails?.postImg}/>
+      {/* <Grid>test</Grid> */}
       <Grid
         padding="18px"
-        width="30%"
-        minWidth="360px"
+        width="100%"
+        minWidth="280px"
+        maxWidth="540px"
         margin="auto"
-        height="61vh"
+        height="calc(68vh - 65px)"
         bg="white"
         position="fixed"
         style={{
@@ -148,7 +151,7 @@ const Details = (props) => {
           width="100%"
           height=""
           id="detailCardTop"
-          padding="30px 10px 5px 10px"
+          padding="5px 10px 5px 10px"
           style={{ borderBottom: "1px solid #E2E2E2" }}
         >
           <Grid is_flex>
@@ -161,7 +164,7 @@ const Details = (props) => {
               margin="0px 0px 0px 10px"
               fontSize="14px"
               fontWeight="bold"
-              style={{ minWidth: "45px" }}
+              // style={{ minWidth: "45px" }}
             >
               {postDetails?.currentMember}/{postDetails?.maxMember}명
             </Text>
@@ -170,7 +173,7 @@ const Details = (props) => {
             color="black"
             margin="10px auto"
             fontSize="medium"
-            style={{ minHeight: "100px" }}
+            // style={{ minHeight: "50px" }}
           >
             {postDetails?.content}
           </Text>
@@ -215,9 +218,9 @@ const Details = (props) => {
           id="bottomcard"
           margin="10px 10px"
           height=""
-          style={{ minHeight: "150px" }}
+          // style={{ minHeight: "150px" }}
         >
-          <Grid is_flex margin="15px 0px" width="" height="">
+          <Grid is_flex margin="10px 0px" width="" height="">
             <EventAvailableOutlinedIcon
               style={{
                 width: "19px",
@@ -342,7 +345,7 @@ const Details = (props) => {
             </div>
           </div>
         ) : (
-          <Grid id="chatRoom" margin="10px auto">
+          <Grid id="chatRoom" margin="10px auto" height="">
             <Button
               className="custom_transition"
               bg="#16C59B"
@@ -351,7 +354,9 @@ const Details = (props) => {
               margin="auto"
               display="block"
               color="white"
-              style={{ minWidth: "100px", fontWeight: "bold", border: "none" }}
+              style={{ 
+                // minWidth: "100px", 
+              fontWeight: "bold", border: "none" }}
               hoverColor="#16C59B"
               onClick={() =>
                 JoinToChatRoomFromPostId(postDetails?.isExist, props?.postId)

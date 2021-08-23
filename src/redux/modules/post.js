@@ -14,6 +14,7 @@ const ADD_POST = "ADD_POST";
 const POST_DELETE = "POST_DELETE";
 const GET_POST_LOCATION = "GET_POST_LOCATION";
 const GET_INTVITED_POST = "GET_INVITED_POST";
+const EDIT_POST = "EDIT_POST"
 
 // ACTION CREATOR
 const getPosts = (posts, start) => ({ type: GET_POST, posts, start });
@@ -29,6 +30,7 @@ const addPost = (post) => ({ type: ADD_POST, post });
 const deletePost = (postId) => ({ type: POST_DELETE, postId });
 const getPostLocation = (postInfo) => ({ type: GET_POST_LOCATION, postInfo });
 const getInvitedPosts = (posts) => ({ type: GET_INTVITED_POST, posts });
+const editPost = (editPost) => ({ type:EDIT_POST, editPost });
 
 // INITIAL STATE
 const initialState = {
@@ -190,6 +192,31 @@ const addPostDB = (image, post) => {
   };
 };
 
+const editPostDB = (image, post) => {
+  return function (dispatch, getState, { history }) {
+    dispatch(
+      imgActions.uploadImageDB(image, () => {
+        const imgUrl = getState().image.imageUrl;
+        const postInfo = {
+          ...post,
+          postImg: imgUrl,
+        };
+
+        instance
+          .put("/api/post", { ...postInfo })
+          .then((res) => {
+            window.alert("게시글 수정이 완료되었습니다.");
+            dispatch(editPost({ postImg: imgUrl, postId: res.data }));
+            history.replace(`/postdetail/${postInfo.postId}`);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      })
+    );
+  };
+};
+
 const getPostLocationDB = () => {
   return function (dispatch) {
     instance
@@ -233,6 +260,9 @@ function post(state = initialState, action) {
       const newPostList = [action.post, ...state.list];
       return { ...state, list: newPostList };
 
+    case EDIT_POST:
+      return { ...state,};
+
     case GET_POST_LOCATION:
       return {
         ...state,
@@ -258,6 +288,7 @@ export const postActions = {
   getMorePosts,
   getMoreMyPosts,
   addPost,
+  editPostDB,
   getPostLocation,
   getInvitedPosts,
   getPostsDB,

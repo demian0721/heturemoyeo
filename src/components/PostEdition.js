@@ -25,8 +25,6 @@ import { imgActions } from "../redux/modules/image";
 import { postActions } from "../redux/modules/post";
 
 // COMPONENTS
-import Header from "./Header";
-import Footer from "./Footer";
 import Permit from "./Permit";
 
 // ELEMENTS
@@ -41,7 +39,6 @@ import { Today } from "@material-ui/icons";
 
 const PostEdition = (props) => {
   let { postInfo } = props;
-  console.log('context22',props)
 
   const dispatch = useDispatch();
 
@@ -49,9 +46,9 @@ const PostEdition = (props) => {
   const modalRef = useRef();
 
   const image = useSelector((state) => state.image);
-  const preview = !image.preview && props ? props.postImg : image.preview;
+  const preview = !image.preview && props ? props.Details.postImg : image.preview;
 
-  const [height, setHeight] = useState(preview ? "auto" : "128px");
+  const [height, setHeight] = useState(preview ? "auto" : "228px");
 
   const [location, setLocation] = useState({});
   const [locationCoords, setLocationCoords] = useState({});
@@ -81,6 +78,7 @@ const PostEdition = (props) => {
   // useEffect(() => {dispatch(postActions.postDetailInfo(props.match.params.postid)) }, [])
 
   const [postingContents, setPostingContents] = React.useState({
+    postId:props.Details.postId,
     title: props.Details.title ,
     content: props.Details.content,
     maxMember: props.Details.maxMember,
@@ -93,7 +91,7 @@ const PostEdition = (props) => {
     lng: props.Details.lng,
   });
 
-  const isItPossibleToAdd = () => {
+  const isItPossibleToEdit = () => {
     if (
       preview &&
       postingContents.title &&
@@ -123,11 +121,11 @@ const PostEdition = (props) => {
     }
   };
 
-  const addPost = () => {
-    const isAvailable = isItPossibleToAdd();
+  const editPost = () => {
+    const isAvailable = isItPossibleToEdit();
     if (!isAvailable) return window.alert("각 항목은 필수 입력사항 입니다.");
     dispatch(
-      postActions.addPostDB(fileInput.current.files[0], postingContents)
+      postActions.editPostDB(fileInput.current.files[0], postingContents)
     );
     dispatch(imgActions.setPreview(null));
     setTimeout(() => {
@@ -212,8 +210,9 @@ const PostEdition = (props) => {
       <Permit width="" height="">
         <Grid
           width="100%"
+          maxWidth="540px"
           height=""
-          margin="75px 0 55px 0"
+          margin="75px auto 55px auto"
           tabletStyle={() => {
             return css`
               width: 95%;
@@ -226,18 +225,18 @@ const PostEdition = (props) => {
             `;
           }}
         >
-          <Grid padding="8px" bg="white" width="350px" height="" margin="auto">
+          <Grid padding="15px" bg="white" height="" margin="auto">
             <Grid
-              width="320px"
+              width="calc(100% - 10px)"
               height=""
-              margin="0 30px 0 10px"
+              margin="0 15px 0 5px"
               tabletStyle={() => {
                 return css`
                   margin: 0 auto;
                 `;
               }}
             >
-              <Title fontSize="15px" style={{ colo: "#535353" }}>
+              <Title fontSize="14px" margin="30px 0px 15px 0px" style={{ colo: "#535353" }}>
                 대표 이미지
               </Title>
               <Grid
@@ -274,8 +273,8 @@ const PostEdition = (props) => {
               </Grid>
             </Grid>
             <Grid width="" height="" is_flex margin="20px 0 0 0">
-              <div className="block" style={{ margin: "15px 5px 15px 5px" }}>
-                <Text fontSize="13px" color="#888888" fontWeight="bold" margin="0px 0px 8px 0px">
+              <div className="block" style={{ margin: "15px 5px", width:"50%" }}>
+                <Text fontSize="14px" color="#535353" fontWeight="bold" margin="0px 0px 14px 0px">
                   시작
                 </Text>
                 {/* <Input
@@ -304,7 +303,7 @@ const PostEdition = (props) => {
                   minDate={new Date()}
                   maxDate={addDays(new Date(), 7)}
                   closeOnScroll={true}
-                  placeholderText="시작을 설정해주세요"
+                  placeholderText="시작을 설정하세요"
                   selected={beginDate}
                   startDate={beginDate}
                   // endDate={finishDate}
@@ -327,8 +326,8 @@ const PostEdition = (props) => {
                 />
               </div>
               
-              <div className="block" style={{ margin: "15px 5px 15px 5px" }}>
-                <Text fontSize="13px" color="#888888" fontWeight="bold" margin="0px 0px 8px 0px">
+              <div className="block" style={{ margin: "15px 5px", width:"50%" }}>
+                <Text fontSize="14px" color="#535353" fontWeight="bold" margin="0px 0px 14px 0px">
                   종료
                 </Text>
                 {/* <Input
@@ -357,7 +356,7 @@ const PostEdition = (props) => {
                   minDate={beginDate}
                   maxDate={addDays(new Date(), 14)}
                   closeOnScroll={true}
-                  placeholderText="종료를 설정해주세요"
+                  placeholderText="종료를 설정하세요"
                   selected={finishDate}
                   startDate={beginDate}
                   endDate={finishDate}
@@ -380,8 +379,8 @@ const PostEdition = (props) => {
                 />
               </div>
             </Grid>
-            <div style={{ margin: "10px 5px 10px 5px" }}>
-              <Text fontSize="13px" color="#888888" fontWeight="bold">
+            <div style={{ margin: "10px 5px", width:"100%" }}>
+              <Text fontSize="14px" color="#535353" fontWeight="bold">
                 장소
               </Text>
               <div className="flex self-center items-center">
@@ -402,9 +401,10 @@ const PostEdition = (props) => {
                   <RoomIcon />
                 </div>
                 <div>
-                  <Input
+                <InputBox
                     style={{
-                      width: "300px",
+                      width: "100vw",
+                      maxWidth:"465px",
                       margin: "7px 5px 7px 5px",
                       borderLeft: "none",
                       borderRight: "none",
@@ -412,11 +412,10 @@ const PostEdition = (props) => {
                       borderBottom: "solid 2px #E5E5E5",
                       boxShadow: "none",
                     }}
-                    padding="8px 0px"
                     placeholder="장소(한글 주소로 출력)"
                     type="text"
                     value={inputValue}
-                    changeEvent={(e) => {
+                    onChange={(e) => {
                       setPostingContents({
                         ...postingContents,
                         place: e.target.value,
@@ -427,8 +426,8 @@ const PostEdition = (props) => {
               </div>
             </div>
             <Grid is_flex>
-              <div style={{ margin: "10px 5px 10px 5px" }}>
-                <Text fontSize="13px" color="#888888" fontWeight="bold">
+              <div style={{ margin: "10px 5px",width:"22%" }}>
+                <Text fontSize="14px" color="#535353" fontWeight="bold">
                   정원
                 </Text>
                 <Input
@@ -443,7 +442,7 @@ const PostEdition = (props) => {
                     boxShadow: "none",
                   }}
                   padding="8px 0px"
-                  placeholder="인원수(명)"
+                  placeholder="인원수"
                   value={postingContents.maxMember}
                   changeEvent={(e) => {
                     setPostingContents({
@@ -453,8 +452,8 @@ const PostEdition = (props) => {
                   }}
                 />
               </div>
-              <div style={{ margin: "15px 5px" }}>
-                <Text fontSize="13px" color="#888888" fontWeight="bold">
+              <div style={{ margin: "15px 5px" ,width:"100%" }}>
+                <Text fontSize="14px" color="#535353" fontWeight="bold">
                   지참금
                 </Text>
                 <Input
@@ -479,19 +478,27 @@ const PostEdition = (props) => {
                 />
               </div>
             </Grid>
-            <Text
+            {/* <Text
               margin="10px 5px"
               color="#888888"
               fontWeight="bold"
               fontSize="small"
             >
               공개설정
-            </Text>
+            </Text> */}
 
             <Grid style={{ border: "1px solid #B2B2B2", margin: "10px 0px" }} />
             <div style={{ margin: "10px 15px 10px 5px" }}>
               <div>
-                <Input
+                <Text
+                  color="#535353"
+                  fontWeight="bold"
+                  fontSize="14px"
+                  margin="10px 0px"
+                >
+                  제목
+                </Text>
+                <InputBox
                   style={{
                     width: "100%",
                     border: "1.5px solid #white",
@@ -515,8 +522,16 @@ const PostEdition = (props) => {
                 />
               </div>
               <div>
-                <textarea
-                  rows="7"
+                <Text
+                  color="#535353"
+                  fontWeight="bold"
+                  fontSize="14px"
+                  margin="30px 0px 17px 0px"
+                >
+                  내용
+                </Text>
+                <Textarea
+                  rows="10"
                   style={{
                     width: "100%",
                     border: "1.5px solid #white",
@@ -544,20 +559,19 @@ const PostEdition = (props) => {
                 color="#535353"
                 fontWeight="bold"
                 fontSize="14px"
-                margin="3px 5px"
+                margin="10px 0px"
               >
                 태그입력
               </Text>
-              <Input
+              <InputBox
                 style={{
                   width: "100%",
                   border: "1.5px solid #white",
-                  // borderBottom:"1.5px solid #E5E5E5",
                 }}
-                placeholder="태그설정"
+                placeholder="태그를 설정하세요(예시단어: 걷기, 산책)"
                 type="text"
                 value={postingContents.tag}
-                changeEvent={(e) => {
+                onChange={(e) => {
                   setPostingContents({
                     ...postingContents,
                     tag: String(e.target.value).includes(",")
@@ -571,7 +585,7 @@ const PostEdition = (props) => {
               width="100%"
               height="auto"
               padding="12px 0"
-              margin="0px 0px 20px"
+              margin="20px 0px 30px 0px"
               fontSize="18px"
               bg="#16C59B"
               radius="5px"
@@ -579,7 +593,7 @@ const PostEdition = (props) => {
               className="custom_transition"
               style={{ fontWeight: "bold", border: "none" }}
               hoverColor="#16C59B"
-              onClick={addPost}
+              onClick={editPost}
             >
               완료
             </Button>
@@ -744,6 +758,27 @@ const PosAbs = () => {
     left: 0;
   `;
 };
+
+const InputBox = styled.input`
+  width: 100%;
+  border: solid 1.5px #A7AAAD;
+  padding: 14px 2px;
+  ::placeholder {
+    font-size: 16px;
+  }
+`;
+
+const Textarea = styled.textarea`
+  width: 100%;
+  padding: 0px 2px;
+  border: none;
+  margin: 7px auto;
+  outline: none;
+  resize: none;
+  ::placeholder {
+    font-size: 16px;
+  }
+`;
 
 const LabelStyle = styled.label`
   display: flex;

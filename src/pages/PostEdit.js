@@ -49,7 +49,7 @@ const PostWrite = (props) => {
 
   return (
     <Style>
-        <Grid width="" height="">
+        <Grid width="100vw" height="" >
           <Header id="write">게시글 수정</Header>
         </Grid>
         {is_loaded && <PostEdition Details={PostContent}/>}

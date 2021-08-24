@@ -175,7 +175,7 @@ const Details = (props) => {
                   margin="0px 0px 0px 10px"
                   fontSize="14px"
                   fontWeight="bold"
-                  // style={{ minWidth: "45px" }}
+                  style={{ minWidth: "45px" }}
                 >
                   {postDetails?.currentMember}/{postDetails?.maxMember}명
                 </Text>

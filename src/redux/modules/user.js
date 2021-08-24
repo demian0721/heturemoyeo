@@ -93,11 +93,12 @@ const editInfos = (image, doc) => {
       instance
         .put("/api/user", { ...profileInfo })
         .then((res) => {
-          window.alert("프로필 수정이 완료되었습니다");
+          window.location.href = "/mypage";
           dispatch(editInfo({ profileImg: image }));
-          history.replace("/mypage");
+          window.alert("프로필 수정이 완료되었습니다");
         })
         .catch((error) => {
+          console.error(error.errorMessage);
           window.alert("입력된 비밀번호가 올바르지 않습니다.");
         });
     }else{
@@ -108,15 +109,15 @@ const editInfos = (image, doc) => {
             ...doc,
             profileImg: imgUrl,
           };
-  
           instance
             .put("/api/user", { ...profileInfo })
             .then((res) => {
-              window.alert("프로필 수정이 완료되었습니다");
+              window.location.href = "/mypage";
               dispatch(editInfo({ profileImg: imgUrl }));
-              history.replace("/mypage");
+              window.alert("프로필 수정이 완료되었습니다");
             })
             .catch((error) => {
+              console.error(error.errorMessage);
               window.alert("입력된 비밀번호가 올바르지 않습니다.");
             });
         })

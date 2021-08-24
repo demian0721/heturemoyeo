@@ -36,9 +36,9 @@ const MyPage = () => {
   const changeStatus = (n) => {setStatus(n.target.value);
     console.log(statusMessage)};
 
-  const editStatusMsg = () => {
-    dispatch(userActions.editStatusMsg({"statusMessage":statusMessage}));
-  }
+  // const editStatusMsg = () => {
+  //   dispatch(userActions.editStatusMsg({"statusMessage":statusMessage}));
+  // }
 
   return (
     <Style>
@@ -62,7 +62,9 @@ const MyPage = () => {
               </div>
 
               <Grid is_flex align='center' margin="auto">
-              <button onClick={editStatusMsg} style={{display:"flex"}}>
+              <button onClick={() => {
+                  dispatch(userActions.editStatusMsg({"statusMessage":statusMessage}));
+                }} style={{display:"flex"}}>
                 <Title fontSize="small" margin="10px 0px 0px 0px" style={{color:"#16C59B"}}>상태메세지</Title>
                 <CreateIcon  style={{color:"#767676", fontSize:"20px", marginTop:'7px',wdith:"20px"}} />
               </button>

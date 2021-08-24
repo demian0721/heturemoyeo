@@ -76,10 +76,10 @@ const ProfileEdit = (props) => {
   };
 
 
-  const editInfos = () => {
-    dispatch(userActions.editInfos(img,editInfo));
-    dispatch(imgActions.setPreview(null));
-  }
+  // const editInfos = () => {
+  //   dispatch(userActions.editInfos(img,editInfo));
+  //   dispatch(imgActions.setPreview(null));
+  // }
 
     //닉네임 확인파트
   const checkNickname = (val) => {
@@ -234,7 +234,10 @@ const ProfileEdit = (props) => {
               { show ? <Input margin="0px" keyUp={(event) => {debounce(event.target.value, checkNPWD2);}}  changeEvent={changeConfirm} value={editInfo.confirm} placeholder="새 비밀번호 확인" width="100%" style={{display:"block"}}/> : null }
               { show ? <Text fontSize="12px" margin="5px 0px 0px 0px" color={npwd2Warning} lineHeight="1" textIndent="0px">{npwd2Notice}</Text> : null }
 
-              <Button className="custom_transition" width="100%" padding="15px" margin="20px auto" display="block" color="white" style={{fontWeight:"bold", border: "none"}} hoverColor="#16C59B" clickEvent={editInfos}>수정 완료</Button>
+              <Button className="custom_transition" width="100%" padding="15px" margin="20px auto" display="block" color="white" style={{fontWeight:"bold", border: "none"}} hoverColor="#16C59B" onClick={() => {
+                  dispatch(userActions.editInfos(img,editInfo));
+                  dispatch(imgActions.setPreview(null));
+                }}>수정 완료</Button>
             </Grid>
           </Grid>
         </Style>

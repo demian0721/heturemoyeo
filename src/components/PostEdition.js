@@ -67,8 +67,14 @@ const PostEdition = (props) => {
     return currentDate.getTime() < selectedDate.getTime();
   };
   
-  const getDayName = (date) => { return date.toLocaleDateString('ko-KR', { weekday: 'long', }).substr(0, 1); }
-  const createDate = (date) => { return new Date(new Date(date.getFullYear() , date.getMonth() , date.getDate() , 0 , 0 , 0)); }
+  const getDayName = (date) => {
+    return date.toLocaleDateString("ko-KR", { weekday: "long" }).substr(0, 1);
+  };
+  const createDate = (date) => {
+    return new Date(
+      new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
+    );
+  };
 
   useOutsideClick(modalRef, () => {
     setViewModal(false);
@@ -138,7 +144,7 @@ const PostEdition = (props) => {
     dispatch(imgActions.setPreview(null));
     setTimeout(() => {
       // dispatch -> addPostDB 액션 후, alert 를 띄우는 과정이 생략되고, 액션을 실행하지 못하는 것 떄문에, setTimeout을 넣어 3초를 기다린 후, 페이지를 이동하게 하였습니다.
-      window.location.href = "/postlist";
+      window.location.href = `/postdetail/${props.Details.postId}`;
     }, 3000);
   };
 
@@ -209,10 +215,12 @@ const PostEdition = (props) => {
   if (!props.isGeolocationEnabled)
     alert("해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!");
   
-  useEffect(()=> {
+  useEffect(() => {
     console.log(moment(beginDate).format("YYYY-MM-DD HH:mm:ss"));
     console.log(postingContents);
-  },[beginDate, postingContents]) 
+  },[beginDate, postingContents]);
+
+  const [checked, setChecked] = useState(false);
 
   return (
       <Permit width="" height="">
@@ -321,8 +329,14 @@ const PostEdition = (props) => {
                   timeFormat="HH:mm"
                   timeIntervals={15}
                   timeCaption="시작시간"
-                  popperModifiers={{  preventOverflow: { enabled: true, }, }}
-                  dayClassName={date => getDayName(createDate(date)) === '토' ? "saturday" : getDayName(createDate(date)) === '일' ? "sunday" : undefined }
+                  popperModifiers={{ preventOverflow: { enabled: true } }}
+                  dayClassName={(date) =>
+                    getDayName(createDate(date)) === "토"
+                      ? "saturday"
+                      : getDayName(createDate(date)) === "일"
+                      ? "sunday"
+                      : undefined
+                  }
                   // onChange={(date) => setBeginDate(date)}
                   onChange={(date) => {
                     setPostingContents({
@@ -374,15 +388,21 @@ const PostEdition = (props) => {
                   timeFormat="HH:mm"
                   timeIntervals={15}
                   timeCaption="종료시간"
-                  popperModifiers={{  preventOverflow: { enabled: true, }, }}
+                  popperModifiers={{ preventOverflow: { enabled: true } }}
                   popperPlacement="auto"
-                  dayClassName={date => getDayName(createDate(date)) === '토' ? "saturday" : getDayName(createDate(date)) === '일' ? "sunday" : undefined }
+                  dayClassName={(date) =>
+                    getDayName(createDate(date)) === "토"
+                      ? "saturday"
+                      : getDayName(createDate(date)) === "일"
+                      ? "sunday"
+                      : undefined
+                  }
                   onChange={(date) => {
                     setPostingContents({
                       ...postingContents,
                       endDate: date,
                     });
-                    setFinishDate(date)
+                    setFinishDate(date);
                   }}
                 />
               </div>
@@ -391,9 +411,11 @@ const PostEdition = (props) => {
               <Text fontSize="14px" color="#535353" fontWeight="bold">
                 장소
               </Text>
-              <div className="flex self-center items-center">
+              <div className="inline-flex self-center items-center">
                 <div
-                  className="self-center items-center bg-green-300 cursor-pointer"
+                  className={`flex self-center items-center ${
+                    checked ? "cursor-default bg-gray-300" : "bg-green-300 cursor-pointer"
+                  }`}
                   style={{
                     paddingTop: "6.5px",
                     paddingBottom: "6.5px",
@@ -402,13 +424,14 @@ const PostEdition = (props) => {
                   }}
                   value={postingContents.place}
                   onClick={() => {
+                    if (checked) return
                     setViewModal(true);
                     setIsOpen(true);
                   }}
                 >
                   <RoomIcon />
                 </div>
-                <div>
+                <div className="flex self-center">
                 <InputBox
                     style={{
                       width: "100vw",
@@ -422,7 +445,7 @@ const PostEdition = (props) => {
                     }}
                     placeholder="장소(한글 주소로 출력)"
                     type="text"
-                    value={inputValue}
+                    value={checked ? "온라인 모임" : inputValue}
                     onChange={(e) => {
                       setPostingContents({
                         ...postingContents,
@@ -432,6 +455,25 @@ const PostEdition = (props) => {
                   />
                 </div>
               </div>
+              <div className="block ml-10 self-center">
+                    <input
+                      id="online-schedule"
+                      type="checkbox"
+                      name="온라인모임"
+                      defaultChecked={checked}
+                      onChange={() => {
+                        setChecked((state) => {
+                          setPostingContents({
+                            ...postingContents,
+                            place: !state ? '온라인 모임' : "",
+                          });
+                          return !state
+                        });
+                      }}
+                      // ref='checkbox'
+                    />
+                    <span className="inline-flex ml-1">온라인 모임 여부</span>
+                  </div>
             </div>
             <Grid is_flex>
               <div style={{ margin: "10px 5px",width:"22%" }}>
@@ -746,8 +788,7 @@ const PostEdition = (props) => {
   );
 };
 
-const CalendarContainer = styled.div`
-`;
+const CalendarContainer = styled.div``;
 
 const EnterButton = styled.button`
   width: 100%;
@@ -769,7 +810,7 @@ const PosAbs = () => {
 
 const InputBox = styled.input`
   width: 100%;
-  border: solid 1.5px #A7AAAD;
+  border: solid 1.5px #a7aaad;
   padding: 14px 2px;
   ::placeholder {
     font-size: 16px;

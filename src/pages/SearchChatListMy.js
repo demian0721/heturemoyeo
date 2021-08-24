@@ -121,7 +121,7 @@ const SearchChatListMy = () => {
             {rooms?.length >= 1 ? (
               rooms.map((el) => <ChatListCardComponent {...el} />)
             ) : (
-              <div className="text-center font-bold text-lg" style={{ paddingTop:"30px",backgroundColor: "#efefef",height:"calc(100vh - 490px)"}}>
+              <div className="text-center font-bold text-lg" style={{ paddingTop:"30px",backgroundColor: "#efefef",height:"calc(100vh - 290px)"}}>
                 참여 중인 대화방이 존재하지 않아요!
               </div>
             )}

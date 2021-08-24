@@ -205,7 +205,7 @@ const editPostDB = (image, post) => {
             .then((res) => {
               window.alert("게시글 수정이 완료되었습니다.");
               dispatch(editPost({ postImg: image, postId: res.data }));
-              history.replace(`/postdetail/${postInfo.postId}`);
+              // history.replace(`/postdetail/${postInfo.postId}`);
             })
             .catch((error) => {
               console.error(error);
@@ -224,7 +224,7 @@ const editPostDB = (image, post) => {
             .then((res) => {
               window.alert("게시글 수정이 완료되었습니다.");
               dispatch(editPost({ postImg: imgUrl, postId: res.data }));
-              history.replace(`/postdetail/${postInfo.postId}`);
+              // history.replace(`/postdetail/${postInfo.postId}`);
             })
             .catch((error) => {
               console.error(error);

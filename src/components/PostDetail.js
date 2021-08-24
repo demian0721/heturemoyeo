@@ -257,7 +257,7 @@ const Details = (props) => {
                 fontSize="12px"
                 fontWeight="bold"
               >
-                {stdate}~{eddate}
+                {stdate}-&nbsp;{eddate}
               </Text> }
             
             <AccessTimeOutlinedIcon
@@ -280,7 +280,7 @@ const Details = (props) => {
                 margin="0px 5px"
                 fontSize="12px"
                 fontWeight="bold"
-                >{sthour}~{edhour}
+                >{sthour}&nbsp;-&nbsp;{edhour}
               </Text>}
             
           </Grid>

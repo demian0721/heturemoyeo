@@ -220,7 +220,7 @@ const receiveAuthNum = (phone) => {
       })
       .catch((error) => {
         dispatch(checkDupPhone(false));
-        if (error.response.status == 412) {
+        if (error.response.status === 412) {
           window.alert("해당 번호는 이미 사용 중입니다.")
         }
         else {

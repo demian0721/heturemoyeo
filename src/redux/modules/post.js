@@ -228,9 +228,9 @@ const editPostDB = (image, post) => {
               window.alert("게시글 수정이 완료되었습니다.");
               dispatch(editPost({ postImg: imgUrl, postId: res.data }));
               // history.replace(`/postdetail/${postInfo.postId}`);
-              setTimeout(() => {
+              // setTimeout(() => {
                 window.location.href = `/postdetail/${postInfo.postId}`;
-              }, 3000);
+              // }, 1000);
             })
             .catch((error) => {
               console.error(error);

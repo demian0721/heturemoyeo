@@ -179,7 +179,7 @@ const InvitedListCard = ({ children, ...props }) => {
             <PlaceImageComponent img={props.postImg} />
             <Grid
               margin="auto auto auto 14px"
-              width="50vw"
+              width=""
               height=""
               align="left"
             >
@@ -249,7 +249,7 @@ const InvitedListCard = ({ children, ...props }) => {
             </Grid>
           </div>
           <div className="flex">
-            <div className="lg:block flex self-center lg:space-x-0 lg:space-y-2 lg:space-x-4 space-x-2">
+            <div className="lg:block flex self-center lg:space-x-0 lg:space-y-2 space-x-2">
               <div
                 onClick={() => handleButtonClick({ type: "accept", props })}
                 className="text-center bg-green-100 text-green-600 hover:bg-green-300 hover:text-green-900 transition-colors duration-300 ease-in-out rounded-md lg:px-7 px-5 py-2 block lg:text-sm text-xs font-normal cursor-pointer"

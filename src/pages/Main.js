@@ -442,7 +442,7 @@ const Main = (props) => {
         })
       )
       .then((res) => {
-        alert("성공적으로 초대하였어요!");
+        alert("성공적으로 초대되었습니다!");
       })
       .catch((err) => {
         console.log(err);

@@ -484,7 +484,8 @@ const Main = (props) => {
                  style={{width:"78.4px", height:"20px", margin: "0px 10px", cursor: "pointer"}}
                  onClick={() => {
                    window.location.href = "/";
-                }}    
+                }} 
+                 alt=""   
                      />
           </Grid>
           <div className="container">

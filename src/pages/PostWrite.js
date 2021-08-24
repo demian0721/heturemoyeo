@@ -51,6 +51,7 @@ const PostWrite = (props) => {
   const preview = !image.preview && props ? props.postImg : image.preview;
 
   const [height, setHeight] = useState(preview ? "auto" : "228px");
+  // const [width, setWidth] = useState(preview ? "auto" : "500px");
 
   const [location, setLocation] = useState({});
   const [locationCoords, setLocationCoords] = useState({});
@@ -122,6 +123,7 @@ const PostWrite = (props) => {
       reader.onload = () => {
         dispatch(imgActions.setPreview(reader.result));
         setHeight("auto");
+        // setWidth("auto");
       };
     }
   };
@@ -752,7 +754,7 @@ const InputBox = styled.input`
   }
 `;
 
-const CalendarContainer = styled.div``;
+// const CalendarContainer = styled.div``;
 
 // const EnterButton = styled.button`
 //   width: 100%;

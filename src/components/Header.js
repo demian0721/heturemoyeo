@@ -289,7 +289,18 @@ const Header = (props) => {
         }
         // style={{ position: "flex", zIndex: 4, justifyContent: "space-between" }}
       >
-        {id === "chatroom" || id === "detail" ? (
+        {id === "chatroom" ? (
+          <ArrowBackOutlinedIcon
+            style={{ color: "white", cursor: "Pointer" }}
+            onClick={() => {
+              window.location.href = "/chat";
+            }}
+          />
+        ) : (
+          <div></div>
+        )}
+
+        {id === "detail" ? (
           <ArrowBackOutlinedIcon
             style={{ color: "white", cursor: "Pointer" }}
             onClick={() => {

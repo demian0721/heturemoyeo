@@ -425,6 +425,7 @@ const Main = (props) => {
   useOutsideClick(modalRef, () => handleModalClose(true));
 
   const handleModalInvite = (clearSelect = true) => {
+    window.confirm('초대시 상대 유저에게 안내 문자가 발송 됩니다.')
     const filterScheduleList = myScheduleList?.filter(
       (el) => el.postId === selectedCard
     );

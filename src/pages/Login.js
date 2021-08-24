@@ -117,7 +117,7 @@ const LogIn = (props) => {
               textAlign="right"
               margin="10px 0px 20px 0px"
             >
-              비밀번호 찾기
+              {/* 비밀번호 찾기 */}
             </Text>
           </Grid>
           <Text

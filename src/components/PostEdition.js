@@ -434,7 +434,7 @@ const PostEdition = (props) => {
                 <div className="flex self-center">
                 <InputBox
                     style={{
-                      width: "100vw",
+                      width: "calc(100vw - 75px)",
                       maxWidth:"465px",
                       margin: "7px 5px 7px 5px",
                       borderLeft: "none",

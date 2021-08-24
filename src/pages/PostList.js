@@ -2,7 +2,7 @@
 import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 // REDUX
 import { postActions } from "../redux/modules/post";

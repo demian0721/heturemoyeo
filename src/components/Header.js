@@ -297,7 +297,7 @@ const Header = (props) => {
             }}
           />
         ) : (
-          <div></div>
+          null
         )}
 
         {id === "detail" ? (
@@ -308,20 +308,19 @@ const Header = (props) => {
             }}
           />
         ) : (
+          null
+        )}
+
+        {id != "chatroom" && id != "detail" ? (
           <div></div>
+        ):(
+          null
         )}
 
         {!title || title.length === 0 ? (
-          <Grid
-            height=""
-            width=""
-            id="header"
-            onClick={() => {
-              window.location.href = "/";
-            }}
-          >
+          <Link to="/">
             <Image src="/assets/logo_header.png" />
-          </Grid>
+          </Link>
         ) : (
           <TitleBox style={{ cursor: "default" }}>{title}</TitleBox>
         )}
@@ -430,15 +429,12 @@ const Header = (props) => {
           {/* {id === "chatroom" ? <MoreHorizIcon style={{color:"white"}}/> : null } */}
           {id === "detail" && owner === writer ? (
             <Grid is_flex>
-              <Text
+              <Link to={`/postdetail/edit/${postId}`}><Text
                 color="white"
-                clickEvent={() => {
-                  window.location.href = `/postdetail/edit/${postId}`;
-                }}
                 style={{ cursor: "Pointer" }}
               >
                 수정
-              </Text>
+              </Text></Link>
               <Text
                 color="white"
                 clickEvent={deletepost}

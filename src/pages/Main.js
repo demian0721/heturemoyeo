@@ -425,39 +425,42 @@ const Main = (props) => {
   useOutsideClick(modalRef, () => handleModalClose(true));
 
   const handleModalInvite = (clearSelect = true) => {
-    window.confirm('초대시 상대 유저에게 안내 문자가 발송 됩니다.')
-    const filterScheduleList = myScheduleList?.filter(
-      (el) => el.postId === selectedCard
-    );
-    if (filterScheduleList?.length === 0)
-      return alert("초대할 모임을 클릭한 후, 다시 시도해주세요!");
-    if (filterScheduleList[0].userId === selectedCard)
-      return alert("나 자신은 초대할 수 없습니다!");
-    axios
-      .post(
-        "/api/room/invite",
-        JSON.stringify({
-          userId: Number(markerData?.userId),
-          postId: Number(filterScheduleList[0].postId),
+    if (window.confirm("초대시 상대 유저에게 안내 문자가 발송 됩니다.")) {
+      const filterScheduleList = myScheduleList?.filter(
+        (el) => el.postId === selectedCard
+      );
+      if (filterScheduleList?.length === 0)
+        return alert("초대할 모임을 클릭한 후, 다시 시도해주세요!");
+      if (filterScheduleList[0].userId === selectedCard)
+        return alert("나 자신은 초대할 수 없습니다!");
+      axios
+        .post(
+          "/api/room/invite",
+          JSON.stringify({
+            userId: Number(markerData?.userId),
+            postId: Number(filterScheduleList[0].postId),
+          })
+        )
+        .then((res) => {
+          alert("성공적으로 초대되었습니다!");
         })
-      )
-      .then((res) => {
-        alert("성공적으로 초대되었습니다!");
-      })
-      .catch((err) => {
-        console.log(err);
-        switch (err.response.status) {
-          case 406:
-            alert("이미 초대된 사용자입니다!");
-            break;
-          default:
-            alert("초대하는 도중 오류가 발생하였습니다!");
-            break;
-        }
-      });
-    handleModalClose(clearSelect);
+        .catch((err) => {
+          console.log(err);
+          switch (err.response.status) {
+            case 406:
+              alert("이미 초대된 사용자입니다!");
+              break;
+            default:
+              alert("초대하는 도중 오류가 발생하였습니다!");
+              break;
+          }
+        });
+      handleModalClose(clearSelect);
+    } else {
+      return alert("초대가 취소되었습니다.")
+    }
   };
-
+    
   return (
     <Fragment>
       {sessionStorage.token && (

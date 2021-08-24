@@ -56,7 +56,7 @@ const SignUp = (props) => {
     }
 
     setIdWarColor("green");
-    setIdConfirm("중복 검사를 해주세요.");
+    setIdConfirm("'인증번호 받기'를 해주세요.");
   };
 
   const checkPWD = (val) => {

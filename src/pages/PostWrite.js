@@ -224,17 +224,6 @@ const PostWrite = (props) => {
           height=""
           margin="75px auto 55px auto"
           maxWidth="540px"
-          // tabletStyle={() => {
-          //   return css`
-          //     width: 95%;
-          //   `;
-          // }}
-          // mobileStyle={() => {
-          //   return css`
-          //     padding: 15px 20px;
-          //     width: 100%;
-          //   `;
-          // }}
         >
           <Grid padding="15px" bg="#FFFFFF" height="" margin="auto">
             <Grid
@@ -292,32 +281,12 @@ const PostWrite = (props) => {
                 <Text fontSize="14px" color="#535353" fontWeight="bold" margin="0px 0px 14px 0px">
                   시작
                 </Text>
-                {/* <Input
-                  placeholder="시작시간(연도월일)"
-                  type="date"
-                  value={postingContents.startDate}
-                  changeEvent={(e) => {
-                    setPostingContents({
-                      ...postingContents,
-                      startDate: e.target.value,
-                    });
-                  }}
-                  padding="8px 0px"
-                  style={{
-                    borderLeft: "none",
-                    borderRight: "none",
-                    borderTop: "none",
-                    borderBottom: "solid 2px #E5E5E5",
-                    boxShadow: "none",
-                  }}
-                /> */}
                 <DatePicker
                   locale={ko}
                   dateFormat="yyyy-MM-dd H:mm"
                   className="input-datepicker"
                   minDate={new Date()}
                   maxDate={addDays(new Date(), 7)}
-                  // style={{width:"100%"}}
                   // closeOnScroll={true}
                   placeholderText="시작을 설정하세요"
                   selected={beginDate}
@@ -328,9 +297,10 @@ const PostWrite = (props) => {
                   showTimeSelect
                   timeFormat="HH:mm"
                   timeIntervals={15}
-                  timeCaption="시작시간"
-                  withPortal
+                  timeCaption="헤쳐"
+                  // withPortal
                   popperModifiers={{ preventOverflow: { enabled: true } }}
+                  popperPlacement="bottom"
                   dayClassName={(date) =>
                     getDayName(createDate(date)) === "토"
                       ? "saturday"
@@ -338,7 +308,6 @@ const PostWrite = (props) => {
                       ? "sunday"
                       : undefined
                   }
-                  // onChange={(date) => setBeginDate(date)}
                   onChange={(date) => {
                     setPostingContents({
                       ...postingContents,
@@ -353,25 +322,6 @@ const PostWrite = (props) => {
                 <Text fontSize="14px" color="#535353" fontWeight="bold" margin="0px 0px 14px 0px">
                   종료
                 </Text>
-                {/* <Input
-                  placeholder="종료시간(연도월일)"
-                  type="date"
-                  value={postingContents.endDate}
-                  changeEvent={(e) => {
-                    setPostingContents({
-                      ...postingContents,
-                      endDate: e.target.value,
-                    });
-                  }}
-                  padding="8px 0px"
-                  style={{
-                    borderLeft: "none",
-                    borderRight: "none",
-                    borderTop: "none",
-                    borderBottom: "solid 2px #E5E5E5",
-                    boxShadow: "none",
-                  }}
-                /> */}
                 <DatePicker
                   locale={ko}
                   dateFormat="yyyy-MM-dd H:mm"
@@ -388,10 +338,10 @@ const PostWrite = (props) => {
                   showTimeSelect
                   timeFormat="HH:mm"
                   timeIntervals={15}
-                  timeCaption="종료시간"
-                  withPortal
-                  popperModifiers={{ preventOverflow: { enabled: true } }}
-                  popperPlacement="auto"
+                  timeCaption="모여"
+                  // withPortal
+                  popperModifiers={ { preventOverflow: { enabled: true } }}
+                  popperPlacement="bottom"
                   dayClassName={(date) =>
                     getDayName(createDate(date)) === "토"
                       ? "saturday"

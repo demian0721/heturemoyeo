@@ -112,14 +112,14 @@ const UserProfileComponent = ({ myData, postData, ...props }) => {
               >
                 <CloseIcon />
               </div>
-              정말로 강퇴시키겠습니까?
+              유저 추방 확인
             </div>
             <div className="text-sm">
               해당 유저
               <span className="tagItem px-1 text-xs mx-1 rounded-md inline-flex transition duration-300 ease-in-out self-center">
                 ({kickMember?.nickname})
               </span>
-              를(을) 대화방에서 내보내시겠습니까? 추후에 해당 유저는 대화방 재입장이 가능합니다.
+              를(을) 대화방에서 내보내시겠습니까?
             </div>
             <div className="flex border border-gary-500 rounded-full my-1 w-full">
               <div className="sr-only">divide</div>
@@ -133,7 +133,7 @@ const UserProfileComponent = ({ myData, postData, ...props }) => {
                       postId: Number(postData?.postId),
                     });
                     alert(
-                      `성공적으로 유저 ${kickMember.nickname} 을(를) 추방하였어요!`
+                      `유저 ${kickMember.nickname} 을(를) 추방하였어요!`
                     );
                     setShowConfirm(false);
                     setMenuIsShow(false);

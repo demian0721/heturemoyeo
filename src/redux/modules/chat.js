@@ -111,6 +111,7 @@ const confirmAChat = (doc) => {
         window.alert("본 일정이 확정되었습니다.");
       })
       .catch((error) => {
+        window.alert("확정에 실패하였습니다. 모임 개설자일 경우, 모든 참여자가 확인한 후에 일정 확정이 가능합니다.")
         console.error(error.errorMessage);
       });
   };

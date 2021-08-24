@@ -323,6 +323,7 @@ const PostEdition = (props) => {
                   selected={beginDate}
                   startDate={beginDate}
                   // endDate={finishDate}
+                  value={postingContents.startDate}
                   selectsStart
                   filterTime={filterPassedTime}
                   showTimeSelect
@@ -382,6 +383,7 @@ const PostEdition = (props) => {
                   selected={finishDate}
                   startDate={beginDate}
                   endDate={finishDate}
+                  value={postingContents.endDate}
                   selectsEnd
                   filterTime={filterPassedTime}
                   showTimeSelect
@@ -422,7 +424,6 @@ const PostEdition = (props) => {
                     paddingRight: "3px",
                     paddingLeft: "3px",
                   }}
-                  value={postingContents.place}
                   onClick={() => {
                     if (checked) return
                     setViewModal(true);
@@ -445,7 +446,7 @@ const PostEdition = (props) => {
                     }}
                     placeholder="장소(한글 주소로 출력)"
                     type="text"
-                    value={checked ? "온라인 모임" : inputValue}
+                    value={postingContents.place}
                     onChange={(e) => {
                       setPostingContents({
                         ...postingContents,
@@ -465,7 +466,8 @@ const PostEdition = (props) => {
                         setChecked((state) => {
                           setPostingContents({
                             ...postingContents,
-                            place: !state ? '온라인 모임' : "",
+                            place: "온라인 모임",
+                            // place: !state ? '온라인 모임' : "",
                           });
                           return !state
                         });

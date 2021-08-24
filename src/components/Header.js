@@ -112,14 +112,14 @@ const UserProfileComponent = ({ myData, postData, ...props }) => {
               >
                 <CloseIcon />
               </div>
-              정말로 추방하시겠습니까?
+              정말로 강퇴시키겠습니까?
             </div>
             <div className="text-sm">
               해당 유저
               <span className="tagItem px-1 text-xs mx-1 rounded-md inline-flex transition duration-300 ease-in-out self-center">
                 ({kickMember?.nickname})
               </span>
-              를(을) 추방할꺼임? 그럼 왼쪽 ㅇㅇ 아니면 오른쪽 ㅇㅇ
+              를(을) 대화방에서 내보내시겠습니까? 추후에 해당 유저는 대화방 재입장이 가능합니다.
             </div>
             <div className="flex border border-gary-500 rounded-full my-1 w-full">
               <div className="sr-only">divide</div>

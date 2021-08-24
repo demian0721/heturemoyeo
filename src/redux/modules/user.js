@@ -61,8 +61,7 @@ const initialState = {
   relation: null,
   type: null,
   exactType: null,
-  authId: null
-  // receiveAuth: null
+  // authId: null
 };
 
 // MIDDLEWARE
@@ -261,13 +260,12 @@ const nickCheck = (nick) => {
   };
 };
 
-const signupDB = (authId,phone,name,nickname,password,confirm,profileImg,statusMessage,likeItem) => {
+const signupDB = (phone,name,nickname,password,confirm,profileImg,statusMessage,likeItem) => {
   return function (dispatch, getState, { history }) {
     dispatch(
       imgActions.uploadImageDB(profileImg, () => {
         const imgUrl = getState().image.imageUrl;
         const profileInfoAll = {
-          "authId": authId,
           "phone": phone,
           "name": name,
           "nickname":nickname,

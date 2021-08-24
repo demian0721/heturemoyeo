@@ -80,7 +80,7 @@ const PostList = (props) => {
           </Grid>
           <PostListButton>all</PostListButton>
 
-          <InfiniteScroll postList={PostList} page="PostList" style={{height:"calc(100vh - 250px)"}}/>
+          <InfiniteScroll postList={PostList} page="PostList"/>
 
           <Grid
             padding="5px 0px"

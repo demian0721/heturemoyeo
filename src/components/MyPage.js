@@ -35,7 +35,6 @@ const MyPage = () => {
 
   const changeStatus = (n) => {setStatus(n.target.value);
     console.log(statusMessage)};
-    // dispatch(userActions.editStatusMsg({"statusMessage":statusMessage}));
 
   const editStatusMsg = () => {
     dispatch(userActions.editStatusMsg({"statusMessage":statusMessage}));
@@ -76,7 +75,7 @@ const MyPage = () => {
         <Grid width="100vw" height="">
           <div style={{ alignItems: "center" , width:"100vw",margin:"15px 0px 0px 0px"}}>
             {/* <Button width="100%" color="#767676" padding="10px 30px" margin="-1px 0px 0px 0px" display="block" bg="white" radius='0px' style={{ justifyContent:'space-between', display:"flex", maxWidth:"540px",borderLeft:"1px solid white",borderRight:"1px solid white"}} clickEvent={() => {window.location.href = '/setting'}}><p>설정</p> <ArrowForwardIosIcon style={{width:"15px"}}/></Button> */}
-            <Button width="100%" color="#767676" padding="10px 30px" margin="-1px 0px 0px 0px" display="block" bg="white" radius='0px' style={{ justifyContent:'space-between', display:"flex", maxWidth:"540px",borderLeft:"1px solid white",borderRight:"1px solid white"}} clickEvent={() => {dispatch(userActions.logOut());window.location.href = '/login'}}>로그아웃 <ArrowForwardIosIcon style={{width:"15px"}} onClick={editStatusMsg}/></Button>
+            <Button width="100%" color="#767676" padding="10px 30px" margin="-1px 0px 0px 0px" display="block" bg="white" radius='0px' style={{ justifyContent:'space-between', display:"flex", maxWidth:"540px",borderLeft:"1px solid white",borderRight:"1px solid white"}} clickEvent={() => {dispatch(userActions.logOut());window.location.href = '/login'}}>로그아웃 <ArrowForwardIosIcon style={{width:"15px"}}/></Button>
           </div>
         </Grid>
       </Grid>

@@ -194,26 +194,44 @@ const addPostDB = (image, post) => {
 
 const editPostDB = (image, post) => {
   return function (dispatch, getState, { history }) {
-    dispatch(
-      imgActions.uploadImageDB(image, () => {
-        const imgUrl = getState().image.imageUrl;
-        const postInfo = {
-          ...post,
-          postImg: imgUrl,
-        };
-
-        instance
-          .put("/api/post", { ...postInfo })
-          .then((res) => {
-            window.alert("게시글 수정이 완료되었습니다.");
-            dispatch(editPost({ postImg: imgUrl, postId: res.data }));
-            history.replace(`/postdetail/${postInfo.postId}`);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      })
-    );
+    if(image.length>0){
+          const postInfo = {
+            ...post,
+            postImg: image,
+          };
+  
+          instance
+            .put("/api/post", { ...postInfo })
+            .then((res) => {
+              window.alert("게시글 수정이 완료되었습니다.");
+              dispatch(editPost({ postImg: image, postId: res.data }));
+              // history.replace(`/postdetail/${postInfo.postId}`);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+    }else{
+      dispatch(
+        imgActions.uploadImageDB(image, () => {
+          const imgUrl = getState().image.imageUrl;
+          const postInfo = {
+            ...post,
+            postImg: imgUrl,
+          };
+  
+          instance
+            .put("/api/post", { ...postInfo })
+            .then((res) => {
+              window.alert("게시글 수정이 완료되었습니다.");
+              dispatch(editPost({ postImg: imgUrl, postId: res.data }));
+              // history.replace(`/postdetail/${postInfo.postId}`);
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        })
+      );
+    };
   };
 };
 

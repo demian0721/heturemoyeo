@@ -23,7 +23,6 @@ import {
   Smartphone,
 } from "@material-ui/icons";
 import SearchIcon from "@material-ui/icons/Search";
-import DateRangeOutlinedIcon from "@material-ui/icons/DateRangeOutlined";
 
 // HISTORY
 import { history } from "../redux/configStore";
@@ -76,15 +75,6 @@ const SearchChatListMy = () => {
   }, []);
 
   const inputword = useRef();
-  // const searchDate = null;
-
-  // useEffect(() => {
-  //   dispatch(searchActions.searchRoomDB(keyword));
-
-  //   return () => {
-  //     dispatch(searchActions.getSearchRoom([], 0));
-  //   };
-  // }, [keyword]);
 
   const search = () => {
     console.log(inputword.current.value);
@@ -115,7 +105,7 @@ const SearchChatListMy = () => {
               <SearchIcon style={{ color: "#7B7B7B" }} />
               <input
                 type="text"
-                placeholder="제목, 내용, 태그 또는 날짜"
+                placeholder="제목, 내용, 또는 태그"
                 style={{
                   padding: "0px 5px",
                   width: "100%",
@@ -125,39 +115,13 @@ const SearchChatListMy = () => {
                 onKeyPress={onKeyPress}
               />
             </Grid>
-              <DateRangeOutlinedIcon
-                style={{ marginLeft: "5px", color: "#7B7B7B" }}
-              />
           </Grid>
-
-          <Grid margin="10px 10px 50px 10px">
-            <SmallTitle
-              style={{margin: "10px 20px 20px 10px"}}
-            >확정된 대화방</SmallTitle>
-            <Wrap>
-              <Decided/>
-              <Decided/>
-              <Decided/>
-              <Decided/>
-              <Decided/>
-              <Decided/>
-              <Decided/>
-              <Decided/>
-              <Decided/>
-              <Decided/>
-              <Decided/>
-              <Decided/>
-              <Decided/>
-              <Decided/>
-              <Decided/>
-            </Wrap>
-          </Grid>          
           <div className="container mx-auto mt-4 space-y-4 w-full">
           <SmallTitle>대화방 목록</SmallTitle>       
             {rooms?.length >= 1 ? (
               rooms.map((el) => <ChatListCardComponent {...el} />)
             ) : (
-              <div className="text-center font-bold text-lg" style={{ paddingTop:"30px",backgroundColor: "#efefef",height:"calc(100vh - 490px)"}}>
+              <div className="text-center font-bold text-lg" style={{ paddingTop:"30px",backgroundColor: "#efefef",height:"calc(100vh - 290px)"}}>
                 참여 중인 대화방이 존재하지 않아요!
               </div>
             )}
@@ -224,26 +188,6 @@ function ChatListCardComponent({ children, ...props }) {
   );
 }
 
-const Wrap = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  white-space: nowrap;
-  overflow-x: scroll;
-  overflow-y: hidden;
-`;
-const Decided = styled.div`
-  background: url("./assets/unknownChatRoomImg.gif");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  border-radius: 5px;
-  width: 100px;
-  min-width: 100px;
-  height: 100px;
-  min-height: 100px;
-  margin: auto 10px;
-  `;
 const SmallTitle = styled.div`
   margin: 10px 20px 20px 20px;
   font-weight: bold;
@@ -255,6 +199,5 @@ const Style = styled.div`
   height: 100%;
   background-color: #efefef;
 `;
-
 
 export default SearchChatListMy;

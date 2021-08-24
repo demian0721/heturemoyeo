@@ -21,7 +21,7 @@ const TEMP_SAVE = "TEMP_SAVE";
 const EDIT_INFO = "EDIT_INFO";
 const EDIT_STATUS = "EDIT_STATUS";
 const REQUEST_FRIEND = "REQUEST_FRIEND";
-const RECEIVE_AUTH = "RECEIVE_AUTH";
+// const RECEIVE_AUTH = "RECEIVE_AUTH";
 
 // ACTION CREATORS
 const myInfo = createAction(MY_INFO, (userInfo) => ({ userInfo }));
@@ -44,7 +44,7 @@ const requestFriend = createAction(REQUEST_FRIEND, (requestFriend) => ({
   requestFriend,
 }));
 
-const receiveAuth = createAction(RECEIVE_AUTH, (authId) => ({ authId }));
+// const receiveAuth = createAction(RECEIVE_AUTH, (authId) => ({ authId }));
 
 // INITIAL STATE
 const initialState = {
@@ -61,8 +61,7 @@ const initialState = {
   relation: null,
   type: null,
   exactType: null,
-  authId: null
-  // receiveAuth: null
+  // authId: null
 };
 
 // MIDDLEWARE
@@ -86,26 +85,43 @@ const myInfoDB = () => {
 
 const editInfos = (image, doc) => {
   return function (dispatch, getState, { history }) {
-    dispatch(
-      imgActions.uploadImageDB(image, () => {
-        const imgUrl = getState().image.imageUrl;
-        const profileInfo = {
-          ...doc,
-          profileImg: imgUrl,
-        };
-
-        instance
-          .put("/api/user", { ...profileInfo })
-          .then((res) => {
-            window.alert("프로필 수정이 완료되었습니다");
-            dispatch(editInfo({ profileImg: imgUrl }));
-            history.replace("/mypage");
-          })
-          .catch((error) => {
-            window.alert("입력된 비밀번호가 올바르지 않습니다.");
-          });
-      })
-    );
+    if(image.length>0){
+      const profileInfo = {
+        ...doc,
+        profileImg: image,
+      };
+      instance
+        .put("/api/user", { ...profileInfo })
+        .then((res) => {
+          window.alert("프로필 수정이 완료되었습니다");
+          dispatch(editInfo({ profileImg: image }));
+          history.replace("/mypage");
+        })
+        .catch((error) => {
+          window.alert("입력된 비밀번호가 올바르지 않습니다.");
+        });
+    }else{
+      dispatch(
+        imgActions.uploadImageDB(image, () => {
+          const imgUrl = getState().image.imageUrl;
+          const profileInfo = {
+            ...doc,
+            profileImg: imgUrl,
+          };
+  
+          instance
+            .put("/api/user", { ...profileInfo })
+            .then((res) => {
+              window.alert("프로필 수정이 완료되었습니다");
+              dispatch(editInfo({ profileImg: imgUrl }));
+              history.replace("/mypage");
+            })
+            .catch((error) => {
+              window.alert("입력된 비밀번호가 올바르지 않습니다.");
+            });
+        })
+      );
+    };
   };
 };
 
@@ -116,8 +132,10 @@ const editStatusMsg = (doc) => {
       .put("/api/user/status", doc)
       .then((res) => {
         dispatch(editInfo(res.data));
+        window.alert("상태메세지가 변경되었습니다.");
       })
       .catch((error) => {
+        window.alert("상태메세지가 변경되지 않았습니다.");
         console.error(error.errorMessage);
       });
   };
@@ -198,7 +216,7 @@ const receiveAuthNum = (phone) => {
       .then((res) => {
         dispatch(checkDupPhone(true));
         window.alert("인증 메세지가 발송되었습니다");
-        dispatch(receiveAuth(res.data.authId));
+        // dispatch(receiveAuth(res.data.authId));
       })
       .catch((error) => {
         dispatch(checkDupPhone(false));
@@ -242,13 +260,12 @@ const nickCheck = (nick) => {
   };
 };
 
-const signupDB = (authId,phone,name,nickname,password,confirm,profileImg,statusMessage,likeItem) => {
+const signupDB = (phone,name,nickname,password,confirm,profileImg,statusMessage,likeItem) => {
   return function (dispatch, getState, { history }) {
     dispatch(
       imgActions.uploadImageDB(profileImg, () => {
         const imgUrl = getState().image.imageUrl;
         const profileInfoAll = {
-          "authId": authId,
           "phone": phone,
           "name": name,
           "nickname":nickname,
@@ -319,10 +336,10 @@ export default handleActions(
         draft.is_check_auth = action.payload.is_check_auth;
       }),
 
-    [RECEIVE_AUTH]: (state, action) =>
-      produce(state, (draft) => {
-        draft.authId = action.payload.authId;
-      }),
+    // [RECEIVE_AUTH]: (state, action) =>
+    //   produce(state, (draft) => {
+    //     draft.authId = action.payload.authId;
+    //   }),
     
     [CHECK_DUP_NICKNAME]: (state, action) =>
       produce(state, (draft) => {

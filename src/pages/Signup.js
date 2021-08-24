@@ -21,7 +21,7 @@ const SignUp = (props) => {
   const debounce = _.debounce((value, setValue) => setValue(value), 300);
   const signupNext = () => {
     
-    const userInfo = {id, pwd, name, authId}
+    const userInfo = {id, pwd, name}
     dispatch(userActions.tempSave(userInfo))
     history.push("/signup/info");
   }
@@ -41,7 +41,7 @@ const SignUp = (props) => {
   const [authData, setAuthData] = useState("");
   const [authWarning, setAuthWarColor] = useState("red");
   const [authConfirm, setAuthConfirm] = useState("");
-  const [authId, setAuthId] = useState("");
+  // const [authId, setAuthId] = useState("");
 
   const checkID = (val) => {
     if (val === "") {
@@ -319,7 +319,7 @@ const SignUp = (props) => {
                        border: "none" }}
               hoverColor="#16C59B"  
               clickEvent={signupNext}
-              disabled={!id || !pwd || !name || !(pwd===pwdCheck) || !authId}
+              disabled={!id || !pwd || !name || !(pwd===pwdCheck)}
             >
               다음
             </Button>

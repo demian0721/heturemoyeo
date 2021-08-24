@@ -67,8 +67,17 @@ const ProfileEdit = (props) => {
   const image = useSelector((state) => state.image);
   const preview = !image.preview && props ? userlist.profileImg : image.preview;
 
+  if (editInfo.profileImg==preview){
+    var img = editInfo.profileImg;
+    // console.log('이미지 no',img);
+  }else{
+    var img = fileInput.current.files[0];
+    // console.log('이미지 yes',img);
+  };
+
+
   const editInfos = () => {
-    dispatch(userActions.editInfos(fileInput.current.files[0],editInfo));
+    dispatch(userActions.editInfos(img,editInfo));
     dispatch(imgActions.setPreview(null));
   }
 

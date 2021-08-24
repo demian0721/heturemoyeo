@@ -11,7 +11,6 @@ import { searchActions } from "../redux/modules/search";
 // ELEMENTS
 import { Grid, Button } from "../elements/index";
 import SearchIcon from "@material-ui/icons/Search";
-import DateRangeOutlinedIcon from "@material-ui/icons/DateRangeOutlined";
 import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
 
 // HISTORY
@@ -66,7 +65,7 @@ const PostListInvited = (props) => {
             >
               <SearchIcon style={{ color: "#7B7B7B" }} />
               <input
-                placeholder="제목, 내용, 태그 또는 날짜"
+                placeholder="제목, 내용, 또는 태그"
                 style={{
                   padding: "0px 5px",
                   width: "100%",
@@ -76,9 +75,6 @@ const PostListInvited = (props) => {
                 onKeyPress={onKeyPress}
               />
             </Grid>
-            <DateRangeOutlinedIcon
-              style={{ marginLeft: "5px", color: "#7B7B7B" }}
-            />
           </Grid>
 
           <PostListButton>invited</PostListButton>

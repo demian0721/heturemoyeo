@@ -25,7 +25,6 @@ import {
 } from "@material-ui/icons";
 import LabelIcon from "@material-ui/icons/Label";
 import SearchIcon from "@material-ui/icons/Search";
-import DateRangeOutlinedIcon from "@material-ui/icons/DateRangeOutlined";
 
 // HISTORY
 import { history } from "../redux/configStore";
@@ -81,15 +80,6 @@ const ChatList = () => {
   }, []);
 
   const inputword = useRef();
-  // const searchDate = null;
-
-  // useEffect(() => {
-  //   dispatch(postActions.getPostsDB());
-
-  //   return () => {
-  //     dispatch(postActions.getPosts([], 0));
-  //   };
-  // }, []);
 
   const search = () => {
     console.log(inputword.current.value);
@@ -126,7 +116,7 @@ const ChatList = () => {
               <SearchIcon style={{ color: "#7B7B7B" }} />
               <input
                 type="text"
-                placeholder="제목, 내용, 태그 또는 날짜"
+                placeholder="제목, 내용, 또는 태그"
                 style={{
                   padding: "0px 5px",
                   width: "100%",
@@ -136,9 +126,6 @@ const ChatList = () => {
                 onKeyPress={onKeyPress}
               />
             </Grid>
-            <DateRangeOutlinedIcon
-              style={{ marginLeft: "5px", color: "#7B7B7B" }}
-            />
           </Grid>
           <div className="container mx-auto my-4 space-y-3 w-full">
             <SmallTitle>대화방 목록</SmallTitle>

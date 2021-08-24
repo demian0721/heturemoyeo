@@ -480,6 +480,12 @@ const Main = (props) => {
             >
               <Image src="/assets/logo_header.png" />
             </div>
+            <img src="/assets/textlogo_white.svg"
+                 style={{width:"78.4px", height:"20px", margin: "0px 10px", cursor: "pointer"}}
+                 onClick={() => {
+                   window.location.href = "/";
+                }}    
+                     />
           </Grid>
           <div className="container">
             {/* kakao 맵 생성 */}

@@ -48,7 +48,7 @@ const LogIn = (props) => {
           `;
         }}
       >
-        <Title fontSize="35px" textAlign="center" marginBottom="15px">
+        <Title fontSize="35px"  marginBottom="15px">
           <img
             src="/assets/logo_login.png"
             style={{
@@ -56,6 +56,15 @@ const LogIn = (props) => {
               height: "70px",
               display: "block",
               margin: "auto",
+            }}
+          />
+          <img
+            src="/assets/textlogo_green.svg"
+            style={{
+              width: "78.4px",
+              height: "20px",
+              display: "block",
+              margin: "12px auto",
             }}
           />
         </Title>

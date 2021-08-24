@@ -155,10 +155,10 @@ const ChatList = () => {
 function ChatListCardComponent({ children, ...props }) {
   return (
     <div className="cursor-pointer" key={props.key}>
-      <Link to={`/chat/${props.postId}`}>
+      {/* <Link to={`/chat/${props.postId}`}> */}
         <div
           className="rounded-lg px-2 py-2 mx-3 border border-gray-500 border-opacity-20 chatBoxShadow bg-gray-100 hover:bg-white transition"
-          // onClick={() => (window.location.href = `/chat/${props.postId}`)}
+          onClick={() => (window.location.href = `/chat/${props.postId}`)}
         >
           <div className="flex items-center self-center">
             <div
@@ -222,7 +222,7 @@ function ChatListCardComponent({ children, ...props }) {
             </div>
           </div>
         </div>
-      </Link>
+      {/* </Link> */}
     </div>
   );
 }

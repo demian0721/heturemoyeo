@@ -142,10 +142,6 @@ const PostEdition = (props) => {
       postActions.editPostDB(img, postingContents)
     );
     dispatch(imgActions.setPreview(null));
-    setTimeout(() => {
-      // dispatch -> addPostDB 액션 후, alert 를 띄우는 과정이 생략되고, 액션을 실행하지 못하는 것 떄문에, setTimeout을 넣어 3초를 기다린 후, 페이지를 이동하게 하였습니다.
-      window.location.href = `/postdetail/${props.Details.postId}`;
-    }, 3000);
   };
 
   useEffect(() => {

@@ -131,7 +131,7 @@ const editStatusMsg = (doc) => {
     instance
       .put("/api/user/status", doc)
       .then((res) => {
-        dispatch(editInfo(res.data));
+        // dispatch(editInfo(res.data));
         window.alert("상태메세지가 변경되었습니다.");
       })
       .catch((error) => {

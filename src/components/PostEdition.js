@@ -444,12 +444,7 @@ const PostEdition = (props) => {
                     placeholder="장소(한글 주소로 출력)"
                     type="text"
                     value={postingContents.place}
-                    onChange={(e) => {
-                      setPostingContents({
-                        ...postingContents,
-                        place: e.target.value,
-                      });
-                    }}
+                    
                   />
                 </div>
               </div>
@@ -562,7 +557,7 @@ const PostEdition = (props) => {
                   placeholder="제목"
                   type="text"
                   value={postingContents.title}
-                  changeEvent={(e) => {
+                  onChange={(e) => {
                     setPostingContents({
                       ...postingContents,
                       title: e.target.value,

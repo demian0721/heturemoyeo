@@ -70,6 +70,7 @@ const PostEdition = (props) => {
   const getDayName = (date) => {
     return date.toLocaleDateString("ko-KR", { weekday: "long" }).substr(0, 1);
   };
+
   const createDate = (date) => {
     return new Date(
       new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
@@ -462,7 +463,7 @@ const PostEdition = (props) => {
                         setChecked((state) => {
                           setPostingContents({
                             ...postingContents,
-                            place: "온라인 모임",
+                            place: "온라인 모임", lat: null, lng: null
                             // place: !state ? '온라인 모임' : "",
                           });
                           return !state

@@ -221,7 +221,7 @@ const PostEdition = (props) => {
   },[beginDate, postingContents]);
 
   const [checked, setChecked] = useState(false);
-  const [visualTag, setVisalTag] = useState(postingContents.tag.slice(-1)[0]);
+  // const [visualTag, setVisalTag] = useState(postingContents.tag.slice(-1)[0]);
 
   // const tagItems = <div style={{border:"1px solid #3e3e3e", padding:"5px", borderRadius:"4px"}}>{postingContents.tag}</div>;
 

@@ -49,6 +49,7 @@ const PostEdition = (props) => {
   const preview = !image.preview && props ? props.Details.postImg : image.preview;
 
   const [height, setHeight] = useState(preview ? "auto" : "228px");
+  const [width, setWidth] = useState(preview ? "auto" : "540px");
 
   const [location, setLocation] = useState({});
   const [locationCoords, setLocationCoords] = useState({});
@@ -132,6 +133,7 @@ const PostEdition = (props) => {
       reader.onload = () => {
         dispatch(imgActions.setPreview(reader.result));
         setHeight("auto");
+        setWidth("fit-content");
       };
     }
   };
@@ -255,10 +257,10 @@ const PostEdition = (props) => {
               <Grid
                 bg="#D4D4D4"
                 radius="10px"
-                margin="5px 0 0 0"
+                margin="5px auto"
                 width=""
                 height=""
-                style={{ height: `${height}`, position: "relative" }}
+                style={{ height: `${height}`, width: `${width}`, position: "relative" }}
               >
                 <LabelStyle htmlFor="input--file">
                   {!preview ? (
@@ -280,7 +282,7 @@ const PostEdition = (props) => {
                 />
 
                 <Image
-                  style={{ position: "absolute", left: 0, top: 0 }}
+                  style={{ position: "absolute", left: 0, top: 0}}
                   src={preview}
                 />
               </Grid>

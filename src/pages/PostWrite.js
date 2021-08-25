@@ -51,7 +51,7 @@ const PostWrite = (props) => {
   const preview = !image.preview && props ? props.postImg : image.preview;
 
   const [height, setHeight] = useState(preview ? "auto" : "228px");
-  // const [width, setWidth] = useState(preview ? "auto" : "500px");
+  const [width, setWidth] = useState(preview ? "fit-content" : "540px");
 
   const [location, setLocation] = useState({});
   const [locationCoords, setLocationCoords] = useState({});
@@ -123,7 +123,7 @@ const PostWrite = (props) => {
       reader.onload = () => {
         dispatch(imgActions.setPreview(reader.result));
         setHeight("auto");
-        // setWidth("auto");
+        setWidth("fit-content");
       };
     }
   };
@@ -232,7 +232,6 @@ const PostWrite = (props) => {
               width="calc(100% - 10px)"
               height=""
               margin="0 15px 0 5px"
-              align="center"
               tabletStyle={() => {
                 return css`
                   margin: 0 auto;
@@ -244,16 +243,16 @@ const PostWrite = (props) => {
                 margin="30px 0px 15px 0px"
                 style={{ color: "#535353" }}
               >
-                대표 이미지 <span style={{fontSize:"8px", fontWeight:"normal"}}>(가로, 세로 250px 이상의 이미지 파일을 권장합니다)</span>
+                대표 이미지
               </Title>
               <Grid id="image"
                 bg="#D4D4D4"
                 radius="10px"
                 margin="5px auto"
-                width="250px"
+                width=""
                 height=""
                 
-                style={{ height: `${height}`, position: "relative" }}
+                style={{ height: `${height}`, width: `${width}`, position: "relative" }}
               >
                 <LabelStyle htmlFor="input--file">
                   {!preview ? (

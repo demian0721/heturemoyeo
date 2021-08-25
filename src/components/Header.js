@@ -347,7 +347,11 @@ const Header = (props) => {
 
         {!title || title.length === 0 ? (
           <Link to="/">
-            <Image src="/assets/logo_header.png" />
+            <div style={{display:"flex"}}>
+              <Image src="/assets/logo_header.png" />
+              <img src="/assets/textlogo_white.svg"
+                  style={{width:"78.4px", height:"20px", margin: "2px 10px 0px 10px", cursor: "pointer"}} alt="" />
+            </div>
           </Link>
         ) : (
           <TitleBox style={{ cursor: "default" }}>{title}</TitleBox>

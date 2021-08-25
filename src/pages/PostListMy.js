@@ -75,11 +75,12 @@ const PostListMy = (props) => {
           </Grid>
 
           <PostListButton>my</PostListButton>
-          
-          {PostList.map((l, index) => {
-            console.log(l)
-            return <PostListCard key={l.id} idx={index} {...l} />;
-          })}
+          <div style={{ zIndex: 5 }}>
+            {PostList.map((l, index) => {
+              console.log(l)
+              return <PostListCard key={l.id} idx={index} {...l} />;
+            })}
+          </div>
 
           <Grid
             padding="5px 0px"
@@ -107,6 +108,7 @@ const PostListMy = (props) => {
       <Grid style={{ zIndex: 10 }} height="">
         <Footer>group</Footer>
       </Grid>
+      <div style={{position:"fixed",backgroundColor:"#efefef",zIndex:"1",width:"100vw",height:"100vh"}}/>
     </Style>
   );
 };

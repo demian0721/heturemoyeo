@@ -61,7 +61,7 @@ const ProfileEdit = (props) => {
   const changePassword = (e) => {setInfos({ ...editInfo, password: e.target.value});}
   const changeNewpassword = (e) => {setInfos({ ...editInfo, newpassword: e.target.value});}
   const changeConfirm = (e) => {setInfos({ ...editInfo, confirm: e.target.value});}
-  const changeProfileImg = (e) => {setInfos({ ...editInfo, profileImg: e.target.value});}
+  const changeProfileImg = (e) => {setInfos({ ...editInfo, profileImg: e});}
   const changeLikeItem = (e) => {setInfos({ ...editInfo, likeItem: e.target.value.split(',')}); console.log(e.target.value)}
 
   const image = useSelector((state) => state.image);
@@ -78,7 +78,9 @@ const ProfileEdit = (props) => {
 
   const editInfos = () => {
     dispatch(userActions.editInfos(img,editInfo));
-    dispatch(imgActions.setPreview(null));
+    setTimeout(() => {
+      dispatch(imgActions.setPreview(null));
+    }, 3000);
   };
 
     //닉네임 확인파트

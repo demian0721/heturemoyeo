@@ -230,7 +230,35 @@ const Header = (props) => {
   const userData = useSelector((state) => state.user);
   const getPostData = useSelector((state) => state.post.postDetail);
   const owner = userData.nickname;
-  const deletepost = () => dispatch(postActions.deleteAPost(postId));
+
+  const useConfirm = (message = null, onConfirm, onCancel) => {
+    if (!onConfirm || typeof onConfirm !== "function") {
+      return;
+    }
+    if (onCancel && typeof onCancel !== "function") {
+      return;
+    }
+  
+    const confirmAction = () => {
+      if (window.confirm(message)) {
+        onConfirm();
+      } else {
+        onCancel();
+      }
+    };
+  
+    return confirmAction;
+  }; 
+
+  const deleteConfirm = () => {dispatch(postActions.deleteAPost(postId));};
+  const cancelConfirm = () => console.log("취소했습니다.")
+
+  const confirmDelete = useConfirm(
+    "삭제하시겠습니까?",
+    deleteConfirm,
+    cancelConfirm
+  );
+
   const exitchat = () => dispatch(chatActions.exitAChat({ postId: chatId }));
   const confirmchat = () =>
     dispatch(chatActions.confirmAChat({ postId: chatId }));
@@ -437,7 +465,7 @@ const Header = (props) => {
               </Text></Link>
               <Text
                 color="white"
-                clickEvent={deletepost}
+                clickEvent={confirmDelete}
                 margin="0px 0px 0px 5px"
                 style={{ cursor: "Pointer" }}
               >

@@ -259,29 +259,50 @@ const nickCheck = (nick) => {
 
 const signupDB = (phone,name,nickname,password,confirm,profileImg,statusMessage,likeItem) => {
   return function (dispatch, getState, { history }) {
-    dispatch(
-      imgActions.uploadImageDB(profileImg, () => {
-        const imgUrl = getState().image.imageUrl;
-        const profileInfoAll = {
-          "phone": phone,
-          "name": name,
-          "nickname":nickname,
-          "password":password,
-          "confirm":confirm,
-          "statusMessage": statusMessage,
-          "likeItem" :likeItem,
-          profileImg: imgUrl,
-        };
-        instance
-          .post("/api/sign/", { ...profileInfoAll })
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      })
-    );
+    if(profileImg==null){
+      const profileInfoAll = {
+        "phone": phone,
+        "name": name,
+        "nickname":nickname,
+        "password":password,
+        "confirm":confirm,
+        "statusMessage": statusMessage,
+        "likeItem" :likeItem,
+        profileImg: null,
+      };
+      instance
+        .post("/api/sign/", { ...profileInfoAll })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }else{
+      dispatch(
+        imgActions.uploadImageDB(profileImg, () => {
+          const imgUrl = getState().image.imageUrl;
+          const profileInfoAll = {
+            "phone": phone,
+            "name": name,
+            "nickname":nickname,
+            "password":password,
+            "confirm":confirm,
+            "statusMessage": statusMessage,
+            "likeItem" :likeItem,
+            profileImg: imgUrl,
+          };
+          instance
+            .post("/api/sign/", { ...profileInfoAll })
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+      );
+    };
   };
 };
 

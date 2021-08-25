@@ -221,8 +221,9 @@ const PostEdition = (props) => {
   },[beginDate, postingContents]);
 
   const [checked, setChecked] = useState(false);
+  const [visualTag, setVisalTag] = useState(postingContents.tag.slice(-1)[0]);
 
-  const tagItems = postingContents.tag;
+  // const tagItems = <div style={{border:"1px solid #3e3e3e", padding:"5px", borderRadius:"4px"}}>{postingContents.tag}</div>;
 
   return (
       <Permit width="" height="">
@@ -573,24 +574,46 @@ const PostEdition = (props) => {
               >
                 태그입력
               </Text>
-              <InputBox
-                style={{
-                  width: "100%",
-                  border: "1.5px solid #white",
-                }}
-                placeholder="태그를 설정하세요(예시단어: 걷기, 산책)"
-                type="text"
-                value={postingContents.tag}
-                onChange={(e) => {
-                  setPostingContents({
-                    ...postingContents,
-                    tag: String(e.target.value).includes(",")
-                      ? e.target.value.split(",")
-                      : [e.target.value],
-                  });
-                }}
-              />
-                {/* <div style={{ display: "flex" }}>{tagItems}</div> */}
+              <div id="taglist" style={{display:"flex", border:"solid 1.5px #a7aaad"}}>
+                <div style={{ display: "flex"}}>
+                  {postingContents.tag?.map((l, index) => {
+                    if(l!=postingContents.tag.slice(-1)[0]){
+                      return <div key={index} style={{ width:"max-content", height:"max-content", margin: "auto 3px", padding: "5px", backgroundColor: "#white", color: "#767676", borderRadius: "5px", fontSize:"small", border:"1px solid #767676"}}>{l}</div>
+                    }else{
+                      return null;
+                    }
+                  })}  
+                </div>
+                <InputBox2
+                  style={{
+                    // width: "100%",
+                    border: "1.5px solid #white",
+                  }}
+                  placeholder="태그를 설정하세요(예시단어: 걷기, 산책)"
+                  type="text"
+                  value={visualTag}
+                  // value={postingContents.tag}
+                  onKeyPress={(e)=>{
+                    if(e.key=== "Enter" || e.key == 32){
+                      setPostingContents({...postingContents,tag:[...postingContents.tag,e.target.value]});
+                      setVisalTag("");
+                    }
+                  }}              
+                  onChange={(e) => {
+                    setVisalTag(String(e.target.value));
+                  }}    
+                  // onChange={(e) => {
+                  //   setPostingContents({
+                  //     ...postingContents,
+                  //     tag: 
+                  //     String(e.target.value)
+                  //       ? e.target.value.split(/[,\s]/)
+                  //       : [...postingContents.tag,e.target.value],
+                  //   });
+                  // }}
+                />
+              </div>
+              
             </div>
             <Button
               width="100%"
@@ -772,6 +795,15 @@ const PosAbs = () => {
 const InputBox = styled.input`
   width: 100%;
   border: solid 1.5px #a7aaad;
+  padding: 14px 2px;
+  ::placeholder {
+    font-size: 16px;
+  }
+`;
+
+const InputBox2 = styled.input`
+  width: 100%;
+  /* border: solid 1.5px #a7aaad; */
   padding: 14px 2px;
   ::placeholder {
     font-size: 16px;

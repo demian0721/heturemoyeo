@@ -101,7 +101,7 @@ const UserOverlay = ({ children, ...props }) => {
             <div id="userProfile-Image">
               <div
                 className={`${
-                  props?.rating ? "absolute" : "block"
+                  props?.rating ? "block" : "block"
                 } rounded-full container mx-auto w-20 h-20`}
                 style={{
                   zIndex: -1,
@@ -116,7 +116,7 @@ const UserOverlay = ({ children, ...props }) => {
                 <span className="sr-only">profile image</span>
               </div>
             </div>
-            {props?.rating && (
+            {/* {props?.rating && (
               <>
                 <CircularProgressbar
                   className="w-20 h-20"
@@ -134,7 +134,7 @@ const UserOverlay = ({ children, ...props }) => {
                   </div>
                 </div>
               </>
-            )}
+            )} */}
           </div>
         )}
         <div className="flex-grow ml-4">

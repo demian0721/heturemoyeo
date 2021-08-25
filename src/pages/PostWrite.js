@@ -51,6 +51,7 @@ const PostWrite = (props) => {
   const preview = !image.preview && props ? props.postImg : image.preview;
 
   const [height, setHeight] = useState(preview ? "auto" : "228px");
+  const [width, setWidth] = useState(preview ? "fit-content" : "auto");
 
   const [location, setLocation] = useState({});
   const [locationCoords, setLocationCoords] = useState({});
@@ -122,6 +123,7 @@ const PostWrite = (props) => {
       reader.onload = () => {
         dispatch(imgActions.setPreview(reader.result));
         setHeight("auto");
+        setWidth("fit-content");
       };
     }
   };
@@ -223,7 +225,7 @@ const PostWrite = (props) => {
           width="100%"
           height=""
           margin="75px auto 55px auto"
-          maxWidth="540px"
+          maxWidth="480px"
         >
           <Grid padding="15px" bg="#FFFFFF" height="" margin="auto">
             <Grid
@@ -246,10 +248,11 @@ const PostWrite = (props) => {
               <Grid id="image"
                 bg="#D4D4D4"
                 radius="10px"
-                margin="5px 0 0 0"
+                margin="5px auto"
                 width=""
                 height=""
-                style={{ height: `${height}`, position: "relative" }}
+                
+                style={{ height: `${height}`, width: `${width}`, position: "relative" }}
               >
                 <LabelStyle htmlFor="input--file">
                   {!preview ? (
@@ -752,7 +755,7 @@ const InputBox = styled.input`
   }
 `;
 
-const CalendarContainer = styled.div``;
+// const CalendarContainer = styled.div``;
 
 // const EnterButton = styled.button`
 //   width: 100%;

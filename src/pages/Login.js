@@ -57,6 +57,7 @@ const LogIn = (props) => {
               display: "block",
               margin: "auto",
             }}
+            alt=""
           />
           <img
             src="/assets/textlogo_green.svg"
@@ -66,6 +67,7 @@ const LogIn = (props) => {
               display: "block",
               margin: "12px auto",
             }}
+            alt=""
           />
         </Title>
 
@@ -86,7 +88,7 @@ const LogIn = (props) => {
               changeEvent={(event) => {
                 setUserInfo({ ...userInfo, phone: event.target.value });
               }}
-              padding="4px 4px"
+              padding="8px 0px 4px 0px"
               keyPress={(event) => {
                 if (event.key === "Enter") {
                   login();
@@ -112,7 +114,7 @@ const LogIn = (props) => {
               changeEvent={(event) => {
                 setUserInfo({ ...userInfo, password: event.target.value });
               }}
-              padding="4px 4px"
+              padding="8px 0px 4px 0px"
               keyPress={(event) => {
                 if (event.key === "Enter") {
                   login();

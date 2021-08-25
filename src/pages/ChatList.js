@@ -104,6 +104,7 @@ const ChatList = () => {
           margin="75px auto 55px auto"
           maxWidth="540px"
           bg="white"
+          style={{zIndex:"5"}}
         >
           <Grid is_flex padding="18px">
             <Grid
@@ -132,7 +133,7 @@ const ChatList = () => {
             {loaded ? (
               rooms?.length >= 1 ? (
                 rooms.map((el, index) => (
-                  <ChatListCardComponent key={index} {...el} />
+                  <ChatListCardComponent key={index} {...el}/>
                 ))
               ) : (
                 <div className="text-center font-bold text-lg">
@@ -148,6 +149,7 @@ const ChatList = () => {
           <Footer>chat</Footer>
         </Grid>
       </Style>
+      <div style={{position:"fixed",backgroundColor:"#efefef",width:"100vw",height:"100vh", left:"0", zIndex:"1"}}/> 
     </Fragment>
   );
 };
@@ -174,6 +176,7 @@ function ChatListCardComponent({ children, ...props }) {
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
                 float: "center",
+                zIndex:"5",
               }}
             >
               {/* <div className="absolute p-1 rounded-full bg-main z-10 animate-ping">

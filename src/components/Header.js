@@ -230,7 +230,35 @@ const Header = (props) => {
   const userData = useSelector((state) => state.user);
   const getPostData = useSelector((state) => state.post.postDetail);
   const owner = userData.nickname;
-  const deletepost = () => dispatch(postActions.deleteAPost(postId));
+
+  const useConfirm = (message = null, onConfirm, onCancel) => {
+    if (!onConfirm || typeof onConfirm !== "function") {
+      return;
+    }
+    if (onCancel && typeof onCancel !== "function") {
+      return;
+    }
+  
+    const confirmAction = () => {
+      if (window.confirm(message)) {
+        onConfirm();
+      } else {
+        onCancel();
+      }
+    };
+  
+    return confirmAction;
+  }; 
+
+  const deleteConfirm = () => {dispatch(postActions.deleteAPost(postId));};
+  const cancelConfirm = () => console.log("취소했습니다.")
+
+  const confirmDelete = useConfirm(
+    "삭제하시겠습니까?",
+    deleteConfirm,
+    cancelConfirm
+  );
+
   const exitchat = () => dispatch(chatActions.exitAChat({ postId: chatId }));
   const confirmchat = () =>
     dispatch(chatActions.confirmAChat({ postId: chatId }));
@@ -319,7 +347,11 @@ const Header = (props) => {
 
         {!title || title.length === 0 ? (
           <Link to="/">
-            <Image src="/assets/logo_header.png" />
+            <div style={{display:"flex"}}>
+              <Image src="/assets/logo_header.png" />
+              <img src="/assets/textlogo_white.svg"
+                  style={{width:"78.4px", height:"20px", margin: "2px 10px 0px 10px", cursor: "pointer"}} alt="" />
+            </div>
           </Link>
         ) : (
           <TitleBox style={{ cursor: "default" }}>{title}</TitleBox>
@@ -437,7 +469,7 @@ const Header = (props) => {
               </Text></Link>
               <Text
                 color="white"
-                clickEvent={deletepost}
+                clickEvent={confirmDelete}
                 margin="0px 0px 0px 5px"
                 style={{ cursor: "Pointer" }}
               >

@@ -93,14 +93,11 @@ const editInfos = (image, doc) => {
       instance
         .put("/api/user", { ...profileInfo })
         .then((res) => {
-          dispatch(editInfo({ profileImg: image }));
           window.alert("프로필 수정이 완료되었습니다");
           window.location.href = "/mypage";
         })
         .catch((error) => {
-          // console.error(error.errorMessage);
-          window.alert("입력된 비밀번호가 올바르지 않습니다.1");
-          window.location.href = "/mypage";
+          window.alert("입력된 비밀번호가 올바르지 않습니다.");
         });
     }else{
       dispatch(
@@ -113,14 +110,11 @@ const editInfos = (image, doc) => {
           instance
             .put("/api/user", { ...profileInfo })
             .then((res) => {
-              dispatch(editInfo({ profileImg: imgUrl }));
               window.alert("프로필 수정이 완료되었습니다");
               window.location.href = "/mypage";
             })
             .catch((error) => {
-              // console.error(error.errorMessage);
-              window.alert("입력된 비밀번호가 올바르지 않습니다.2");
-              window.location.href = "/mypage";
+              window.alert("입력된 비밀번호가 올바르지 않습니다.");
             });
         })
       );

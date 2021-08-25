@@ -13,6 +13,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import "../react-datepicker.css";
 import { addDays } from 'date-fns';
 import moment from 'moment';
+import { Link } from "react-router-dom";
 
 // TOKEN
 import { getToken } from "../common/token";
@@ -49,6 +50,7 @@ const PostEdition = (props) => {
   const preview = !image.preview && props ? props.Details.postImg : image.preview;
 
   const [height, setHeight] = useState(preview ? "auto" : "228px");
+  const [width, setWidth] = useState(preview ? "fit-content" : "auto");
 
   const [location, setLocation] = useState({});
   const [locationCoords, setLocationCoords] = useState({});
@@ -70,6 +72,7 @@ const PostEdition = (props) => {
   const getDayName = (date) => {
     return date.toLocaleDateString("ko-KR", { weekday: "long" }).substr(0, 1);
   };
+
   const createDate = (date) => {
     return new Date(
       new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0)
@@ -131,6 +134,7 @@ const PostEdition = (props) => {
       reader.onload = () => {
         dispatch(imgActions.setPreview(reader.result));
         setHeight("auto");
+        setWidth("fit-content");
       };
     }
   };
@@ -218,6 +222,8 @@ const PostEdition = (props) => {
 
   const [checked, setChecked] = useState(false);
 
+  const tagItems = postingContents.tag;
+
   return (
       <Permit width="" height="">
         <Grid
@@ -254,10 +260,10 @@ const PostEdition = (props) => {
               <Grid
                 bg="#D4D4D4"
                 radius="10px"
-                margin="5px 0 0 0"
+                margin="5px auto"
                 width=""
                 height=""
-                style={{ height: `${height}`, position: "relative" }}
+                style={{ height: `${height}`, width: `${width}`, position: "relative" }}
               >
                 <LabelStyle htmlFor="input--file">
                   {!preview ? (
@@ -279,7 +285,7 @@ const PostEdition = (props) => {
                 />
 
                 <Image
-                  style={{ position: "absolute", left: 0, top: 0 }}
+                  style={{ position: "absolute", left: 0, top: 0}}
                   src={preview}
                 />
               </Grid>
@@ -289,25 +295,6 @@ const PostEdition = (props) => {
                 <Text fontSize="14px" color="#535353" fontWeight="bold" margin="0px 0px 14px 0px">
                   시작
                 </Text>
-                {/* <Input
-                  placeholder="시작시간(연도월일)"
-                  type="date"
-                  value={postingContents.startDate}
-                  changeEvent={(e) => {
-                    setPostingContents({
-                      ...postingContents,
-                      startDate: e.target.value,
-                    });
-                  }}
-                  padding="8px 0px"
-                  style={{
-                    borderLeft: "none",
-                    borderRight: "none",
-                    borderTop: "none",
-                    borderBottom: "solid 2px #E5E5E5",
-                    boxShadow: "none",
-                  }}
-                /> */}
                 <DatePicker
                   locale={ko}
                   dateFormat="yyyy-MM-dd H:mm"
@@ -325,7 +312,7 @@ const PostEdition = (props) => {
                   showTimeSelect
                   timeFormat="HH:mm"
                   timeIntervals={15}
-                  timeCaption="시작시간"
+                  timeCaption="헤쳐"
                   popperModifiers={{ preventOverflow: { enabled: true } }}
                   dayClassName={(date) =>
                     getDayName(createDate(date)) === "토"
@@ -334,7 +321,6 @@ const PostEdition = (props) => {
                       ? "sunday"
                       : undefined
                   }
-                  // onChange={(date) => setBeginDate(date)}
                   onChange={(date) => {
                     setPostingContents({
                       ...postingContents,
@@ -349,33 +335,14 @@ const PostEdition = (props) => {
                 <Text fontSize="14px" color="#535353" fontWeight="bold" margin="0px 0px 14px 0px">
                   종료
                 </Text>
-                {/* <Input
-                  placeholder="종료시간(연도월일)"
-                  type="date"
-                  value={postingContents.endDate}
-                  changeEvent={(e) => {
-                    setPostingContents({
-                      ...postingContents,
-                      endDate: e.target.value,
-                    });
-                  }}
-                  padding="8px 0px"
-                  style={{
-                    borderLeft: "none",
-                    borderRight: "none",
-                    borderTop: "none",
-                    borderBottom: "solid 2px #E5E5E5",
-                    boxShadow: "none",
-                  }}
-                /> */}
                 <DatePicker
                   locale={ko}
-                  dateFormat="yyyy/MM/dd H:mm"
+                  dateFormat="yyyy-MM-dd H:mm"
                   className="input-datepicker"
                   minDate={beginDate}
                   maxDate={addDays(new Date(), 14)}
                   closeOnScroll={true}
-                  placeholderText="종료를 설정하세요"
+                  placeholderText="모여"
                   selected={finishDate}
                   startDate={beginDate}
                   endDate={finishDate}
@@ -443,12 +410,7 @@ const PostEdition = (props) => {
                     placeholder="장소(한글 주소로 출력)"
                     type="text"
                     value={postingContents.place}
-                    onChange={(e) => {
-                      setPostingContents({
-                        ...postingContents,
-                        place: e.target.value,
-                      });
-                    }}
+                    
                   />
                 </div>
               </div>
@@ -462,7 +424,7 @@ const PostEdition = (props) => {
                         setChecked((state) => {
                           setPostingContents({
                             ...postingContents,
-                            place: "온라인 모임",
+                            place: "온라인 모임", lat: null, lng: null
                             // place: !state ? '온라인 모임' : "",
                           });
                           return !state
@@ -561,7 +523,7 @@ const PostEdition = (props) => {
                   placeholder="제목"
                   type="text"
                   value={postingContents.title}
-                  changeEvent={(e) => {
+                  onChange={(e) => {
                     setPostingContents({
                       ...postingContents,
                       title: e.target.value,
@@ -628,6 +590,7 @@ const PostEdition = (props) => {
                   });
                 }}
               />
+                {/* <div style={{ display: "flex" }}>{tagItems}</div> */}
             </div>
             <Button
               width="100%"

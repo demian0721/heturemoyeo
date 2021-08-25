@@ -130,19 +130,11 @@ const SignupInfo = (props) => {
         <Grid height="">
           <Grid
             padding="5px 0px 8px"
-            // width="10vw"
-            // margin="auto"
             margin="0px 0px 150px 0px"
           >
             <Grid
               bg="#EFEFEF"
               radius="50%"
-              // width="15vw"
-              // maxWidth="150px"
-              // minWidth="120px"
-              // height="15vw"
-              // maxHeight="150px"
-              // minHeight="120px"
               width="150px"
               height="150px"
               margin="auto"
@@ -154,20 +146,15 @@ const SignupInfo = (props) => {
             >
               <LabelStyle htmlFor="input--file">
                 <img
-                      src={preview}
-                      style={{
-                        // minWidth: "120px",
-                        // height: "15vw",
-                        // maxHeight: "150px",
-                        // minHeight: "120px",
-                        // width: "15vw",
-                        // maxWidth: "150px",
-                        width: "150px",
-                        height: "150px",
-                        display: "block",
-                        margin: "auto",
-                      }}
-                    />
+                    src={preview}
+                    style={{
+                      width: "150px",
+                      height: "150px",
+                      display: "block",
+                      margin: "auto",
+                    }}
+                    alt=""
+                  />
               </LabelStyle>
 
               <InputFile

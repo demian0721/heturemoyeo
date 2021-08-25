@@ -232,6 +232,7 @@ const PostWrite = (props) => {
               width="calc(100% - 10px)"
               height=""
               margin="0 15px 0 5px"
+              align="center"
               tabletStyle={() => {
                 return css`
                   margin: 0 auto;
@@ -243,14 +244,15 @@ const PostWrite = (props) => {
                 margin="30px 0px 15px 0px"
                 style={{ color: "#535353" }}
               >
-                대표 이미지
+                대표 이미지 <span style={{fontSize:"8px", fontWeight:"normal"}}>(가로, 세로 250px 이상의 이미지 파일을 권장합니다)</span>
               </Title>
               <Grid id="image"
                 bg="#D4D4D4"
                 radius="10px"
-                margin="5px 0 0 0"
-                width=""
+                margin="5px auto"
+                width="250px"
                 height=""
+                
                 style={{ height: `${height}`, position: "relative" }}
               >
                 <LabelStyle htmlFor="input--file">

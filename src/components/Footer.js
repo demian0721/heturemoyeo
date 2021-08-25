@@ -106,16 +106,14 @@ const Footer = (props) => {
               color="#7B7B7B"
               hoverColor="#16C59B"
               style={{ display: "block" }}
-              clickEvent={() => {}}
+              clickEvent={() => {window.location.href='/postlist'}}
             >
-              <Link to="/postlist">
                 <SearchOutlinedIcon />
                 <p>
                   <text style={{ fontSize: "11px", fontWeight: "bold" }}>
                     모임
                   </text>
                 </p>
-              </Link>
             </Grid>
           )}
 

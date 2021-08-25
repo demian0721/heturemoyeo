@@ -93,7 +93,7 @@ const SearchChatListMy = () => {
         <Grid>
           <Header>대화방</Header>
         </Grid>
-        <Grid width="100%" height="" margin="75px auto 55px auto" maxWidth="540px" bg="white">
+        <Grid width="100%" height="" margin="75px auto 55px auto" maxWidth="540px" bg="white" style={{zIndex:"5"}}>
           <Grid is_flex padding="18px ">
             <Grid
               is_flex
@@ -116,7 +116,7 @@ const SearchChatListMy = () => {
               />
             </Grid>
           </Grid>
-          <div className="container mx-auto mt-4 space-y-4 w-full">
+          <div className="container mx-auto my-4 space-y-3 w-full">
           <SmallTitle>대화방 목록</SmallTitle>       
             {rooms?.length >= 1 ? (
               rooms.map((el) => <ChatListCardComponent {...el} />)
@@ -131,6 +131,7 @@ const SearchChatListMy = () => {
             <Footer>chat</Footer>
           </Grid>
       </Style>
+      <div style={{position:"fixed",backgroundColor:"#efefef",width:"100vw",height:"100vh", left:"0", zIndex:"1"}}/> 
     </Fragment>
   );
 };
@@ -156,6 +157,7 @@ function ChatListCardComponent({ children, ...props }) {
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
             float: "center",
+            zIndex:"5",
           }}
         >
           <span className="sr-only">X</span>

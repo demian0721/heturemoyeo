@@ -13,6 +13,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import "../react-datepicker.css";
 import { addDays } from 'date-fns';
 import moment from 'moment';
+import { Link } from "react-router-dom";
 
 // TOKEN
 import { getToken } from "../common/token";
@@ -220,6 +221,8 @@ const PostEdition = (props) => {
   },[beginDate, postingContents]);
 
   const [checked, setChecked] = useState(false);
+
+  const tagItems = postingContents.tag;
 
   return (
       <Permit width="" height="">
@@ -587,6 +590,7 @@ const PostEdition = (props) => {
                   });
                 }}
               />
+                {/* <div style={{ display: "flex" }}>{tagItems}</div> */}
             </div>
             <Button
               width="100%"

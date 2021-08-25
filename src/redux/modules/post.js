@@ -108,7 +108,7 @@ const deleteAPost = (postId) => {
       })
       .catch((error) => {
         console.error(error);
-        window.alert(error.errorMessage);
+        window.alert(error.response.data.errorMessage);
       });
   };
 };

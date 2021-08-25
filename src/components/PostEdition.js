@@ -292,25 +292,6 @@ const PostEdition = (props) => {
                 <Text fontSize="14px" color="#535353" fontWeight="bold" margin="0px 0px 14px 0px">
                   시작
                 </Text>
-                {/* <Input
-                  placeholder="시작시간(연도월일)"
-                  type="date"
-                  value={postingContents.startDate}
-                  changeEvent={(e) => {
-                    setPostingContents({
-                      ...postingContents,
-                      startDate: e.target.value,
-                    });
-                  }}
-                  padding="8px 0px"
-                  style={{
-                    borderLeft: "none",
-                    borderRight: "none",
-                    borderTop: "none",
-                    borderBottom: "solid 2px #E5E5E5",
-                    boxShadow: "none",
-                  }}
-                /> */}
                 <DatePicker
                   locale={ko}
                   dateFormat="yyyy-MM-dd H:mm"
@@ -328,7 +309,7 @@ const PostEdition = (props) => {
                   showTimeSelect
                   timeFormat="HH:mm"
                   timeIntervals={15}
-                  timeCaption="시작시간"
+                  timeCaption="헤쳐"
                   popperModifiers={{ preventOverflow: { enabled: true } }}
                   dayClassName={(date) =>
                     getDayName(createDate(date)) === "토"
@@ -337,7 +318,6 @@ const PostEdition = (props) => {
                       ? "sunday"
                       : undefined
                   }
-                  // onChange={(date) => setBeginDate(date)}
                   onChange={(date) => {
                     setPostingContents({
                       ...postingContents,
@@ -352,33 +332,14 @@ const PostEdition = (props) => {
                 <Text fontSize="14px" color="#535353" fontWeight="bold" margin="0px 0px 14px 0px">
                   종료
                 </Text>
-                {/* <Input
-                  placeholder="종료시간(연도월일)"
-                  type="date"
-                  value={postingContents.endDate}
-                  changeEvent={(e) => {
-                    setPostingContents({
-                      ...postingContents,
-                      endDate: e.target.value,
-                    });
-                  }}
-                  padding="8px 0px"
-                  style={{
-                    borderLeft: "none",
-                    borderRight: "none",
-                    borderTop: "none",
-                    borderBottom: "solid 2px #E5E5E5",
-                    boxShadow: "none",
-                  }}
-                /> */}
                 <DatePicker
                   locale={ko}
-                  dateFormat="yyyy/MM/dd H:mm"
+                  dateFormat="yyyy-MM-dd H:mm"
                   className="input-datepicker"
                   minDate={beginDate}
                   maxDate={addDays(new Date(), 14)}
                   closeOnScroll={true}
-                  placeholderText="종료를 설정하세요"
+                  placeholderText="모여"
                   selected={finishDate}
                   startDate={beginDate}
                   endDate={finishDate}

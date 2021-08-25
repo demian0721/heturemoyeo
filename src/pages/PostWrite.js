@@ -51,7 +51,7 @@ const PostWrite = (props) => {
   const preview = !image.preview && props ? props.postImg : image.preview;
 
   const [height, setHeight] = useState(preview ? "auto" : "228px");
-  const [width, setWidth] = useState(preview ? "fit-content" : "540px");
+  const [width, setWidth] = useState(preview ? "fit-content" : "440px");
 
   const [location, setLocation] = useState({});
   const [locationCoords, setLocationCoords] = useState({});
@@ -225,7 +225,7 @@ const PostWrite = (props) => {
           width="100%"
           height=""
           margin="75px auto 55px auto"
-          maxWidth="540px"
+          maxWidth="480px"
         >
           <Grid padding="15px" bg="#FFFFFF" height="" margin="auto">
             <Grid

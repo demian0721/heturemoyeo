@@ -61,16 +61,6 @@ const SignupInfo = (props) => {
     setNicknameConfirm("중복 검사를 해주세요");
   };
 
-  console.log('이미지',image);
-
-  if (image.preview==null){
-    // var img = props.Details.postImg;
-    console.log('이미지 no',image.preview);
-  }else{
-    // var img = fileInput.current.files[0];
-    console.log('이미지 yes',image.preview);
-  };
-
   const signup = () => {
     dispatch(
       userActions.signupDB(

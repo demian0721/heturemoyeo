@@ -245,14 +245,18 @@ const PostWrite = (props) => {
               >
                 대표 이미지
               </Title>
-              <Grid id="image"
+              <Grid
+                id="image"
                 bg="#D4D4D4"
                 radius="10px"
                 margin="5px auto"
                 width=""
                 height=""
-                
-                style={{ height: `${height}`, width: `${width}`, position: "relative" }}
+                style={{
+                  height: `${height}`,
+                  width: `${width}`,
+                  position: "relative",
+                }}
               >
                 <LabelStyle htmlFor="input--file">
                   {!preview ? (
@@ -279,9 +283,22 @@ const PostWrite = (props) => {
                 />
               </Grid>
             </Grid>
-            <Grid is_flex margin="20px 0 0 0" style={{justifyContent:"space-between"}} width="100%">
-              <div className="block" style={{ margin: "15px 5px", width:"50%"}}>
-                <Text fontSize="14px" color="#535353" fontWeight="bold" margin="0px 0px 14px 0px">
+            <Grid
+              is_flex
+              margin="20px 0 0 0"
+              style={{ justifyContent: "space-between" }}
+              width="100%"
+            >
+              <div
+                className="block"
+                style={{ margin: "15px 5px", width: "50%" }}
+              >
+                <Text
+                  fontSize="14px"
+                  color="#535353"
+                  fontWeight="bold"
+                  margin="0px 0px 14px 0px"
+                >
                   시작
                 </Text>
                 <DatePicker
@@ -320,9 +337,17 @@ const PostWrite = (props) => {
                   }}
                 />
               </div>
-              
-              <div className="block" style={{ margin: "15px 5px",width:"50%"}}>
-                <Text fontSize="14px" color="#535353" fontWeight="bold" margin="0px 0px 14px 0px">
+
+              <div
+                className="block"
+                style={{ margin: "15px 5px", width: "50%" }}
+              >
+                <Text
+                  fontSize="14px"
+                  color="#535353"
+                  fontWeight="bold"
+                  margin="0px 0px 14px 0px"
+                >
                   종료
                 </Text>
                 <DatePicker
@@ -343,7 +368,7 @@ const PostWrite = (props) => {
                   timeIntervals={15}
                   timeCaption="모여"
                   // withPortal
-                  popperModifiers={ { preventOverflow: { enabled: true } }}
+                  popperModifiers={{ preventOverflow: { enabled: true } }}
                   popperPlacement="bottom"
                   dayClassName={(date) =>
                     getDayName(createDate(date)) === "토"
@@ -362,14 +387,16 @@ const PostWrite = (props) => {
                 />
               </div>
             </Grid>
-            <div style={{ margin: "10px 5px", width:"100%"}}>
+            <div style={{ margin: "10px 5px", width: "100%" }}>
               <Text fontSize="14px" color="#535353" fontWeight="bold">
                 장소
               </Text>
               <div className="inline-flex self-center items-center">
                 <div
                   className={`flex self-center items-center ${
-                    checked ? "cursor-default bg-gray-300" : "bg-green-300 cursor-pointer"
+                    checked
+                      ? "cursor-default bg-gray-300"
+                      : "bg-green-300 cursor-pointer"
                   }`}
                   style={{
                     paddingTop: "6.5px",
@@ -379,7 +406,7 @@ const PostWrite = (props) => {
                   }}
                   value={postingContents.place}
                   onClick={() => {
-                    if (checked) return
+                    if (checked) return;
                     setViewModal(true);
                     setIsOpen(true);
                   }}
@@ -390,7 +417,7 @@ const PostWrite = (props) => {
                   <InputBox
                     style={{
                       width: "100vw",
-                      maxWidth:"465px",
+                      maxWidth: "465px",
                       margin: "7px 5px 7px 5px",
                       borderLeft: "none",
                       borderRight: "none",
@@ -411,27 +438,27 @@ const PostWrite = (props) => {
                 </div>
               </div>
               <div className="block ml-10 self-center">
-                    <input
-                      id="online-schedule"
-                      type="checkbox"
-                      name="온라인모임"
-                      defaultChecked={checked}
-                      onChange={() => {
-                        setChecked((state) => {
-                          setPostingContents({
-                            ...postingContents,
-                            place: !state ? '온라인 모임' : "",
-                          });
-                          return !state
-                        });
-                      }}
-                      // ref='checkbox'
-                    />
-                    <span className="inline-flex ml-1">온라인 모임 여부</span>
-                  </div>
+                <input
+                  id="online-schedule"
+                  type="checkbox"
+                  name="온라인모임"
+                  defaultChecked={checked}
+                  onChange={() => {
+                    setChecked((state) => {
+                      setPostingContents({
+                        ...postingContents,
+                        place: !state ? "온라인 모임" : "",
+                      });
+                      return !state;
+                    });
+                  }}
+                  // ref='checkbox'
+                />
+                <span className="inline-flex ml-1">온라인 모임 여부</span>
+              </div>
             </div>
-            <Grid is_flex style={{justifyContent:"space-between"}}>
-              <div style={{ margin: "10px 5px",width:"22%"}}>
+            <Grid is_flex style={{ justifyContent: "space-between" }}>
+              <div style={{ margin: "10px 5px", width: "22%" }}>
                 <Text fontSize="14px" color="#535353" fontWeight="bold">
                   정원
                 </Text>
@@ -457,7 +484,7 @@ const PostWrite = (props) => {
                   }}
                 />
               </div>
-              <div style={{ margin: "15px 5px" ,width:"100%"}}>
+              <div style={{ margin: "15px 5px", width: "100%" }}>
                 <Text fontSize="14px" color="#535353" fontWeight="bold">
                   지참금
                 </Text>
@@ -709,7 +736,7 @@ const PostWrite = (props) => {
                         });
                       }}
                     >
-                      주소 지정하기
+                      확인
                     </button>
                     <button
                       type="button"

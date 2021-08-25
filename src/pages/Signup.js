@@ -1,10 +1,10 @@
 // LIBRARY
 import React, { useState } from "react";
 import _ from "lodash";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 // ELEMENTS
-import { Text, Title, Input, Grid, Button } from "../elements";
+import { Text, Title, Grid, Button } from "../elements";
 
 // HISTORY
 import { history } from "../redux/configStore";
@@ -41,7 +41,6 @@ const SignUp = (props) => {
   const [authData, setAuthData] = useState("");
   const [authWarning, setAuthWarColor] = useState("red");
   const [authConfirm, setAuthConfirm] = useState("");
-  // const [authId, setAuthId] = useState("");
 
   const checkID = (val) => {
     if (val === "") {
@@ -143,19 +142,6 @@ const SignUp = (props) => {
         maxWidth="300px"
         margin="0px auto"
         padding="18px"
-        // shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-        // minHeight="100vh"
-        tabletStyle={() => {
-          return css`
-            width: 95%;
-          `;
-        }}
-        mobileStyle={() => {
-          return css`
-            padding: 15px 20px;
-            width: 100%;
-          `;
-        }}
       >
         <Title fontSize="25px" textAlign="left" margin="50px 0px 25px 0px">
           <span>회원가입</span>
@@ -167,7 +153,6 @@ const SignUp = (props) => {
               margin="0px"
               color={nameWarning}
               lineHeight="2"
-              // textIndent="3px"
             >
               {nameConfirm}
             </Text>
@@ -188,7 +173,6 @@ const SignUp = (props) => {
               margin="0px"
               color={idWarning}
               lineHeight="2"
-              // textIndent="3px"
               >
               {idConfirm}
             </Text>
@@ -196,7 +180,7 @@ const SignUp = (props) => {
 
           <Grid is_flex padding="0px 0px 8px">
             <InputBox
-              placeholder="핸드폰번호를 '-'없이 입력하세요"
+              placeholder="핸드폰번호를 '-'&nbsp;없이 입력하세요"
               onChange={(event) => {
                 setId(event.target.value);
               }}
@@ -212,7 +196,9 @@ const SignUp = (props) => {
               fontSize="13px"
               bg="#A7AAAD"
               color="#FFFFFF"
-              className="custom_transition"
+              // hoverBg= "#fcfcfc"
+              // hoverColor= "#000"
+              // className="custom_transition"
               style={{ cursor: "pointer",
                       border: "none",
                       fontWeight: "bold" }}
@@ -221,6 +207,7 @@ const SignUp = (props) => {
                 nickname();
                 e.preventDefault();  
                 e.currentTarget.disabled = true ;
+                // e.currentTarget.hoverBg = false;
               }}
             >
               인증번호 <br/> 받기

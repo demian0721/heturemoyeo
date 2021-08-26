@@ -75,7 +75,7 @@ const ProfileEdit = (props) => {
 
   const [complite,setComplite] = useState(false);
 
-  const [is_check_nickname,setCheckNick] = useState(false);
+  const [is_check_nickname,setCheckNick] = useState(true);
 
   const [buttonColor,setButton] = React.useState({
     color: "white",

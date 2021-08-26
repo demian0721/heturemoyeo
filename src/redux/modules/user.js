@@ -61,6 +61,7 @@ const initialState = {
   relation: null,
   type: null,
   exactType: null,
+  is_loaded: false,
   // authId: null
 };
 
@@ -333,6 +334,7 @@ export default handleActions(
         draft.rating = action.payload.userInfo.rating;
         draft.type = action.payload.userInfo.type;
         draft.exactType = action.payload.userInfo.exactType;
+        draft.is_loaded= true;
       }),
 
     [RELATION]: (state, action) =>

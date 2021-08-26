@@ -12,8 +12,8 @@ import { Button, Grid, Image, Title, Text, Input } from "../elements/index";
 
 //History
 import { history } from "../redux/configStore";
-import { useSelector, useDispatch } from 'react-redux';
 import { getToken } from '../common/token';
+import { useSelector, useDispatch } from 'react-redux';
 
 //DB
 import { userActions } from '../redux/modules/user';
@@ -23,16 +23,13 @@ import SimpleModal from "./Mymodal";
 
 //임포트 사용 항목 외 삭제요망
 
-const MyPage = () => {
+const MyPage = (props) => {
   const dispatch = useDispatch();
 
-  useEffect(() => { dispatch(userActions.myInfoDB()) }, [])
-
   useEffect(() => { if (!getToken()) { history.replace('/login'); } }, []);
-
-  const userlist = useSelector(state => state.user)
+  const userlist = props.userlist;
   const [statusMessage, setStatus] = React.useState(userlist.statusMessage);
-
+  
   const changeStatus = (n) => {setStatus(n.target.value);
     console.log(statusMessage)};
 

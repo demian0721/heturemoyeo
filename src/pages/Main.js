@@ -34,6 +34,7 @@ import useOutsideClick from "../hooks/useOutsideClick";
 
 // MATERIAL-UI
 import MyLocationIcon from "@material-ui/icons/MyLocation";
+import RateReviewIcon from '@material-ui/icons/RateReview';
 
 // ETC
 import Logger from "../utils/Logger";
@@ -661,6 +662,7 @@ const Main = (props) => {
             overflow="visible"
             className="lg:mt-28 mt-24 mt-20 lg:ml-10 ml-6 inset-0 w-20 h-20"
           >
+
             <Button
               shadow="rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;"
               bg="rgba(255, 255, 255, 1)"
@@ -668,7 +670,23 @@ const Main = (props) => {
               color="#16C59B"
               hoverColor="#fcfcfc"
               padding="12px"
-              margin="calc(100vh - 230px) 0px 0px calc(100vw - 105px)"
+              margin="calc(100vh - 290px) 0px 0px calc(100vw - 105px)"
+              radius="100%"
+              className="custom_transition"
+              // className="fixed lg:mt-24 md:mt-20 mt-14 inset-0 z-10"
+              clickEvent={() => {window.open('https://forms.gle/j2pyniivrJgxcn7G8')}}
+            >
+              <RateReviewIcon />
+            </Button>
+
+            <Button
+              shadow="rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;"
+              bg="rgba(255, 255, 255, 1)"
+              hoverBg="#16C59B"
+              color="#16C59B"
+              hoverColor="#fcfcfc"
+              padding="12px"
+              margin="10px 0px 0px calc(100vw - 105px)"
               radius="100%"
               className="custom_transition"
               // className="fixed lg:mt-24 md:mt-20 mt-14 inset-0 z-10"
@@ -678,6 +696,7 @@ const Main = (props) => {
             >
               <MyLocationIcon />
             </Button>
+
           </Grid>
           <Footer>home</Footer>
         </>

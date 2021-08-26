@@ -69,12 +69,20 @@ const ProfileEdit = (props) => {
 
   if (editInfo.profileImg==preview){
     var img = editInfo.profileImg;
-    // console.log('이미지 no',img);
   }else{
     var img = fileInput.current.files[0];
-    // console.log('이미지 yes',img);
   };
 
+  const [complite,setComplite] = useState(false);
+
+  const [is_check_nickname,setCheckNick] = useState(false);
+
+  const [buttonColor,setButton] = React.useState({
+    color: "white",
+    bg: "#B9B9B9",
+    hoverColor: "white",
+    hoverBg: "#B9B9B9",
+  });
 
   const editInfos = () => {
     dispatch(userActions.editInfos(img,editInfo));
@@ -98,6 +106,8 @@ const ProfileEdit = (props) => {
 
     setNicknameWarColor("green");
     setNicknameNotice("중복 검사를 해주세요");
+    setCheckNick(false);
+    //닉네임 확인 후 닉네임 변경시 is_check_nickname이 false가 되게
   };
 
   const nickname = () => {
@@ -105,9 +115,20 @@ const ProfileEdit = (props) => {
       window.alert("닉네임이 입력되지 않았습니다.");
       return;
     }
+    if (editInfo.nickname.length < 3) {
+      window.alert("닉네임은 3글자 이상, 최대 20글자까지 작성할 수 있습니다.");
+      return;
+    }
+    if (editInfo.nickname.length > 20) {
+      window.alert("닉네임은 3글자 이상, 최대 20글자까지 작성할 수 있습니다.");
+      return;
+    }
     dispatch(userActions.nickCheck(editInfo.nickname));
+    setCheckNick(nickCk);
     setNicknameNotice("");
   };
+
+  const nickCk = useSelector((state) => state.user.is_check_nickname);
 
   //기존 비밀번호 확인파트 (기존 비밀번호 가져와서 대조해야함)
   const checkPWD = (val) => {
@@ -183,6 +204,23 @@ const ProfileEdit = (props) => {
     }
   };
 
+  if(editInfo.nickname && editInfo.password&&is_check_nickname&&!complite){
+    setComplite(true);
+    setButton({
+    color: "white",
+    bg: "#16C59B",
+    hoverColor: "#16C59B",
+    hoverBg: "white",});
+  }
+
+  if((!editInfo.nickname || !editInfo.password || !is_check_nickname ) && complite){
+    setComplite(false);
+    setButton({
+    color: "white",
+    bg: "#B9B9B9",
+    hoverColor: "white",
+    hoverBg: "#B9B9B9",});
+  }
     
     return (
         <Style>
@@ -236,7 +274,14 @@ const ProfileEdit = (props) => {
               { show ? <Input margin="0px" keyUp={(event) => {debounce(event.target.value, checkNPWD2);}}  changeEvent={changeConfirm} value={editInfo.confirm} placeholder="새 비밀번호 확인" width="100%" style={{display:"block"}}/> : null }
               { show ? <Text fontSize="12px" margin="5px 0px 0px 0px" color={npwd2Warning} lineHeight="1" textIndent="0px">{npwd2Notice}</Text> : null }
 
-              <Button className="custom_transition" width="100%" padding="15px" margin="20px auto" display="block" color="white" style={{fontWeight:"bold", border: "none"}} hoverColor="#16C59B" clickEvent={editInfos}>수정 완료</Button>
+              <Button className="custom_transition"
+              bg={buttonColor.bg}
+              hoverBg={buttonColor.hoverBg}
+              width="100%" padding="15px"
+              margin="20px auto" display="block"
+              color={buttonColor.color} style={{fontWeight:"bold", border: "none"}}
+              hoverColor={buttonColor.hoverColor} clickEvent={editInfos}
+              disabled={!complite}>수정 완료</Button>
             </Grid>
           </Grid>
         </Style>

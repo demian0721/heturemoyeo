@@ -82,7 +82,25 @@ code {
   background-color: white;
 }
 
-input {
+.minaBtn {
+  background-color: #fff;
+  color: #16c59b;
+  /* border-color: #16c59b;
+  border-width: 1px; */
+  box-shadow: 0 0 0 1px #16c59b inset, 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.minaBtn:hover {
+  background-color: #16c59b;
+  color: #fff;
+  /* border-color: #fff;
+  border-width: 3px; */
+  box-shadow: 0 0 0 3px #23a687 inset, 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.input {
   text-decoration: none;
   outline: none;
 }

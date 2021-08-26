@@ -176,7 +176,7 @@ function ChatListCardComponent({ children, ...props }) {
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
                 float: "center",
-                zIndex:"5",
+                zIndex: 1,
               }}
             >
               {/* <div className="absolute p-1 rounded-full bg-main z-10 animate-ping">

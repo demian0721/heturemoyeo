@@ -25,8 +25,6 @@ const SignupInfo = (props) => {
   const fileInput = useRef();
   const image = useSelector((state) => state.image);
   const preview = !image.preview ? "/assets/profile_image_avatar_only.png" : image.preview;
-  // const [height, setHeight] = useState(preview ? "auto" : "100px");
-  // const userlist = useSelector(state => state.user)
 
   const [nickname, setNickname] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
@@ -38,7 +36,6 @@ const SignupInfo = (props) => {
   const id = tempInfo?.id;
   const pwd = tempInfo?.pwd;
   const name = tempInfo?.name;
-  // const profileImg = userlist.profileImg;
 
   useEffect(() => {
     if (!tempInfo) {
@@ -58,7 +55,7 @@ const SignupInfo = (props) => {
     }
 
     setNicknameWarColor("green");
-    setNicknameConfirm("중복 검사를 해주세요");
+    setNicknameConfirm("중복 검사를 해주세요.");
   };
 
   const signup = () => {
@@ -89,7 +86,6 @@ const SignupInfo = (props) => {
 
       reader.onload = () => {
         dispatch(imgActions.setPreview(reader.result));
-        // setHeight("auto");
       };
     }
   };
@@ -97,6 +93,14 @@ const SignupInfo = (props) => {
   const nicknamedup = () => {
     if (nickname === "") {
       window.alert("닉네임이 입력되지 않았습니다.");
+      return;
+    }
+    if (nickname.length < 3) {
+      window.alert("닉네임은 3글자 이상, 최대 20글자까지 작성할 수 있습니다.");
+      return;
+    }
+    if (nickname.length > 20) {
+      window.alert("닉네임은 3글자 이상, 최대 20글자까지 작성할 수 있습니다.");
       return;
     }
     dispatch(userActions.nickCheck(nickname));
@@ -110,8 +114,7 @@ const SignupInfo = (props) => {
         maxWidth="300px"
         margin="0px auto"
         padding="18px"
-        // shadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-        // minHeight="100vh"
+    
         tabletStyle={() => {
           return css`
             width: 95%;
@@ -172,7 +175,6 @@ const SignupInfo = (props) => {
               margin="0px"
               color={nicknameWarning}
               lineHeight="2"
-              // textIndent="3px"
             >
               {nicknameConfirm}
             </Text>

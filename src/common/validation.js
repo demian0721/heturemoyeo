@@ -27,7 +27,7 @@ export const nameVal = (name) => {
 
 //NICKNAME
 export const nickVal = (nickname) => {
-    const _reg = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,20}$/;
+    const _reg = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{3,20}$/;
 
     return _reg.test(nickname);
 };

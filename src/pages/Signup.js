@@ -196,9 +196,9 @@ const SignUp = (props) => {
               fontSize="13px"
               bg="#A7AAAD"
               color="#FFFFFF"
-              // hoverBg= "#fcfcfc"
-              // hoverColor= "#000"
-              // className="custom_transition"
+              hoverBg= ""
+              hoverColor= ""
+              className="custom_transition"
               style={{ cursor: "pointer",
                       border: "none",
                       fontWeight: "bold" }}
@@ -241,6 +241,8 @@ const SignUp = (props) => {
               fontSize="13px"
               bg="#A7AAAD"
               color="#FFFFFF"
+              hoverBg= ""
+              hoverColor= ""
               className="custom_transition"
               style={{ cursor: "pointer",
                       border: "none",

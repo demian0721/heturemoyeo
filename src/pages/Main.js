@@ -472,7 +472,7 @@ const Main = (props) => {
             minWidth="280px"
             height="75px"
             bg="#16C59B"
-            style={{ position: "static", top: 0, zIndex: 4 }}
+            style={{ position: "static", top: 0, zIndex: 15 }}
           >
             <div
               onClick={() => {
@@ -511,7 +511,7 @@ const Main = (props) => {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
               className="absolute left-0 right-0 bottom-0 border border-gray-300 rounded-t-lg bg-white py-4 topDropShadow"
-              style={{ zIndex: 3 }}
+              style={{ zIndex: 11 }}
             >
               <div ref={ref} className="container mx-auto px-4">
                 <div id="overlay--author__status" className="block">

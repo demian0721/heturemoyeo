@@ -70,11 +70,11 @@ const myInfoDB = () => {
     instance
       .post("/api/user/me")
       .then((res) => {
-        const result = res.data
+        const result = res.data;
         Object.assign(result, {
-          type: 'user',
-          exactType: 'me'
-        })
+          type: "user",
+          exactType: "me",
+        });
         dispatch(myInfo(result));
       })
       .catch((error) => {
@@ -85,7 +85,7 @@ const myInfoDB = () => {
 
 const editInfos = (image, doc) => {
   return function (dispatch, getState) {
-    if(image.length>0){
+    if (image.length > 0) {
       const profileInfo = {
         ...doc,
         profileImg: image,
@@ -97,9 +97,9 @@ const editInfos = (image, doc) => {
           window.location.href = "/mypage";
         })
         .catch((error) => {
-          window.alert("입력된 비밀번호가 올바르지 않습니다.");
+          window.alert(error.response.data.errorMessage);
         });
-    }else{
+    } else {
       dispatch(
         imgActions.uploadImageDB(image, () => {
           const imgUrl = getState().image.imageUrl;
@@ -114,11 +114,11 @@ const editInfos = (image, doc) => {
               window.location.href = "/mypage";
             })
             .catch((error) => {
-              window.alert("입력된 비밀번호가 올바르지 않습니다.");
+              window.alert(error.response.data.errorMessage);
             });
         })
       );
-    };
+    }
   };
 };
 
@@ -178,7 +178,7 @@ const loginAction = (user) => {
       })
       .catch((error) => {
         console.error(error);
-        window.alert("아이디 또는 패스워드가 올바르지 않습니다.");
+        window.alert(error.response.data.errorMessage);
       });
   };
 };
@@ -218,9 +218,8 @@ const receiveAuthNum = (phone) => {
       .catch((error) => {
         dispatch(checkDupPhone(false));
         if (error.response.status === 412) {
-          window.alert("해당 번호는 이미 사용 중입니다.")
-        }
-        else {
+          window.alert("해당 번호는 이미 사용 중입니다.");
+        } else {
           window.alert("인증 메시지에 발송에 실패하였습니다.");
         }
       });
@@ -230,14 +229,14 @@ const receiveAuthNum = (phone) => {
 const authNumCheck = (authInfo) => {
   return function (dispatch) {
     instance
-      .post("/api/sign/phone/auth", authInfo )
+      .post("/api/sign/phone/auth", authInfo)
       .then((res) => {
         dispatch(checkDupAuth(true));
         window.alert("인증번호가 확인되었습니다.");
       })
       .catch((error) => {
         dispatch(checkDupAuth(false));
-        window.alert("인증번호가 일치하지 않습니다.");  
+        window.alert("인증번호가 일치하지 않습니다.");
       });
   };
 };
@@ -257,52 +256,65 @@ const nickCheck = (nick) => {
   };
 };
 
-const signupDB = (phone,name,nickname,password,confirm,profileImg,statusMessage,likeItem) => {
+const signupDB = (
+  phone,
+  name,
+  nickname,
+  password,
+  confirm,
+  profileImg,
+  statusMessage,
+  likeItem
+) => {
   return function (dispatch, getState, { history }) {
-    if(profileImg==null){
+    if (profileImg == null) {
       const profileInfoAll = {
-        "phone": phone,
-        "name": name,
-        "nickname":nickname,
-        "password":password,
-        "confirm":confirm,
-        "statusMessage": statusMessage,
-        "likeItem" :likeItem,
+        phone: phone,
+        name: name,
+        nickname: nickname,
+        password: password,
+        confirm: confirm,
+        statusMessage: statusMessage,
+        likeItem: likeItem,
         profileImg: null,
       };
       instance
         .post("/api/sign/", { ...profileInfoAll })
         .then((res) => {
-          console.log(res);
+          window.alert("회원가입이 완료되었습니다. 다시 로그인해 주세요.");
+          history.push("/login");
         })
         .catch((error) => {
+          window.alert(error.response.data.errorMessage);
           console.log(error);
         });
-    }else{
+    } else {
       dispatch(
         imgActions.uploadImageDB(profileImg, () => {
           const imgUrl = getState().image.imageUrl;
           const profileInfoAll = {
-            "phone": phone,
-            "name": name,
-            "nickname":nickname,
-            "password":password,
-            "confirm":confirm,
-            "statusMessage": statusMessage,
-            "likeItem" :likeItem,
+            phone: phone,
+            name: name,
+            nickname: nickname,
+            password: password,
+            confirm: confirm,
+            statusMessage: statusMessage,
+            likeItem: likeItem,
             profileImg: imgUrl,
           };
           instance
             .post("/api/sign/", { ...profileInfoAll })
             .then((res) => {
-              console.log(res);
+              window.alert("회원가입이 완료되었습니다. 다시 로그인해 주세요.");
+              history.push("/login");
             })
             .catch((error) => {
+              window.alert(error.response.data.errorMessage);
               console.log(error);
             });
         })
       );
-    };
+    }
   };
 };
 
@@ -348,7 +360,7 @@ export default handleActions(
       produce(state, (draft) => {
         draft.is_check_phone = action.payload.is_check_phone;
       }),
-    
+
     [CHECK_DUP_AUTH]: (state, action) =>
       produce(state, (draft) => {
         draft.is_check_auth = action.payload.is_check_auth;
@@ -358,7 +370,7 @@ export default handleActions(
     //   produce(state, (draft) => {
     //     draft.authId = action.payload.authId;
     //   }),
-    
+
     [CHECK_DUP_NICKNAME]: (state, action) =>
       produce(state, (draft) => {
         draft.is_check_nickname = action.payload.is_check_nickname;

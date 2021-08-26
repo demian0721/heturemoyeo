@@ -8,6 +8,7 @@ import { Text, Title, Grid, Button } from "../elements";
 
 // HISTORY
 import { history } from "../redux/configStore";
+import { useSelector } from 'react-redux';
 
 // REDUX-ACTION & REACT-HOOK
 import { userActions } from "../redux/modules/user";
@@ -41,6 +42,15 @@ const SignUp = (props) => {
   const [authData, setAuthData] = useState("");
   const [authWarning, setAuthWarColor] = useState("red");
   const [authConfirm, setAuthConfirm] = useState("");
+
+  const [Next,setNext] = useState(false);
+
+  const [buttonColor,setButton] = React.useState({
+    color: "white",
+    bg: "#B9B9B9",
+    hoverColor: "white",
+    hoverBg: "#B9B9B9",
+  });
 
   const checkID = (val) => {
     if (val === "") {
@@ -126,13 +136,33 @@ const SignUp = (props) => {
   }
 
   const authnumber = () => {
-    if (authData === "") {
-      window.alert("인증번호가 입력되지 않았습니다.");
-      return;
-    }
+    // if (authData === "") {
+    //   window.alert("인증번호가 입력되지 않았습니다.");
+    //   return;
+    // }
     const authInfo = {phone: id, authData}
     dispatch(userActions.authNumCheck(authInfo));
     setAuthConfirm("");
+  }
+
+  const is_check_auth = useSelector((state) => state.user.is_check_auth);
+
+  if(id && pwd && name && (pwd===pwdCheck)&&is_check_auth && !Next){
+    setNext(true);
+    setButton({
+    color: "white",
+    bg: "#16C59B",
+    hoverColor: "#16C59B",
+    hoverBg: "white",});
+  }
+
+  if((!id || !pwd || !name || !(pwd===pwdCheck) || !is_check_auth) && Next){
+    setNext(false);
+    setButton({
+    color: "white",
+    bg: "#B9B9B9",
+    hoverColor: "white",
+    hoverBg: "#B9B9B9",});
   }
 
   return (
@@ -300,15 +330,17 @@ const SignUp = (props) => {
               height="auto"
               padding="12px 0"
               fontSize="18px"
-              bg="#16C59B"
+              bg={buttonColor.bg}
+              hoverBg={buttonColor.hoverBg}
               radius="5px"
-              color="#FFFFFF"
+              color={buttonColor.color}
               className="custom_transition"
               style={{ fontWeight: "bold",
                        border: "none" }}
-              hoverColor="#16C59B"  
+              hoverColor={buttonColor.hoverColor}
               clickEvent={signupNext}
-              disabled={!id || !pwd || !name || !(pwd===pwdCheck)}
+              disabled={!Next}
+              // disabled={!id || !pwd || !name || !(pwd===pwdCheck)}
             >
               다음
             </Button>

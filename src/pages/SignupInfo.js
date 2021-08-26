@@ -37,6 +37,15 @@ const SignupInfo = (props) => {
   const pwd = tempInfo?.pwd;
   const name = tempInfo?.name;
 
+  const [complite,setComplite] = useState(false);
+
+  const [buttonColor,setButton] = React.useState({
+    color: "white",
+    bg: "#B9B9B9",
+    hoverColor: "white",
+    hoverBg: "#B9B9B9",
+  });
+
   useEffect(() => {
     if (!tempInfo) {
       history.push("/signup");
@@ -105,6 +114,15 @@ const SignupInfo = (props) => {
     dispatch(userActions.nickCheck(nickname));
     setNicknameConfirm("");
   };
+
+  if(nickname && statusMessage){
+    setComplite(true);
+    setButton({
+    color: "white",
+    bg: "#16C59B",
+    hoverColor: "#16C59B",
+    hoverBg: "white",});
+  }
 
   return (
     <Style>
@@ -227,14 +245,15 @@ const SignupInfo = (props) => {
               height="auto"
               padding="12px 0"
               fontSize="18px"
-              bg="#16C59B"
+              bg={buttonColor.bg}
+              hoverBg={buttonColor.hoverBg}
               radius="5px"
-              color="#FFFFFF"
+              color={buttonColor.color}
               className="custom_transition"
               style={{ fontWeight: "bold", border: "none" }}
-              hoverColor="#16C59B"
+              hoverColor={buttonColor.hoverColor}
               clickEvent={signup}
-              disabled={!nickname || !statusMessage}
+              disabled={!complite}
             >
               완료
             </Button>

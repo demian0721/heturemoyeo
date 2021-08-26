@@ -39,6 +39,8 @@ const SignupInfo = (props) => {
 
   const [complite,setComplite] = useState(false);
 
+  const [is_check_nickname,setCheckNick] = useState(false);
+
   const [buttonColor,setButton] = React.useState({
     color: "white",
     bg: "#B9B9B9",
@@ -65,6 +67,9 @@ const SignupInfo = (props) => {
 
     setNicknameWarColor("green");
     setNicknameConfirm("중복 검사를 해주세요.");
+    setCheckNick(false);
+    //닉네임 확인 후 닉네임 변경시 is_check_nickname이 false가 되게
+
   };
 
   const signup = () => {
@@ -112,10 +117,15 @@ const SignupInfo = (props) => {
       return;
     }
     dispatch(userActions.nickCheck(nickname));
+    setCheckNick(nickCk);
     setNicknameConfirm("");
   };
 
-  if(nickname && statusMessage){
+  const nickCk = useSelector((state) => state.user.is_check_nickname);
+
+  //확인용
+
+  if(nickname && statusMessage&&is_check_nickname&&!complite){
     setComplite(true);
     setButton({
     color: "white",
@@ -123,6 +133,18 @@ const SignupInfo = (props) => {
     hoverColor: "#16C59B",
     hoverBg: "white",});
   }
+
+  if((!nickname || !statusMessage || !is_check_nickname ) && complite){
+    setComplite(false);
+    setButton({
+    color: "white",
+    bg: "#B9B9B9",
+    hoverColor: "white",
+    hoverBg: "#B9B9B9",});
+  }
+  //조건에 따른 버튼 색 변화
+
+  console.log('nickcheck',is_check_nickname)
 
   return (
     <Style>

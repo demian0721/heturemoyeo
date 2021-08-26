@@ -136,17 +136,18 @@ const SignUp = (props) => {
   }
 
   const authnumber = () => {
-    // if (authData === "") {
-    //   window.alert("인증번호가 입력되지 않았습니다.");
-    //   return;
-    // }
+    if (authData === "") {
+      window.alert("인증번호가 입력되지 않았습니다.");
+      return;
+    }
     const authInfo = {phone: id, authData}
     dispatch(userActions.authNumCheck(authInfo));
     setAuthConfirm("");
   }
-
+  //인증 확인 유무
   const is_check_auth = useSelector((state) => state.user.is_check_auth);
 
+  //조건에 따른 버튼 색 변화
   if(id && pwd && name && (pwd===pwdCheck)&&is_check_auth && !Next){
     setNext(true);
     setButton({
@@ -155,7 +156,6 @@ const SignUp = (props) => {
     hoverColor: "#16C59B",
     hoverBg: "white",});
   }
-
   if((!id || !pwd || !name || !(pwd===pwdCheck) || !is_check_auth) && Next){
     setNext(false);
     setButton({

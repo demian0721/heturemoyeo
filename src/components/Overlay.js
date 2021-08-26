@@ -149,7 +149,8 @@ const UserOverlay = ({ children, ...props }) => {
                   return (
                     <div
                       key={index}
-                      className="tagItem transition duration-300 ease-in-out cursor-pointer inline-flex rounded-md px-2"
+                      className="tagItem transition duration-300 ease-in-out cursor-pointer inline-flex rounded-md px-2 mb-1"
+                      style={{marginLeft:"0px",marginRight:"2px"}}
                     >
                       #{el}
                     </div>

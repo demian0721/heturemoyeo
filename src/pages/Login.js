@@ -1,6 +1,9 @@
 // LIBRARY
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
+
+//history
+import { getToken } from '../common/token';
 
 // ELEMENTS
 import { Text, Title, Input, Grid, Button } from "../elements";
@@ -12,6 +15,8 @@ import { BorderBottom } from "@material-ui/icons";
 
 const LogIn = (props) => {
   const dispatch = useDispatch();
+
+  useEffect(() => { if (getToken()) { window.alert("이미 로그인되어 있습니다."); window.location.href ='/'; } }, []);
 
   const [userInfo, setUserInfo] = useState({ phone: "", password: "" });
   const [warningText, setWarningText] = useState("");

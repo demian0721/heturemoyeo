@@ -203,10 +203,10 @@ const PostWrite = (props) => {
     };
   }, [props, isOpen, setIsOpen, viewModal, setViewModal, loadMap, setLoadMap]);
 
-  if (!props.isGeolocationAvailable)
-    alert("해당 기기는 GeoLocation을 지원하지 않습니다!");
-  if (!props.isGeolocationEnabled)
-    alert("해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!");
+  // if (!props.isGeolocationAvailable)
+  //   alert("해당 기기는 GeoLocation을 지원하지 않습니다!");
+  // if (!props.isGeolocationEnabled)
+  //   alert("해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!");
 
   useEffect(() => {
     console.log(moment(beginDate).format("YYYY-MM-DD HH:mm:ss"));

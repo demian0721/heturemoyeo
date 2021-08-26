@@ -40,10 +40,10 @@ import Logger from "../utils/Logger";
 import MarkerImageObject from "../assets/markerImageObject";
 
 const Main = (props) => {
-  if (!props.isGeolocationAvailable)
-    alert("해당 기기는 GeoLocation을 지원하지 않습니다!");
-  if (!props.isGeolocationEnabled)
-    alert("해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!");
+  // if (!props.isGeolocationAvailable)
+  //   alert("해당 기기는 GeoLocation을 지원하지 않습니다!");
+  // if (!props.isGeolocationEnabled)
+  //   alert("해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!");
 
   const dispatch = useDispatch();
   const [geolocationMarker, setGeolocationMarker] = useState(false);

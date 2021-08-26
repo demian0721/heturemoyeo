@@ -70,6 +70,7 @@ const getMoreChatDB = (postId, limit = 20) => {
         dispatch(getMoreChat(res.data.result, start + limit));
       })
       .catch((error) => {
+        window.alert(error.response.data.errorMessage);
         console.error(error);
       });
   };
@@ -84,6 +85,7 @@ const sendChatDB = (postId, message) => {
         dispatch(sendChat(res.data));
       })
       .catch((error) => {
+        window.alert(error.response.data.errorMessage);
         console.error(error);
       });
   };
@@ -98,6 +100,7 @@ const exitAChat = (doc) => {
         window.alert("대화방에서 탈퇴하였습니다.");
       })
       .catch((error) => {
+        window.alert(error.response.data.errorMessage);
         console.error(error.errorMessage);
       });
   };

@@ -10,6 +10,7 @@ import {
   ActiveInviteModal,
   MyScheduleList,
   SelectedPostCard,
+  DistanceState,
 } from "../utils/recoil";
 
 // REDUX
@@ -34,7 +35,8 @@ import useOutsideClick from "../hooks/useOutsideClick";
 
 // MATERIAL-UI
 import MyLocationIcon from "@material-ui/icons/MyLocation";
-import RateReviewIcon from '@material-ui/icons/RateReview';
+import RateReviewIcon from "@material-ui/icons/RateReview";
+import LeakAddIcon from "@material-ui/icons/LeakAdd";
 
 // ETC
 import Logger from "../utils/Logger";
@@ -404,6 +406,30 @@ const Main = (props) => {
   const myScheduleList = useRecoilValue(MyScheduleList);
   const [showItems, setShowItems] = useState(false);
   const [selectedCard, setSelectedCard] = useRecoilState(SelectedPostCard);
+  const [selectedDistance, setSelectedDistance] = useRecoilState(DistanceState);
+
+  useEffect(() => {
+    const getDistance = localStorage.getItem("distance");
+    let tasking = false;
+    if (!getDistance) {
+      tasking = true;
+      setSelectedDistance(2000);
+      localStorage.setItem("distance", 2000);
+      socket.emit("changeDistance", { distance: 2000 });
+      Logger.info(
+        `[SetDefaultDistance] Init to set localStorage item via getDistance (DefaultDistance: 2000M (2KM))`
+      );
+    }
+    if (Number(getDistance) !== Number(selectedDistance) && !tasking) {
+      setSelectedDistance(Number(getDistance));
+      socket.emit("changeDistance", { distance: Number(getDistance) });
+      Logger.info(
+        `[SetDistance] Not same to reocil distance, but set distance... (SetDistance: ${Number(
+          getDistance
+        )}M (${Number(getDistance) / 1000}KM))`
+      );
+    }
+  }, []);
 
   useEffect(() => {
     setShowItems(true);
@@ -424,6 +450,28 @@ const Main = (props) => {
 
   const modalRef = useRef();
   useOutsideClick(modalRef, () => handleModalClose(true));
+
+  const distanceList = [2, 4, 6, 8, 10];
+  const [showDistance, setShowDistance] = useState(false);
+  const distanceRef = useRef();
+  const handleDistanceClose = (clearSelect = true) => {
+    setShowDistance(false);
+    if (clearSelect) setSelectedDistance(DistanceState);
+  };
+  useOutsideClick(distanceRef, () => handleDistanceClose(false));
+  const handleChangeDistance = (clearSelect = true) => {
+    const getDistance = localStorage.getItem("distance");
+    if (Number(selectedDistance) === Number(getDistance))
+      return alert("현재 설정된 반경과 동일합니다!");
+    alert(
+      `보기 반경이 ${getDistance / 1000 ?? "2"}KM 에서 ${
+        Number(selectedDistance) / 1000
+      }KM로 변경되었습니다!`
+    );
+    localStorage.setItem("distance", Number(selectedDistance));
+    socket.emit("changeDistance", { distance: Number(selectedDistance) });
+    handleDistanceClose(clearSelect);
+  };
 
   const handleModalInvite = (clearSelect = true) => {
     if (window.confirm("초대시 상대 유저에게 안내 문자가 발송 됩니다.")) {
@@ -458,10 +506,10 @@ const Main = (props) => {
         });
       handleModalClose(clearSelect);
     } else {
-      return alert("초대가 취소되었습니다.")
+      return alert("초대가 취소되었습니다.");
     }
   };
-    
+
   return (
     <Fragment>
       {sessionStorage.token && (
@@ -481,13 +529,19 @@ const Main = (props) => {
             >
               <Image src="/assets/logo_header.png" />
             </div>
-            <img src="/assets/textlogo_white.svg"
-                 style={{width:"78.4px", height:"20px", margin: "0px 10px", cursor: "pointer"}}
-                 onClick={() => {
-                   window.location.href = "/";
-                }} 
-                 alt=""   
-                     />
+            <img
+              src="/assets/textlogo_white.svg"
+              style={{
+                width: "78.4px",
+                height: "20px",
+                margin: "0px 10px",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                window.location.href = "/";
+              }}
+              alt=""
+            />
           </Grid>
           <div className="container">
             {/* kakao 맵 생성 */}
@@ -532,7 +586,13 @@ const Main = (props) => {
                     }
                     rating={markerData?.rating}
                     isType={markerData?.type ?? undefined}
-                    id={markerData?.type === 'post' ? markerData?.postId : markerData?.type === 'user' ? markerData?.userId : undefined}
+                    id={
+                      markerData?.type === "post"
+                        ? markerData?.postId
+                        : markerData?.type === "user"
+                        ? markerData?.userId
+                        : undefined
+                    }
                     myId={myUserId}
                     {...markerData}
                   />
@@ -566,7 +626,7 @@ const Main = (props) => {
                     leaveFrom="opacity-100 scale-100"
                     leaveTo="opacity-0 scale-95"
                   >
-                    <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl self-center items-center">
+                    <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl self-center items-center border border-gray-300 border-opacity-25">
                       <Dialog.Title
                         as="h3"
                         className="text-base font-medium leading-6 text-gray-900"
@@ -600,7 +660,7 @@ const Main = (props) => {
                         ) : (
                           myScheduleList?.map((el, index) => (
                             <InviteScheduleCard
-                              key={index}
+                              index={index}
                               img={el?.postImg}
                               {...el}
                             />
@@ -654,15 +714,119 @@ const Main = (props) => {
                 </div>
               </Dialog>
             </Transition>
+            <Transition show={showDistance} as={Fragment}>
+              <Dialog
+                as="div"
+                className="fixed lg:mt-24 md:mt-20 mt-14 inset-0 z-10"
+                onClose={() => handleDistanceClose(false)}
+              >
+                <div
+                  ref={distanceRef}
+                  className="min-h-screen px-4 text-center"
+                >
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                  >
+                    <Dialog.Overlay className="fixed bottom-0 inset-0" />
+                  </Transition.Child>
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0 scale-95"
+                    enterTo="opacity-100 scale-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100 scale-100"
+                    leaveTo="opacity-0 scale-95"
+                  >
+                    <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl self-center items-center border border-gray-300 border-opacity-25">
+                      <Dialog.Title
+                        as="h3"
+                        className="text-base font-medium leading-6 text-gray-900"
+                      >
+                        범위 설정하기
+                      </Dialog.Title>
+                      <div className="mb-2">
+                        <p className="text-sm text-gray-500">
+                          원하는 반경 거리를 선택하여 확인하여보세요.
+                        </p>
+                      </div>
+
+                      <div
+                        className="flex flex-wrap flex-initial overflow-y-scroll w-full space-y-2 bg-gray-300 rounded-md bg-opacity-25 p-2 border border-gray-400 border-opacity-25 content-start"
+                        style={{ height: "305px" }}
+                      >
+                        {distanceList.map((el, index) => (
+                          <DistanceCard index={index} radius={el} />
+                        ))}
+                      </div>
+                      <div className="flex justify-between mt-4 space-x-4 w-full">
+                        <button
+                          type="button"
+                          className="flex justify-center px-4 py-2 lg:text-sm text-xs font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 transition duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                          onClick={() => handleChangeDistance(false)}
+                        >
+                          설정하기
+                        </button>
+                        <button
+                          type="button"
+                          className="flex justify-center px-4 py-2 lg:text-sm text-xs font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 transition duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                          onClick={() => handleDistanceClose(false)}
+                        >
+                          취소
+                        </button>
+                      </div>
+                    </div>
+                  </Transition.Child>
+                </div>
+              </Dialog>
+            </Transition>
           </div>
-          <Grid
+          <div
+            className="fixed bottom-0 right-0 w-20 h-20 lg:mb-28 mb-24 mr-4"
+            style={{ zIndex: 2 }}
+          >
+            <div className="lg:space-y-2 space-y-1">
+              <div className="flex justify-end">
+                <button
+                  onClick={() =>
+                    window.open("https://forms.gle/j2pyniivrJgxcn7G8")
+                  }
+                  className="flex lg:p-4 p-3 lg:text-base text-sm rounded-full text-center self-center minaBtn transition duration-300 ease-in-out"
+                >
+                  <RateReviewIcon />
+                </button>
+              </div>
+              <div className="flex justify-end self-center lg:space-x-2 space-x-1">
+                <button
+                  onClick={() => setShowDistance(true)}
+                  className="flex lg:p-4 p-3 lg:text-base text-sm rounded-full text-center self-center minaBtn transition duration-300 ease-in-out"
+                >
+                  <LeakAddIcon />
+                </button>
+                <button
+                  onClick={() =>
+                    panTo(props?.coords?.latitude, props?.coords?.longitude)
+                  }
+                  className="flex lg:p-4 p-3 lg:text-base text-sm rounded-full text-center self-center minaBtn transition duration-300 ease-in-out"
+                >
+                  <MyLocationIcon />
+                </button>
+              </div>
+            </div>
+          </div>
+          {/* <Grid
             style={{ position: "fixed", zIndex: 2 }}
-            width="20"
-            height="20"
+            width="auto"
+            height="full"
             overflow="visible"
             className="lg:mt-28 mt-24 mt-20 lg:ml-10 ml-6 inset-0 w-20 h-20"
           >
-
             <Button
               shadow="rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;"
               bg="rgba(255, 255, 255, 1)"
@@ -670,11 +834,13 @@ const Main = (props) => {
               color="#16C59B"
               hoverColor="#fcfcfc"
               padding="12px"
-              margin="calc(100vh - 290px) 0px 0px calc(100vw - 105px)"
+              margin="20px 0px 0px calc(100vw - 105px)"
               radius="100%"
               className="custom_transition"
               // className="fixed lg:mt-24 md:mt-20 mt-14 inset-0 z-10"
-              clickEvent={() => {window.open('https://forms.gle/j2pyniivrJgxcn7G8')}}
+              clickEvent={() => {
+                window.open("https://forms.gle/j2pyniivrJgxcn7G8");
+              }}
             >
               <RateReviewIcon />
             </Button>
@@ -697,7 +863,24 @@ const Main = (props) => {
               <MyLocationIcon />
             </Button>
 
-          </Grid>
+            <Button
+              shadow="rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;"
+              bg="rgba(255, 255, 255, 1)"
+              hoverBg="#16C59B"
+              color="#16C59B"
+              hoverColor="#fcfcfc"
+              padding="12px"
+              margin="10px 0px 0px calc(100vw - 105px)"
+              radius="100%"
+              className="custom_transition"
+              // className="fixed lg:mt-24 md:mt-20 mt-14 inset-0 z-10"
+              clickEvent={() =>
+                panTo(props?.coords?.latitude, props?.coords?.longitude)
+              }
+            >
+              <MyLocationIcon />
+            </Button>
+          </Grid> */}
           <Footer>home</Footer>
         </>
       )}
@@ -705,11 +888,40 @@ const Main = (props) => {
   );
 };
 
-function InviteScheduleCard({ children, index, ...props }) {
+function DistanceCard({ children, ...props }) {
+  const [selectedDistance, setSelectedDistance] = useRecoilState(DistanceState);
+  return (
+    <div
+      key={props.index}
+      id="distance-card"
+      className={`flex flex-wrap w-full ${
+        props?.radius * 1000 === selectedDistance
+          ? "selectedCard"
+          : "bg-gray-100 hover:bg-white border border-gray-400 border-opacity-25"
+      } rounded-md trasition duration-300 ease-in-out shadow-xl self-center px-3 py-2 cursor-pointer`}
+      onClick={() => setSelectedDistance(props.radius * 1000)}
+    >
+      <div className="block ml-2 self-center">
+        <div id="title" className="lg:text-base text-sm font-bold">
+          {props.index + 1}단계
+        </div>
+        <div id="member_count" className="lg:text-sm text-xs font-sm">
+          반경
+          <span className="ml-1 font-bold">{props.radius}KM</span>
+          <span className="ml-1 tagItem rounded-md px-2 transition duration-300 ease-in-out">
+            {props.radius * 1000}M
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InviteScheduleCard({ children, ...props }) {
   const [selectedCard, setSelectedCard] = useRecoilState(SelectedPostCard);
   return (
     <div
-      key={index}
+      key={props.index}
       id="schedule-card"
       className={`flex flex-wrap w-full ${
         Number(props?.postId) === Number(selectedCard)

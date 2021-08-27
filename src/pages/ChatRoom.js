@@ -80,7 +80,11 @@ const ChatRoom = (props) => {
       )
       .on("error", (error) =>
         Logger.error(`[Socket.io:Error] Socket.io error occurred!\n${error}`)
-      );
+      )
+      .on("kick", () => {
+        alert("해당 대화방에서 추방 당하셨습니다.");
+        window.location.href = '/chat'
+      });
   };
 
   //getChatDatas의 데이터가 없는데 userId가 먼저 받아왔을 때
@@ -114,10 +118,6 @@ const ChatRoom = (props) => {
         });
         if (el.userId) appendMsg(data);
         return data;
-      });
-      appendMsg({
-        type: "system",
-        content: { text: "채팅방에 입장하셨습니다." },
       });
       setInit(true);
     }

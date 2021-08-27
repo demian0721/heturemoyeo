@@ -16,6 +16,11 @@ export const SelectedPostCard = atom({
 });
 
 export const ChatRoomSideBar = atom({
-  key: 'ChatRoomSideBar',
-  default: false
-})
+  key: "ChatRoomSideBar",
+  default: false,
+});
+
+export const DistanceState = atom({
+  key: "DistanceState",
+  default: 2000,
+});

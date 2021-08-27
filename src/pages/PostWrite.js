@@ -387,13 +387,16 @@ const PostWrite = (props) => {
                 />
               </div>
             </Grid>
-            <div style={{ margin: "10px 5px", width: "100%" }}>
+            <div
+              className="block"
+              style={{ margin: "10px 5px", width: "100%" }}
+            >
               <Text fontSize="14px" color="#535353" fontWeight="bold">
                 장소
               </Text>
-              <div className="inline-flex self-center items-center">
+              <div className="flex justify-between">
                 <div
-                  className={`flex self-center items-center ${
+                  className={`self-center items-center ${
                     checked
                       ? "cursor-default bg-gray-300"
                       : "bg-green-300 cursor-pointer"
@@ -413,11 +416,11 @@ const PostWrite = (props) => {
                 >
                   <RoomIcon />
                 </div>
-                <div className="flex self-center">
+                <div className="self-center">
                   <InputBox
+                    id="locationInput"
                     style={{
-                      width: "100vw",
-                      maxWidth: "465px",
+                      width: "400px",
                       margin: "7px 5px 7px 5px",
                       borderLeft: "none",
                       borderRight: "none",
@@ -428,16 +431,20 @@ const PostWrite = (props) => {
                     placeholder="장소(한글 주소로 출력)"
                     type="text"
                     value={checked ? "온라인 모임" : inputValue}
-                    onChange={(e) => {
-                      setPostingContents({
-                        ...postingContents,
-                        place: e.target.value,
-                      });
+                    // onChange={(e) => {
+                    //   setPostingContents({
+                    //     ...postingContents,
+                    //     place: e.target.value,
+                    //   });
+                    // }}
+                    onClick={() => {
+                      setViewModal(true);
+                      setIsOpen(true);
                     }}
                   />
                 </div>
               </div>
-              <div className="block ml-10 self-center">
+              <div className="flex ml-10 self-center">
                 <input
                   id="online-schedule"
                   type="checkbox"

@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
@@ -76,7 +77,9 @@ const UserOverlayDivideComponent = ({ force = false, ...props }) => {
     >
       <div className="sr-only">divide</div>
     </div>
-  ) : "" 
+  ) : (
+    ""
+  );
   // props?.nickname && !props?.likeItem && !props?.statusMessage ? (
   //   ""
   // ) : !props?.nickname && !props?.likeItem && !props?.statusMessage ? (
@@ -150,7 +153,7 @@ const UserOverlay = ({ children, ...props }) => {
                     <div
                       key={index}
                       className="tagItem transition duration-300 ease-in-out cursor-pointer inline-flex rounded-md px-2 mb-1"
-                      style={{marginLeft:"0px",marginRight:"2px"}}
+                      style={{ marginLeft: "0px", marginRight: "2px" }}
                     >
                       #{el}
                     </div>
@@ -247,15 +250,14 @@ const PostOverlay = ({ children, ...props }) => {
           )}
         </div>
       </div>
-      <div
-        id="button"
-        className="flex mt-2 py-4 font-bold tagItem transition duration-300 ease-in-out cursor-pointer rounded-md text-center justify-center"
-        onClick={() => {
-          window.location.href = `/postdetail/${props?.id}`;
-        }}
-      >
-        <p>참여하기</p>
-      </div>
+      <Link to={`/postdetail/${props?.id}`}>
+        <div
+          id="button"
+          className="flex mt-2 py-4 font-bold tagItem transition duration-300 ease-in-out cursor-pointer rounded-md text-center justify-center"
+        >
+          <p>참여하기</p>
+        </div>
+      </Link>
     </Fragment>
   );
 };

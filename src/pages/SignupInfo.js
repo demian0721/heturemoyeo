@@ -20,7 +20,7 @@ import { nickVal } from "../common/validation";
 
 const SignupInfo = (props) => {
   const dispatch = useDispatch();
-  const debounce = _.debounce((value, setValue) => setValue(value), 300);
+  const debounce = _.debounce((value, setValue) => setValue(value), 0);
 
   const fileInput = useRef();
   const image = useSelector((state) => state.image);

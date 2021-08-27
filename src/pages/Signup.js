@@ -19,7 +19,7 @@ import { idVal, pwdVal, nameVal } from "../common/validation";
 
 const SignUp = (props) => {
   const dispatch = useDispatch();
-  const debounce = _.debounce((value, setValue) => setValue(value), 300);
+  const debounce = _.debounce((value, setValue) => setValue(value), 0);
   const signupNext = () => {
     
     const userInfo = {id, pwd, name}

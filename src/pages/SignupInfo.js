@@ -9,6 +9,7 @@ import CameraAltIcon from "@material-ui/icons/CameraAlt";
 
 // HISTORY
 import { history } from "../redux/configStore";
+import { getToken } from '../common/token';
 
 // REDUX-ACTION & REACT-HOOK
 import { userActions } from "../redux/modules/user";
@@ -20,6 +21,9 @@ import { nickVal } from "../common/validation";
 
 const SignupInfo = (props) => {
   const dispatch = useDispatch();
+
+  useEffect(() => { if (getToken()) { window.alert("이미 로그인되어 있습니다."); window.location.href ='/'; } }, []);
+
   const debounce = _.debounce((value, setValue) => setValue(value), 0);
 
   const fileInput = useRef();

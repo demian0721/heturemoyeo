@@ -1,5 +1,5 @@
 // LIBRARY
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import _ from "lodash";
 import styled from "styled-components";
 
@@ -9,6 +9,7 @@ import { Text, Title, Grid, Button } from "../elements";
 // HISTORY
 import { history } from "../redux/configStore";
 import { useSelector } from 'react-redux';
+import { getToken } from '../common/token';
 
 // REDUX-ACTION & REACT-HOOK
 import { userActions } from "../redux/modules/user";
@@ -19,6 +20,9 @@ import { idVal, pwdVal, nameVal } from "../common/validation";
 
 const SignUp = (props) => {
   const dispatch = useDispatch();
+
+  useEffect(() => { if (getToken()) { window.alert("이미 로그인되어 있습니다."); window.location.href ='/'; } }, []);
+
   const debounce = _.debounce((value, setValue) => setValue(value), 0);
   const signupNext = () => {
     

@@ -228,7 +228,8 @@ const SignupInfo = (props) => {
                 debounce(event.target.value, checkNickname);
               }}
             />
-            <Button
+            
+            {is_check_nickname ? <Button
               margin="0px 0px 0px 6px"
               width="40%"
               height="auto"
@@ -237,15 +238,32 @@ const SignupInfo = (props) => {
               bg="#A7AAAD"
               color="#FFFFFF"
               className="custom_transition"
+              value={statusMessage}
               style={{ cursor: "pointer", border: "none", fontWeight: "bold" }}
               clickEvent={nicknamedup}
             >
               중복 확인
-            </Button>
+            </Button> : <Button
+              margin="0px 0px 0px 6px"
+              width="40%"
+              height="auto"
+              padding="17px 0"
+              fontSize="13px"
+              bg="#16C59B"
+              hoverBg="white"
+              color="white"
+              hoverColor="#16C59B"
+              className="custom_transition"
+              style={{ cursor: "pointer", border: "none", fontWeight: "bold" }}
+              clickEvent={nicknamedup}
+            >
+              중복 확인
+            </Button> }
           </Grid>
           <Grid padding="5px 0px 8px">
             <InputBox
               placeholder="상태메세지를 입력하세요"
+              value={statusMessage}
               onChange={(event) => {
                 setStatusMessage(event.target.value);
               }}

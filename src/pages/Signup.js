@@ -44,6 +44,8 @@ const SignUp = (props) => {
   const [authConfirm, setAuthConfirm] = useState("");
 
   const [Next,setNext] = useState(false);
+  const [nameCheck,setNameCk] = useState(false);
+  const [passCheck,setPassCk] = useState(false);
 
   const [buttonColor,setButton] = React.useState({
     color: "white",
@@ -72,15 +74,18 @@ const SignUp = (props) => {
     if (val === "") {
       setPwdWarColor("red");
       setPwdConfirm("비밀번호가 입력되지 않았습니다.");
+      setPassCk(false);
       return;
     }
     if (!pwdVal(val)) {
       setPwdWarColor("red");
       setPwdConfirm("영문, 숫자, 특수문자 1자 이상 포함해주세요.(8~20자) ");
+      setPassCk(false);
       return;
     }
     setPwdWarColor("green");
     setPwdConfirm("사용가능한 비밀번호 입니다.");
+    setPassCk(true);
   };
 
   const checkPWD2nd = (val) => {
@@ -107,15 +112,18 @@ const SignUp = (props) => {
     if (val === "") {
       setNameWarColor("red");
       setNameConfirm("성함이 입력되지 않았습니다.");
+      setNameCk(false);
       return;
     }
     if (!nameVal(val)) {
       setNameWarColor("red");
       setNameConfirm("성함을 정확히 입력해주세요.");
+      setNameCk(false);
       return;
     }
     setNameWarColor("green");
     setNameConfirm("해당 성함으로 저장됩니다.");
+    setNameCk(true);
   };
 
   const nickname = () => {
@@ -146,9 +154,10 @@ const SignUp = (props) => {
   }
   //인증 확인 유무
   const is_check_auth = useSelector((state) => state.user.is_check_auth);
+  const is_check_phone = useSelector((state) => state.user.is_check_phone);
 
   //조건에 따른 버튼 색 변화
-  if(id && pwd && name && (pwd===pwdCheck)&&is_check_auth && !Next){
+  if(id && passCheck && nameCheck && (pwd===pwdCheck)&&is_check_auth && !Next){
     setNext(true);
     setButton({
     color: "white",
@@ -156,7 +165,7 @@ const SignUp = (props) => {
     hoverColor: "#16C59B",
     hoverBg: "white",});
   }
-  if((!id || !pwd || !name || !(pwd===pwdCheck) || !is_check_auth) && Next){
+  if((!id || !passCheck || !nameCheck || !(pwd===pwdCheck) || !is_check_auth) && Next){
     setNext(false);
     setButton({
     color: "white",
@@ -208,9 +217,33 @@ const SignUp = (props) => {
             </Text>
           </Grid>
 
-          <Grid is_flex padding="0px 0px 8px">
+          { is_check_phone ? <Grid is_flex padding="0px 0px 8px">
             <InputBox
               placeholder="핸드폰번호를 '-'&nbsp;없이 입력하세요"
+              value={id}
+            />
+            <Button
+              margin="0px 0px 0px 6px"
+              width="30%"
+              height="auto"
+              padding="10px 0"
+              fontSize="13px"
+              bg="#A7AAAD"
+              color="#FFFFFF"
+              hoverBg= ""
+              hoverColor= ""
+              className="custom_transition"
+              style={{ cursor: "default",
+                      border: "none",
+                      fontWeight: "bold" }}
+              disabled={is_check_phone}
+            >
+              인증번호 <br/> 받기
+            </Button>
+          </Grid> : <Grid is_flex padding="0px 0px 8px">
+            <InputBox
+              placeholder="핸드폰번호를 '-'&nbsp;없이 입력하세요"
+              value={id}
               onChange={(event) => {
                 setId(event.target.value);
               }}
@@ -224,64 +257,89 @@ const SignUp = (props) => {
               height="auto"
               padding="10px 0"
               fontSize="13px"
-              bg="#A7AAAD"
-              color="#FFFFFF"
-              hoverBg= ""
-              hoverColor= ""
+              bg="#16C59B"
+              color="white"
+              hoverBg= "white"
+              hoverColor= "#16C59B"
               className="custom_transition"
               style={{ cursor: "pointer",
                       border: "none",
                       fontWeight: "bold" }}
-              disabled=""
+              disabled={is_check_phone}
               clickEvent={(e) => {
                 nickname();
                 e.preventDefault();  
-                e.currentTarget.disabled = true ;
-                // e.currentTarget.hoverBg = false;
               }}
             >
               인증번호 <br/> 받기
             </Button>
-          </Grid>
-          <Grid padding="8px 0px 0px">
-            <Text
-              fontSize="12px"
-              margin="0px"
-              color={authWarning}
-              lineHeight="2"
+          </Grid> }
+          
+          { is_check_phone ? <div>
+            <Grid padding="8px 0px 0px">
+              <Text
+                fontSize="12px"
+                margin="0px"
+                color={authWarning}
+                lineHeight="2"
+                >
+                {authConfirm}
+              </Text>
+            </Grid>
+            <Grid is_flex padding="0px 0px 8px">
+              { is_check_auth ? <InputBox
+                placeholder="인증번호(6자리)를 입력하세요"
+                value={authData}
+              /> : <InputBox
+                value={authData}
+                placeholder="인증번호(6자리)를 입력하세요"
+                onChange={(event) => {
+                  setAuthData(event.target.value);
+                }}
+                onKeyUp={(event) => {
+                  debounce(event.target.value, checkAuth);
+                }}
+              />}
+              { is_check_auth ? <Button
+                margin="0px 0px 0px 6px"
+                width="30%"
+                height="auto"
+                padding="16px 0"
+                fontSize="13px"
+                bg="#A7AAAD"
+                color="#FFFFFF"
+                hoverBg= ""
+                hoverColor= ""
+                className="custom_transition"
+                disabled={is_check_auth}
+                style={{ cursor: "default",
+                        border: "none",
+                        fontWeight: "bold" }}
+                clickEvent={authnumber}
               >
-              {authConfirm}
-            </Text>
-          </Grid>
-          <Grid is_flex padding="0px 0px 8px">
-            <InputBox
-              placeholder="인증번호(6자리)를 입력하세요"
-              onChange={(event) => {
-                setAuthData(event.target.value);
-              }}
-              onKeyUp={(event) => {
-                debounce(event.target.value, checkAuth);
-              }}
-            />
-            <Button
-              margin="0px 0px 0px 6px"
-              width="30%"
-              height="auto"
-              padding="16px 0"
-              fontSize="13px"
-              bg="#A7AAAD"
-              color="#FFFFFF"
-              hoverBg= ""
-              hoverColor= ""
-              className="custom_transition"
-              style={{ cursor: "pointer",
-                      border: "none",
-                      fontWeight: "bold" }}
-              clickEvent={authnumber}
-            >
-              확인
-            </Button>
-          </Grid>
+                확인
+              </Button> : <Button
+                margin="0px 0px 0px 6px"
+                width="30%"
+                height="auto"
+                padding="16px 0"
+                fontSize="13px"
+                bg="#16C59B"
+                color="white"
+                hoverBg= "white"
+                hoverColor= "#16C59B"
+                className="custom_transition"
+                disabled={is_check_auth}
+                style={{ cursor: "pointer",
+                        border: "none",
+                        fontWeight: "bold" }}
+                clickEvent={authnumber}
+              >
+                확인
+              </Button> }
+            </Grid>
+          </div> : null }
+
           <Grid padding="5px 0px 8px">
             <Text
               fontSize="12px"

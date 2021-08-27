@@ -188,7 +188,7 @@ function ChatListCardComponent({ children, ...props }) {
 
               <span className="sr-only">X</span>
             </div>
-            <div className="block ml-4">
+            <div className="block ml-4" style={{width:"100%", maxWidth:"calc(100% - 115px)"}}> 
               <div className="inline-flex text-black font-semibold self-center">
                 {props?.isConfirm && ( // get posts confirm in data function an not exist.
                   <div className="mr-1 self-center">

@@ -60,7 +60,7 @@ function App() {
           window.location.pathname
         )
       ) {
-        alert("로그인이 필요한 서비스입니다!");
+        // alert("로그인이 필요한 서비스입니다!");
         return (window.location.href = "/login");
       }
     }

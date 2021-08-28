@@ -173,18 +173,19 @@ const Details = (props) => {
             <Grid>
               <Grid is_flex>
                 {/* <UserProfileImageComponent img={postDetails?.profileImg} /> */}
+                <div>
                 <Title color="black" fontWeight="800" fontSize="20px" margin="0px 0px 10px 0px">
                   {postDetails?.title}
                 </Title>
                 <Text
                   color="#16C59B"
-                  margin="0px 0px 0px 10px"
+                  margin="0px 0px 10px 0px"
                   fontSize="14px"
                   fontWeight="bold"
                   style={{ minWidth: "45px" }}
                 >
                   {postDetails?.currentMember}/{postDetails?.maxMember}명
-                </Text>
+                </Text></div>
                 <UserProfileImageComponent img={postDetails?.profileImg} />
               </Grid>
               <text

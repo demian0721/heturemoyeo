@@ -50,8 +50,8 @@ const PostListCard = ({ children, ...props }) => {
             >
               {props.title}
             </Text>
-            <Grid is_flex height="">
-              <ListInfo id="member">
+            <div className="font-normal text-xs py-1 lg:text-sm space-x-1" className="inline-flex">
+              <ListInfo id="member"  style={{display: "contents",}}>
                 <PersonIcon
                   style={{
                     width: "15px",
@@ -71,7 +71,7 @@ const PostListCard = ({ children, ...props }) => {
                   {props.currentMember} / {props.maxMember} 명
                 </span>
               </ListInfo>
-              <ListInfo id="date">
+              <ListInfo id="date"  style={{display: "contents",}}>
                 <EventAvailableOutlinedIcon
                   style={{
                     width: "15px",
@@ -85,7 +85,7 @@ const PostListCard = ({ children, ...props }) => {
                   {formattedDate(props.startDate)}
                 </span>
               </ListInfo>
-            </Grid>
+            </div>
             <ListInfo id="place">
               <RoomOutlinedIcon
                 style={{
@@ -183,8 +183,8 @@ const InvitedListCard = ({ children, ...props }) => {
               >
                 {props.title}
               </Text>
-              <Grid is_flex height="">
-                <ListInfo id="member">
+              <div className="font-normal text-xs py-1 lg:text-sm space-x-1" className="inline-flex">
+                <ListInfo id="member"  style={{display: "contents",}}>
                   <PersonIcon
                     style={{
                       width: "15px",
@@ -204,7 +204,7 @@ const InvitedListCard = ({ children, ...props }) => {
                     {props.currentMember} / {props.maxMember} 명
                   </span>
                 </ListInfo>
-                <ListInfo id="date">
+                <ListInfo id="date"  style={{display: "contents",}}>
                   <EventAvailableOutlinedIcon
                     style={{
                       width: "15px",
@@ -218,7 +218,9 @@ const InvitedListCard = ({ children, ...props }) => {
                     {formattedDate(props.startDate)}
                   </span>
                 </ListInfo>
-              </Grid>
+              </div>
+
+
               <ListInfo id="place">
                 <RoomOutlinedIcon
                   style={{

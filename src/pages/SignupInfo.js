@@ -23,9 +23,8 @@ const SignupInfo = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => { if (getToken()) { window.alert("이미 로그인되어 있습니다."); window.location.href ='/'; } }, []);
-
+  
   const debounce = _.debounce((value, setValue) => setValue(value), 0);
-
   const fileInput = useRef();
   const image = useSelector((state) => state.image);
   const preview = !image.preview ? "/assets/profile_image_avatar_only.png" : image.preview;
@@ -43,7 +42,9 @@ const SignupInfo = (props) => {
 
   const [complite,setComplite] = useState(false);
 
-  const [is_check_nickname,setCheckNick] = useState(false);
+  const is_check_nickname = useSelector((state) => state.user.is_check_nickname);
+  const [nickCk,setNickCk] = useState(false);
+  const [firstNick,setFirstCk] = useState(false);
 
   const [buttonColor,setButton] = React.useState({
     color: "white",
@@ -71,7 +72,11 @@ const SignupInfo = (props) => {
 
     setNicknameWarColor("green");
     setNicknameConfirm("중복 검사를 해주세요.");
-    setCheckNick(false);
+
+    if(is_check_nickname && !firstNick){
+      setFirstCk(true);
+    };
+    setNickCk(false);
     //닉네임 확인 후 닉네임 변경시 is_check_nickname이 false가 되게
 
   };
@@ -121,15 +126,13 @@ const SignupInfo = (props) => {
       return;
     }
     dispatch(userActions.nickCheck(nickname));
-    setCheckNick(nickCk);
+    setNickCk(is_check_nickname);
     setNicknameConfirm("");
   };
 
-  const nickCk = useSelector((state) => state.user.is_check_nickname);
-
   //확인용
 
-  if(nickname && statusMessage&&is_check_nickname&&!complite){
+  if(nickname && statusMessage&&(is_check_nickname&&!firstNick||is_check_nickname&&nickCk&&firstNick)&&!complite){
     setComplite(true);
     setButton({
     color: "white",
@@ -138,7 +141,7 @@ const SignupInfo = (props) => {
     hoverBg: "white",});
   }
 
-  if((!nickname || !statusMessage || !is_check_nickname ) && complite){
+  if((!nickname || !statusMessage || !is_check_nickname || (firstNick&&!nickCk) ) && complite){
     setComplite(false);
     setButton({
     color: "white",
@@ -147,8 +150,6 @@ const SignupInfo = (props) => {
     hoverBg: "#B9B9B9",});
   }
   //조건에 따른 버튼 색 변화
-
-  console.log('nickcheck',is_check_nickname)
 
   return (
     <Style>
@@ -233,36 +234,26 @@ const SignupInfo = (props) => {
               }}
             />
             
-            {is_check_nickname ? <Button
-              margin="0px 0px 0px 6px"
-              width="40%"
-              height="auto"
-              padding="17px 0"
-              fontSize="13px"
-              bg="#A7AAAD"
-              color="#FFFFFF"
-              className="custom_transition"
-              value={statusMessage}
-              style={{ cursor: "pointer", border: "none", fontWeight: "bold" }}
-              clickEvent={nicknamedup}
-            >
-              중복 확인
-            </Button> : <Button
-              margin="0px 0px 0px 6px"
-              width="40%"
-              height="auto"
-              padding="17px 0"
-              fontSize="13px"
-              bg="#16C59B"
-              hoverBg="white"
-              color="white"
-              hoverColor="#16C59B"
-              className="custom_transition"
-              style={{ cursor: "pointer", border: "none", fontWeight: "bold" }}
-              clickEvent={nicknamedup}
-            >
-              중복 확인
-            </Button> }
+            {is_check_nickname && nickCk && firstNick ? <Button
+            margin="0px 0px 0px 6px"  width="40%"  height="auto"  padding="17px 0"  fontSize="13px"  bg="#A7AAAD" hoverBg="#A7AAAD" color="white" hoverColor="white" className="custom_transition"
+              style={{ cursor: "default", border: "none", fontWeight: "bold" }}>
+              중복 확인</Button> : null }
+
+            {is_check_nickname && !nickCk && !firstNick ? <Button
+            margin="0px 0px 0px 6px"  width="40%"  height="auto"  padding="17px 0"  fontSize="13px"  bg="#A7AAAD" hoverBg="#A7AAAD" color="white" hoverColor="white" className="custom_transition"
+              style={{ cursor: "default", border: "none", fontWeight: "bold" }}>
+              중복 확인</Button> : null }
+
+            {is_check_nickname && !nickCk && firstNick ?  <Button
+            margin="0px 0px 0px 6px"  width="40%"  height="auto"  padding="17px 0"  fontSize="13px"  bg="#16C59B"  hoverBg="white"  color="white"  hoverColor="#16C59B"  className="custom_transition"
+            style={{ cursor: "pointer", border: "none", fontWeight: "bold" }}  clickEvent={nicknamedup}>
+            중복 확인</Button> : null }
+            
+            {!is_check_nickname && !nickCk && !firstNick ?  <Button
+              margin="0px 0px 0px 6px"  width="40%"  height="auto"  padding="17px 0"  fontSize="13px"  bg="#16C59B"  hoverBg="white"  color="white"  hoverColor="#16C59B"  className="custom_transition"
+              style={{ cursor: "pointer", border: "none", fontWeight: "bold" }}  clickEvent={nicknamedup}>
+              중복 확인</Button> : null }
+
           </Grid>
           <Grid padding="5px 0px 8px">
             <InputBox
@@ -271,6 +262,9 @@ const SignupInfo = (props) => {
               onChange={(event) => {
                 setStatusMessage(event.target.value);
               }}
+              // onKeyUp={(event) => {
+              //   if(event.target.value!=""){setCheckNick(nickCk);}
+              // }}
             />
           </Grid>
           <Grid padding="5px 0px 8px"

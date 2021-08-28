@@ -43,6 +43,9 @@ function PlaceImageComponent(props) {
           minWidth: "360px",
           height: "32vh",
           borderRadius: "0px",
+          position: "fixed",
+          zIndex:"0",
+          top:"75px",
         }}
       >
         <span className="sr-only">X</span>
@@ -137,7 +140,7 @@ const Details = (props) => {
   }, [PostList]);
 
   return (
-    <Grid height="calc(100vh - 75px)"   width="100vw" maxWidth="540px" minWidth="280px" margin="auto">
+    <Grid height="100%"   width="100vw" maxWidth="540px" minWidth="280px" margin="auto" >
       <PlaceImageComponent img={postDetails?.postImg}/>
       {/* <Grid>test</Grid> */}
       <Grid
@@ -145,15 +148,18 @@ const Details = (props) => {
         width="100%"
         minWidth="280px"
         maxWidth="540px"
-        margin="auto"
-        height="calc(68vh - 65px)"
+        margin="28vh 0px 0px 0px"
+        height="fit-content"
         bg="white"
-        position="fixed"
+        // position="fixed"
         style={{
+          zIndex:"5",
+          position: "relative",
+          // top: "400px",
           borderRadius: "10px 10px 0px 0px",
-          bottom: "0px",
-          left: "50%",
-          transform: "translateX(-50%)",
+          // bottom: "0px",
+          // left: "50%",
+          // transform: "translateX(-50%)",
         }}
       >
         <Grid
@@ -167,7 +173,7 @@ const Details = (props) => {
             <Grid>
               <Grid is_flex>
                 {/* <UserProfileImageComponent img={postDetails?.profileImg} /> */}
-                <Title color="black" fontWeight="800" fontSize="20px">
+                <Title color="black" fontWeight="800" fontSize="20px" margin="0px 0px 10px 0px">
                   {postDetails?.title}
                 </Title>
                 <Text
@@ -179,39 +185,28 @@ const Details = (props) => {
                 >
                   {postDetails?.currentMember}/{postDetails?.maxMember}명
                 </Text>
+                <UserProfileImageComponent img={postDetails?.profileImg} />
               </Grid>
-              <Text
-                color="black"
-                margin="10px auto"
-                fontSize="medium"
-                // style={{ minHeight: "50px" }}
+              <text
+                style={{ Height: "100%", color:"black",fontSize:"medium", lineHeight:"1.5"}}
               >
                 {postDetails?.content}
-              </Text>
+              </text>
 
-              <Grid is_flex id="tag">
+              <div is_flex id="tag" className="font-normal text-xs py-1 lg:text-sm space-x-1" style={{marginTop:"10px"}}>
                 {postDetails?.tag?.map((l, index) => {
                   return (
                     <div
                       key={index}
-                      style={{
-                        width: "fit-content",
-                        margin: "10px 5px 10px 0px",
-                        backgroundColor: "#white",
-                        color: "#767676",
-                        borderRadius: "5px",
-                        padding: "3px 5px",
-                        fontSize: "10px",
-                        border: "0.6px solid #767676",
-                      }}
+                      style={{ margin: "3px", backgroundColor: "#white", color: "#767676", borderRadius: "5px", padding: "3px 5px", fontSize:"small", border:"1px solid #767676"}} className="inline-flex"
                     >
                       {l}
                     </div>
                   );
                 })}
-              </Grid>
+              </div>
             </Grid>
-            <UserProfileImageComponent img={postDetails?.profileImg} />
+            
           </Grid>
         </Grid>
         {/* 필요없어진 방장 프로필n종료시각n닫기 */}

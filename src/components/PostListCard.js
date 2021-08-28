@@ -21,16 +21,7 @@ const PostListCard = ({ children, ...props }) => {
     return (
       <div
         key={index}
-        style={{
-          width: "fit-content",
-          margin: "10px 3px 10px 0px",
-          backgroundColor: "#white",
-          color: "#",
-          borderRadius: "5px",
-          padding: "3px 5px",
-          fontSize: "10px",
-          border: "0.6px solid #767676",
-        }}
+        style={{ margin: "3px", backgroundColor: "#white", color: "#767676", borderRadius: "5px", padding: "3px 5px", fontSize:"x-small", border:"1px solid #767676"}} className="inline-flex"
       >
         {l}
       </div>
@@ -112,7 +103,7 @@ const PostListCard = ({ children, ...props }) => {
               {/* </Text> */}
             </ListInfo>
             <ListInfo>
-              <div style={{ display: "flex" }}>{tagItems}</div>
+              <div className="font-normal text-xs py-1 lg:text-sm space-x-1">{tagItems}</div>
             </ListInfo>
           </Grid>
         </PostCard>
@@ -152,11 +143,12 @@ const InvitedListCard = ({ children, ...props }) => {
     return (
       <div
         key={index}
+        className="inline-flex"
         style={{
-          width: "fit-content",
+          width: "max-content",
           margin: "5px 3px 5px 0px",
           backgroundColor: "#white",
-          color: "#",
+          color: "#767676",
           borderRadius: "5px",
           padding: "3px 5px",
           fontSize: "10px",
@@ -244,7 +236,7 @@ const InvitedListCard = ({ children, ...props }) => {
                 {/* </Text> */}
               </ListInfo>
               <ListInfo>
-                <div style={{ display: "flex" }}>{tagItems}</div>
+                <div  className="font-normal text-xs py-1 lg:text-sm space-x-1" >{tagItems}</div>
               </ListInfo>
             </Grid>
           </div>

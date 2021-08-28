@@ -65,7 +65,8 @@ const Style = styled.div`
   align-items: center;
   margin-top: 75px;
   /* width: 100vw; */
-  height: calc(100vh - 75px);
+  /* height: calc(100vh - 75px); */
+  height: 100%;
   background-color: #efefef;
   //styled component use
 `;

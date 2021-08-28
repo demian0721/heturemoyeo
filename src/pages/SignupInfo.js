@@ -117,12 +117,12 @@ const SignupInfo = (props) => {
       window.alert("닉네임이 입력되지 않았습니다.");
       return;
     }
-    if (nickname.length < 3) {
-      window.alert("닉네임은 3글자 이상, 최대 20글자까지 작성할 수 있습니다.");
+    if (nickname.length < 2) {
+      window.alert("닉네임은 1글자 이상, 최대 20글자까지 작성할 수 있습니다.");
       return;
     }
     if (nickname.length > 20) {
-      window.alert("닉네임은 3글자 이상, 최대 20글자까지 작성할 수 있습니다.");
+      window.alert("닉네임은 1글자 이상, 최대 20글자까지 작성할 수 있습니다.");
       return;
     }
     dispatch(userActions.nickCheck(nickname));
@@ -132,7 +132,7 @@ const SignupInfo = (props) => {
 
   //확인용
 
-  if(nickname && statusMessage&&(is_check_nickname&&!firstNick||is_check_nickname&&nickCk&&firstNick)&&!complite){
+  if(nickname && (is_check_nickname&&!firstNick||is_check_nickname&&nickCk&&firstNick)&&!complite){
     setComplite(true);
     setButton({
     color: "white",
@@ -141,7 +141,7 @@ const SignupInfo = (props) => {
     hoverBg: "white",});
   }
 
-  if((!nickname || !statusMessage || !is_check_nickname || (firstNick&&!nickCk) ) && complite){
+  if((!nickname || !is_check_nickname || (firstNick&&!nickCk) ) && complite){
     setComplite(false);
     setButton({
     color: "white",

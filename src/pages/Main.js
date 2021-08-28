@@ -5,12 +5,11 @@ import { Transition, Dialog } from "@headlessui/react";
 import { geolocated, geoPropTypes } from "react-geolocated";
 import { useSelector, useDispatch } from "react-redux";
 
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   DistanceState,
   ShowOverlay,
   LoadMarkerDataState,
-  ShowInviteModal,
 } from "../utils/recoil";
 
 // REDUX
@@ -24,9 +23,11 @@ import axios from "../common/axios";
 
 // COMPONENTS
 // import Header from "../components/Header";
-import Overlay from "../components/Overlay";
 import OverlayTransition from "../components/Transitions/OverlayTransition";
-import InviteModalTransition from '../components/Transitions/InviteModalTransition'
+import InviteModalTransition from "../components/Transitions/InviteModalTransition";
+import FirstLoginModalTransition from "../components/Transitions/FirstLoginModalTransition";
+import DistanceModalTransition from "../components/Transitions/DistanceModalTransition";
+import CompressedMainButtons from "../components/Compressed"
 import Footer from "../components/Footer";
 
 // ELEMENTS
@@ -34,11 +35,6 @@ import { Grid, Button, Image } from "../elements/index";
 
 // HOOKS
 import useOutsideClick from "../hooks/useOutsideClick";
-
-// MATERIAL-UI
-import MyLocationIcon from "@material-ui/icons/MyLocation";
-import RateReviewIcon from "@material-ui/icons/RateReview";
-import LeakAddIcon from "@material-ui/icons/LeakAdd";
 
 // ETC
 import Logger from "../utils/Logger";
@@ -58,7 +54,7 @@ const Main = (props) => {
   const [markerData, setMarkerData] = useState({});
 
   const [showOverlay, setShowOverlay] = useRecoilState(ShowOverlay);
-  const [loaded, setLoaded] = useRecoilState(LoadMarkerDataState)
+  const setLoaded = useSetRecoilState(LoadMarkerDataState);
   // const [callUserData, setCallUserData] = useState({})
 
   // 로그인 후, 유저 데이터
@@ -103,10 +99,10 @@ const Main = (props) => {
   };
 
   /**
-   * panTo:
+   * setPanTo:
    * 인자값을 받아와 경도 위도를 기준으로 하여, 뷰포인트를 맵의 센터로 옮겨줍니다.
    */
-  const panTo = (lat, lng) =>
+  const setPanTo = (lat, lng) =>
     global?.map?.panTo(new kakao.maps.LatLng(lat, lng));
 
   /**
@@ -121,11 +117,11 @@ const Main = (props) => {
     // 내 마커 데이터는 페이지가 로드 되면서 부터 가지고 있기 때문에, 굳이 다시 불러올 필요가 없다.
     // 그래서 그 외 마커는 useEffect 에서 데이터를 받아오면서 loaded State를 true로 변경하지만,
     // 해당 데이터는 다시 불러오지 않기 때문에, if 문으로 처리해준다.
-    if (markerData.isMe) setLoaded(true);
     // markerData 안에 postId, userId 등 값을 assign 하여, 넘겨받음.
     if (!showOverlay) {
+      if (markerData.isMe) setLoaded(true);
       setShowOverlay(true);
-      panTo(markerData.position.getLat(), markerData.position.getLng());
+      setPanTo(markerData.position.getLat(), markerData.position.getLng());
       // Resize Marker, disabled
       // markerData.setImage(
       //   new kakao.maps.MarkerImage(
@@ -158,74 +154,12 @@ const Main = (props) => {
    * 해당 데이터를 이용하여, addMarker 함수 안의 조건문을 걸어, 카카오맵 마커 데이터안에, 배치하여 다른 이벤트에서도 사용할 수 있도록 하였습니다.
    */
   const addMarker = (map, setMarkerId, position, post = false) => {
-    let isFriend, isSameSchedule, isMe, isSchedule, isMarkerImage;
     setMarkerId = String(setMarkerId);
-    if (!post) {
-      if (
-        myFriends?.includes(setMarkerId) &&
-        mySchedules?.includes(setMarkerId) &&
-        String(myUserId) !== setMarkerId
-      ) {
-        // isFriend: true | isSameSchedules: true | isMe: false | schedule: false
-        isFriend = true;
-        isSameSchedule = true;
-        isMe = false;
-        isSchedule = false;
-        isMarkerImage = MarkerImageObject.sameSchedule;
-      } else if (
-        myFriends?.includes(setMarkerId) &&
-        !mySchedules?.includes(setMarkerId) &&
-        String(myUserId) !== setMarkerId
-      ) {
-        // isFriend: true | isSameSchedules: false | isMe: false | schedule: false
-        isFriend = true;
-        isSameSchedule = false;
-        isMe = false;
-        isSchedule = false;
-        isMarkerImage = MarkerImageObject.friend;
-      } else if (
-        !myFriends?.includes(setMarkerId) &&
-        mySchedules?.includes(setMarkerId) &&
-        String(myUserId) !== setMarkerId
-      ) {
-        // isFriend: false | isSameSchedules: true | isMe: false | schedule: false
-        isFriend = false;
-        isSameSchedule = true;
-        isMe = false;
-        isSchedule = false;
-        isMarkerImage = MarkerImageObject.sameSchedule;
-      } else if (
-        !myFriends?.includes(setMarkerId) &&
-        !mySchedules?.includes(setMarkerId) &&
-        String(myUserId) === setMarkerId
-      ) {
-        // isFriend: false | isSameSchedules: false | isMe: true | schedule: false
-        isFriend = false;
-        isSameSchedule = false;
-        isMe = true;
-        isSchedule = false;
-        isMarkerImage = MarkerImageObject.me;
-      } else {
-        // isFriend: false | isSameSchedules: false | isMe: false | schedule: false
-        isFriend = false;
-        isSameSchedule = false;
-        isMe = false;
-        isSchedule = false;
-        isMarkerImage = MarkerImageObject.anonymous;
-      }
-    } else if (post) {
-      // isFriend: false | isSameSchedules: false | isMe: false | schedule: true
-      isFriend = false;
-      isSameSchedule = false;
-      isMe = false;
-      isSchedule = true;
-      isMarkerImage = MarkerImageObject.schedule;
-    }
-    // Logger.verbose(`[AddMarker] ${post ? `Schedule, SchedulePostId` : `User, UserId`}: ${setMarkerId}`)
+    const parseData = MarkerDataParse(myFriends, mySchedules, myUserId, setMarkerId, post)
     const markerSize = new kakao.maps.Size(24, 24);
     const markerImageOptions = { offset: new kakao.maps.Point(23, 23) };
     const markerImage = new kakao.maps.MarkerImage(
-      isMarkerImage,
+      parseData.isMarkerImage,
       markerSize,
       markerImageOptions
     );
@@ -233,13 +167,10 @@ const Main = (props) => {
     marker.setMap(map);
     Object.assign(marker, {
       [post ? "postId" : "userId"]: setMarkerId,
-      isFriend,
-      isSameSchedule,
-      isMe,
-      isSchedule,
+      ...parseData,
       position,
       markerImage: {
-        url: isMarkerImage,
+        url: parseData.isMarkerImage,
         size: markerSize,
         options: markerImageOptions,
       },
@@ -343,7 +274,6 @@ const Main = (props) => {
     };
   }, [myFriends, mySchedules, geolocationMarker]);
 
-  const [firstModal, setFirstModal] = useState(false);
   useEffect(() => {
     if (!geolocationMarker) return;
     Logger.info('[KakaoMap:LoadMap] Loaded KakaoMap, render to "div#map"');
@@ -375,7 +305,6 @@ const Main = (props) => {
         )
       );
     }
-    if (localStorage.getItem("firstLogin") === "true") setFirstModal(true);
     return () => {
       markers.map((marker) => {
         kakao.maps.event.removeListener(marker, "click", () =>
@@ -406,58 +335,6 @@ const Main = (props) => {
       // socket.emit("getPostList");
     }, 2000);
   }
-
-  const [selectedDistance, setSelectedDistance] = useRecoilState(DistanceState);
-
-  useEffect(() => {
-    const getDistance = localStorage.getItem("distance");
-    let tasking = false;
-    if (!getDistance) {
-      tasking = true;
-      setSelectedDistance(2000);
-      localStorage.setItem("distance", 2000);
-      socket.emit("changeDistance", { distance: 2000 });
-      Logger.info(
-        `[SetDefaultDistance] Init to set localStorage item via getDistance (DefaultDistance: 2000M (2KM))`
-      );
-    }
-    if (Number(getDistance) !== Number(selectedDistance) && !tasking) {
-      setSelectedDistance(Number(getDistance));
-      socket.emit("changeDistance", { distance: Number(getDistance) });
-      Logger.info(
-        `[SetDistance] Not same to reocil distance, but set distance... (SetDistance: ${Number(
-          getDistance
-        )}M (${Number(getDistance) / 1000}KM))`
-      );
-    }
-  }, []);
-
-  const handleFirstModalClose = () => {
-    localStorage.setItem("firstLogin", false);
-    setFirstModal(false);
-  };
-
-  const distanceList = [2, 5, 10, 15, 700];
-  const [showDistance, setShowDistance] = useState(false);
-  const distanceRef = useRef();
-  const handleDistanceClose = (clearSelect = true) => {
-    setShowDistance(false);
-    if (clearSelect) setSelectedDistance(DistanceState);
-  };
-  useOutsideClick(distanceRef, () => handleDistanceClose(false));
-  const handleChangeDistance = (clearSelect = true) => {
-    const getDistance = localStorage.getItem("distance");
-    if (Number(selectedDistance) === Number(getDistance))
-      return alert("현재 설정된 반경과 동일합니다!");
-    alert(
-      `보기 반경이 ${getDistance / 1000 ?? "2"}KM 에서 ${
-        Number(selectedDistance) / 1000
-      }KM로 변경되었습니다!`
-    );
-    localStorage.setItem("distance", Number(selectedDistance));
-    socket.emit("changeDistance", { distance: Number(selectedDistance) });
-    handleDistanceClose(clearSelect);
-  };
 
   return (
     <Fragment>
@@ -505,284 +382,14 @@ const Main = (props) => {
               }}
             />
             {/* 오버레이 */}
-            <OverlayTransition myUserId={myUserId} markerData={markerData} />
-            <InviteModalTransition markerData={markerData} />
-            <Transition show={showDistance} as={Fragment}>
-              <Dialog
-                as="div"
-                className="fixed lg:mt-40 md:mt-32 mt-20 inset-0 z-10"
-                onClose={() => handleDistanceClose(false)}
-              >
-                <div
-                  ref={distanceRef}
-                  className="min-h-screen px-4 text-center"
-                >
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                    <Dialog.Overlay className="fixed bottom-0 inset-0" />
-                  </Transition.Child>
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0 scale-95"
-                    enterTo="opacity-100 scale-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100 scale-100"
-                    leaveTo="opacity-0 scale-95"
-                  >
-                    <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl self-center items-center border border-gray-300 border-opacity-25">
-                      <Dialog.Title
-                        as="h3"
-                        className="text-base font-medium leading-6 text-gray-900"
-                      >
-                        범위 설정하기
-                      </Dialog.Title>
-                      <div className="mb-2">
-                        <p className="text-sm text-gray-500">
-                          원하는 반경 거리를 선택하여 확인하여보세요.
-                        </p>
-                      </div>
-
-                      <div
-                        className="flex flex-wrap flex-initial overflow-y-scroll w-full space-y-2 bg-gray-300 rounded-md bg-opacity-25 p-2 border border-gray-400 border-opacity-25 content-start"
-                        style={{ height: "305px" }}
-                      >
-                        {distanceList.map((el, index) => (
-                          <DistanceCard index={index} radius={el} />
-                        ))}
-                      </div>
-                      <div className="flex justify-between mt-4 space-x-4 w-full">
-                        <button
-                          type="button"
-                          className="flex justify-center px-4 py-2 lg:text-sm text-xs font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 transition duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-                          onClick={() => handleChangeDistance(false)}
-                        >
-                          설정하기
-                        </button>
-                        <button
-                          type="button"
-                          className="flex justify-center px-4 py-2 lg:text-sm text-xs font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 transition duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-                          onClick={() => handleDistanceClose(false)}
-                        >
-                          취소
-                        </button>
-                      </div>
-                    </div>
-                  </Transition.Child>
-                </div>
-              </Dialog>
-            </Transition>
-            <Transition show={firstModal} as={Fragment}>
-              <Dialog
-                as="div"
-                className="fixed lg:mt-40 md:mt-32 mt-20 inset-0 z-10"
-                onClose={() => handleDistanceClose(false)}
-              >
-                <div className="min-h-screen px-4 text-center">
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                    <Dialog.Overlay className="fixed bottom-0 inset-0" />
-                  </Transition.Child>
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0 scale-95"
-                    enterTo="opacity-100 scale-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100 scale-100"
-                    leaveTo="opacity-0 scale-95"
-                  >
-                    <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl self-center items-center border border-gray-300 border-opacity-25">
-                      <Dialog.Title
-                        as="h3"
-                        className="text-base font-medium leading-6 text-gray-900"
-                      >
-                        헤쳐모여
-                      </Dialog.Title>
-                      <div className="mb-2">
-                        <p className="text-sm text-gray-500">
-                          "운동인을 위한 번개모임 어플"
-                        </p>
-                      </div>
-
-                      <div
-                        className="flex w-full bg-gray-300 rounded-md bg-opacity-25 p-2 border border-gray-400 border-opacity-25 overflow-none"
-                        style={{ height: "305px" }}
-                      >
-                        {/* <div
-                          id="container"
-                          className="text-center w-full"
-                          style={{
-                            transition: "left",
-                            WebkitTransition: "left",
-                            MozTransition: "left",
-                            transitionDuration: "0.5s",
-                            WebkitTransitionDuration: "0.5s",
-                            MozTransitionDuration: "0.5s",
-                            marginLeft: "auto",
-                            marginRight: "auto",
-                          }}
-                        >
-                          <div
-                            id="slide-1"
-                            className="float-left m-0 p-0"
-                            style={{ height: "305px" }}
-                          >
-                            <span>1</span>
-                          </div>
-                          <div
-                            id="slide-2"
-                            className="float-left m-0 p-0"
-                            style={{ height: "305px" }}
-                          >
-                            <span>2</span>
-                          </div>
-                          <div
-                            id="slide-3"
-                            className="float-left m-0 p-0"
-                            style={{ height: "305px" }}
-                          >
-                            <span>3</span>
-                          </div>
-                          <div
-                            id="slide-4"
-                            className="float-left m-0 p-0"
-                            style={{ height: "305px" }}
-                          >
-                            <span>4</span>
-                          </div>
-                          <div
-                            id="slide-5"
-                            className="float-left m-0 p-0"
-                            style={{ height: "305px" }}
-                          >
-                            <span>0</span>
-                          </div>
-                        </div> */}
-                      </div>
-                      <div className="flex justify-center mt-4 w-full">
-                        <button
-                          type="button"
-                          className="flex justify-center w-full py-2 lg:text-sm text-xs font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 transition duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-                          onClick={() => handleFirstModalClose()}
-                        >
-                          시작하기
-                        </button>
-                      </div>
-                    </div>
-                  </Transition.Child>
-                </div>
-              </Dialog>
-            </Transition>
-          </div>
-          <div
-            className="fixed bottom-0 right-0 w-20 h-20 lg:mb-28 mb-24 mr-4"
-            style={{ zIndex: 2 }}
-          >
-            <div className="lg:space-y-2 space-y-1">
-              <div className="flex justify-end">
-                <button
-                  onClick={() =>
-                    window.open("https://forms.gle/j2pyniivrJgxcn7G8")
-                  }
-                  className="flex lg:p-4 p-3 lg:text-base text-sm rounded-full text-center self-center minaBtn transition duration-300 ease-in-out"
-                >
-                  <RateReviewIcon />
-                </button>
-              </div>
-              <div className="flex justify-end self-center lg:space-x-2 space-x-1">
-                <button
-                  onClick={() => setShowDistance(true)}
-                  className="flex lg:p-4 p-3 lg:text-base text-sm rounded-full text-center self-center minaBtn transition duration-300 ease-in-out"
-                >
-                  <LeakAddIcon />
-                </button>
-                <button
-                  onClick={() =>
-                    panTo(props?.coords?.latitude, props?.coords?.longitude)
-                  }
-                  className="flex lg:p-4 p-3 lg:text-base text-sm rounded-full text-center self-center minaBtn transition duration-300 ease-in-out"
-                >
-                  <MyLocationIcon />
-                </button>
-              </div>
+            <div className='container'>
+              <OverlayTransition myUserId={myUserId} markerData={markerData} />
+              <InviteModalTransition markerData={markerData} />
+              <FirstLoginModalTransition />
+              <DistanceModalTransition />
             </div>
           </div>
-          {/* <Grid
-            style={{ position: "fixed", zIndex: 2 }}
-            width="auto"
-            height="full"
-            overflow="visible"
-            className="lg:mt-28 mt-24 mt-20 lg:ml-10 ml-6 inset-0 w-20 h-20"
-          >
-            <Button
-              shadow="rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;"
-              bg="rgba(255, 255, 255, 1)"
-              hoverBg="#16C59B"
-              color="#16C59B"
-              hoverColor="#fcfcfc"
-              padding="12px"
-              margin="20px 0px 0px calc(100vw - 105px)"
-              radius="100%"
-              className="custom_transition"
-              // className="fixed lg:mt-24 md:mt-20 mt-14 inset-0 z-10"
-              clickEvent={() => {
-                window.open("https://forms.gle/j2pyniivrJgxcn7G8");
-              }}
-            >
-              <RateReviewIcon />
-            </Button>
-
-            <Button
-              shadow="rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;"
-              bg="rgba(255, 255, 255, 1)"
-              hoverBg="#16C59B"
-              color="#16C59B"
-              hoverColor="#fcfcfc"
-              padding="12px"
-              margin="10px 0px 0px calc(100vw - 105px)"
-              radius="100%"
-              className="custom_transition"
-              // className="fixed lg:mt-24 md:mt-20 mt-14 inset-0 z-10"
-              clickEvent={() =>
-                panTo(props?.coords?.latitude, props?.coords?.longitude)
-              }
-            >
-              <MyLocationIcon />
-            </Button>
-
-            <Button
-              shadow="rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;"
-              bg="rgba(255, 255, 255, 1)"
-              hoverBg="#16C59B"
-              color="#16C59B"
-              hoverColor="#fcfcfc"
-              padding="12px"
-              margin="10px 0px 0px calc(100vw - 105px)"
-              radius="100%"
-              className="custom_transition"
-              // className="fixed lg:mt-24 md:mt-20 mt-14 inset-0 z-10"
-              clickEvent={() =>
-                panTo(props?.coords?.latitude, props?.coords?.longitude)
-              }
-            >
-              <MyLocationIcon />
-            </Button>
-          </Grid> */}
+          <CompressedMainButtons {...props} />
           <Footer>home</Footer>
         </>
       )}
@@ -790,33 +397,82 @@ const Main = (props) => {
   );
 };
 
-function DistanceCard({ children, ...props }) {
-  const [selectedDistance, setSelectedDistance] = useRecoilState(DistanceState);
-  return (
-    <div
-      key={props.index}
-      id="distance-card"
-      className={`flex flex-wrap w-full ${
-        props?.radius * 1000 === selectedDistance
-          ? "selectedCard"
-          : "bg-gray-100 hover:bg-white border border-gray-400 border-opacity-25"
-      } rounded-md trasition duration-300 ease-in-out shadow-xl self-center px-3 py-2 cursor-pointer`}
-      onClick={() => setSelectedDistance(props.radius * 1000)}
-    >
-      <div className="block ml-2 self-center">
-        <div id="title" className="lg:text-base text-sm font-bold">
-          {props.index + 1}단계
-        </div>
-        <div id="member_count" className="lg:text-sm text-xs font-sm">
-          반경
-          <span className="ml-1 font-bold">{props.radius}KM</span>
-          <span className="ml-1 tagItem rounded-md px-2 transition duration-300 ease-in-out">
-            {props.radius * 1000}M
-          </span>
-        </div>
-      </div>
-    </div>
-  );
+function MarkerDataParse (myFriends, mySchedules, myUserId, setMarkerId, post)  {
+  const obj = {}
+  if (!post) {
+    if (
+      myFriends?.includes(setMarkerId) &&
+      mySchedules?.includes(setMarkerId) &&
+      String(myUserId) !== setMarkerId
+    ) {
+      // isFriend: true | isSameSchedules: true | isMe: false | schedule: false
+      Object.assign(obj, {
+        isMe: false,
+        isFriend: true,
+        isSameSchedule: true,
+        isSchedule: false,
+        isMarkerImage: MarkerImageObject.sameSchedule
+      })
+    } else if (
+      myFriends?.includes(setMarkerId) &&
+      !mySchedules?.includes(setMarkerId) &&
+      String(myUserId) !== setMarkerId
+    ) {
+      // isFriend: true | isSameSchedules: false | isMe: false | schedule: false
+      Object.assign(obj, {
+        isMe: false,
+        isFriend: true,
+        isSameSchedule: false,
+        isSchedule: false,
+        isMarkerImage: MarkerImageObject.friend
+      })
+    } else if (
+      !myFriends?.includes(setMarkerId) &&
+      mySchedules?.includes(setMarkerId) &&
+      String(myUserId) !== setMarkerId
+    ) {
+      // isFriend: false | isSameSchedules: true | isMe: false | schedule: false
+      Object.assign(obj, {
+        isMe: false,
+        isFriend: false,
+        isSameSchedule: true,
+        isSchedule: false,
+        isMarkerImage: MarkerImageObject.sameSchedule
+      })
+    } else if (
+      !myFriends?.includes(setMarkerId) &&
+      !mySchedules?.includes(setMarkerId) &&
+      String(myUserId) === setMarkerId
+    ) {
+      // isFriend: false | isSameSchedules: false | isMe: true | schedule: false
+      Object.assign(obj, {
+        isMe: true,
+        isFriend: false,
+        isSameSchedule: false,
+        isSchedule: false,
+        isMarkerImage: MarkerImageObject.me
+      })
+    } else {
+      // isFriend: false | isSameSchedules: false | isMe: false | schedule: false
+      Object.assign(obj, {
+        isMe: false,
+        isFriend: false,
+        isSameSchedule: false,
+        isSchedule: false,
+        isMarkerImage: MarkerImageObject.anonymous
+      })
+    }
+  } else if (post) {
+    // isFriend: false | isSameSchedules: false | isMe: false | schedule: true
+    Object.assign(obj, {
+      isMe: false,
+      isFriend: false,
+      isSameSchedule: false,
+      isSchedule: true,
+      isMarkerImage: MarkerImageObject.schedule
+    })
+  }
+  return obj
 }
 
 Main.propTypes = { ...Main.propTypes, ...geoPropTypes };

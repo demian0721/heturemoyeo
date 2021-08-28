@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-import { useRecoilState } from "recoil";
-import { ActiveInviteModal, ShowInviteModal, MyScheduleList } from "../utils/recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { ShowInviteModal, MyScheduleList } from "../utils/recoil";
 import axios from "../common/axios";
 import Logger from "../utils/Logger";
 
@@ -94,8 +94,8 @@ const UserOverlayDivideComponent = ({ force = false, ...props }) => {
 };
 
 const UserOverlay = ({ children, ...props }) => {
-  const [showModal, setShowModal] = useRecoilState(ShowInviteModal);
-  const [myScheduleList, setMyScheduleList] = useRecoilState(MyScheduleList);
+  const setShowModal = useSetRecoilState(ShowInviteModal);
+  const setMyScheduleList = useSetRecoilState(MyScheduleList);
   return (
     <>
       <div data-userid={props.id} className="flex justify-start">

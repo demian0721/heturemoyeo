@@ -25,6 +25,11 @@ export const DistanceState = atom({
   default: 2000,
 });
 
+export const ShowDistanceModal = atom({
+  key: 'ShowDistanceModal',
+  default: false
+})
+
 // Transtion Component Recoil
 // Overlay
 export const LoadMarkerDataState = atom({

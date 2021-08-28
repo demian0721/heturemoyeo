@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { Transition } from "@headlessui/react";
 
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -33,18 +33,8 @@ const OverlayTransition = ({ children, myUserId, markerData, ...props }) => {
       leaveTo="opacity-0"
       className="absolute left-0 right-0 bottom-0 border border-gray-300 rounded-t-lg bg-white py-4 topDropShadow"
       style={{ zIndex: 11 }}
-      onKeyDown={(e) => {
-        if (showOverlay && e.key === 'Escape') {
-          setShowOverlay(false)
-          if (loaded) setLoaded(false)
-        }
-      }}
-      tabIndex="0"
     >
-      <div
-        ref={ref}
-        className="container mx-auto px-4"
-      >
+      <div ref={ref} className="container mx-auto px-4">
         <div id="overlay--author__status" className="block">
           <Overlay
             isOpen={showOverlay}

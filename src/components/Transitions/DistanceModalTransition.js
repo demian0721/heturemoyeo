@@ -5,7 +5,7 @@ import { useRecoilState } from "recoil";
 import { DistanceState, ShowDistanceModal } from "../../utils/recoil";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import Logger from "../../utils/Logger";
-import socket from '../../common/socket';
+import socket from "../../common/socket";
 
 const DistanceModalTransition = ({ children }) => {
   const [selectedDistance, setSelectedDistance] = useRecoilState(DistanceState);
@@ -100,9 +100,10 @@ const DistanceModalTransition = ({ children }) => {
                 className="flex flex-wrap flex-initial overflow-y-scroll w-full space-y-2 bg-gray-300 rounded-md bg-opacity-25 p-2 border border-gray-400 border-opacity-25 content-start"
                 style={{ height: "305px" }}
               >
-                {distanceList.map((el, index) => (
-                  <DistanceCard index={index} radius={el} />
-                ))}
+                {distanceList.map((radius, index) => {
+                  const props = { radius, index };
+                  return <DistanceCard {...props} />;
+                })}
               </div>
               <div className="flex justify-between mt-4 space-x-4 w-full">
                 <button

@@ -35,6 +35,7 @@ import { Grid, Input, Image, Title, Text, Button } from "../elements/index";
 // ICON
 import AddAPhotoOutlinedIcon from "@material-ui/icons/AddAPhotoOutlined";
 import RoomIcon from "@material-ui/icons/Search";
+import CloseIcon from "@material-ui/icons/Close";
 
 import useOutsideClick from "../hooks/useOutsideClick";
 import { Today } from "@material-ui/icons";
@@ -59,6 +60,7 @@ const PostWrite = (props) => {
   const [viewModal, setViewModal] = useState(false);
   const [loadMap, setLoadMap] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [tags, setTags] = useState([]);
 
   const [beginDate, setBeginDate] = useState(null);
   const [finishDate, setFinishDate] = useState(null);
@@ -92,7 +94,7 @@ const PostWrite = (props) => {
     endDate: postInfo ? postInfo.endDate : "",
     place: postInfo ? postInfo.place : "",
     bring: postInfo ? postInfo.bring : "",
-    tag: postInfo ? postInfo.tag : [],
+    tag: postInfo ? postInfo.tag.length !== 0 ? postInfo.tag : tags.length !== 0 ? tags : [] : [],
     lat: postInfo ? postInfo.lat : 0,
     lng: postInfo ? postInfo.lng : 0,
   });
@@ -418,6 +420,7 @@ const PostWrite = (props) => {
                 </div>
                 <div className="self-center">
                   <InputBox
+                    className="focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                     id="locationInput"
                     style={{
                       width: "400px",
@@ -455,6 +458,8 @@ const PostWrite = (props) => {
                       setPostingContents({
                         ...postingContents,
                         place: !state ? "온라인 모임" : "",
+                        lat: null,
+                        lng: null
                       });
                       return !state;
                     });
@@ -470,6 +475,7 @@ const PostWrite = (props) => {
                   정원
                 </Text>
                 <InputBox
+                  className="focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                   type="number"
                   min="2"
                   style={{
@@ -496,6 +502,7 @@ const PostWrite = (props) => {
                   지참금
                 </Text>
                 <InputBox
+                  className="focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                   style={{
                     width: "100%",
                     borderLeft: "none",
@@ -538,6 +545,7 @@ const PostWrite = (props) => {
                   제목
                 </Text>
                 <InputBox
+                  className="focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                   style={{
                     border: "1.5px solid #white",
                     // margin: "7px auto",
@@ -590,25 +598,69 @@ const PostWrite = (props) => {
                 fontSize="14px"
                 margin="10px 0px"
               >
-                태그입력
+                태그입력 (스페이스바로 나눌 수 있습니다.)
               </Text>
-              <InputBox
-                style={{
-                  width: "100%",
-                  border: "1.5px solid #white",
-                }}
-                placeholder="태그를 설정하세요(예시단어: 걷기, 산책)"
-                type="text"
-                value={postingContents.tag}
-                onChange={(e) => {
-                  setPostingContents({
-                    ...postingContents,
-                    tag: String(e.target.value).includes(",")
-                      ? e.target.value.split(",")
-                      : [e.target.value],
-                  });
-                }}
-              />
+              {tags.length !== 0 && (
+                <div className="flex flex-wrap mb-2">
+                  {tags
+                    .filter((el) => el.length !== 0)
+                    .map((el, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="flex justify-start bottom-0 rounded-md bg-main listBtn transition duration-300 ease-in-out px-2 py-1 self-center text-white my-1 mx-1"
+                        >
+                          <span className="flex">{el.trim()}</span>
+                          <div
+                            className="flex cursor-pointer"
+                            style={{ marginTop: "-0.1rem" }}
+                            onClick={() =>
+                              setTags((state) =>
+                                state.filter((el, idx) => idx !== index)
+                              )
+                            }
+                          >
+                            <CloseIcon />
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              )}
+              <div className="flex self-center">
+                <InputBox
+                  className="focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                  style={{
+                    width: "100%",
+                    border: "1.5px solid #white",
+                  }}
+                  placeholder="태그를 설정하세요"
+                  type="text"
+                  onChange={(e) => {
+                    // e.preventDefault()
+                    setPostingContents({
+                      ...postingContents,
+                      tag: tags,
+                    });
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.keyCode === 32) {
+                      if (String(e.target.value).length >= 2) {
+                        tags.push(e.target.value);
+                      }
+                      e.target.value = "";
+                    }
+                  }}
+                />
+                {tags.length !== 0 && (
+                  <div
+                    className="px-2 h-full py-4 border-r border-t border-b border-gray-400 mr-1 bg-green-300 cursor-pointer"
+                    onClick={() => setTags([])}
+                  >
+                    <CloseIcon />
+                  </div>
+                )}
+              </div>
             </div>
             <Button
               width="100%"

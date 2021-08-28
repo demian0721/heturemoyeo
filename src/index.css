@@ -82,6 +82,17 @@ code {
   background-color: white;
 }
 
+
+.customBtn {
+  color: #fff;
+  background-color: #16c59b;
+}
+
+.customBtn:hover {
+  color: #fff;
+  background-color: #31a98d;
+}
+
 .minaBtn {
   background-color: #fff;
   color: #16c59b;

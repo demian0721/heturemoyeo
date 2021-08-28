@@ -1,9 +1,9 @@
-import React, { Fragment, useState, useRef } from "react";
+import React, { Fragment, } from "react";
 import { Link } from "react-router-dom";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { ShowInviteModal, MyScheduleList } from "../utils/recoil";
 import axios from "../common/axios";
 import Logger from "../utils/Logger";

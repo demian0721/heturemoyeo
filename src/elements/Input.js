@@ -59,6 +59,7 @@ Input.defaultProps = {
     keyUp: () => {},
     keyPress: () => {},
     placeholder: '텍스트를 입력해주세요',
+    className: 'focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'
 };
 
 export default Input;

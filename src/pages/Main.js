@@ -1,13 +1,11 @@
 /* global kakao */
 // LIBRARY
-import React, { useEffect, useState, useRef, Fragment } from "react";
-import { Transition, Dialog } from "@headlessui/react";
+import React, { useEffect, useState, Fragment } from "react";
 import { geolocated, geoPropTypes } from "react-geolocated";
 import { useSelector, useDispatch } from "react-redux";
 
 import { useRecoilState, useSetRecoilState } from "recoil";
 import {
-  DistanceState,
   ShowOverlay,
   LoadMarkerDataState,
 } from "../utils/recoil";
@@ -19,7 +17,6 @@ import { postActions } from "../redux/modules/post";
 
 // COMMON
 import socket from "../common/socket";
-import axios from "../common/axios";
 
 // COMPONENTS
 // import Header from "../components/Header";
@@ -31,10 +28,7 @@ import CompressedMainButtons from "../components/Compressed"
 import Footer from "../components/Footer";
 
 // ELEMENTS
-import { Grid, Button, Image } from "../elements/index";
-
-// HOOKS
-import useOutsideClick from "../hooks/useOutsideClick";
+import { Grid, Image } from "../elements/index";
 
 // ETC
 import Logger from "../utils/Logger";

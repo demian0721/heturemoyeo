@@ -34,6 +34,7 @@ import { Grid, Input, Image, Title, Text, Button } from "../elements/index";
 // ICON
 import AddAPhotoOutlinedIcon from "@material-ui/icons/AddAPhotoOutlined";
 import RoomIcon from "@material-ui/icons/Search";
+import CloseIcon from "@material-ui/icons/Close";
 
 import useOutsideClick from "../hooks/useOutsideClick";
 import { Today } from "@material-ui/icons";
@@ -58,6 +59,7 @@ const PostEdition = (props) => {
   const [viewModal, setViewModal] = useState(false);
   const [loadMap, setLoadMap] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [tags, setTags] = useState(props.Details.tag);
 
   const [beginDate, setBeginDate] = useState(null);
   const [finishDate, setFinishDate] = useState(null);
@@ -86,7 +88,7 @@ const PostEdition = (props) => {
 
   // useEffect(() => {dispatch(postActions.postDetailInfo(props.match.params.postid)) }, [])
 
-  const [postingContents, setPostingContents] = React.useState({
+  const [postingContents, setPostingContents] = useState({
     postId:props.Details.postId,
     title: props.Details.title ,
     content: props.Details.content,
@@ -95,7 +97,7 @@ const PostEdition = (props) => {
     endDate: props.Details.endDate,
     place: props.Details.place,
     bring: props.Details.bring,
-    tag: props.Details.tag,
+    tag:  props.Details.tags,
     lat: props.Details.lat,
     lng: props.Details.lng,
   });
@@ -425,10 +427,11 @@ const PostEdition = (props) => {
                         setChecked((state) => {
                           setPostingContents({
                             ...postingContents,
-                            place: "온라인 모임", lat: null, lng: null
-                            // place: !state ? '온라인 모임' : "",
+                            place: !state ? "온라인 모임" : "",
+                            lat: null,
+                            lng: null
                           });
-                          return !state
+                          return !state;
                         });
                       }}
                       // ref='checkbox'
@@ -566,31 +569,79 @@ const PostEdition = (props) => {
             <Grid style={{ border: "1px solid #B2B2B2", margin: "10px 0px" }} />
 
             <div style={{ margin: "15px 0px" }}>
-            <Text
+              <Text
                 color="#535353"
                 fontWeight="bold"
                 fontSize="14px"
                 margin="10px 0px"
               >
-                태그입력
+                태그입력 (스페이스바로 나눌 수 있습니다.)
               </Text>
-              <InputBox
-                style={{
-                  width: "100%",
-                  border: "1.5px solid #white",
-                }}
-                placeholder="태그를 설정하세요(예시단어: 걷기, 산책)"
-                type="text"
-                value={postingContents.tag}
-                onChange={(e) => {
-                  setPostingContents({
-                    ...postingContents,
-                    tag: String(e.target.value).includes(",")
-                      ? e.target.value.split(",")
-                      : [e.target.value],
-                  });
-                }}
-              />
+              {tags.length !== 0 && (
+                <div className="flex flex-wrap mb-2">
+                  {tags
+                    .filter((el) => el.length !== 0)
+                    .map((el, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="flex justify-start bottom-0 rounded-md bg-main listBtn transition duration-300 ease-in-out px-2 py-1 self-center text-white my-1 mx-1"
+                        >
+                          <span className="flex">{el.trim()}</span>
+                          <div
+                            className="flex cursor-pointer"
+                            style={{ marginTop: "-0.1rem" }}
+                            onClick={() =>
+                              setTags((state) => {
+                                const result = state.filter((el, idx) => idx !== index)
+                                setPostingContents({ ...postingContents, tag: result })
+                                return result
+                              })
+                            }
+                          >
+                            <CloseIcon />
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              )}
+              <div className="flex self-center">
+                <InputBox
+                  className="focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                  style={{
+                    width: "100%",
+                    border: "1.5px solid #white",
+                  }}
+                  placeholder="태그를 설정하세요"
+                  type="text"
+                  onChange={(e) => {
+                    // e.preventDefault()
+                    setPostingContents({
+                      ...postingContents,
+                      tag: tags,
+                    });
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.keyCode === 32) {
+                      if (String(e.target.value).length >= 2)
+                        tags.push(e.target.value);
+                      e.target.value = "";
+                    }
+                  }}
+                />
+                {tags.length !== 0 && (
+                  <div
+                    className="px-2 h-full py-4 border-r border-t border-b border-gray-400 mr-1 bg-green-300 cursor-pointer"
+                    onClick={() => {
+                      setTags([])
+                      setPostingContents({ ...postingContents, tag: [] })
+                    }}
+                  >
+                    <CloseIcon />
+                  </div>
+                )}
+              </div>
             </div>
             <Button
               width="100%"

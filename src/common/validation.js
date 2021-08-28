@@ -20,7 +20,7 @@ export const pwdVal = (password) => {
 
 //NAME
 export const nameVal = (name) => {
-    const _reg = /^[가-힣]{1,4}|[a-zA-Z]{1,10}\s[a-zA-Z]{2,10}$/;
+    const _reg = /^[가-힣]{2,4}|[a-zA-Z]{2,10}\s[a-zA-Z]{2,10}$/;
 
     return _reg.test(name);
 };

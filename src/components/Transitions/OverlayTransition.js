@@ -2,13 +2,17 @@ import React, { useRef } from "react";
 import { Transition } from "@headlessui/react";
 
 import { useRecoilState, useRecoilValue } from "recoil";
-import { LoadMarkerDataState, ShowOverlay, ShowInviteModal } from "../../utils/recoil";
+import {
+  LoadMarkerDataState,
+  ShowOverlay,
+  ShowInviteModal,
+} from "../../utils/recoil";
 
 import Overlay from "../Overlay";
 import useOutsideClick from "../../hooks/useOutsideClick";
 
 const OverlayTransition = ({ children, myUserId, markerData, ...props }) => {
-  const showInviteModal = useRecoilValue(ShowInviteModal)
+  const showInviteModal = useRecoilValue(ShowInviteModal);
   const [loaded, setLoaded] = useRecoilState(LoadMarkerDataState);
   const [showOverlay, setShowOverlay] = useRecoilState(ShowOverlay);
 
@@ -29,8 +33,18 @@ const OverlayTransition = ({ children, myUserId, markerData, ...props }) => {
       leaveTo="opacity-0"
       className="absolute left-0 right-0 bottom-0 border border-gray-300 rounded-t-lg bg-white py-4 topDropShadow"
       style={{ zIndex: 11 }}
+      onKeyDown={(e) => {
+        if (showOverlay && e.key === 'Escape') {
+          setShowOverlay(false)
+          if (loaded) setLoaded(false)
+        }
+      }}
+      tabIndex="0"
     >
-      <div ref={ref} className="container mx-auto px-4">
+      <div
+        ref={ref}
+        className="container mx-auto px-4"
+      >
         <div id="overlay--author__status" className="block">
           <Overlay
             isOpen={showOverlay}

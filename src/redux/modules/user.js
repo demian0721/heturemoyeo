@@ -270,18 +270,19 @@ const signupDB = (
   return function (dispatch, getState, { history }) {
     if (profileImg == null) {
       const profileInfoAll = {
-        phone: phone,
-        name: name,
-        nickname: nickname,
-        password: password,
-        confirm: confirm,
-        statusMessage: statusMessage,
-        likeItem: likeItem,
+        phone,
+        name,
+        nickname,
+        password,
+        confirm,
+        statusMessage,
+        likeItem,
         profileImg: null,
       };
       instance
         .post("/api/sign/", { ...profileInfoAll })
         .then((res) => {
+          localStorage.setItem('firstLogin', true)
           window.alert("회원가입이 완료되었습니다. 다시 로그인해 주세요.");
           history.push("/login");
         })
@@ -294,13 +295,13 @@ const signupDB = (
         imgActions.uploadImageDB(profileImg, () => {
           const imgUrl = getState().image.imageUrl;
           const profileInfoAll = {
-            phone: phone,
-            name: name,
-            nickname: nickname,
-            password: password,
-            confirm: confirm,
-            statusMessage: statusMessage,
-            likeItem: likeItem,
+            phone,
+            name,
+            nickname,
+            password,
+            confirm,
+            statusMessage,
+            likeItem,
             profileImg: imgUrl,
           };
           instance

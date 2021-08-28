@@ -7,10 +7,10 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
-  ActiveInviteModal,
-  MyScheduleList,
-  SelectedPostCard,
   DistanceState,
+  ShowOverlay,
+  LoadMarkerDataState,
+  ShowInviteModal,
 } from "../utils/recoil";
 
 // REDUX
@@ -25,6 +25,8 @@ import axios from "../common/axios";
 // COMPONENTS
 // import Header from "../components/Header";
 import Overlay from "../components/Overlay";
+import OverlayTransition from "../components/Transitions/OverlayTransition";
+import InviteModalTransition from '../components/Transitions/InviteModalTransition'
 import Footer from "../components/Footer";
 
 // ELEMENTS
@@ -52,10 +54,11 @@ const Main = (props) => {
   const [geolocationMarker, setGeolocationMarker] = useState(false);
   const [markers, setMarkers] = useState([]);
   const [posts] = useState({});
-  const [isOpen, setIsOpen] = useState(false);
   const [myUserId, setMyUserId] = useState(null);
   const [markerData, setMarkerData] = useState({});
-  const [loaded, setLoaded] = useState(false);
+
+  const [showOverlay, setShowOverlay] = useRecoilState(ShowOverlay);
+  const [loaded, setLoaded] = useRecoilState(LoadMarkerDataState)
   // const [callUserData, setCallUserData] = useState({})
 
   // 로그인 후, 유저 데이터
@@ -120,8 +123,8 @@ const Main = (props) => {
     // 해당 데이터는 다시 불러오지 않기 때문에, if 문으로 처리해준다.
     if (markerData.isMe) setLoaded(true);
     // markerData 안에 postId, userId 등 값을 assign 하여, 넘겨받음.
-    if (!isOpen) {
-      setIsOpen(true);
+    if (!showOverlay) {
+      setShowOverlay(true);
       panTo(markerData.position.getLat(), markerData.position.getLng());
       // Resize Marker, disabled
       // markerData.setImage(
@@ -340,6 +343,7 @@ const Main = (props) => {
     };
   }, [myFriends, mySchedules, geolocationMarker]);
 
+  const [firstModal, setFirstModal] = useState(false);
   useEffect(() => {
     if (!geolocationMarker) return;
     Logger.info('[KakaoMap:LoadMap] Loaded KakaoMap, render to "div#map"');
@@ -371,6 +375,7 @@ const Main = (props) => {
         )
       );
     }
+    if (localStorage.getItem("firstLogin") === "true") setFirstModal(true);
     return () => {
       markers.map((marker) => {
         kakao.maps.event.removeListener(marker, "click", () =>
@@ -402,10 +407,6 @@ const Main = (props) => {
     }, 2000);
   }
 
-  const [showModal, setShowModal] = useRecoilState(ActiveInviteModal);
-  const myScheduleList = useRecoilValue(MyScheduleList);
-  const [showItems, setShowItems] = useState(false);
-  const [selectedCard, setSelectedCard] = useRecoilState(SelectedPostCard);
   const [selectedDistance, setSelectedDistance] = useRecoilState(DistanceState);
 
   useEffect(() => {
@@ -431,27 +432,12 @@ const Main = (props) => {
     }
   }, []);
 
-  useEffect(() => {
-    setShowItems(true);
-    return () => setShowItems(false);
-  }, [myScheduleList]);
-
-  const ref = useRef();
-  useOutsideClick(ref, () => {
-    if (!showModal) setIsOpen(false);
-    if (loaded) setLoaded(false);
-  });
-
-  const handleModalClose = (clearSelect = true) => {
-    setShowModal(false);
-    setShowItems(false);
-    if (clearSelect) setSelectedCard(0);
+  const handleFirstModalClose = () => {
+    localStorage.setItem("firstLogin", false);
+    setFirstModal(false);
   };
 
-  const modalRef = useRef();
-  useOutsideClick(modalRef, () => handleModalClose(true));
-
-  const distanceList = [2, 4, 6, 8, 10];
+  const distanceList = [2, 5, 10, 15, 700];
   const [showDistance, setShowDistance] = useState(false);
   const distanceRef = useRef();
   const handleDistanceClose = (clearSelect = true) => {
@@ -471,43 +457,6 @@ const Main = (props) => {
     localStorage.setItem("distance", Number(selectedDistance));
     socket.emit("changeDistance", { distance: Number(selectedDistance) });
     handleDistanceClose(clearSelect);
-  };
-
-  const handleModalInvite = (clearSelect = true) => {
-    if (window.confirm("초대시 상대 유저에게 안내 문자가 발송 됩니다.")) {
-      const filterScheduleList = myScheduleList?.filter(
-        (el) => el.postId === selectedCard
-      );
-      if (filterScheduleList?.length === 0)
-        return alert("초대할 모임을 클릭한 후, 다시 시도해주세요!");
-      if (filterScheduleList[0].userId === selectedCard)
-        return alert("나 자신은 초대할 수 없습니다!");
-      axios
-        .post(
-          "/api/room/invite",
-          JSON.stringify({
-            userId: Number(markerData?.userId),
-            postId: Number(filterScheduleList[0].postId),
-          })
-        )
-        .then((res) => {
-          alert("성공적으로 초대되었습니다!");
-        })
-        .catch((err) => {
-          console.log(err);
-          switch (err.response.status) {
-            case 406:
-              alert("이미 초대된 사용자입니다!");
-              break;
-            default:
-              alert("초대하는 도중 오류가 발생하였습니다!");
-              break;
-          }
-        });
-      handleModalClose(clearSelect);
-    } else {
-      return alert("초대가 취소되었습니다.");
-    }
   };
 
   return (
@@ -556,168 +505,12 @@ const Main = (props) => {
               }}
             />
             {/* 오버레이 */}
-            <Transition
-              show={loaded && isOpen}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-300"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-              className="absolute left-0 right-0 bottom-0 border border-gray-300 rounded-t-lg bg-white py-4 topDropShadow"
-              style={{ zIndex: 11 }}
-            >
-              <div ref={ref} className="container mx-auto px-4">
-                <div id="overlay--author__status" className="block">
-                  <Overlay
-                    isOpen={isOpen}
-                    image={
-                      markerData?.type === "post"
-                        ? !markerData?.postImg ??
-                          String(markerData?.postImg).length === 0
-                          ? "/assets/unknownChatRoomImg.gif"
-                          : markerData?.postImg
-                        : markerData?.type === "user"
-                        ? !markerData?.profileImg ??
-                          String(markerData?.profileImg).length === 0
-                          ? "/assets/unknownProfile.jpg"
-                          : markerData?.profileImg
-                        : "/assets/unknownProfile.jpg"
-                    }
-                    rating={markerData?.rating}
-                    isType={markerData?.type ?? undefined}
-                    id={
-                      markerData?.type === "post"
-                        ? markerData?.postId
-                        : markerData?.type === "user"
-                        ? markerData?.userId
-                        : undefined
-                    }
-                    myId={myUserId}
-                    {...markerData}
-                  />
-                </div>
-              </div>
-            </Transition>
-            <Transition show={showModal} as={Fragment}>
-              <Dialog
-                as="div"
-                className="fixed lg:mt-24 md:mt-20 mt-14 inset-0 z-10"
-                onClose={handleModalClose}
-              >
-                <div ref={modalRef} className="min-h-screen px-4 text-center">
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                    <Dialog.Overlay className="fixed bottom-0 inset-0" />
-                  </Transition.Child>
-                  <Transition.Child
-                    as={Fragment}
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0 scale-95"
-                    enterTo="opacity-100 scale-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100 scale-100"
-                    leaveTo="opacity-0 scale-95"
-                  >
-                    <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl self-center items-center border border-gray-300 border-opacity-25">
-                      <Dialog.Title
-                        as="h3"
-                        className="text-base font-medium leading-6 text-gray-900"
-                      >
-                        모임 초대하기
-                      </Dialog.Title>
-                      <div className="mb-2">
-                        <p className="text-sm text-gray-500">
-                          아래 목록에서 원하는 모임에 초대해보세요.
-                        </p>
-                      </div>
-
-                      <div
-                        id="my-schedule-list"
-                        className={`flex flex-wrap flex-initial ${
-                          myScheduleList?.length >= 4
-                            ? "overflow-y-scroll"
-                            : "overflow-hidden"
-                        } w-full space-y-2 bg-gray-300 rounded-md bg-opacity-25 p-2 border border-gray-400 border-opacity-25 content-start`}
-                        style={{
-                          height:
-                            myScheduleList?.length === 0 ? "100px" : "305px",
-                        }}
-                      >
-                        {showItems && myScheduleList?.length === 0 ? (
-                          <div className="flex flex-wrap w-full bg-white selectedCard rounded-md trasition duration-300 ease-in-out shadow-xl self-center px-3 py-2 cursor-pointer text-center justify-center">
-                            내가 생성한 모임이 존재하지 않아요!
-                            <br />
-                            새로운 모임을 생성해보세요!
-                          </div>
-                        ) : (
-                          myScheduleList?.map((el, index) => (
-                            <InviteScheduleCard
-                              index={index}
-                              img={el?.postImg}
-                              {...el}
-                            />
-                          ))
-                        )}
-                      </div>
-
-                      {myScheduleList?.length === 0 ? (
-                        <>
-                          <div className="flex justify-between mt-4 space-x-4 w-full">
-                            <button
-                              type="button"
-                              className="inline-flex justify-center px-4 py-2 lg:text-sm text-xs font-medium tagItem border border-transparent rounded-md transition duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-                              onClick={() =>
-                                (window.location.href = "/postwrite")
-                              }
-                            >
-                              모임 생성하기
-                            </button>
-                            <button
-                              type="button"
-                              className="inline-flex justify-center px-4 py-2 lg:text-sm text-xs font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 transition duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-                              onClick={handleModalClose}
-                            >
-                              취소
-                            </button>
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <div className="flex justify-between mt-4 space-x-4 w-full">
-                            <button
-                              type="button"
-                              className="flex justify-center px-4 py-2 lg:text-sm text-xs font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 transition duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-                              onClick={() => handleModalInvite()}
-                            >
-                              모임 초대하기
-                            </button>
-                            <button
-                              type="button"
-                              className="flex justify-center px-4 py-2 lg:text-sm text-xs font-medium text-red-900 bg-red-100 border border-transparent rounded-md hover:bg-red-200 transition duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-                              onClick={handleModalClose}
-                            >
-                              취소
-                            </button>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </Transition.Child>
-                </div>
-              </Dialog>
-            </Transition>
+            <OverlayTransition myUserId={myUserId} markerData={markerData} />
+            <InviteModalTransition markerData={markerData} />
             <Transition show={showDistance} as={Fragment}>
               <Dialog
                 as="div"
-                className="fixed lg:mt-24 md:mt-20 mt-14 inset-0 z-10"
+                className="fixed lg:mt-40 md:mt-32 mt-20 inset-0 z-10"
                 onClose={() => handleDistanceClose(false)}
               >
                 <div
@@ -779,6 +572,115 @@ const Main = (props) => {
                           onClick={() => handleDistanceClose(false)}
                         >
                           취소
+                        </button>
+                      </div>
+                    </div>
+                  </Transition.Child>
+                </div>
+              </Dialog>
+            </Transition>
+            <Transition show={firstModal} as={Fragment}>
+              <Dialog
+                as="div"
+                className="fixed lg:mt-40 md:mt-32 mt-20 inset-0 z-10"
+                onClose={() => handleDistanceClose(false)}
+              >
+                <div className="min-h-screen px-4 text-center">
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                  >
+                    <Dialog.Overlay className="fixed bottom-0 inset-0" />
+                  </Transition.Child>
+                  <Transition.Child
+                    as={Fragment}
+                    enter="ease-out duration-300"
+                    enterFrom="opacity-0 scale-95"
+                    enterTo="opacity-100 scale-100"
+                    leave="ease-in duration-200"
+                    leaveFrom="opacity-100 scale-100"
+                    leaveTo="opacity-0 scale-95"
+                  >
+                    <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl self-center items-center border border-gray-300 border-opacity-25">
+                      <Dialog.Title
+                        as="h3"
+                        className="text-base font-medium leading-6 text-gray-900"
+                      >
+                        헤쳐모여
+                      </Dialog.Title>
+                      <div className="mb-2">
+                        <p className="text-sm text-gray-500">
+                          "운동인을 위한 번개모임 어플"
+                        </p>
+                      </div>
+
+                      <div
+                        className="flex w-full bg-gray-300 rounded-md bg-opacity-25 p-2 border border-gray-400 border-opacity-25 overflow-none"
+                        style={{ height: "305px" }}
+                      >
+                        {/* <div
+                          id="container"
+                          className="text-center w-full"
+                          style={{
+                            transition: "left",
+                            WebkitTransition: "left",
+                            MozTransition: "left",
+                            transitionDuration: "0.5s",
+                            WebkitTransitionDuration: "0.5s",
+                            MozTransitionDuration: "0.5s",
+                            marginLeft: "auto",
+                            marginRight: "auto",
+                          }}
+                        >
+                          <div
+                            id="slide-1"
+                            className="float-left m-0 p-0"
+                            style={{ height: "305px" }}
+                          >
+                            <span>1</span>
+                          </div>
+                          <div
+                            id="slide-2"
+                            className="float-left m-0 p-0"
+                            style={{ height: "305px" }}
+                          >
+                            <span>2</span>
+                          </div>
+                          <div
+                            id="slide-3"
+                            className="float-left m-0 p-0"
+                            style={{ height: "305px" }}
+                          >
+                            <span>3</span>
+                          </div>
+                          <div
+                            id="slide-4"
+                            className="float-left m-0 p-0"
+                            style={{ height: "305px" }}
+                          >
+                            <span>4</span>
+                          </div>
+                          <div
+                            id="slide-5"
+                            className="float-left m-0 p-0"
+                            style={{ height: "305px" }}
+                          >
+                            <span>0</span>
+                          </div>
+                        </div> */}
+                      </div>
+                      <div className="flex justify-center mt-4 w-full">
+                        <button
+                          type="button"
+                          className="flex justify-center w-full py-2 lg:text-sm text-xs font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 transition duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                          onClick={() => handleFirstModalClose()}
+                        >
+                          시작하기
                         </button>
                       </div>
                     </div>
@@ -911,49 +813,6 @@ function DistanceCard({ children, ...props }) {
           <span className="ml-1 tagItem rounded-md px-2 transition duration-300 ease-in-out">
             {props.radius * 1000}M
           </span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function InviteScheduleCard({ children, ...props }) {
-  const [selectedCard, setSelectedCard] = useRecoilState(SelectedPostCard);
-  return (
-    <div
-      key={props.index}
-      id="schedule-card"
-      className={`flex flex-wrap w-full ${
-        Number(props?.postId) === Number(selectedCard)
-          ? "selectedCard"
-          : "bg-gray-100 hover:bg-white border border-gray-400 border-opacity-25"
-      } rounded-md trasition duration-300 ease-in-out shadow-xl self-center px-3 py-2 cursor-pointer`}
-      data-postid={Number(props?.postId)}
-      onClick={() => {
-        setSelectedCard(Number(props?.postId));
-      }}
-    >
-      <div
-        className="block rounded-md w-12 h-12"
-        style={{
-          textAlign: "center",
-          backgroundImage: `url('${
-            props?.img ?? "/assets/unknownChatRoomImg.gif"
-          }')`,
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          float: "center",
-        }}
-      >
-        <span className="sr-only">post image</span>
-      </div>
-      <div className="block ml-2 self-center">
-        <div id="title" className="lg:text-base text-sm font-bold">
-          {props?.title}
-        </div>
-        <div id="member_count" className="lg:text-sm text-xs font-sm">
-          {props?.currentMember}/{props?.maxMember} 명
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 import { useRecoilState } from "recoil";
-import { ActiveInviteModal, MyScheduleList } from "../utils/recoil";
+import { ActiveInviteModal, ShowInviteModal, MyScheduleList } from "../utils/recoil";
 import axios from "../common/axios";
 import Logger from "../utils/Logger";
 
@@ -94,7 +94,7 @@ const UserOverlayDivideComponent = ({ force = false, ...props }) => {
 };
 
 const UserOverlay = ({ children, ...props }) => {
-  const [showModal, setShowModal] = useRecoilState(ActiveInviteModal);
+  const [showModal, setShowModal] = useRecoilState(ShowInviteModal);
   const [myScheduleList, setMyScheduleList] = useRecoilState(MyScheduleList);
   return (
     <>

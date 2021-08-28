@@ -149,7 +149,7 @@ const Details = (props) => {
         minWidth="280px"
         maxWidth="540px"
         margin="28vh 0px 0px 0px"
-        height="fit-content"
+        height="100%"
         bg="white"
         // position="fixed"
         style={{
@@ -390,6 +390,7 @@ const Details = (props) => {
           </Grid>
         )}
       </Grid>
+      <div style={{position:"fixed",backgroundColor:"#efefef",zIndex:"1",width:"100vw",height:"100vh",left:"0px"}}/>
     </Grid>
   );
 };

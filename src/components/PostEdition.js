@@ -399,7 +399,7 @@ const PostEdition = (props) => {
               장소
             </Text>
             <div className="inline-flex self-center items-center">
-              <div
+              {/* <div
                 className={`flex self-center items-center ${
                   checked
                     ? "cursor-default bg-gray-300"
@@ -418,7 +418,7 @@ const PostEdition = (props) => {
                 }}
               >
                 <RoomIcon />
-              </div>
+              </div> */}
               <div className="flex self-center">
                 <InputBox
                   style={{

@@ -398,7 +398,7 @@ const PostWrite = (props) => {
                 장소
               </Text>
               <div className="flex justify-between">
-                <div
+                {/* <div
                   className={`self-center items-center ${
                     checked
                       ? "cursor-default bg-gray-300"
@@ -418,13 +418,13 @@ const PostWrite = (props) => {
                   }}
                 >
                   <RoomIcon />
-                </div>
+                </div> */}
                 <div className="self-center">
                   <InputBox
                     className="focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                     id="locationInput"
                     style={{
-                      width: "400px",
+                      maxWidth: "465px",
                       margin: "7px 5px 7px 5px",
                       borderLeft: "none",
                       borderRight: "none",

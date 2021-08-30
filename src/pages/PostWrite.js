@@ -424,13 +424,14 @@ const PostWrite = (props) => {
                     className="focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                     id="locationInput"
                     style={{
-                      maxWidth: "465px",
+                      minWidth: "250px",
                       margin: "7px 5px 7px 5px",
                       borderLeft: "none",
                       borderRight: "none",
                       borderTop: "none",
                       borderBottom: "solid 2px #E5E5E5",
                       boxShadow: "none",
+                      fontSize: "14px"
                     }}
                     placeholder="장소(한글 주소로 출력)"
                     type="text"
@@ -448,7 +449,7 @@ const PostWrite = (props) => {
                   />
                 </div>
               </div>
-              <div className="flex ml-10 self-center">
+              <div className="flex ml-10 self-center" style={{margin:"0px 0px 0px 10px"}}>
                 <input
                   id="online-schedule"
                   type="checkbox"

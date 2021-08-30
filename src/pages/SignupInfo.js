@@ -30,11 +30,11 @@ const SignupInfo = (props) => {
   const preview = !image.preview ? "/assets/profile_image_avatar_only.png" : image.preview;
 
   const [nickname, setNickname] = useState("");
-  const [statusMessage, setStatusMessage] = useState("");
+  const [statusMessage, setStatusMessage] = useState(null);
   const [nicknameConfirm, setNicknameConfirm] = useState("");
   const [nicknameWarning, setNicknameWarColor] = useState("red");
 
-  const [likeItem, setLikeItem] = useState(["", ""]);
+  const [likeItem, setLikeItem] = useState([]);
   const tempInfo = useSelector((state) => state.user.tempInfo);
   const id = tempInfo?.id;
   const pwd = tempInfo?.pwd;

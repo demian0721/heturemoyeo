@@ -60,7 +60,7 @@ const PostWrite = (props) => {
   const [viewModal, setViewModal] = useState(false);
   const [loadMap, setLoadMap] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [tags, setTags] = useState([]);
+  // const [tags, setTags] = useState([]);
 
   const [beginDate, setBeginDate] = useState(null);
   const [finishDate, setFinishDate] = useState(null);
@@ -94,7 +94,8 @@ const PostWrite = (props) => {
     endDate: postInfo ? postInfo.endDate : "",
     place: postInfo ? postInfo.place : "",
     bring: postInfo ? postInfo.bring : "",
-    tag: postInfo ? postInfo.tag.length !== 0 ? postInfo.tag : tags.length !== 0 ? tags : [] : [],
+    tag: postInfo ? postInfo.tag : [],
+    // tag: postInfo ? postInfo.tag.length !== 0 ? postInfo.tag : tags.length !== 0 ? tags : [] : [],
     lat: postInfo ? postInfo.lat : 0,
     lng: postInfo ? postInfo.lng : 0,
   });
@@ -459,7 +460,7 @@ const PostWrite = (props) => {
                         ...postingContents,
                         place: !state ? "온라인 모임" : "",
                         lat: null,
-                        lng: null
+                        lng: null,
                       });
                       return !state;
                     });
@@ -598,9 +599,26 @@ const PostWrite = (props) => {
                 fontSize="14px"
                 margin="10px 0px"
               >
-                태그입력 (스페이스바로 나눌 수 있습니다.)
+                태그입력
               </Text>
-              {tags.length !== 0 && (
+              <InputBox
+                style={{
+                  width: "100%",
+                  border: "1.5px solid #white",
+                }}
+                placeholder="태그를 설정하세요(예시단어: 걷기, 산책)"
+                type="text"
+                value={postingContents.tag}
+                onChange={(e) => {
+                  setPostingContents({
+                    ...postingContents,
+                    tag: String(e.target.value).includes(",")
+                      ? e.target.value.split(",")
+                      : [e.target.value],
+                  });
+                }}
+              />
+              {/* {tags.length !== 0 && (
                 <div className="flex flex-wrap mb-2">
                   {tags
                     .filter((el) => el.length !== 0)
@@ -660,7 +678,7 @@ const PostWrite = (props) => {
                     <CloseIcon />
                   </div>
                 )}
-              </div>
+              </div> */}
             </div>
             <Button
               width="100%"

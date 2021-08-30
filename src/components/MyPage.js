@@ -52,7 +52,7 @@ const MyPage = (props) => {
                   <ArrowForwardIosIcon style={{width:"18px"}} />
                 </Grid>
               </Link>
-              <div  className="font-normal text-xs py-1 lg:text-sm space-x-1" style={{}}>
+              <div  className="font-normal text-xs py-1 lg:text-sm space-x-1" style={{textAlign:"center"}}>
                 {userlist.likeItem?.map((l, index) => {
                   return <div key={index} style={{ margin: "3px", backgroundColor: "#white", color: "#767676", borderRadius: "5px", padding: "3px 5px", fontSize:"small", border:"1px solid #767676"}} className="inline-flex">{l}</div>
                 })}

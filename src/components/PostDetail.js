@@ -171,7 +171,7 @@ const Details = (props) => {
         >
           <Grid is_flex>
             <Grid>
-              <Grid is_flex>
+              <Grid is_flex style={{justifyContent:"space-between"}}>
                 {/* <UserProfileImageComponent img={postDetails?.profileImg} /> */}
                 <div>
                 <Title color="black" fontWeight="800" fontSize="20px" margin="0px 0px 10px 0px">

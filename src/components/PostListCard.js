@@ -46,7 +46,7 @@ const PostListCard = ({ children, ...props }) => {
               fontSize="17px"
               fontWeight="bold"
               color="black"
-              marginTop="5px"
+              margin="5px 0px 10px 0px"
             >
               {props.title}
             </Text>

@@ -119,6 +119,7 @@ const SearchPostList = (props) => {
       <Grid style={{ zIndex: 10 }}>
         <Footer>group</Footer>
       </Grid>
+      <div style={{position:"fixed",backgroundColor:"#efefef",width:"100vw",height:"100vh", left:"0", zIndex:"1"}}/>
     </Style>
   );
 };

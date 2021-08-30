@@ -31,10 +31,10 @@ const ProfileEdit = (props) => {
   const debounce = _.debounce((value, setValue) => setValue(value), 300);
   const fileInput = useRef();
   
-  useEffect(() => {dispatch(userActions.myInfoDB()) }, [])
   useEffect(() => { if (!getToken()) { history.replace('/login'); } }, []);    
   
-  const userlist = useSelector(state => state.user)
+  const userlist = (props.userinfo);
+  // console.log('프롭확인',userlist)
 
   const [editInfo, setInfos] = useState({
     nickname: userlist.nickname,

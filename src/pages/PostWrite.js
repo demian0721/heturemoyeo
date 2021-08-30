@@ -424,8 +424,8 @@ const PostWrite = (props) => {
                     className="focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                     id="locationInput"
                     style={{
-                      minWidth: "250px",
-                      margin: "7px 5px 7px 5px",
+                      width: "240px",
+                      margin: "7px 0px",
                       borderLeft: "none",
                       borderRight: "none",
                       borderTop: "none",

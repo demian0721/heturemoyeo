@@ -1,4 +1,4 @@
-import React, { Fragment, } from "react";
+import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
@@ -96,6 +96,24 @@ const UserOverlayDivideComponent = ({ force = false, ...props }) => {
 const UserOverlay = ({ children, ...props }) => {
   const setShowModal = useSetRecoilState(ShowInviteModal);
   const setMyScheduleList = useSetRecoilState(MyScheduleList);
+  const lastLoginMin = Math.round(props?.lastLogin / 60000)
+  const lastLoginHour = Math.round(lastLoginMin / 60)
+  const lastLoginDay = Math.round(lastLoginHour / 24)
+  const [lastLoginDate, setLastLoginDate] = useState(0)
+  const lastLoginTime = () => {
+    if (lastLoginDay >= 1) {
+      setLastLoginDate(lastLoginDay)
+      return
+    }
+    if (lastLoginHour >= 1) {
+      setLastLoginDate(lastLoginHour);
+      return
+    }
+    if (lastLoginMin >= 5) {
+      setLastLoginDate(lastLoginMin);
+    }
+  }
+  console.log(lastLoginMin)
   return (
     <>
       <div data-userid={props.id} className="flex justify-start">
@@ -119,6 +137,23 @@ const UserOverlay = ({ children, ...props }) => {
                 <span className="sr-only">profile image</span>
               </div>
             </div>
+            {lastLoginMin >= 5 ? (
+              <>
+                <div className="flex text-xs lg:text-base justify-center pt-1">
+                  <div className="inline-flex">
+                    <p>마지막 접속: {lastLoginMin}분 전</p>
+                  </div>
+                </div>
+              </>
+            ):(
+              <>
+              <div className="flex text-xs lg:text-base justify-center pt-1">
+                  <div className="inline-flex">
+                    <p>접속중</p>
+                  </div>
+                </div>
+              </>
+            )}
             {/* {props?.rating && (
               <>
                 <CircularProgressbar

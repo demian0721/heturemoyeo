@@ -30,6 +30,7 @@ const initialState = {
   type: null,
   exactType: null,
   userId: null,
+  lastLogin: 0,
 };
 
 // MIDDLEWARE
@@ -107,6 +108,7 @@ export default handleActions(
         draft.type = action.payload.userInfo.type;
         draft.exactType = action.payload.userInfo.exactType;
         draft.userId = action.payload.userInfo.userId;
+        draft.lastLogin = action.payload.userInfo.lastLogin;
       }),
 
     [TARGET_FRIEND]: (state, action) =>
@@ -122,6 +124,7 @@ export default handleActions(
         draft.type = action.payload.userInfo.type;
         draft.exactType = action.payload.userInfo.exactType;
         draft.userId = action.payload.userInfo.userId;
+        draft.lastLogin = action.payload.userInfo.lastLogin;
       }),
 
     [TARGET_POST]: (state, action) =>
@@ -137,6 +140,7 @@ export default handleActions(
         draft.type = action.payload.userInfo.type;
         draft.exactType = action.payload.userInfo.exactType;
         draft.userId = action.payload.userInfo.userId;
+        draft.lastLogin = action.payload.userInfo.lastLogin;
       }),
   },
   initialState

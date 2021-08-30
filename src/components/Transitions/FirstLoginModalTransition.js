@@ -86,7 +86,7 @@ const FirstLoginModalTransition = ({ children }) => {
                       setWaitComplete(false);
                     }}
                     showNavs={true}
-                    navStyle={1}
+                    navStyle={2}
                     navMargin={5}
                     bgColor="#16c59b"
                   />
@@ -106,6 +106,23 @@ const FirstLoginModalTransition = ({ children }) => {
                   </button>
                 </div>
               )}
+            </div>
+          </Transition.Child>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0 scale-95"
+            enterTo="opacity-100 scale-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100 scale-100"
+            leaveTo="opacity-0 scale-95"
+            // className="absolute left-0 right-0 w-full h-full bg-black bg-opacity-25"
+          >
+            <div
+              className="fixed left-0 right-0 bottom-0 w-full h-full bg-black bg-opacity-50"
+              style={{ zIndex: -1 }}
+            >
+              <span className="sr-only">Overlay</span>
             </div>
           </Transition.Child>
         </div>

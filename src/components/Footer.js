@@ -35,7 +35,7 @@ const Footer = (props) => {
           style={{
             position: "fixed",
             bottom: "0",
-            zIndex: "10",
+            zIndex: "3",
             borderTop: "0.4px solid #767676",
           }}
         >

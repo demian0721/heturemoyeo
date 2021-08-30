@@ -354,7 +354,7 @@ const Header = (props) => {
             </div>
           </Link>
         ) : (
-          <TitleBox style={{ cursor: "default" }}>{title}</TitleBox>
+          <TitleBox className='flex' style={{ cursor: "default" }}>{title}</TitleBox>
         )}
 
         <Grid width="">
@@ -371,7 +371,7 @@ const Header = (props) => {
                 탈퇴
               </Text> */}
               <div
-                className="text-white cursor-pointer"
+                className="text-white cursor-pointer w-full"
                 onClick={() => {
                   setMenuIsShow(true);
                   getMemberList();

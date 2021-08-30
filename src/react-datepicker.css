@@ -1,6 +1,5 @@
 .react-datepicker {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-  overflow: hidden;
 }
 
 .react-datepicker__day-name,
@@ -21,4 +20,10 @@
   padding-left: unset;
   padding-right: unset;
   width: 60px;
+}
+
+.input-datepicker {
+  font-size: 14px;
+  max-width: 215px;
+  min-width: 130px;
 }

@@ -294,7 +294,7 @@ const PostWrite = (props) => {
             >
               <div
                 className="block"
-                style={{ margin: "15px 5px", width: "50%" }}
+                style={{ margin: "15px 0px 15px 5px", width: "50%" }}
               >
                 <Text
                   fontSize="14px"
@@ -343,7 +343,7 @@ const PostWrite = (props) => {
 
               <div
                 className="block"
-                style={{ margin: "15px 5px", width: "50%" }}
+                style={{ margin: "15px 0px", width: "50%" }}
               >
                 <Text
                   fontSize="14px"
@@ -467,7 +467,7 @@ const PostWrite = (props) => {
                   }}
                   // ref='checkbox'
                 />
-                <span className="inline-flex ml-1">온라인 모임 여부</span>
+                <span className="inline-flex ml-1" style={{fontSize:"14px"}}>온라인 모임 여부</span>
               </div>
             </div>
             <Grid is_flex style={{ justifyContent: "space-between" }}>
@@ -846,7 +846,7 @@ const Textarea = styled.textarea`
   outline: none;
   resize: none;
   ::placeholder {
-    font-size: 16px;
+    font-size: 14px;
   }
 `;
 
@@ -855,7 +855,7 @@ const InputBox = styled.input`
   border: solid 1.5px #a7aaad;
   padding: 14px 2px;
   ::placeholder {
-    font-size: 16px;
+    font-size: 14px;
   }
 `;
 

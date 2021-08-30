@@ -262,9 +262,6 @@ const SignupInfo = (props) => {
               onChange={(event) => {
                 setStatusMessage(event.target.value);
               }}
-              // onKeyUp={(event) => {
-              //   if(event.target.value!=""){setCheckNick(nickCk);}
-              // }}
             />
           </Grid>
           <Grid padding="5px 0px 8px"

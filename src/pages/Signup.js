@@ -402,7 +402,6 @@ const SignUp = (props) => {
               hoverColor={buttonColor.hoverColor}
               clickEvent={signupNext}
               disabled={!Next}
-              // disabled={!id || !pwd || !name || !(pwd===pwdCheck)}
             >
               다음
             </Button>

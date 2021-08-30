@@ -21,7 +21,6 @@ const TEMP_SAVE = "TEMP_SAVE";
 const EDIT_INFO = "EDIT_INFO";
 const EDIT_STATUS = "EDIT_STATUS";
 const REQUEST_FRIEND = "REQUEST_FRIEND";
-// const RECEIVE_AUTH = "RECEIVE_AUTH";
 
 // ACTION CREATORS
 const myInfo = createAction(MY_INFO, (userInfo) => ({ userInfo }));
@@ -44,8 +43,6 @@ const requestFriend = createAction(REQUEST_FRIEND, (requestFriend) => ({
   requestFriend,
 }));
 
-// const receiveAuth = createAction(RECEIVE_AUTH, (authId) => ({ authId }));
-
 // INITIAL STATE
 const initialState = {
   token: null,
@@ -62,7 +59,6 @@ const initialState = {
   type: null,
   exactType: null,
   is_loaded: false,
-  // authId: null
 };
 
 // MIDDLEWARE
@@ -129,7 +125,6 @@ const editStatusMsg = (doc) => {
     instance
       .put("/api/user/status", doc)
       .then((res) => {
-        // dispatch(editInfo(res.data));
         window.alert("상태메세지가 변경되었습니다.");
       })
       .catch((error) => {
@@ -192,21 +187,6 @@ const logInCheck = (token) => {
   };
 };
 
-// const phoneNumCheck = (id) => {
-//   return function (dispatch) {
-//     instance
-//       .post("/api/sign/email", { phone: id })
-//       .then((res) => {
-//         dispatch(checkDupPhone(true));
-//         window.alert("사용 가능한 번호입니다.");
-//       })
-//       .catch((error) => {
-//         dispatch(checkDupPhone(false));
-//         window.alert("이미 가입된 번호입니다.");
-//       });
-//   };
-// };
-
 const receiveAuthNum = (phone) => {
   return function (dispatch) {
     instance
@@ -214,7 +194,6 @@ const receiveAuthNum = (phone) => {
       .then((res) => {
         dispatch(checkDupPhone(true));
         window.alert("인증 메세지가 발송되었습니다");
-        // dispatch(receiveAuth(res.data.authId));
       })
       .catch((error) => {
         dispatch(checkDupPhone(false));
@@ -368,11 +347,6 @@ export default handleActions(
       produce(state, (draft) => {
         draft.is_check_auth = action.payload.is_check_auth;
       }),
-
-    // [RECEIVE_AUTH]: (state, action) =>
-    //   produce(state, (draft) => {
-    //     draft.authId = action.payload.authId;
-    //   }),
 
     [CHECK_DUP_NICKNAME]: (state, action) =>
       produce(state, (draft) => {

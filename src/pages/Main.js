@@ -5,10 +5,7 @@ import { geolocated, geoPropTypes } from "react-geolocated";
 import { useSelector, useDispatch } from "react-redux";
 
 import { useRecoilState, useSetRecoilState } from "recoil";
-import {
-  ShowOverlay,
-  LoadMarkerDataState,
-} from "../utils/recoil";
+import { ShowOverlay, LoadMarkerDataState } from "../utils/recoil";
 
 // REDUX
 // import { userActions } from "../redux/modules/user";
@@ -24,7 +21,7 @@ import OverlayTransition from "../components/Transitions/OverlayTransition";
 import InviteModalTransition from "../components/Transitions/InviteModalTransition";
 import FirstLoginModalTransition from "../components/Transitions/FirstLoginModalTransition";
 import DistanceModalTransition from "../components/Transitions/DistanceModalTransition";
-import CompressedMainButtons from "../components/Compressed"
+import CompressedMainButtons from "../components/Compressed";
 import Footer from "../components/Footer";
 
 // ELEMENTS
@@ -98,7 +95,6 @@ const Main = (props) => {
    */
   const setPanTo = (lat, lng) =>
     global?.map?.panTo(new kakao.maps.LatLng(lat, lng));
-
   /**
    * markerEventListener:
    * 지도에 있는 마커를 클릭했을때 발생하는 이벤트를 핸들링 하는 핸들러입니다.
@@ -134,7 +130,6 @@ const Main = (props) => {
       setMarkerData(result);
     }
   };
-
   // 마커 생성 및 생성되는 마커에 클릭이벤트 부여하기
   /**
    * AddMarker 함수:
@@ -149,7 +144,13 @@ const Main = (props) => {
    */
   const addMarker = (map, setMarkerId, position, post = false) => {
     setMarkerId = String(setMarkerId);
-    const parseData = MarkerDataParse(myFriends, mySchedules, myUserId, setMarkerId, post)
+    const parseData = MarkerDataParse(
+      myFriends,
+      mySchedules,
+      myUserId,
+      setMarkerId,
+      post
+    );
     const markerSize = new kakao.maps.Size(24, 24);
     const markerImageOptions = { offset: new kakao.maps.Point(23, 23) };
     const markerImage = new kakao.maps.MarkerImage(
@@ -178,8 +179,10 @@ const Main = (props) => {
   };
 
   // 내 위치를 소켓으로 전송하는 부분
-  const sendUserLocation = (userId, lat, lng) =>
+  const sendUserLocation = (userId, lat, lng, inUseEffect = false) => {
+    Logger.info(`[SendUserLocation] Sending UserLocation... (Lat: ${lat}, Lng: ${lng}, InUseEffect: ${inUseEffect})`)
     socket.emit("latlng", { userId, lat, lng });
+  }
 
   // Socket.io Event Handler -----------------------------------
   const userLocationListener = (data) => {
@@ -281,11 +284,11 @@ const Main = (props) => {
     };
     global.map = new kakao.maps.Map(container, options);
     // duplicate login, socket.on('closeEvent', (event) => { ... })
-    sendUserLocation(
-      getUserData.userId,
-      props.coords.latitude,
-      props.coords.longitude
-    );
+    // sendUserLocation(
+    //   getUserData.userId,
+    //   props.coords.latitude,
+    //   props.coords.longitude
+    // );
     if (getPostLocationsData?.length !== 0 && Object.keys(posts).length === 0) {
       getPostLocationsData?.map((el) =>
         addMarker(
@@ -310,6 +313,21 @@ const Main = (props) => {
     };
   }, [getPostLocationsData, setGeolocationMarker]);
 
+  // const location = {
+  //   lat: props?.coords?.latitude,
+  //   lng: props?.coords?.longitude
+  // }
+
+  useEffect(() => {
+    if (!props?.coords?.latitude || !props?.coords?.longitude) return Logger.error(`[SendUserLocation:UseEffect] Location Data is not provided!`)
+    sendUserLocation(
+      getUserData.userId,
+      props?.coords?.latitude,
+      props?.coords?.longitude,
+      true
+    );
+  }, [getUserData.userId, props?.coords?.latitude, props?.coords?.longitude])
+
   if (
     props.isGeolocationAvailable &&
     props.isGeolocationEnabled &&
@@ -320,14 +338,19 @@ const Main = (props) => {
     setGeolocationMarker(true);
     setMyUserId(getUserData.userId);
     dispatch(postActions.getPostLocationDB());
-    setInterval(() => {
-      sendUserLocation(
-        getUserData.userId,
-        props.coords.latitude,
-        props.coords.longitude
-      );
-      // socket.emit("getPostList");
-    }, 2000);
+    // sendUserLocation(
+    //   getUserData.userId,
+    //   props.coords.latitude,
+    //   props.coords.longitude
+    // );
+    // setInterval(() => {
+    //   sendUserLocation(
+    //     getUserData.userId,
+    //     props.coords.latitude,
+    //     props.coords.longitude
+    //   );
+    //   // socket.emit("getPostList");
+    // }, 2000);
   }
 
   return (
@@ -376,7 +399,7 @@ const Main = (props) => {
               }}
             />
             {/* 오버레이 */}
-            <div className='container'>
+            <div className="container">
               <OverlayTransition myUserId={myUserId} markerData={markerData} />
               <InviteModalTransition markerData={markerData} />
               <FirstLoginModalTransition />
@@ -391,8 +414,8 @@ const Main = (props) => {
   );
 };
 
-function MarkerDataParse (myFriends, mySchedules, myUserId, setMarkerId, post)  {
-  const obj = {}
+function MarkerDataParse(myFriends, mySchedules, myUserId, setMarkerId, post) {
+  const obj = {};
   if (!post) {
     if (
       myFriends?.includes(setMarkerId) &&
@@ -405,8 +428,8 @@ function MarkerDataParse (myFriends, mySchedules, myUserId, setMarkerId, post)  
         isFriend: true,
         isSameSchedule: true,
         isSchedule: false,
-        isMarkerImage: MarkerImageObject.sameSchedule
-      })
+        isMarkerImage: MarkerImageObject.sameSchedule,
+      });
     } else if (
       myFriends?.includes(setMarkerId) &&
       !mySchedules?.includes(setMarkerId) &&
@@ -418,8 +441,8 @@ function MarkerDataParse (myFriends, mySchedules, myUserId, setMarkerId, post)  
         isFriend: true,
         isSameSchedule: false,
         isSchedule: false,
-        isMarkerImage: MarkerImageObject.friend
-      })
+        isMarkerImage: MarkerImageObject.friend,
+      });
     } else if (
       !myFriends?.includes(setMarkerId) &&
       mySchedules?.includes(setMarkerId) &&
@@ -431,8 +454,8 @@ function MarkerDataParse (myFriends, mySchedules, myUserId, setMarkerId, post)  
         isFriend: false,
         isSameSchedule: true,
         isSchedule: false,
-        isMarkerImage: MarkerImageObject.sameSchedule
-      })
+        isMarkerImage: MarkerImageObject.sameSchedule,
+      });
     } else if (
       !myFriends?.includes(setMarkerId) &&
       !mySchedules?.includes(setMarkerId) &&
@@ -444,8 +467,8 @@ function MarkerDataParse (myFriends, mySchedules, myUserId, setMarkerId, post)  
         isFriend: false,
         isSameSchedule: false,
         isSchedule: false,
-        isMarkerImage: MarkerImageObject.me
-      })
+        isMarkerImage: MarkerImageObject.me,
+      });
     } else {
       // isFriend: false | isSameSchedules: false | isMe: false | schedule: false
       Object.assign(obj, {
@@ -453,8 +476,8 @@ function MarkerDataParse (myFriends, mySchedules, myUserId, setMarkerId, post)  
         isFriend: false,
         isSameSchedule: false,
         isSchedule: false,
-        isMarkerImage: MarkerImageObject.anonymous
-      })
+        isMarkerImage: MarkerImageObject.anonymous,
+      });
     }
   } else if (post) {
     // isFriend: false | isSameSchedules: false | isMe: false | schedule: true
@@ -463,10 +486,10 @@ function MarkerDataParse (myFriends, mySchedules, myUserId, setMarkerId, post)  
       isFriend: false,
       isSameSchedule: false,
       isSchedule: true,
-      isMarkerImage: MarkerImageObject.schedule
-    })
+      isMarkerImage: MarkerImageObject.schedule,
+    });
   }
-  return obj
+  return obj;
 }
 
 Main.propTypes = { ...Main.propTypes, ...geoPropTypes };

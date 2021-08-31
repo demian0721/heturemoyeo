@@ -24,12 +24,14 @@ const SetNewPassword = (props) => {
   useEffect(() => { if (getToken()) { window.alert("이미 로그인되어 있습니다."); window.location.href ='/'; } }, []);
 
   const debounce = _.debounce((value, setValue) => setValue(value), 0);
+  const mobileInfo = useSelector((state) => state.user.mobileInfo);
+  const id = mobileInfo?.id;
   const renewPWD = () => {
     
-    const userInfo = { pwd }
-    dispatch(userActions.tempSave(userInfo))
-    history.push("/signup/info");
-  }
+    // authId도 받아야함
+    dispatch(userActions.renewPWDDB( id, pwd, pwdCheck))
+  };
+
   const [pwd, setPwd] = useState("");
   const [pwdCheck, setPwdCheck] = useState("");
   const [pwdConfirm, setPwdConfirm] = useState("");

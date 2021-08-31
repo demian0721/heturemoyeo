@@ -213,38 +213,40 @@ const receiveAuthNum = (phone) => {
         if (error.response.status === 412) {
           window.alert("해당 번호는 이미 사용 중입니다.");
         } else {
-          window.alert("인증 메시지에 발송에 실패하였습니다.");
+          window.alert("인증 메시지 발송에 실패하였습니다.");
         }
       });
   };
 };
 
 const getAuthNum = (phone) => {
-  return function (dispatch) {
+  return function (dispatch, getState, { history }) {
     instance
       .post("/api/find/password/phone", { phone: phone })
       .then((res) => {
         dispatch(findPassword(true));
         window.alert("인증 메세지가 발송되었습니다");
+        history.push("/findpassword/auth");
       })
       .catch((error) => {
         dispatch(findPassword(false));
         if (error.response.status === 412) {
-          window.alert("해당 번호는 이미 사용 중입니다.");
+          window.alert("가입되어 있지 않은 번호입니다.");
         } else {
-          window.alert("인증 메시지에 발송에 실패하였습니다.");
+          window.alert("인증 메시지 발송에 실패하였습니다.");
         }
       });
   };
 };
 
 const authNumConfirm = (authInfo) => {
-  return function (dispatch) {
+  return function (dispatch, { history }) {
     instance
       .post("/api/find/password/auth", authInfo)
       .then((res) => {
         dispatch(confirmAuth(true));
         window.alert("인증번호가 확인되었습니다.");
+        history.push("/findpassword/new");
       })
       .catch((error) => {
         dispatch(confirmAuth(false));
@@ -343,6 +345,22 @@ const signupDB = (
         })
       );
     }
+  };
+};
+
+// authId도 받아야함
+const renewPWDDB = (phone, password, confirm) => {
+  return function (dispatch, getState, { history }) {
+    instance
+      .post("/api/find/password/newpass", { phone, password, confirm })
+      .then((res) => {
+        window.alert("비밀번호가 변경되었습니다. 다시 로그인해 주세요.");
+        history.push("/login");
+      })
+      .catch((error) => {
+        window.alert(error.response.data.errorMessage);
+        console.log(error);
+      });
   };
 };
 
@@ -463,7 +481,8 @@ const userActions = {
   requestFriends,
   getAuthNum,
   tempGet,
-  authNumConfirm
+  authNumConfirm,
+  renewPWDDB
 };
 
 export { userActions };

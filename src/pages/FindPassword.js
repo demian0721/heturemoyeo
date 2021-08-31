@@ -62,7 +62,6 @@ const FindPassword = (props) => {
 
     dispatch(userActions.getAuthNum(id));
     setIdConfirm("");
-    history.push("/findpassword/auth");
   };
 
   //인증 확인 유무

@@ -52,7 +52,6 @@ const SendPhoneNumAuth = (props) => {
     const authInfo = {authData}
     dispatch(userActions.authNumConfirm(authInfo));
     setAuthConfirm("");
-    history.push("/findpassword/new");
   }
   //인증 확인 유무
   const is_check_auth = useSelector((state) => state.user.is_check_auth);

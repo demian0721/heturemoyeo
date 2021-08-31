@@ -21,6 +21,9 @@ const TEMP_SAVE = "TEMP_SAVE";
 const EDIT_INFO = "EDIT_INFO";
 const EDIT_STATUS = "EDIT_STATUS";
 const REQUEST_FRIEND = "REQUEST_FRIEND";
+const FIND_PASSWORD = "FIND_PASSWORD";
+const TEMP_GET = "TEMP_GET";
+const CONFIRM_AUTH = "CONFIRM_AUTH";
 
 // ACTION CREATORS
 const myInfo = createAction(MY_INFO, (userInfo) => ({ userInfo }));
@@ -42,6 +45,13 @@ const editStatus = createAction(EDIT_STATUS, (editStatus) => ({ editStatus }));
 const requestFriend = createAction(REQUEST_FRIEND, (requestFriend) => ({
   requestFriend,
 }));
+const findPassword = createAction(FIND_PASSWORD, (is_check_mobile) => ({
+  is_check_mobile,
+}));
+const tempGet = createAction(TEMP_GET, (mobileInfo) => ({ mobileInfo }));
+const confirmAuth = createAction(CONFIRM_AUTH, (is_confirm_auth) => ({
+  is_confirm_auth,
+}));
 
 // INITIAL STATE
 const initialState = {
@@ -59,6 +69,9 @@ const initialState = {
   type: null,
   exactType: null,
   is_loaded: false,
+  is_check_mobile: false,
+  mobileInfo: null,
+  is_confirm_auth: false,
 };
 
 // MIDDLEWARE
@@ -202,6 +215,40 @@ const receiveAuthNum = (phone) => {
         } else {
           window.alert("인증 메시지에 발송에 실패하였습니다.");
         }
+      });
+  };
+};
+
+const getAuthNum = (phone) => {
+  return function (dispatch) {
+    instance
+      .post("/api/find/password/phone", { phone: phone })
+      .then((res) => {
+        dispatch(findPassword(true));
+        window.alert("인증 메세지가 발송되었습니다");
+      })
+      .catch((error) => {
+        dispatch(findPassword(false));
+        if (error.response.status === 412) {
+          window.alert("해당 번호는 이미 사용 중입니다.");
+        } else {
+          window.alert("인증 메시지에 발송에 실패하였습니다.");
+        }
+      });
+  };
+};
+
+const authNumConfirm = (authInfo) => {
+  return function (dispatch) {
+    instance
+      .post("/api/find/password/auth", authInfo)
+      .then((res) => {
+        dispatch(confirmAuth(true));
+        window.alert("인증번호가 확인되었습니다.");
+      })
+      .catch((error) => {
+        dispatch(confirmAuth(false));
+        window.alert("인증번호가 일치하지 않습니다.");
       });
   };
 };
@@ -377,6 +424,22 @@ export default handleActions(
       produce(state, (draft) => {
         draft.userId = action.payload.userId;
       }),
+
+    [FIND_PASSWORD]: (state, action) =>
+    produce(state, (draft) => {
+      draft.is_check_mobile = action.payload.is_check_mobile;
+    }),
+
+    [TEMP_GET]: (state, action) =>
+      produce(state, (draft) => {
+        draft.mobileInfo = action.payload.mobileInfo;
+      }),
+    
+    [CONFIRM_AUTH]: (state, action) =>
+    produce(state, (draft) => {
+      draft.is_confirm_auth = action.payload.is_confirm_auth;
+    }),
+
   },
   initialState
 );
@@ -398,6 +461,9 @@ const userActions = {
   editStatusMsg,
   editStatus,
   requestFriends,
+  getAuthNum,
+  tempGet,
+  authNumConfirm
 };
 
 export { userActions };

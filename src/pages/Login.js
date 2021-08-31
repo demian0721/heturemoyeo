@@ -132,8 +132,10 @@ const LogIn = (props) => {
               textIndent="15px"
               textAlign="right"
               margin="10px 0px 20px 0px"
+              clickEvent={() => (window.location.href = "/findpassword")}
+              style={{cursor:"pointer"}}
             >
-              {/* 비밀번호 찾기 */}
+              비밀번호 찾기
             </Text>
           </Grid>
           <Text

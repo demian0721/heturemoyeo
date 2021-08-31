@@ -943,6 +943,6 @@ const Style = styled.div`
 PostWrite.propTypes = { ...PostWrite.propTypes, ...geoPropTypes };
 
 export default geolocated({
-  positionOptions: { enableHighAccuracy: false },
-  userDecisionTimeout: 500,
+  positionOptions: { enableHighAccuracy: true },
+  watchPosition: true
 })(PostWrite);

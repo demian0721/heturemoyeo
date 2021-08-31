@@ -14,7 +14,7 @@ import {
   Event as EventIcon,
 } from "@material-ui/icons";
 
-import { formattedDate } from "../utils";
+import { formattedDate, formattedLastLoginTime } from "../utils";
 
 const rowRatingColor = (rating) => {
   if (rating <= 30) return "#e00000";
@@ -96,24 +96,7 @@ const UserOverlayDivideComponent = ({ force = false, ...props }) => {
 const UserOverlay = ({ children, ...props }) => {
   const setShowModal = useSetRecoilState(ShowInviteModal);
   const setMyScheduleList = useSetRecoilState(MyScheduleList);
-  const lastLoginMin = Math.round(props?.lastLogin / 60000)
-  const lastLoginHour = Math.round(lastLoginMin / 60)
-  const lastLoginDay = Math.round(lastLoginHour / 24)
-  const [lastLoginDate, setLastLoginDate] = useState(0)
-  const lastLoginTime = () => {
-    if (lastLoginDay >= 1) {
-      setLastLoginDate(lastLoginDay)
-      return
-    }
-    if (lastLoginHour >= 1) {
-      setLastLoginDate(lastLoginHour);
-      return
-    }
-    if (lastLoginMin >= 5) {
-      setLastLoginDate(lastLoginMin);
-    }
-  }
-  console.log(lastLoginMin)
+  const { result, state } = formattedLastLoginTime(props?.lastLogin)
   return (
     <>
       <div data-userid={props.id} className="flex justify-start">
@@ -137,23 +120,6 @@ const UserOverlay = ({ children, ...props }) => {
                 <span className="sr-only">profile image</span>
               </div>
             </div>
-            {lastLoginMin >= 5 ? (
-              <>
-                <div className="flex text-xs lg:text-base justify-center pt-1">
-                  <div className="inline-flex">
-                    <p>마지막 접속: {lastLoginMin}분 전</p>
-                  </div>
-                </div>
-              </>
-            ):(
-              <>
-              <div className="flex text-xs lg:text-base justify-center pt-1">
-                  <div className="inline-flex">
-                    <p>접속중</p>
-                  </div>
-                </div>
-              </>
-            )}
             {/* {props?.rating && (
               <>
                 <CircularProgressbar
@@ -178,26 +144,30 @@ const UserOverlay = ({ children, ...props }) => {
         <div className="flex-grow ml-4">
           <div className="font-bold text-lg lg:text-2xl">
             {/* {props?.nickname ?? "Anonymous"} */}
-            {props?.nickname ?? ""}
+            <div className={`flex rounded-md bg-opacity-25 py-1 px-2 font-normal lg:text-sm text-xs mb-1 self-center ${state === 'online' ? 'bg-green-500 text-green-700' : 'bg-gray-500 text-gray-700'}`} style={{ width: 'fit-content' }}>
+                <div className={`flex lg:p-1.5 p-1 rounded-full self-center ${state === 'online' ? 'bg-green-700' : 'bg-gray-700'}`}>
+                  <span className="sr-only">State</span>
+                </div>
+              <span className='flex ml-2'>{result}</span>
+            </div>
+            <span>{props?.nickname ?? ""}</span>
           </div>
           {props?.likeItem && (
-            <>
-              <div className="font-normal text-xs py-1 lg:text-sm space-x-1">
-                {props.likeItem.map((el, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="tagItem transition duration-300 ease-in-out cursor-pointer inline-flex rounded-md px-2 mb-1"
-                      style={{ marginLeft: "0px", marginRight: "2px" }}
-                    >
-                      #{el}
-                    </div>
-                  );
-                })}
-              </div>
-            </>
+            <div className="font-normal text-xs py-1 lg:text-sm space-x-1">
+              {props.likeItem.map((el, key) => {
+                return (
+                  <div
+                    key={key}
+                    className="tagItem transition duration-300 ease-in-out cursor-pointer inline-flex rounded-md px-2 mb-1"
+                    style={{ marginLeft: "0px", marginRight: "2px" }}
+                  >
+                    #{el}
+                  </div>
+                );
+              })}
+            </div>
           )}
-          <UserOverlayDivideComponent {...props} />
+          <UserOverlayDivideComponent className="" {...props} />
           {props?.statusMessage && (
             <div className="font-medium text-sm lg:text-base">
               {props.statusMessage}

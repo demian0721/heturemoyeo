@@ -483,10 +483,6 @@ function MarkerDataParse(myFriends, mySchedules, myUserId, setMarkerId, post) {
 Main.propTypes = { ...Main.propTypes, ...geoPropTypes };
 
 export default geolocated({
-  positionOptions: {
-    enableHighAccuracy: true,
-  },
-  userDecisionTimeout: null,
-  watchPosition: true,
-  isOptimisticGeolocationEnabled: true,
+  positionOptions: { enableHighAccuracy: true },
+  watchPosition: true
 })(Main);

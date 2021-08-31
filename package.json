@@ -19,6 +19,7 @@
     "immer": "^9.0.5",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
+    "moment-timezone": "^0.5.33",
     "node-sass": "5.0.0",
     "raw-loader": "^4.0.2",
     "react": "^17.0.2",

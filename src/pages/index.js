@@ -17,6 +17,9 @@ import Setting from "./Setting";
 import SearchPostList from "./SearchPostList";
 import PostListInvited from './PostListinvited'
 import SearchChatListMy from "./SearchChatListMy";
+import FindPassword from "./FindPassword";
+import SendPhoneNumAuth from "./SendPhoneNumAuth";
+import SetNewPassword from "./SetNewPassword";
 
 export {
   Main,
@@ -37,5 +40,8 @@ export {
   Setting,
   SearchPostList,
   PostListInvited,
-  SearchChatListMy
+  SearchChatListMy,
+  FindPassword,
+  SendPhoneNumAuth,
+  SetNewPassword
 };

@@ -39,7 +39,10 @@ import {
   ChatRoom,
   Setting,
   SearchPostList,
-  SearchChatListMy
+  SearchChatListMy,
+  FindPassword,
+  SendPhoneNumAuth,
+  SetNewPassword
 } from "./pages/index";
 
 function App() {
@@ -56,7 +59,7 @@ function App() {
     } else {
       if (
         !token &&
-        !["/login", "/signup", "/signup/info", "/terms"].includes(
+        !["/login", "/signup", "/signup/info", "/terms", "/findpassword", "/findpassword/auth", "/findpassword/new"].includes(
           window.location.pathname
         )
       ) {
@@ -110,6 +113,9 @@ function App() {
             <Route path="/setting" exact component={Setting} />
             <Route path="/postlist/search/:keyword" exact component={SearchPostList} />
             <Route path="/chatlist/search/:keyword" exact component={SearchChatListMy}/>
+            <Route path="/findpassword" exact component={FindPassword}/>
+            <Route path="/findpassword/auth" exact component={SendPhoneNumAuth}/>
+            <Route path="/findpassword/new" exact component={SetNewPassword}/>
           </ConnectedRouter>
         </Provider>
       </RecoilRoot>

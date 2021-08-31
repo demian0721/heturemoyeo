@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { ShowOverlay, LoadMarkerDataState } from "../utils/recoil";
+import useInterval from "../hooks/useInterval";
 
 // REDUX
 // import { userActions } from "../redux/modules/user";
@@ -179,10 +180,12 @@ const Main = (props) => {
   };
 
   // 내 위치를 소켓으로 전송하는 부분
-  const sendUserLocation = (userId, lat, lng, inUseEffect = false) => {
-    Logger.info(`[SendUserLocation] Sending UserLocation... (Lat: ${lat}, Lng: ${lng}, InUseEffect: ${inUseEffect})`)
+  const sendUserLocation = (userId, lat, lng, interval = false) => {
+    Logger.info(
+      `[SendUserLocation] Sending UserLocation... (Lat: ${lat}, Lng: ${lng}, UseInterval: ${interval})`
+    );
     socket.emit("latlng", { userId, lat, lng });
-  }
+  };
 
   // Socket.io Event Handler -----------------------------------
   const userLocationListener = (data) => {
@@ -313,21 +316,6 @@ const Main = (props) => {
     };
   }, [getPostLocationsData, setGeolocationMarker]);
 
-  // const location = {
-  //   lat: props?.coords?.latitude,
-  //   lng: props?.coords?.longitude
-  // }
-
-  useEffect(() => {
-    if (!props?.coords?.latitude || !props?.coords?.longitude) return Logger.error(`[SendUserLocation:UseEffect] Location Data is not provided!`)
-    sendUserLocation(
-      getUserData.userId,
-      props?.coords?.latitude,
-      props?.coords?.longitude,
-      true
-    );
-  }, [getUserData.userId, props?.coords?.latitude, props?.coords?.longitude])
-
   if (
     props.isGeolocationAvailable &&
     props.isGeolocationEnabled &&
@@ -338,11 +326,11 @@ const Main = (props) => {
     setGeolocationMarker(true);
     setMyUserId(getUserData.userId);
     dispatch(postActions.getPostLocationDB());
-    // sendUserLocation(
-    //   getUserData.userId,
-    //   props.coords.latitude,
-    //   props.coords.longitude
-    // );
+    sendUserLocation(
+      getUserData.userId,
+      props.coords.latitude,
+      props.coords.longitude
+    );
     // setInterval(() => {
     //   sendUserLocation(
     //     getUserData.userId,
@@ -495,6 +483,10 @@ function MarkerDataParse(myFriends, mySchedules, myUserId, setMarkerId, post) {
 Main.propTypes = { ...Main.propTypes, ...geoPropTypes };
 
 export default geolocated({
-  positionOptions: { enableHighAccuracy: false },
-  userDecisionTimeout: 500,
+  positionOptions: {
+    enableHighAccuracy: true,
+  },
+  userDecisionTimeout: null,
+  watchPosition: true,
+  isOptimisticGeolocationEnabled: true,
 })(Main);

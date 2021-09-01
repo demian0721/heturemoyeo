@@ -49,12 +49,12 @@ const SendPhoneNumAuth = (props) => {
       window.alert("인증번호가 입력되지 않았습니다.");
       return;
     }
-    const authInfo = {authData}
+    const authInfo = {phone: id, authData}
     dispatch(userActions.authNumConfirm(authInfo));
     setAuthConfirm("");
   }
   //인증 확인 유무
-  const is_check_auth = useSelector((state) => state.user.is_check_auth);
+  const is_check_auth = useSelector((state) => state.user.is_confirm_auth);
   const is_check_phone = useSelector((state) => state.user.is_check_phone);
 
   //조건에 따른 버튼 색 변화

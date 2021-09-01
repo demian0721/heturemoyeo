@@ -240,10 +240,11 @@ const getAuthNum = (phone) => {
 };
 
 const authNumConfirm = (authInfo) => {
-  return function (dispatch, { history }) {
+  return function (dispatch, getState, { history }) {
     instance
       .post("/api/find/password/auth", authInfo)
       .then((res) => {
+        console.log(res);
         dispatch(confirmAuth(true));
         window.alert("인증번호가 확인되었습니다.");
         history.push("/findpassword/new");

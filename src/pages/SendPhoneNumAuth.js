@@ -93,7 +93,7 @@ const SendPhoneNumAuth = (props) => {
               lineHeight="1.5"
               textIndent="15px"
               textAlign="left"
-              margin="100px 0px 10px 0px"
+              margin="0px 0px 10px 0px"
             >
             <br/>  
             입력하신 {id}로 인증번호가 발송되었습니다.<br/>

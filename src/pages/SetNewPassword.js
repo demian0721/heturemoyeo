@@ -42,12 +42,7 @@ const SetNewPassword = (props) => {
   const [pwdWarning, setPwdWarColor] = useState("red");
   const [pwdCheckWarning, setPwdCheckWarColor] = useState("red");
 
-  const [authData, setAuthData] = useState("");
-  const [authWarning, setAuthWarColor] = useState("red");
-  const [authConfirm, setAuthConfirm] = useState("");
-
   const [Next, setNext] = useState(false);
-  const [nameCheck,setNameCk] = useState(false);
   const [passCheck,setPassCk] = useState(false);
 
   const [buttonColor,setButton] = React.useState({
@@ -96,11 +91,13 @@ const SetNewPassword = (props) => {
   };
 
   //인증 확인 유무
-  const is_check_auth = useSelector((state) => state.user.is_check_auth);
+  const is_confirm_auth = useSelector((state) => state.user.is_confirm_auth);
   const is_check_phone = useSelector((state) => state.user.is_check_phone);
 
+  const states = useSelector((state) => state);
+
   //조건에 따른 버튼 색 변화
-  if( passCheck && (pwd===pwdCheck)&&is_check_auth && !Next){
+  if( passCheck && (pwd===pwdCheck)&&is_confirm_auth && !Next){
     setNext(true);
     setButton({
     color: "white",
@@ -108,7 +105,7 @@ const SetNewPassword = (props) => {
     hoverColor: "#16C59B",
     hoverBg: "white",});
   }
-  if(( !passCheck || !(pwd===pwdCheck) || !is_check_auth) && Next){
+  if(( !passCheck || !(pwd===pwdCheck) || !is_confirm_auth) && Next){
     setNext(false);
     setButton({
     color: "white",
@@ -131,7 +128,7 @@ const SetNewPassword = (props) => {
         <Grid height="">
         
 
-          <Grid padding="5px 0px 8px" margin="100px 0px 0px 0px">
+          <Grid padding="5px 0px 8px" margin="0px 0px 0px 0px">
             <Text
               fontSize="12px"
               margin="0px"

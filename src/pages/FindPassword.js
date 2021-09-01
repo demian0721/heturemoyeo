@@ -104,7 +104,7 @@ const FindPassword = (props) => {
               lineHeight="1.5"
               textIndent="15px"
               textAlign="left"
-              margin="100px 0px 10px 0px"
+              margin="0px 0px 10px 0px"
             >
             <br/>  
             가입하신 핸드폰 번호를 입력해주세요.<br/>

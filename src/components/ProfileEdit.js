@@ -66,11 +66,14 @@ const ProfileEdit = (props) => {
   const image = useSelector((state) => state.image);
   const preview = !image.preview && props ? props.userinfo.profileImg : image.preview;
 
-  if (editInfo.profileImg==preview){
+  if(!image.preview){
+    var img = "";
+  }else{if (editInfo.profileImg==preview){
     var img = editInfo.profileImg;
   }else{
     var img = fileInput.current.files[0];
-  };
+  };}
+  
 
   const [complite,setComplite] = useState(false);
 
@@ -260,79 +263,7 @@ const ProfileEdit = (props) => {
                 {/* <Button margin="0px 0px 0px 6px" width="20%" height="40px" padding="5px 0" fontSize="13px" bg="#A7AAAD" clickEvent={nickname}>중복 확인</Button> */}
               </Grid>
               <Text fontSize="12px" margin="5px 0px" color={nicknameWarning} lineHeight="1" textIndent="0px" style={{textAlign:"center"}}>{nicknameNotice}</Text>
-              <Text
-                color="#767676"
-                fontWeight="bold"
-                fontSize="small"
-                margin="10px 0px"
-              >
-                취향 (스페이스바로 나눌 수 있습니다.)
-              </Text>
-              {tags.length !== 0 && (
-                <div className="flex flex-wrap mb-2">
-                  {tags
-                    .filter((el) => el.length !== 0)
-                    .map((el, index) => {
-                      return (
-                        <div
-                          key={index}
-                          className="flex justify-start bottom-0 rounded-md bg-main listBtn transition duration-300 ease-in-out px-2 py-1 self-center text-white my-1 mx-1"
-                        >
-                          <span className="flex">{el.trim()}</span>
-                          <div
-                            className="flex cursor-pointer"
-                            style={{ marginTop: "-0.1rem" }}
-                            onClick={() =>
-                              setTags((state) => {
-                                const result = state.filter((el, idx) => idx !== index)
-                                setInfos({ ...editInfo, likeItem: result })
-                                return result
-                              })
-                            }
-                          >
-                            <CloseIcon />
-                          </div>
-                        </div>
-                      );
-                    })}
-                </div>
-              )}
-              <div className="flex self-center">
-                <Input
-                  className="focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-                  style={{
-                    width: "100%",
-                    border: "1.5px solid #white",
-                  }}
-                  placeholder="태그를 설정하세요"
-                  type="text"
-                  onChange={(e) => {
-                    // e.preventDefault()
-                    setInfos({
-                      ...editInfo,
-                      likeItem: tags,
-                    });
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.keyCode === 32) {
-                      if (String(e.target.value).length >= 2)
-                        setTags([...tags,e.target.value]);
-                      e.target.value = "";
-                    }
-                  }}
-                />
-                {tags.length !== 0 && (
-                  <div
-                    className="px-1 h-full py-2 border-r border-t border-b border-gray-400 mr-1 bg-green-300 cursor-pointer"
-                    onClick={() => {
-                      setTags([])
-                      setInfos({ ...editInfo, likeItem: [] })
-                    }}
-                  >
-                    <CloseIcon />
-                  </div>
-                )}
-              </div>
+              <Input changeEvent={changeLikeItem} value={editInfo.likeItem} placeholder="취향" width="100%" margin="15px auto" style={{display:"block"}}/>
             </Grid>
             
             <Grid id="emailpass" margin="10px auto" bg="white" padding="20px 30px">

@@ -143,6 +143,7 @@ const FindPassword = (props) => {
               color={buttonColor.color}
               bg={buttonColor.bg}
               hoverBg={buttonColor.hoverBg}
+              hoverColor={buttonColor.hoverColor}
               className="custom_transition"
               style={{ cursor: "pointer",
                       border: "none",

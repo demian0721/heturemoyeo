@@ -94,8 +94,6 @@ const SetNewPassword = (props) => {
   const is_confirm_auth = useSelector((state) => state.user.is_confirm_auth);
   const is_check_phone = useSelector((state) => state.user.is_check_phone);
 
-  const states = useSelector((state) => state);
-
   //조건에 따른 버튼 색 변화
   if( passCheck && (pwd===pwdCheck)&&is_confirm_auth && !Next){
     setNext(true);

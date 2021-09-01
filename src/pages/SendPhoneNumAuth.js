@@ -170,7 +170,7 @@ const SendPhoneNumAuth = (props) => {
 };
 const InputBox = styled.input`
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   border: solid 2px #A7AAAD;
   padding: 14px 7px;
   ::placeholder {

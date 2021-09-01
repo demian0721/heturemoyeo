@@ -58,7 +58,7 @@ const SendPhoneNumAuth = (props) => {
   const is_check_phone = useSelector((state) => state.user.is_check_phone);
 
   //조건에 따른 버튼 색 변화
-  if(is_check_auth && !Next){
+  if(authData && !Next){
     setNext(true);
     setButton({
     color: "white",
@@ -66,7 +66,7 @@ const SendPhoneNumAuth = (props) => {
     hoverColor: "#16C59B",
     hoverBg: "white",});
   }
-  if((!is_check_auth) && Next){
+  if((!authData) && Next){
     setNext(false);
     setButton({
     color: "white",

@@ -89,7 +89,7 @@ const SendPhoneNumAuth = (props) => {
         <Grid height="">
           <Grid padding="5px 0px 0px">
             <Text
-              fontSize="10px"
+              fontSize="11px"
               lineHeight="1.5"
               textIndent="15px"
               textAlign="left"
@@ -121,7 +121,7 @@ const SendPhoneNumAuth = (props) => {
                   debounce(event.target.value, checkAuth);
                 }}
               />
-              <Text
+              {/* <Text
               fontSize="12px"
               lineHeight="1"
               textIndent="15px"
@@ -133,7 +133,7 @@ const SendPhoneNumAuth = (props) => {
                 // onClick={() => (window.location.href = "/findpassword")}
                 style={{cursor:"pointer", fontWeight:"bold"}}
               >&nbsp;[인증번호 재전송]</span>
-            </Text>
+            </Text> */}
               <Button
                 width="100%"
                 height="auto"

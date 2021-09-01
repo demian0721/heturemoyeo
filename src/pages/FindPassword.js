@@ -69,7 +69,7 @@ const FindPassword = (props) => {
   const is_check_phone = useSelector((state) => state.user.is_check_phone);
 
   //조건에 따른 버튼 색 변화
-  if(id && !Next){
+  if(idConfirm=="'인증번호 받기'를 해주세요." && !Next){
     setNext(true);
     setButton({
     color: "white",
@@ -77,7 +77,7 @@ const FindPassword = (props) => {
     hoverColor: "#16C59B",
     hoverBg: "white",});
   }
-  if((!id) && Next){
+  if((idConfirm!="'인증번호 받기'를 해주세요.") && Next){
     setNext(false);
     setButton({
     color: "white",

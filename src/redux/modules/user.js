@@ -24,6 +24,7 @@ const REQUEST_FRIEND = "REQUEST_FRIEND";
 const FIND_PASSWORD = "FIND_PASSWORD";
 const TEMP_GET = "TEMP_GET";
 const CONFIRM_AUTH = "CONFIRM_AUTH";
+const SAVE_AUTH_ID = "SAVE_AUTH_ID";
 
 // ACTION CREATORS
 const myInfo = createAction(MY_INFO, (userInfo) => ({ userInfo }));
@@ -52,6 +53,7 @@ const tempGet = createAction(TEMP_GET, (mobileInfo) => ({ mobileInfo }));
 const confirmAuth = createAction(CONFIRM_AUTH, (is_confirm_auth) => ({
   is_confirm_auth,
 }));
+const saveAuthId = createAction(SAVE_AUTH_ID, (authId) => ({ authId }));
 
 // INITIAL STATE
 const initialState = {
@@ -72,6 +74,7 @@ const initialState = {
   is_check_mobile: false,
   mobileInfo: null,
   is_confirm_auth: false,
+  authId: null,
 };
 
 // MIDDLEWARE
@@ -245,6 +248,7 @@ const authNumConfirm = (authInfo) => {
       .post("/api/find/password/auth", authInfo)
       .then((res) => {
         console.log(res);
+        dispatch(saveAuthId(res.data.authId));
         dispatch(confirmAuth(true));
         window.alert("인증번호가 확인되었습니다.");
         history.push("/findpassword/new");
@@ -350,11 +354,12 @@ const signupDB = (
 };
 
 // authId도 받아야함
-const renewPWDDB = (phone, password, confirm) => {
+const renewPWDDB = (userInfo) => {
   return function (dispatch, getState, { history }) {
     instance
-      .post("/api/find/password/newpass", { phone, password, confirm })
+      .post("/api/find/password/newpass", {...userInfo})
       .then((res) => {
+        console.log(res);
         window.alert("비밀번호가 변경되었습니다. 다시 로그인해 주세요.");
         history.push("/login");
       })
@@ -457,6 +462,11 @@ export default handleActions(
     [CONFIRM_AUTH]: (state, action) =>
     produce(state, (draft) => {
       draft.is_confirm_auth = action.payload.is_confirm_auth;
+    }),
+
+    [SAVE_AUTH_ID]: (state, action) =>
+    produce(state, (draft) => {
+      draft.authId = action.payload.authId;
     }),
 
   },

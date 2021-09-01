@@ -26,10 +26,13 @@ const SetNewPassword = (props) => {
   const debounce = _.debounce((value, setValue) => setValue(value), 0);
   const mobileInfo = useSelector((state) => state.user.mobileInfo);
   const id = mobileInfo?.id;
+  const authId = useSelector((state) => state.user.authId);
+
   const renewPWD = () => {
     
     // authId도 받아야함
-    dispatch(userActions.renewPWDDB( id, pwd, pwdCheck))
+    const userInfo = {authId: authId, phone: id, password: pwd, confirm: pwdCheck}
+    dispatch(userActions.renewPWDDB(userInfo))
   };
 
   const [pwd, setPwd] = useState("");
@@ -43,7 +46,7 @@ const SetNewPassword = (props) => {
   const [authWarning, setAuthWarColor] = useState("red");
   const [authConfirm, setAuthConfirm] = useState("");
 
-  const [Next,setNext] = useState(false);
+  const [Next, setNext] = useState(false);
   const [nameCheck,setNameCk] = useState(false);
   const [passCheck,setPassCk] = useState(false);
 
@@ -97,7 +100,7 @@ const SetNewPassword = (props) => {
   const is_check_phone = useSelector((state) => state.user.is_check_phone);
 
   //조건에 따른 버튼 색 변화
-  if( passCheck && nameCheck && (pwd===pwdCheck)&&is_check_auth && !Next){
+  if( passCheck && (pwd===pwdCheck)&&is_check_auth && !Next){
     setNext(true);
     setButton({
     color: "white",
@@ -105,7 +108,7 @@ const SetNewPassword = (props) => {
     hoverColor: "#16C59B",
     hoverBg: "white",});
   }
-  if(( !passCheck || !nameCheck || !(pwd===pwdCheck) || !is_check_auth) && Next){
+  if(( !passCheck || !(pwd===pwdCheck) || !is_check_auth) && Next){
     setNext(false);
     setButton({
     color: "white",

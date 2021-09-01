@@ -89,7 +89,7 @@ const SendPhoneNumAuth = (props) => {
         <Grid height="">
           <Grid padding="5px 0px 0px">
             <Text
-              fontSize="9px"
+              fontSize="10px"
               lineHeight="1.5"
               textIndent="15px"
               textAlign="left"

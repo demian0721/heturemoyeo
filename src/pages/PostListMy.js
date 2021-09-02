@@ -1,7 +1,6 @@
 // LIBRARY
 import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
-import { css } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 
 // REDUX
@@ -30,8 +29,13 @@ const PostListMy = (props) => {
   const PostList = useSelector((state) => state.post.list);
   const inputword = useRef();
 
+  // 검색 입력값은 inputword.current.value로 값을 가져오며 입력값 공백여부 체크하고, 
+  // 공백인 경우에 alert로 유저에게 알리기
   const search = () => {
-    console.log(inputword.current.value);
+    if (inputword.current.value === "") {
+      window.alert("검색어가 입력되지 않았습니다.");
+      return;
+    }    
     dispatch(searchActions.searchPostDB(inputword.current.value));
     history.push(`/postlist/search/${inputword.current.value}`);
   };
@@ -77,7 +81,6 @@ const PostListMy = (props) => {
           <PostListButton>my</PostListButton>
           <div style={{ zIndex: 5 }}>
             {PostList.map((l, index) => {
-              console.log(l)
               return <PostListCard key={l.id} idx={index} {...l} />;
             })}
           </div>

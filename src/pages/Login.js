@@ -20,7 +20,8 @@ const LogIn = (props) => {
 
   const [userInfo, setUserInfo] = useState({ phone: "", password: "" });
   const [warningText, setWarningText] = useState("");
-
+  
+  // 로그인시 서버로 phone, password를 보내기 위해 loginAction이라는 action creator를 dispatch 실행
   const login = () => {
     if (!userInfo.phone) {
       setWarningText("번호가 입력되지 않았습니다.");

@@ -10,7 +10,7 @@ import { searchActions } from "../redux/modules/search";
 import InfiniteScroll from "../common/infiniteScroll";
 
 // ELEMENTS
-import { Grid, Button, Text } from "../elements/index";
+import { Grid, Button } from "../elements/index";
 import SearchIcon from "@material-ui/icons/Search";
 import CreateOutlinedIcon from "@material-ui/icons/CreateOutlined";
 
@@ -23,12 +23,14 @@ import Header from "../components/Header";
 import PostListButton from "../components/PostListButton";
 
 const SearchPostList = (props) => {
-  console.log(props);
+
+  // keyword를 props로 전달받는다 
   const keyword = props.match.params.keyword;
   const dispatch = useDispatch();
-  // const keyword = window.location.search.slice(1).split('=')[1]
   const searchList = useSelector((state) => state.search.list);
   const inputword = useRef();
+
+  // props로 받은 keyword를 서버로 보내기 위해 searchPostDB라는 action creator를 dispatch 실행
   useEffect(() => {
     dispatch(searchActions.searchPostDB(keyword));
 
@@ -38,7 +40,10 @@ const SearchPostList = (props) => {
   }, [keyword]);
 
   const search = () => {
-    console.log(inputword.current.value);
+    if (inputword.current.value === "") {
+      window.alert("검색어가 입력되지 않았습니다.");
+      return;
+    }    
     dispatch(searchActions.searchPostDB(inputword.current.value));
     history.push(`/postlist/search/${inputword.current.value}`);
   };
@@ -78,9 +83,10 @@ const SearchPostList = (props) => {
             </Grid>
           </Grid>
           <PostListButton>all</PostListButton>
-
+        
           <>
             {searchList.length ? (
+              // 5개 이상의 검색결과가 있으면(limit = 5) 무한스크롤 기능이 구현되어 검색 목록에 keyword에 대한 내용을 불러온다
               <InfiniteScroll
                 postList={searchList}
                 page="SearchPostList"

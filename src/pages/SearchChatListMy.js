@@ -31,7 +31,7 @@ const SearchChatListMy = () => {
   const dispatch = useDispatch();
   const [rooms, setRooms] = useState([]);
   const posts = useSelector((state) => state.search.list);
-  console.log('posts',posts);
+  
   /**
    * useEffect 를 이용하여, useState 에 Redux Action dispatch 데이터 저장하기
    */
@@ -77,7 +77,10 @@ const SearchChatListMy = () => {
   const inputword = useRef();
 
   const search = () => {
-    console.log(inputword.current.value);
+    if (inputword.current.value === "") {
+      window.alert("검색어가 입력되지 않았습니다.");
+      return;
+    }    
     dispatch(searchActions.searchRoomDB(inputword.current.value));
     history.push(`/chatlist/search/${inputword.current.value}`);
   };

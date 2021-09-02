@@ -30,6 +30,7 @@ const PostList = (props) => {
 
   const inputword = useRef();
 
+  // 50개 이상의 검색결과가 있으면(limit = 50) 무한스크롤 기능이 구현되어 전체 목록을 불러온다
   useEffect(() => {
     dispatch(postActions.getPostsDB());
 
@@ -38,8 +39,13 @@ const PostList = (props) => {
     };
   }, []);
 
+  // 검색 입력값은 inputword.current.value로 값을 가져오며 입력값 공백여부 체크하고, 
+  // 공백인 경우에 alert로 유저에게 알리기
   const search = () => {
-    console.log(inputword.current.value);
+    if (inputword.current.value === "") {
+      window.alert("검색어가 입력되지 않았습니다.");
+      return;
+    }    
     dispatch(searchActions.searchPostDB(inputword.current.value));
     history.push(`/postlist/search/${inputword.current.value}`);
   };

@@ -7,7 +7,6 @@ import styled from "styled-components";
 import { Text, Title, Grid, Button } from "../elements";
 
 // HISTORY
-import { history } from "../redux/configStore";
 import { useSelector } from 'react-redux';
 import { getToken } from '../common/token';
 
@@ -21,16 +20,19 @@ import {  pwdVal } from "../common/validation";
 const SetNewPassword = (props) => {
   const dispatch = useDispatch();
 
+  // useEffect Hook을 사용하여 컴포넌트가 렌더링 되었을 때 세션스토리지에 Token을 이미 가져왔다면 메인페이지로 이동
   useEffect(() => { if (getToken()) { window.alert("이미 로그인되어 있습니다."); window.location.href ='/'; } }, []);
-
   const debounce = _.debounce((value, setValue) => setValue(value), 0);
+
+  // user 모듈에 임시저장된 id(phone)을 가져오고, 
+  // 서버로부터 응답받은 authId를 먼저 user 모듈에 임시저장하게 만들었으며 그 authId도 가져온다
   const mobileInfo = useSelector((state) => state.user.mobileInfo);
   const id = mobileInfo?.id;
   const authId = useSelector((state) => state.user.authId);
 
   const renewPWD = () => {
-    
-    // authId도 받아야함
+
+    // 최종적으로 '비밀번호 변경'을 위하여 서버로 authId, phone, password, confirm을 보내기 위해 renewPWDDB라는 action creator를 dispatch 실행
     const userInfo = {authId: authId, phone: id, password: pwd, confirm: pwdCheck}
     dispatch(userActions.renewPWDDB(userInfo))
   };
@@ -43,7 +45,7 @@ const SetNewPassword = (props) => {
   const [pwdCheckWarning, setPwdCheckWarColor] = useState("red");
 
   const [Next, setNext] = useState(false);
-  const [passCheck,setPassCk] = useState(false);
+  const [passCheck, setPassCk] = useState(false);
 
   const [buttonColor,setButton] = React.useState({
     color: "white",
@@ -52,6 +54,8 @@ const SetNewPassword = (props) => {
     hoverBg: "#B9B9B9",
   });
 
+  // useState를 사용하여 비밀번호 입력시 공백, 정규식 검사 체크하고, 
+  // 각 상황에 대해서 warning text로 유저에게 알리기
   const checkPWD = (val) => {
     if (val === "") {
       setPwdWarColor("red");
@@ -92,7 +96,6 @@ const SetNewPassword = (props) => {
 
   //인증 확인 유무
   const is_confirm_auth = useSelector((state) => state.user.is_confirm_auth);
-  const is_check_phone = useSelector((state) => state.user.is_check_phone);
 
   //조건에 따른 버튼 색 변화
   if( passCheck && (pwd===pwdCheck)&&is_confirm_auth && !Next){

@@ -8,24 +8,27 @@ import Logger from "../../utils/Logger";
 import socket from "../../common/socket";
 
 const DistanceModalTransition = ({ children }) => {
+  // DistanceState의 기본값 = 2000
   const [selectedDistance, setSelectedDistance] = useRecoilState(DistanceState);
 
+  /**
+   * Distance 기본 값 설정하기:
+   * 만약 처음 이용하는 사용자이거나, 설정한 Distance Recoil 값이 다를 경우, 해당 값으로 변경하며 socket 에 해당 값을 전송한다.
+   */
   useEffect(() => {
     const getDistance = localStorage.getItem("distance");
-    let tasking = false;
     if (!getDistance) {
-      tasking = true;
       setSelectedDistance(2000);
       localStorage.setItem("distance", 2000);
       socket.emit("changeDistance", { distance: 2000 });
-      Logger.info(
+      return Logger.info(
         `[SetDefaultDistance] Init to set localStorage item via getDistance (DefaultDistance: 2000M (2KM))`
       );
     }
-    if (Number(getDistance) !== Number(selectedDistance) && !tasking) {
+    if (Number(getDistance) !== Number(selectedDistance)) {
       setSelectedDistance(Number(getDistance));
       socket.emit("changeDistance", { distance: Number(getDistance) });
-      Logger.info(
+      return Logger.info(
         `[SetDistance] Not same to reocil distance, but set distance... (SetDistance: ${Number(
           getDistance
         )}M (${Number(getDistance) / 1000}KM))`
@@ -33,7 +36,9 @@ const DistanceModalTransition = ({ children }) => {
     }
   }, []);
 
+  // DistanceList: 볼 수 있는 반경 거리를 KM 로 표현하여 Array에 넣어둔 것.
   const distanceList = [2, 5, 10, 15, 700];
+  // Distance 모달의 표시 상태를 관리할 수 있는 RecoilState
   const [showDistance, setShowDistance] = useRecoilState(ShowDistanceModal);
   const ref = useRef();
   const handleDistanceClose = (clearSelect = true) => {
@@ -46,7 +51,7 @@ const DistanceModalTransition = ({ children }) => {
     if (Number(selectedDistance) === Number(getDistance))
       return alert("현재 설정된 반경과 동일합니다!");
     alert(
-      `보기 반경이 ${getDistance / 1000 ?? "2"}KM 에서 ${
+      `보기 반경이 ${getDistance / 1000 ?? "알 수 없음"}KM 에서 ${
         Number(selectedDistance) / 1000
       }KM로 변경되었습니다!`
     );
@@ -100,6 +105,7 @@ const DistanceModalTransition = ({ children }) => {
                 className="flex flex-wrap flex-initial overflow-y-scroll w-full space-y-2 bg-gray-300 rounded-md bg-opacity-25 p-2 border border-gray-400 border-opacity-25 content-start"
                 style={{ height: "305px" }}
               >
+                {/* 아래 컴포넌트를 이용하여 목록 아이템을 생성함. */}
                 {distanceList.map((radius, index) => {
                   const props = { radius, index };
                   return <DistanceCard {...props} />;
@@ -146,6 +152,14 @@ const DistanceModalTransition = ({ children }) => {
   );
 };
 
+/**
+ * DistanceCard Component:
+ * 모달 안에 목록 아이템을 만들어주기 위한 컴포넌트
+ * 해당 컴포넌트를 이용하여 MAP 함수를 써서 정해진 모달 안에
+ * 순차적으로 넣을 수 있음.
+ * 
+ * distanceList.map((el, index) => ...)
+ */
 function DistanceCard({ children, ...props }) {
   const [selectedDistance, setSelectedDistance] = useRecoilState(DistanceState);
   return (

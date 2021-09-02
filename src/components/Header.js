@@ -15,7 +15,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import { Transition } from "@headlessui/react";
 import useOutsideClick from "../hooks/useOutsideClick";
 
-import { useRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilState } from "recoil";
 import { ChatRoomSideBar } from "../utils/recoil";
 
 import { postActions } from "../redux/modules/post";
@@ -30,11 +30,37 @@ import { history } from "../redux/configStore";
 //Image
 // import logo_header from '../../public/assets/logo_header';
 
-// 목록 UI 내 유저프로필 객체
-const UserProfileComponent = ({ myData, postData, ...props }) => {
-  const UserProfileBtnOrIconComponent = ({ myData, postData, ...props }) => {
-    const UserProfileModeratorComponent = () => {
-      return (
+// 사이드 바 안의 유저 목록 아이템의 추방 버튼과 방장 아이콘을 보여주는 컴포넌트
+const UserProfileBtnOrIconComponent = ({ myData, postData, ...props }) => {
+  const ref = useRef();
+  const [kickMember, setKickMember] = useState({});
+  const [showConfirm, setShowConfirm] = useState(false);
+  const setMenuIsShow = useSetRecoilState(ChatRoomSideBar);
+  useOutsideClick(ref, () => setShowConfirm(false));
+  return (
+    <>
+      {postData?.userId === myData?.userId &&
+      postData?.userId !== props?.userId ? (
+        <>
+          {!postData?.isConfirm && (
+            <>
+              <div className="flex flex-grow">
+                <span className="sr-only">KICK_BTN</span>
+              </div>
+              <div
+                onClick={() => {
+                  setShowConfirm(true);
+                  setKickMember(props);
+                }}
+                className="flex self-center justify-end flex-shrink flex-basis-0 px-2 py-2 rounded-full bg-red-200 text-red-600 hover:bg-red-300 hover:text-red-900 transition duration-300 ease-in-out cursor-pointer"
+              >
+                <ExitToAppIcon style={{ fontSize: "15px" }} />
+              </div>
+            </>
+          )}
+        </>
+      ) : postData?.userId !== myData?.userId &&
+        postData?.userId === props?.userId ? (
         <>
           <div className="flex flex-grow">
             <span className="sr-only">MODERATOR_ICON</span>
@@ -52,119 +78,105 @@ const UserProfileComponent = ({ myData, postData, ...props }) => {
             />
           </div>
         </>
-      );
-    };
-    const ref = useRef();
-    const [kickMember, setKickMember] = useState({});
-    const [showConfirm, setShowConfirm] = useState(false);
-    const [menuIsShow, setMenuIsShow] = useRecoilState(ChatRoomSideBar);
-    useOutsideClick(ref, () => setShowConfirm(false));
-    return (
-      <>
-        {postData?.userId === myData?.userId &&
-        postData?.userId !== props?.userId ? (
-          <>
-            {!postData?.isConfirm && (
-              <>
-                <div className="flex flex-grow">
-                  <span className="sr-only">KICK_BTN</span>
-                </div>
-                <div
-                  onClick={() => {
-                    setShowConfirm(true);
-                    setKickMember(props);
-                  }}
-                  className="flex self-center justify-end flex-shrink flex-basis-0 px-2 py-2 rounded-full bg-red-200 text-red-600 hover:bg-red-300 hover:text-red-900 transition duration-300 ease-in-out cursor-pointer"
-                >
-                  <ExitToAppIcon style={{ fontSize: "15px" }} />
-                </div>
-              </>
-            )}
-          </>
-        ) : postData?.userId !== myData?.userId &&
-          postData?.userId === props?.userId ? (
-          <UserProfileModeratorComponent />
-        ) : postData?.userId === myData?.userId &&
-          postData?.userId === props?.userId ? (
-          <UserProfileModeratorComponent />
-        ) : (
-          ""
-        )}
-        <Transition
-          show={showConfirm}
-          enter="transition ease-in-out duration-300"
-          enterFrom="transform opacity-0 scale-95"
-          enterTo="transform opacity-100 scale-100"
-          leave="transition ease-in-out duration-300"
-          leaveFrom="transform opacity-100 scale-100"
-          leaveTo="transform opacity-0 scale-95"
-          className="absolute left-0 right-0 transform-gpu bg-white"
-          style={{ zIndex: 3 }}
+      ) : postData?.userId === myData?.userId &&
+        postData?.userId === props?.userId ? (
+        <>
+          <div className="flex flex-grow">
+            <span className="sr-only">MODERATOR_ICON</span>
+          </div>
+          <div className="flex self-center justify-end flex-shrink flex-basis-0 text-yellow-300">
+            <img
+              alt="moderator-crown"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Font_Awesome_5_solid_crown.svg/1279px-Font_Awesome_5_solid_crown.svg.png"
+              width={25}
+              height={30}
+              style={{
+                WebkitFilter: "opacity(.4) drop-shadow(0 0 0 #ffb300)",
+                filter: "opacity(.4) drop-shadow(0 0 0 #ffb300)",
+              }}
+            />
+          </div>
+        </>
+      ) : (
+        ""
+      )}
+      {/* confirm 모달 */}
+      <Transition
+        show={showConfirm}
+        enter="transition ease-in-out duration-300"
+        enterFrom="transform opacity-0 scale-95"
+        enterTo="transform opacity-100 scale-100"
+        leave="transition ease-in-out duration-300"
+        leaveFrom="transform opacity-100 scale-100"
+        leaveTo="transform opacity-0 scale-95"
+        className="absolute left-0 right-0 transform-gpu bg-white"
+        style={{ zIndex: 3 }}
+      >
+        <div
+          ref={ref}
+          className="block rounded-md border border-gray-300 border-opacity-75 px-3 py-2 mx-2 bg-whtie bg-opacity-100 shadow-md"
         >
-          <div
-            ref={ref}
-            className="block rounded-md border border-gray-300 border-opacity-75 px-3 py-2 mx-2 bg-whtie bg-opacity-100 shadow-md"
-          >
-            <div className="flex font-bold text-base self-center">
-              <div
-                onClick={() => setShowConfirm(false)}
-                className="inline-flex cursor-pointer hoverText transition duration-300 ease-in-out self-center"
-              >
-                <CloseIcon />
-              </div>
-              유저 추방 확인
+          <div className="flex font-bold text-base self-center">
+            <div
+              onClick={() => setShowConfirm(false)}
+              className="inline-flex cursor-pointer hoverText transition duration-300 ease-in-out self-center"
+            >
+              <CloseIcon />
             </div>
-            <div className="text-sm">
-              해당 유저
-              <span className="tagItem px-1 text-xs mx-1 rounded-md inline-flex transition duration-300 ease-in-out self-center">
-                ({kickMember?.nickname})
-              </span>
-              를(을) 대화방에서 내보내시겠습니까?
-            </div>
-            <div className="flex border border-gary-500 rounded-full my-1 w-full">
-              <div className="sr-only">divide</div>
-            </div>
-            <div className="flex justify-between space-x-4 mt-2 text-sm">
-              <button
-                onClick={async () => {
-                  try {
-                    await axios.post("/api/room/kick", {
-                      userId: Number(kickMember.userId),
-                      postId: Number(postData?.postId),
-                    });
-                    alert(
-                      `유저 ${kickMember.nickname} 을(를) 추방하였어요!`
-                    );
-                    setShowConfirm(false);
-                    setMenuIsShow(false);
-                  } catch (e) {
-                    console.error(e);
-                    alert(
-                      `유저 ${kickMember.nickname} 을(를) 추방하는 도중 오류가 발생하였어요!`
-                    );
-                    setShowConfirm(false);
-                    setMenuIsShow(false);
-                  }
-                }}
-                className="flex-grow flex-shrink flex-basis-0 px-4 py-1 rounded-md bg-blue-200 text-blue-600 hover:bg-blue-300 hover:text-blue-900 transition duration-300 ease-in-out"
-              >
-                추방
-              </button>
-              <button
-                onClick={() => {
+            유저 추방 확인
+          </div>
+          <div className="text-sm">
+            해당 유저
+            <span className="tagItem px-1 text-xs mx-1 rounded-md inline-flex transition duration-300 ease-in-out self-center">
+              ({kickMember?.nickname})
+            </span>
+            를(을) 대화방에서 내보내시겠습니까?
+          </div>
+          <div className="flex border border-gary-500 rounded-full my-1 w-full">
+            <div className="sr-only">divide</div>
+          </div>
+          <div className="flex justify-between space-x-4 mt-2 text-sm">
+            <button
+              onClick={async () => {
+                try {
+                  await axios.post("/api/room/kick", {
+                    userId: Number(kickMember.userId),
+                    postId: Number(postData?.postId),
+                  });
+                  alert(`유저 ${kickMember.nickname} 을(를) 추방하였어요!`);
                   setShowConfirm(false);
                   setMenuIsShow(false);
-                }}
-                className="flex-grow flex-shrink flex-basis-0 px-4 py-1 rounded-md bg-red-200 text-red-600 hover:bg-red-300 hover:text-red-900 transition duration-300 ease-in-out"
-              >
-                취소
-              </button>
-            </div>
+                } catch (e) {
+                  console.error(e);
+                  alert(
+                    `유저 ${kickMember.nickname} 을(를) 추방하는 도중 오류가 발생하였어요!`
+                  );
+                  setShowConfirm(false);
+                  setMenuIsShow(false);
+                }
+              }}
+              className="flex-grow flex-shrink flex-basis-0 px-4 py-1 rounded-md bg-blue-200 text-blue-600 hover:bg-blue-300 hover:text-blue-900 transition duration-300 ease-in-out"
+            >
+              추방
+            </button>
+            <button
+              onClick={() => {
+                setShowConfirm(false);
+                setMenuIsShow(false);
+              }}
+              className="flex-grow flex-shrink flex-basis-0 px-4 py-1 rounded-md bg-red-200 text-red-600 hover:bg-red-300 hover:text-red-900 transition duration-300 ease-in-out"
+            >
+              취소
+            </button>
           </div>
-        </Transition>
-      </>
-    );
-  };
+        </div>
+      </Transition>
+    </>
+  );
+};
+
+// 목록 UI 내 유저프로필 객체
+const UserProfileComponent = ({ myData, postData, ...props }) => {
   return (
     <div key={props.key} className="flex rounded-md self-center p-2">
       {props?.confirm && (
@@ -238,7 +250,7 @@ const Header = (props) => {
     if (onCancel && typeof onCancel !== "function") {
       return;
     }
-  
+
     const confirmAction = () => {
       if (window.confirm(message)) {
         onConfirm();
@@ -246,12 +258,14 @@ const Header = (props) => {
         onCancel();
       }
     };
-  
-    return confirmAction;
-  }; 
 
-  const deleteConfirm = () => {dispatch(postActions.deleteAPost(postId));};
-  const cancelConfirm = () => console.log("취소했습니다.")
+    return confirmAction;
+  };
+
+  const deleteConfirm = () => {
+    dispatch(postActions.deleteAPost(postId));
+  };
+  const cancelConfirm = () => console.log("취소했습니다.");
 
   const confirmDelete = useConfirm(
     "삭제하시겠습니까?",
@@ -263,15 +277,20 @@ const Header = (props) => {
   const confirmchat = () =>
     dispatch(chatActions.confirmAChat({ postId: chatId }));
 
+  // 대화방 내에 참여한 유저 목록을 불러왔는지 상태를 관리할 수 있는 state
   const [show, setShow] = useState(false);
+  // 사이드 바 표시를 상태를 관리할 수 있는 RecoilState
   const [menuIsShow, setMenuIsShow] = useRecoilState(ChatRoomSideBar);
+  // 내 정보를 저장할 수 있는 State
   const [myData, setMyData] = useState({});
   const menuRef = useRef();
   useOutsideClick(menuRef, () => setMenuIsShow(false));
 
+  // 해당 대화방의 정보를 저장할 수 있는 State
   const [postData, setPostData] = useState({});
   useEffect(() => setPostData(getPostData), [getPostData]);
 
+  // 대화방에 참여한 유저 목록을 저장할 수 있는 State
   const [memberList, setMemberList] = useState([]);
   const getMemberList = async () => {
     try {
@@ -280,12 +299,16 @@ const Header = (props) => {
       });
       const MemberListData = result.data;
       setMyData(
+        // 불러온 데이터에서 필터링 하여, 내 데이터를 필터링합니다.
+        // 필터링 한 데이터를 myData State 에 저장합니다.
         MemberListData.filter((el) => el.userId === userData.userId).length !==
           0
           ? MemberListData.filter((el) => el.userId === userData.userId)[0]
           : {}
       );
+      // 불러온 데이터를 MemberList State 에 저장합니다.
       setMemberList(MemberListData);
+      // 모두 다 완료하면, show 상태를 true로 변경합니다.
       setShow(true);
     } catch (e) {
       console.error(e);
@@ -324,9 +347,7 @@ const Header = (props) => {
               window.location.href = "/chat";
             }}
           />
-        ) : (
-          null
-        )}
+        ) : null}
 
         {id === "detail" ? (
           <ArrowBackOutlinedIcon
@@ -335,41 +356,35 @@ const Header = (props) => {
               history.goBack();
             }}
           />
-        ) : (
-          null
-        )}
+        ) : null}
 
-        {id != "chatroom" && id != "detail" ? (
-          <div></div>
-        ):(
-          null
-        )}
+        {id != "chatroom" && id != "detail" ? <div></div> : null}
 
         {!title || title.length === 0 ? (
           <Link to="/">
-            <div style={{display:"flex"}}>
+            <div style={{ display: "flex" }}>
               <Image src="/assets/logo_header.png" />
-              <img src="/assets/textlogo_white.svg"
-                  style={{width:"78.4px", height:"20px", margin: "2px 10px 0px 10px", cursor: "pointer"}} alt="" />
+              <img
+                src="/assets/textlogo_white.svg"
+                style={{
+                  width: "78.4px",
+                  height: "20px",
+                  margin: "2px 10px 0px 10px",
+                  cursor: "pointer",
+                }}
+                alt=""
+              />
             </div>
           </Link>
         ) : (
-          <TitleBox className='flex' style={{ cursor: "default" }}>{title}</TitleBox>
+          <TitleBox className="flex" style={{ cursor: "default" }}>
+            {title}
+          </TitleBox>
         )}
 
         <Grid width="">
           {id === "chatroom" ? (
             <Grid is_flex>
-              {/* <Text
-                color="white"
-                clickEvent={confirmchat}
-                style={{ marginRight: "5px",cursor:"Pointer" }}
-              >
-                확정
-              </Text>
-              <Text color="white" clickEvent={exitchat} style={{cursor:"Pointer"}}>
-                탈퇴
-              </Text> */}
               <div
                 className="text-white cursor-pointer w-full"
                 onClick={() => {
@@ -461,12 +476,11 @@ const Header = (props) => {
           {/* {id === "chatroom" ? <MoreHorizIcon style={{color:"white"}}/> : null } */}
           {id === "detail" && owner === writer ? (
             <Grid is_flex>
-              <Link to={`/postdetail/edit/${postId}`}><Text
-                color="white"
-                style={{ cursor: "Pointer" }}
-              >
-                수정
-              </Text></Link>
+              <Link to={`/postdetail/edit/${postId}`}>
+                <Text color="white" style={{ cursor: "Pointer" }}>
+                  수정
+                </Text>
+              </Link>
               <Text
                 color="white"
                 clickEvent={confirmDelete}

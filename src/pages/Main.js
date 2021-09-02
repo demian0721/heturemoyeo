@@ -33,11 +33,6 @@ import Logger from "../utils/Logger";
 import MarkerImageObject from "../assets/markerImageObject";
 
 const Main = (props) => {
-  // if (!props.isGeolocationAvailable)
-  //   alert("해당 기기는 GeoLocation을 지원하지 않습니다!");
-  // if (!props.isGeolocationEnabled)
-  //   alert("해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!");
-
   const dispatch = useDispatch();
   const [geolocationMarker, setGeolocationMarker] = useState(false);
   const [markers, setMarkers] = useState([]);
@@ -197,7 +192,7 @@ const Main = (props) => {
       if (userLocation !== null) {
         addMarker(
           global.map,
-          userLocation.key,
+          userLocation.key, 
           new kakao.maps.LatLng(userLocation.latitude, userLocation.longitude),
           false
         );
@@ -331,14 +326,6 @@ const Main = (props) => {
       props.coords.latitude,
       props.coords.longitude
     );
-    // setInterval(() => {
-    //   sendUserLocation(
-    //     getUserData.userId,
-    //     props.coords.latitude,
-    //     props.coords.longitude
-    //   );
-    //   // socket.emit("getPostList");
-    // }, 2000);
   }
 
   return (
@@ -482,6 +469,7 @@ function MarkerDataParse(myFriends, mySchedules, myUserId, setMarkerId, post) {
 
 Main.propTypes = { ...Main.propTypes, ...geoPropTypes };
 
+// geolocated 라는 모듈을 활용하여 props로 좌표데이터를 넘겨 줌.
 export default geolocated({
   positionOptions: { enableHighAccuracy: true },
   watchPosition: true

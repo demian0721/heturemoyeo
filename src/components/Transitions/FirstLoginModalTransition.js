@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Transition, Dialog } from "@headlessui/react";
 import ImageSilder from "react-simple-image-slider";
 
+// 모달 안의 이미지 리스트
 const images = [
   { url: "/assets/First_Login_1.png" },
   { url: "/assets/First_Login_2.png" },
@@ -11,8 +12,13 @@ const images = [
 ];
 
 const FirstLoginModalTransition = ({ children }) => {
+  // 현재 상태가 처음 로그인 한 상태인지 확인할 수 있는 상태
   const [showFirstLoginModal, setShowFirstLoginModal] = useState(false);
+  // 이미지 슬라이더가 마지막 페이지에 도달할때 버튼의 표시 상태를 관리할 수 있는 상태
   const [showBtn, setShowBtn] = useState(false);
+  // 이미지 슬라이더를 넘겼을때 해당 이미지로 변경될때까지를 관리할 수 있는 상태
+  // * 마지막 이미지에 도착하였을때, showBtn 이라는 상태를 이용하여, 버튼을 보여줄 수 있음.
+  //   해당 이미지로 넘어가는 타이밍을 봐서, 해당 이미지로 완전히 넘어갔을때 waitComplete를 true로 변경
   const [waitComplete, setWaitComplete] = useState(false);
 
   const handleFirstModalClose = () => {
@@ -78,11 +84,16 @@ const FirstLoginModalTransition = ({ children }) => {
                     useGPURender={true}
                     slideDuration={0.7}
                     onClickNav={() => {
+                      // 이미지 슬라이더 버튼을 누룰 시, waitComplete 상태를 true로 변경
                       setWaitComplete(true);
                     }}
                     onCompleteSlide={(idx, length) => {
+                      // 이미지 리스트의 길이와 현재 이미지 슬라이더의 이미지 순서를 비교하여 해당 이미지가 마지막 이미지인지를 확인.
+                      // 만약 이미지 리스트의 길이와 현재 이미지 슬라이더의 이미지 순서가 같다면, showBtn 상태를 true로 변경
                       if (length === idx) setShowBtn(true);
+                      // 아니면 false
                       else setShowBtn(false);
+                      // 이미지가 완전히 변경되었을 경우, waitComplete를 false 로 변경
                       setWaitComplete(false);
                     }}
                     showNavs={true}
@@ -99,6 +110,13 @@ const FirstLoginModalTransition = ({ children }) => {
                     // className="flex justify-center w-full py-2 lg:text-sm text-xs font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 transition duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                     className="flex justify-center w-full py-2 lg:text-sm text-xs font-medium customBtn shadow-md rounded-md transition duration-300 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                     onClick={() => {
+                      /**
+                       * waitComplete 상태가 false 일 경우, 해당 함수를 실행할 수 있음.
+                       * 
+                       * 이것을 해놓은 이유,
+                       * 이미지 슬라이더를 넘길때, 마지막 페이지에서만 버튼이 보이지만, 이전 페이지로 넘길때,
+                       * 해당 버튼이 눌리는 걸 방지하기 위하여 했음.
+                       */
                       if (!waitComplete) handleFirstModalClose();
                     }}
                   >

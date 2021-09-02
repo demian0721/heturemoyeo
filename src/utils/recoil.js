@@ -1,10 +1,5 @@
 import { atom } from "recoil";
 
-export const ActiveInviteModal = atom({
-  key: "ActiveInviteModal",
-  default: false,
-});
-
 export const MyScheduleList = atom({
   key: "MyScheduleList",
   default: null,
@@ -26,24 +21,24 @@ export const DistanceState = atom({
 });
 
 export const ShowDistanceModal = atom({
-  key: 'ShowDistanceModal',
-  default: false
-})
+  key: "ShowDistanceModal",
+  default: false,
+});
 
 // Transtion Component Recoil
 // Overlay
 export const LoadMarkerDataState = atom({
-  key: 'LoadMarkerDataState',
-  default: false
-})
+  key: "LoadMarkerDataState",
+  default: false,
+});
 
 export const ShowOverlay = atom({
-  key: 'ShowOverlay',
-  default: false
-})
+  key: "ShowOverlay",
+  default: false,
+});
 
 // Overlay -> Invite modal
 export const ShowInviteModal = atom({
-  key: 'ShowInviteModal',
-  default: false
-})
+  key: "ShowInviteModal",
+  default: false,
+});

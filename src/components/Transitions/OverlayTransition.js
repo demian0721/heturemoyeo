@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import { Transition } from "@headlessui/react";
 
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -12,8 +12,11 @@ import Overlay from "../Overlay";
 import useOutsideClick from "../../hooks/useOutsideClick";
 
 const OverlayTransition = ({ children, myUserId, markerData, ...props }) => {
+  // invtie 모달의 표시 상태 값을 가져올 수 있는 RecoilValue
   const showInviteModal = useRecoilValue(ShowInviteModal);
+  // 클릭한 마커의 정보가 모두 불러왔졌는지에 대한 상태를 관라할 수 있는 RecoilState
   const [loaded, setLoaded] = useRecoilState(LoadMarkerDataState);
+  // 해당 오버레이의 표시 상태를 관리할 수 있는 RecoilState
   const [showOverlay, setShowOverlay] = useRecoilState(ShowOverlay);
 
   const ref = useRef();

@@ -1,6 +1,6 @@
 // LIBRARY
 import React, { useState, useEffect } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 //history
 import { getToken } from '../common/token';
@@ -11,11 +11,11 @@ import { Text, Title, Input, Grid, Button } from "../elements";
 // REDUX-ACTION & REACT-HOOK
 import { userActions } from "../redux/modules/user";
 import { useDispatch } from "react-redux";
-import { BorderBottom } from "@material-ui/icons";
 
 const LogIn = (props) => {
   const dispatch = useDispatch();
 
+  // useEffect Hook을 사용하여 컴포넌트가 렌더링 되었을 때 세션스토리지에 Token을 이미 가져왔다면 메인페이지로 이동
   useEffect(() => { if (getToken()) { window.alert("이미 로그인되어 있습니다."); window.location.href ='/'; } }, []);
 
   const [userInfo, setUserInfo] = useState({ phone: "", password: "" });
@@ -41,17 +41,6 @@ const LogIn = (props) => {
         minWidth="280px"
         maxWidth="300px"
         margin="0px auto"
-        tabletStyle={() => {
-          return css`
-            width: 95%;
-          `;
-        }}
-        mobileStyle={() => {
-          return css`
-            padding: 15px 20px;
-            width: 100%;
-          `;
-        }}
       >
         <Title fontSize="35px"  marginBottom="15px">
           <img

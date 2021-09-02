@@ -1,6 +1,6 @@
 // LIBRARY
 import React, { Component } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import "../Signup.scss";
 import { Link } from "react-router-dom";
 
@@ -10,10 +10,6 @@ import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import RadioButtonUncheckedIcon from "@material-ui/icons/RadioButtonUnchecked";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
-
-// HISTORY
-import { history } from "../redux/configStore";
-import { Android } from "@material-ui/icons";
 
 export class Terms extends Component {
   constructor() {
@@ -31,6 +27,9 @@ export class Terms extends Component {
     };
   }
 
+  // componentDidUpdate에서 각 체크박스 상태변경에 따른 조건문을 설정하여, 
+  // 체크박스 전체 혹은 '필수'라고 적힌 체크박스만 체크 표시하였을 때 다음 페이지로 이동 가능
+  // 체크박스는 Material-UI에서 제공하는 컴포넌트 사용
   componentDidUpdate() {
     if (
       this.state.firstCheck == true &&
@@ -79,6 +78,10 @@ export class Terms extends Component {
     }
   }
 
+  // render 함수 내에서 삼항 연산자를 사용하여 조건마다 체크박스의 style가 변경됨
+  // 예시 하나로, CheckCircleIcon은 '약관 전체 동의'에서 체크되었을 때, RadioButtonUncheckedIcon은 '약관 전체 동의'에서 체크되지 않았을 때를 의미
+  // 각 onClick 이벤트가 실행될 때 state가 변경되는 동시에 체크박스의 style도 변경됨
+  // Toggle 기능을 가진 컴포넌트를 생성하여 '자세히보기' 클릭시 각 약관동의 사항에 해당되는 내용을 on/off 할 수 있음
   render() {
     return (
       <Style>
@@ -86,17 +89,6 @@ export class Terms extends Component {
           minWidth="280px"
           maxWidth="300px"
           margin="0px auto"
-          tabletStyle={() => {
-            return css`
-              width: 95%;
-            `;
-          }}
-          mobileStyle={() => {
-            return css`
-              padding: 15px 20px;
-              width: 100%;
-            `;
-          }}
         >
           <Grid 
             padding="18px" 

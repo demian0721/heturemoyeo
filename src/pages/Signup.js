@@ -21,11 +21,13 @@ import { idVal, pwdVal, nameVal } from "../common/validation";
 const SignUp = (props) => {
   const dispatch = useDispatch();
 
+  // useEffect Hook을 사용하여 컴포넌트가 렌더링 되었을 때 세션스토리지에 Token을 이미 가져왔다면 메인페이지로 이동
   useEffect(() => { if (getToken()) { window.alert("이미 로그인되어 있습니다."); window.location.href ='/'; } }, []);
 
   const debounce = _.debounce((value, setValue) => setValue(value), 0);
   const signupNext = () => {
-    
+    // 해당 페이지(signup) 다음 페이지(signupinfo)에서 회원가입이 완료되기 때문에,
+    // id(phone), pwd(password), name(name) 데이터를 user 모듈에 임시저장 가능하게 하는 action(TEMP_SAVE), action creator(tempSave) 생성
     const userInfo = {id, pwd, name}
     dispatch(userActions.tempSave(userInfo))
     history.push("/signup/info");
@@ -47,17 +49,19 @@ const SignUp = (props) => {
   const [authWarning, setAuthWarColor] = useState("red");
   const [authConfirm, setAuthConfirm] = useState("");
 
-  const [Next,setNext] = useState(false);
-  const [nameCheck,setNameCk] = useState(false);
-  const [passCheck,setPassCk] = useState(false);
+  const [Next, setNext] = useState(false);
+  const [nameCheck, setNameCk] = useState(false);
+  const [passCheck, setPassCk] = useState(false);
 
-  const [buttonColor,setButton] = React.useState({
+  const [buttonColor, setButton] = React.useState({
     color: "white",
     bg: "#B9B9B9",
     hoverColor: "white",
     hoverBg: "#B9B9B9",
   });
 
+  // useState를 사용하여 아이디(핸드폰 번호) 입력시 공백, 정규식 검사 체크하고, 
+  // 각 상황에 대해서 warning text로 유저에게 알리기
   const checkID = (val) => {
     if (val === "") {
       setIdWarColor("red");
@@ -74,6 +78,8 @@ const SignUp = (props) => {
     setIdConfirm("'인증번호 받기'를 해주세요.");
   };
 
+  // useState를 사용하여 비밀번호 입력시 공백, 정규식 검사 체크하고, 
+  // 각 상황에 대해서 warning text로 유저에게 알리기
   const checkPWD = (val) => {
     if (val === "") {
       setPwdWarColor("red");
@@ -112,6 +118,8 @@ const SignUp = (props) => {
     setPwdCheckConfirm("비밀번호가 올바르게 입력되었습니다.");
   };
 
+  // useState를 사용하여 성함 입력시 공백, 정규식 검사 체크하고, 
+  // 각 상황에 대해서 warning text로 유저에게 알리기
   const checkName = (val) => {
     if (val === "") {
       setNameWarColor("red");
@@ -139,6 +147,8 @@ const SignUp = (props) => {
     setIdConfirm("");
   };
 
+  // useState를 사용하여 인증번호 입력시 공백여부 체크하고, 
+  // 현재 상황에 대해서 warning text로 유저에게 알리기
   const checkAuth = (val) => {
     if (val === "") {
       setAuthWarColor("red");
@@ -147,6 +157,7 @@ const SignUp = (props) => {
     }
   }
 
+  // 핸드폰 번호 인증시 서버로 phone, authData를 보내기 위해 authNumCheck라는 action creator를 dispatch 실행
   const authnumber = () => {
     if (authData === "") {
       window.alert("인증번호가 입력되지 않았습니다.");

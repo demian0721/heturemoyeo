@@ -7,8 +7,6 @@ import styled from "styled-components";
 import { Text, Title, Grid, Button } from "../elements";
 
 // HISTORY
-import { history } from "../redux/configStore";
-import { useSelector } from 'react-redux';
 import { getToken } from '../common/token';
 
 // REDUX-ACTION & REACT-HOOK
@@ -20,7 +18,7 @@ import { idVal } from "../common/validation";
 
 const FindPassword = (props) => {
   const dispatch = useDispatch();
-
+  // useEffect Hook을 사용하여 컴포넌트가 렌더링 되었을 때 세션스토리지에 Token을 이미 가져왔다면 메인페이지로 이동
   useEffect(() => { if (getToken()) { window.alert("이미 로그인되어 있습니다."); window.location.href ='/'; } }, []);
 
   const debounce = _.debounce((value, setValue) => setValue(value), 0);
@@ -28,14 +26,16 @@ const FindPassword = (props) => {
   const [id, setId] = useState("");
   const [idConfirm, setIdConfirm] = useState("");
   const [idWarning, setIdWarColor] = useState("red");
-  const [Next,setNext] = useState(false);
-  const [buttonColor,setButton] = React.useState({
+  const [Next, setNext] = useState(false);
+  const [buttonColor, setButton] = React.useState({
     color: "white",
     bg: "#B9B9B9",
     hoverColor: "white",
     hoverBg: "#B9B9B9",
   });
 
+  // useState를 사용하여 아이디(핸드폰 번호) 입력시 공백, 정규식 검사 체크하고, 
+  // 각 상황에 대해서 warning text로 유저에게 알리기
   const checkID = (val) => {
     if (val === "") {
       setIdWarColor("red");
@@ -64,12 +64,8 @@ const FindPassword = (props) => {
     setIdConfirm("");
   };
 
-  //인증 확인 유무
-  const is_check_auth = useSelector((state) => state.user.is_check_auth);
-  const is_check_phone = useSelector((state) => state.user.is_check_phone);
-
   //조건에 따른 버튼 색 변화
-  if(idConfirm=="'인증번호 받기'를 해주세요." && !Next){
+  if(idConfirm == "'인증번호 받기'를 해주세요." && !Next){
     setNext(true);
     setButton({
     color: "white",
@@ -77,7 +73,7 @@ const FindPassword = (props) => {
     hoverColor: "#16C59B",
     hoverBg: "white",});
   }
-  if((idConfirm!="'인증번호 받기'를 해주세요.") && Next){
+  if((idConfirm != "'인증번호 받기'를 해주세요.") && Next){
     setNext(false);
     setButton({
     color: "white",

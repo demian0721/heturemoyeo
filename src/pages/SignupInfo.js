@@ -22,6 +22,7 @@ import { nickVal } from "../common/validation";
 const SignupInfo = (props) => {
   const dispatch = useDispatch();
 
+  // useEffect Hook을 사용하여 컴포넌트가 렌더링 되었을 때 세션스토리지에 Token을 이미 가져왔다면 메인페이지로 이동
   useEffect(() => { if (getToken()) { window.alert("이미 로그인되어 있습니다."); window.location.href ='/'; } }, []);
   
   const debounce = _.debounce((value, setValue) => setValue(value), 0);
@@ -33,20 +34,21 @@ const SignupInfo = (props) => {
   const [statusMessage, setStatusMessage] = useState(null);
   const [nicknameConfirm, setNicknameConfirm] = useState("");
   const [nicknameWarning, setNicknameWarColor] = useState("red");
-
   const [likeItem, setLikeItem] = useState([]);
+  
+  // user 모듈에 임시저장되어 있는 id(phone), pwd(password), name(name)을 가져온다
   const tempInfo = useSelector((state) => state.user.tempInfo);
   const id = tempInfo?.id;
   const pwd = tempInfo?.pwd;
   const name = tempInfo?.name;
 
-  const [complite,setComplite] = useState(false);
+  const [complite, setComplite] = useState(false);
 
   const is_check_nickname = useSelector((state) => state.user.is_check_nickname);
-  const [nickCk,setNickCk] = useState(false);
-  const [firstNick,setFirstCk] = useState(false);
+  const [nickCk, setNickCk] = useState(false);
+  const [firstNick, setFirstCk] = useState(false);
 
-  const [buttonColor,setButton] = React.useState({
+  const [buttonColor, setButton] = React.useState({
     color: "white",
     bg: "#B9B9B9",
     hoverColor: "white",
@@ -58,6 +60,7 @@ const SignupInfo = (props) => {
       history.push("/signup");
     }
   }, []);
+
   const checkNickname = (val) => {
     if (val === "") {
       setNicknameWarColor("red");
@@ -77,10 +80,11 @@ const SignupInfo = (props) => {
       setFirstCk(true);
     };
     setNickCk(false);
-    //닉네임 확인 후 닉네임 변경시 is_check_nickname이 false가 되게
-
+    // 닉네임 확인 후 닉네임 변경시 is_check_nickname이 false가 되게
   };
 
+  // 최종적으로 '회원가입 완료'를 위하여 서버로 phone, name, nickname, password, confirm, profileImg, statusMessage, likeItem을 보내야 하고 
+  // signupDB라는 action creator를 dispatch 실행
   const signup = () => {
     dispatch(
       userActions.signupDB(
@@ -98,7 +102,7 @@ const SignupInfo = (props) => {
 
 
   };
-
+  // 이미지 업로드를 위하여 선택한 이미지 파일 불러오기
   const selectFile = (event) => {
     const reader = new FileReader();
     const file = event.target.files[0];
@@ -112,6 +116,8 @@ const SignupInfo = (props) => {
     }
   };
 
+  // useState를 사용하여 닉네임 입력시 공백, 정규식 검사 체크하고, 
+  // 각 상황에 대해서 alert message로 유저에게 알리기
   const nicknamedup = () => {
     if (nickname === "") {
       window.alert("닉네임이 입력되지 않았습니다.");
@@ -130,9 +136,8 @@ const SignupInfo = (props) => {
     setNicknameConfirm("");
   };
 
-  //확인용
-
-  if(nickname && (is_check_nickname&&!firstNick||is_check_nickname&&nickCk&&firstNick)&&!complite){
+  // 조건에 따른 '완료'버튼 색 변화
+  if(nickname && (is_check_nickname && !firstNick || is_check_nickname && nickCk && firstNick) && !complite){
     setComplite(true);
     setButton({
     color: "white",
@@ -141,7 +146,7 @@ const SignupInfo = (props) => {
     hoverBg: "white",});
   }
 
-  if((!nickname || !is_check_nickname || (firstNick&&!nickCk) ) && complite){
+  if((!nickname || !is_check_nickname || (firstNick && !nickCk) ) && complite){
     setComplite(false);
     setButton({
     color: "white",
@@ -149,7 +154,6 @@ const SignupInfo = (props) => {
     hoverColor: "white",
     hoverBg: "#B9B9B9",});
   }
-  //조건에 따른 버튼 색 변화
 
   return (
     <Style>

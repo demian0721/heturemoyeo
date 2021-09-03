@@ -18,9 +18,11 @@ import { useDispatch } from "react-redux";
 const SendPhoneNumAuth = (props) => {
   const dispatch = useDispatch();
 
+  // useEffect Hook을 사용하여 컴포넌트가 렌더링 되었을 때 세션스토리지에 Token을 이미 가져왔다면 메인페이지로 이동
   useEffect(() => { if (getToken()) { window.alert("이미 로그인되어 있습니다."); window.location.href ='/'; } }, []);
 
   const debounce = _.debounce((value, setValue) => setValue(value), 0);
+  // user 모듈에 임시저장되어 있는 id(phone)를 가져온다
   const mobileInfo = useSelector((state) => state.user.mobileInfo);
   const id = mobileInfo?.id;
 
@@ -29,7 +31,7 @@ const SendPhoneNumAuth = (props) => {
   const [authConfirm, setAuthConfirm] = useState("");
   const [Next, setNext] = useState(false);
 
-  const [buttonColor,setButton] = React.useState({
+  const [buttonColor, setButton] = React.useState({
     color: "white",
     bg: "#B9B9B9",
     hoverColor: "white",
@@ -44,6 +46,7 @@ const SendPhoneNumAuth = (props) => {
     }
   }
 
+  // 인증번호 확인시 서버로 phone, authData를 보내기 위해 authNumConfirm라는 action creator를 dispatch 실행
   const authnumber = () => {
     if (authData === "") {
       window.alert("인증번호가 입력되지 않았습니다.");
@@ -53,11 +56,10 @@ const SendPhoneNumAuth = (props) => {
     dispatch(userActions.authNumConfirm(authInfo));
     setAuthConfirm("");
   }
-  //인증 확인 유무
+  // is_check_auth는 '인증번호 확인'에 관한 변수
   const is_check_auth = useSelector((state) => state.user.is_confirm_auth);
-  const is_check_phone = useSelector((state) => state.user.is_check_phone);
 
-  //조건에 따른 버튼 색 변화
+  // 조건에 따른 버튼 색 변화
   if(authData && !Next){
     setNext(true);
     setButton({
@@ -121,19 +123,7 @@ const SendPhoneNumAuth = (props) => {
                   debounce(event.target.value, checkAuth);
                 }}
               />
-              {/* <Text
-              fontSize="12px"
-              lineHeight="1"
-              textIndent="15px"
-              textAlign="right"
-              margin="0px 0px 30px 0px"
-            >
-              인증번호를 받지 못하셨다면? 
-              <span 
-                // onClick={() => (window.location.href = "/findpassword")}
-                style={{cursor:"pointer", fontWeight:"bold"}}
-              >&nbsp;[인증번호 재전송]</span>
-            </Text> */}
+
               <Button
                 width="100%"
                 height="auto"

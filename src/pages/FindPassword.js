@@ -57,14 +57,16 @@ const FindPassword = (props) => {
       window.alert("핸드폰 번호가 입력되지 않았습니다.");
       return;
     }
+    // 해당 페이지(findpassword)의 다음 페이지(sendphonenumauth)로 
+    // id(phone) 데이터를 넘겨주기 위하여, user 모듈에 임시저장 가능하게 하는 action(TEMP_GET), action creator(tempGet) 생성
     const userInfo = {id}
     dispatch(userActions.tempGet(userInfo));
-
+    // 인증 메세지 발송을 위한 action creator(getAuthNum) dispatch 실행
     dispatch(userActions.getAuthNum(id));
     setIdConfirm("");
   };
 
-  //조건에 따른 버튼 색 변화
+  // 조건에 따른 버튼 색 변화
   if(idConfirm == "'인증번호 받기'를 해주세요." && !Next){
     setNext(true);
     setButton({

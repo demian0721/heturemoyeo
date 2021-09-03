@@ -30,6 +30,7 @@ export class Terms extends Component {
   // componentDidUpdate에서 각 체크박스 상태변경에 따른 조건문을 설정하여, 
   // 체크박스 전체 혹은 '필수'라고 적힌 체크박스만 체크 표시하였을 때 다음 페이지로 이동 가능
   // 체크박스는 Material-UI에서 제공하는 컴포넌트 사용
+  // totalCheck는 '헤쳐모여 사용자 약관 전체 동의'에 대한 체크박스, allCheck는 필수 항목에 대한 체크박스를 의미
   componentDidUpdate() {
     if (
       this.state.firstCheck == true &&

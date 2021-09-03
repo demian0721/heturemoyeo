@@ -94,11 +94,11 @@ const SetNewPassword = (props) => {
     setPwdCheckConfirm("비밀번호가 올바르게 입력되었습니다.");
   };
 
-  //인증 확인 유무
+  // is_confirm_auth는 '인증번호 일치여부'에 관한 변수
   const is_confirm_auth = useSelector((state) => state.user.is_confirm_auth);
 
-  //조건에 따른 버튼 색 변화
-  if( passCheck && (pwd===pwdCheck)&&is_confirm_auth && !Next){
+  // 조건에 따른 버튼 색 변화
+  if( passCheck && (pwd===pwdCheck) && is_confirm_auth && !Next){
     setNext(true);
     setButton({
     color: "white",

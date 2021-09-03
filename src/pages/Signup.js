@@ -26,7 +26,7 @@ const SignUp = (props) => {
 
   const debounce = _.debounce((value, setValue) => setValue(value), 0);
   const signupNext = () => {
-    // 해당 페이지(signup) 다음 페이지(signupinfo)에서 회원가입이 완료되기 때문에,
+    // 해당 페이지(signup)의 다음 페이지(signupinfo)에서 회원가입이 완료되기 때문에,
     // id(phone), pwd(password), name(name) 데이터를 user 모듈에 임시저장 가능하게 하는 action(TEMP_SAVE), action creator(tempSave) 생성
     const userInfo = {id, pwd, name}
     dispatch(userActions.tempSave(userInfo))
@@ -167,12 +167,14 @@ const SignUp = (props) => {
     dispatch(userActions.authNumCheck(authInfo));
     setAuthConfirm("");
   }
-  //인증 확인 유무
+  // 인증 확인 유무
+  // is_check_phone은 '인증번호 받기', is_check_auth는 '인증번호 확인'에 관한 변수
   const is_check_auth = useSelector((state) => state.user.is_check_auth);
   const is_check_phone = useSelector((state) => state.user.is_check_phone);
 
-  //조건에 따른 버튼 색 변화
-  if(id && passCheck && nameCheck && (pwd===pwdCheck)&&is_check_auth && !Next){
+  // 조건에 따른 버튼 색 변화
+  // Next는 '다음 버튼'에 대한 state이며 해당 조건들을 만족시 '다음 버튼' 활성화 
+  if(id && passCheck && nameCheck && (pwd===pwdCheck) && is_check_auth && !Next){
     setNext(true);
     setButton({
     color: "white",
@@ -189,6 +191,9 @@ const SignUp = (props) => {
     hoverBg: "#B9B9B9",});
   }
 
+  // 240번째줄에서 is_check_phone 삼항연산자는 인증번호를 이미 받은경우, input에 대한 이벤트가 없는 상태를 보여주고 
+  // is_check_phone이 true이므로 버튼 비활성화되는 동시에 인증번호 입력할 수 있는 div를 보여주게 된다
+  // 310번째줄에서 is_check_auth 삼항연산자는 인증번호를 이미 입력하고 확인한 경우, input에 대한 이벤트가 없는 상태를 보여준다
   return (
     <Style>
       <Grid
@@ -231,7 +236,7 @@ const SignUp = (props) => {
               {idConfirm}
             </Text>
           </Grid>
-
+          
           { is_check_phone ? <Grid is_flex padding="0px 0px 8px">
             <InputBox
               placeholder="핸드폰번호를 '-'&nbsp;없이 입력하세요"

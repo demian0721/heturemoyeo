@@ -67,7 +67,6 @@ const searchMorePostDB = (keyword, limit = 5) => {
 
 const searchRoomDB = (keyword, limit = 5) => {
   return function (dispatch) {
-    console.log(keyword);
     instance
       .get(`/api/search/room?keyword=${keyword}&start=0&limit=${limit + 1}`)
       .then((res) => {

@@ -25,6 +25,7 @@
 - 스타일: styled-components, tailWindCSS
 - 라우터: react-router-dom, connected-react-router
 - 미들웨어: redux-thunk, redux-logger
+- 달력: react-datepicker, moment
 - 통신: Axios, Socket.IO
 - 그 외: kakaoMap API
 
@@ -57,4 +58,5 @@
 - 김유진: 
 - 주재인: 튜토리얼, 메인 페이지 KakaoMAP API 적용, 지도 마커 출력, 마커 클릭 이벤트(오버레이 내 각종 정보 출력), 주변 표시 반경 설정, 모임 초대, 대화방 목록, 실시간 대화기능,
           유저 추방 및 확정, 모임 탈퇴, 모임글 작성 시 지도 불러오기 / 좌표의 주소값 받아오기, 온라인 모임 여부 체크기능, 메인페이지, 대화방목록, 대화방 내 UI CSS 적용
-- 황준연:
+- 황준연: 로그인, 약관동의, 회원가입, 비밀번호 찾기, 게시글 전체목록, 나의 모임, 작성 페이지 UI 컴포넌트 설계 및 CSS 적용
+        '회원가입' 또는 '비밀번호 찾기'하는 경우 핸드폰 번호 인증, 프로필 이미지 업로드 기능, 키워드 검색 기능, 작성페이지 날짜 선택 제한

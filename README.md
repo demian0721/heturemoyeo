@@ -1,6 +1,6 @@
-# 헤쳐모여 - 위치기반 소모임 플랫폼
+# 헤쳐모여
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+위치기반 소모임 플랫폼.
 
 ## Available Scripts
 

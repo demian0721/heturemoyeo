@@ -30,7 +30,7 @@ import Footer from "../components/Footer";
 import Permit from "../components/Permit";
 
 // ELEMENTS
-import { Grid, Input, Image, Title, Text, Button } from "../elements/index";
+import { Grid, Image, Title, Text, Button } from "../elements/index";
 
 // ICON
 import AddAPhotoOutlinedIcon from "@material-ui/icons/AddAPhotoOutlined";
@@ -95,9 +95,10 @@ const PostWrite = (props) => {
     place: postInfo ? postInfo.place : "",
     bring: postInfo ? postInfo.bring : "",
     tag: postInfo ? postInfo.tag : [],
-    // tag: postInfo ? postInfo.tag.length !== 0 ? postInfo.tag : tags.length !== 0 ? tags : [] : [],
     lat: postInfo ? postInfo.lat : 0,
     lng: postInfo ? postInfo.lng : 0,
+    // tag: postInfo ? postInfo.tag.length !== 0 ? postInfo.tag : tags.length !== 0 ? tags : [] : [],
+
   });
 
   const isItPossibleToAdd = () => {
@@ -213,7 +214,6 @@ const PostWrite = (props) => {
 
   useEffect(() => {
     console.log(moment(beginDate).format("YYYY-MM-DD HH:mm:ss"));
-    // console.log(postingContents);
   }, [beginDate, postingContents]);
 
   const [checked, setChecked] = useState(false);
@@ -310,18 +310,15 @@ const PostWrite = (props) => {
                   className="input-datepicker"
                   minDate={new Date()}
                   maxDate={addDays(new Date(), 7)}
-                  // closeOnScroll={true}
                   placeholderText="시작을 설정하세요"
                   selected={beginDate}
                   startDate={beginDate}
-                  // endDate={finishDate}
                   selectsStart
                   filterTime={filterPassedTime}
                   showTimeSelect
                   timeFormat="HH:mm"
                   timeIntervals={15}
                   timeCaption="헤쳐"
-                  // withPortal
                   popperModifiers={{ preventOverflow: { enabled: true } }}
                   popperPlacement="bottom"
                   dayClassName={(date) =>
@@ -359,7 +356,6 @@ const PostWrite = (props) => {
                   className="input-datepicker"
                   minDate={beginDate}
                   maxDate={addDays(new Date(), 14)}
-                  // closeOnScroll={true}
                   placeholderText="종료를 설정하세요"
                   selected={finishDate}
                   startDate={beginDate}
@@ -370,7 +366,6 @@ const PostWrite = (props) => {
                   timeFormat="HH:mm"
                   timeIntervals={15}
                   timeCaption="모여"
-                  // withPortal
                   popperModifiers={{ preventOverflow: { enabled: true } }}
                   popperPlacement="bottom"
                   dayClassName={(date) =>
@@ -526,14 +521,6 @@ const PostWrite = (props) => {
                 />
               </div>
             </Grid>
-            {/* <Text
-              margin="10px 5px"
-              color="#888888"
-              fontWeight="bold"
-              fontSize="small"
-            >
-              공개설정
-            </Text> */}
 
             <Grid style={{ border: "1px solid #B2B2B2", margin: "10px 0px" }} />
             <div style={{ margin: "10px 15px 10px 5px" }}>
@@ -550,7 +537,6 @@ const PostWrite = (props) => {
                   className="focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
                   style={{
                     border: "1.5px solid #white",
-                    // margin: "7px auto",
                     borderLeft: "none",
                     borderRight: "none",
                     borderTop: "none",
@@ -860,18 +846,6 @@ const InputBox = styled.input`
   }
 `;
 
-// const CalendarContainer = styled.div``;
-
-// const EnterButton = styled.button`
-//   width: 100%;
-//   background-color: #a7aaad;
-//   padding: 10px;
-//   margin: 10px auto;
-//   font-size: 12px;
-//   display: flex;
-//   justify-content: center;
-// `;
-
 const PosAbs = () => {
   return css`
     position: absolute;
@@ -934,7 +908,6 @@ const InputArea = styled.textarea`
 
 const Style = styled.div`
   align-items: center;
-  /* position: absolute; */
   width: 100vw;
   height: 100%;
   background-color: #efefef;

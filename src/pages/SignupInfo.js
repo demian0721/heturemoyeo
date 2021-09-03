@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 import _ from "lodash";
 
 // Elements
-import { Text, Title, Input, Grid, Button, Image } from "../elements";
+import { Text, Title, Grid, Button } from "../elements";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 
 // HISTORY

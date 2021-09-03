@@ -63,7 +63,6 @@ function App() {
           window.location.pathname
         )
       ) {
-        // alert("로그인이 필요한 서비스입니다!");
         return (window.location.href = "/login");
       }
     }
@@ -72,25 +71,6 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      {/* <Router>
-        <Switch>
-          <Route exact path="/" component={Main} />
-          <Route path="/login" exact component={Login} />
-          <Route path="/terms" exact component={Terms} />
-          <Route path="/signup" exact component={Signup} />
-          <Route path="/signup/info" exact component={SignupInfo} />
-          <Route path="/mypage" exact component={Mypage} />
-          <Route path="/mypageedit" exact component={MypageEdit} />
-          <Route path="/profile:userid" exact component={MProfile} />
-          <Route path="/postlist" exact component={PostList} />
-          <Route path="/postlist/my" exact component={PostListMy} />
-          <Route path="/postdetail:postid" exact component={PostDetail} />
-          <Route path="/postwrite" exact component={PostWrite} />
-          <Route path="/postmodify" exact component={PostModify} />
-          <Route path="/chat" exact component={ChatList} />
-          <Route path="/chat/:id" exact component={ChatRoom} />
-        </Switch>
-      </Router> */}
       <RecoilRoot>
         <Provider store={store}>
           <ConnectedRouter history={history}>

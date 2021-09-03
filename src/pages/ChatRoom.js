@@ -123,39 +123,6 @@ const ChatRoom = (props) => {
     }
   }, [init, setInit, getChatDatas, myUserId]);
 
-  // if (!init && myUserId && getChatDatas.length) {
-  //   if (getChatDatas?.length >= 1) {
-  //     getChatDatas.reverse();
-  //     Logger.debug(`[GetChatDatas] Get ChatDatas: ${getChatDatas.length}`);
-  //     getChatDatas.map((el) => {
-  //       console.log(el);
-  //       const data = {
-  //         type: "text",
-  //         content: {
-  //           text: el.message,
-  //         },
-  //         position: el.userId === myUserId ? "right" : "left",
-  //       };
-  //       Object.assign(data, {
-  //         user: {
-  //           [el.userId !== myUserId && "avatarUrl"]:
-  //             !el?.profileImg ?? String(el?.profileImg).length === 0
-  //               ? "https://cdn.discordapp.com/attachments/869177664479567903/871045228159705088/profileBlank.png"
-  //               : el.profileImg,
-  //           [el.userId !== myUserId && "name"]: el.nickname,
-  //         },
-  //       });
-  //       if (el.userId) appendMsg(data);
-  //       return data;
-  //     });
-  //   }
-  //   appendMsg({
-  //     type: "system",
-  //     content: { text: "채팅방에 입장하셨습니다." },
-  //   });
-  //   setInit(true);
-  // }
-
   /**
    * 페이지가 로드됐을때 사용하는 useEffect 입니다.
    * 소켓을 연결하고, 소켓 이벤트를 설정하고 기본적인 준비를 하는 곳입니다.

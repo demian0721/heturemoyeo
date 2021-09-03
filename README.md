@@ -1,23 +1,47 @@
 # 헤쳐모여
 
-위치기반 소모임 플랫폼.
+![image](https://user-images.githubusercontent.com/83893777/131950347-de552a25-2e38-4774-9665-392b61539473.png)
+[사이트 링크 바로가기](https://moyeora.org/) / [시연 영상 보기](https://youtu.be/MpwPiutwqaY)
 
-## Available Scripts
+## 목차
 
-In the project directory, you can run:
+1. [프로젝트 개요](#-프로젝트-개요)
+2. [사용 패키지](#-package)
+3. [기능 소개](#-기능-소개)
+4. [역할 분담](#-역할-분담)
 
-### `yarn start`
+***
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 🎬 프로젝트 개요
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+위치기반 소모임 플랫폼
 
-### `yarn test`
+***
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🛠 Package
+
+- 상태관리: react-redux, react-recoilState
+- 스타일: styled-components, tailWindCSS
+- 라우터: react-router-dom, connected-react-router
+- 미들웨어: redux-thunk, redux-logger
+- 통신: Axios, Socket.IO
+- 그 외: kakaoMap API
+
+***
+
+## 💡 기능소개
+
+- 로그인/회원가입/로그인유지 (JWT토큰&세션스토리지토큰방식)
+- 
+
+
+***
+
+## 💪 역할 분담
+
+- 김유진: 
+- 주재인: 
+- 황준연:
 
 ### `yarn build`
 

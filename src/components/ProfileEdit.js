@@ -56,16 +56,17 @@ const ProfileEdit = (props) => {
   const [npwd2Warning, setNPwd2WarColor] = React.useState("red");
   const [tags, setTags] = useState(props.userinfo.likeItem);
 
-  const changeNickname = (e) => {setInfos({ ...editInfo, nickname: e.target.value}); console.log(e.target.value)}
+  const changeNickname = (e) => {setInfos({ ...editInfo, nickname: e.target.value}); }
   const changePassword = (e) => {setInfos({ ...editInfo, password: e.target.value});}
   const changeNewpassword = (e) => {setInfos({ ...editInfo, newpassword: e.target.value});}
   const changeConfirm = (e) => {setInfos({ ...editInfo, confirm: e.target.value});}
   const changeProfileImg = (e) => {setInfos({ ...editInfo, profileImg: e});}
-  const changeLikeItem = (e) => {setInfos({ ...editInfo, likeItem: e.target.value.split(',')}); console.log(e.target.value)}
+  const changeLikeItem = (e) => {setInfos({ ...editInfo, likeItem: e.target.value.split(',')}); }
 
   const image = useSelector((state) => state.image);
   const preview = !image.preview && props ? props.userinfo.profileImg : image.preview;
 
+  //이미지가 없을 경우, 
   if(!image.preview){
     var img = "";
   }else{if (editInfo.profileImg==preview){
@@ -74,11 +75,9 @@ const ProfileEdit = (props) => {
     var img = fileInput.current.files[0];
   };}
   
-
+  //픽수입력확인용 변수
   const [complite,setComplite] = useState(false);
-
   const [is_check_nickname,setCheckNick] = useState(true);
-
   const [buttonColor,setButton] = React.useState({
     color: "white",
     bg: "#B9B9B9",
@@ -87,9 +86,6 @@ const ProfileEdit = (props) => {
   });
 
   const editInfos = () => {
-    // setInfos({...editInfo,likeItem:tags});
-    // console.log('라이크아이템',editInfo.likeItem);
-    // console.log('태그',tags);
     dispatch(userActions.editInfos(img,editInfo));
     setTimeout(() => {
       dispatch(imgActions.setPreview(null));
@@ -112,7 +108,7 @@ const ProfileEdit = (props) => {
     setNicknameWarColor("green");
     setNicknameNotice("중복 검사를 해주세요");
     setCheckNick(false);
-    //닉네임 확인 후 닉네임 변경시 is_check_nickname이 false가 되게
+    //닉네임 확인 후 닉네임 변경시 is_check_nickname이 false
   };
 
   const nickname = () => {
@@ -145,7 +141,7 @@ const ProfileEdit = (props) => {
     if (!pwdVal(val)) {
       setPwdWarColor("red");
       setPwdNotice(
-        "비밀번호는 영문과 숫자, 특수문자를 각 1자 이상 포함해주세요.(8~20자)"  //양식 체크임
+        "비밀번호는 영문과 숫자, 특수문자를 각 1자 이상 포함해주세요.(8~20자)"
       );
       return;
     }
@@ -176,22 +172,11 @@ const ProfileEdit = (props) => {
       setNPwd2Notice("새 비밀번호 확인란이 입력되지 않았습니다.");
       return;
     }
-    
-    // if (val.length < 6) {
-    //   setNPwd2WarColor("red");
-    //   setNPwd2Notice("비밀번호");
-    //   return;
-    // }
     if (val !== editInfo.newpassword) {
       setNPwd2WarColor("red");
       setNPwd2Notice("입력된 비밀번호가 서로 다릅니다.");
       return;
     }
-    // if (!pwdVal(val)) {
-    //   setNPwd2WarColor("red");
-    //   setNPwd2Notice("비밀번호는 영문과 숫자, 특수문자를 각 1자 이상 포함해주세요.(8~20자) ");
-    //   return;
-    // }
     setNPwd2WarColor("green");
     setNPwd2Notice("새 비밀번호가 올바르게 입력되었습니다.");
   };
@@ -209,6 +194,7 @@ const ProfileEdit = (props) => {
     }
   };
 
+  //조건충족시 완료 버튼활성화 
   if(editInfo.nickname && editInfo.password&&is_check_nickname&&!complite){
     setComplite(true);
     setButton({
@@ -231,7 +217,6 @@ const ProfileEdit = (props) => {
         <Style>
           <Grid  width="100vw" height=""  maxWidth="540px" margin="auto" style={{}}>
             <Grid id="profile" bg="white" padding="20px 30px" >
-              {/* 높이 고정이라 Ref 안쓰는듯? */}
               <Grid width="15vw" maxWidth="150px" minWidth="100px" height="15vw" maxHeight="150px" minHeight="100px" margin="auto auto 30px" style={{position:"block"}}>
                 <Grid id="profileImage" 
                   bg="#EFEFEF"
@@ -254,13 +239,9 @@ const ProfileEdit = (props) => {
                 </Grid>
                 <img src="/assets/profile_image_camera_only.png" style={{position:"relative", zIndex:5, top:"75%", left:"75%"}}/>
               </Grid>
-              {/* <Text margin="20px 0px 0px 0px" fontSize='small'>비밀번호</Text> */}
               <Grid is_flex style={{justifyContent:"center"}}>
-                {/* <Input keyUp={(event) => {debounce(event.target.value, checkNickname);}} changeEvent={changeNickname} placeholder="닉네임 수정" width="fit-content(20em)" padding="0px" style={{display:"block", color:"#767676", fontWeight:"bold", textAlign:"center", border:"0px",outlineStyle:"none",boxShadow:"0px"}} value={editInfo.nickname}/> */}
-                {/* <input onKeyUp={(event) => {debounce(event.target.value, checkNickname);}} onChange={changeNickname} placeholder="닉네임 수정" value={editInfo.nickname} style={{ width:"25%" ,display:"block", color:"#767676", fontWeight:"bold", textAlign:"center", borderBottom:"1px solid #767676",outlineStyle:"none", placeholder:{}}} /> */}
                 <Nick onKeyUp={(event) => {debounce(event.target.value, checkNickname);}} onChange={changeNickname} placeholder="닉네임 수정" value={editInfo.nickname} style={{ width:"25%" ,display:"block", color:"#767676", fontWeight:"bold", textAlign:"center", borderBottom:"1px solid #767676",outlineStyle:"none"}}/>
                 <CreateIcon onClick={nickname} style={{margin:"0px 0px 0px 6px", color:"#767676"}}/>
-                {/* <Button margin="0px 0px 0px 6px" width="20%" height="40px" padding="5px 0" fontSize="13px" bg="#A7AAAD" clickEvent={nickname}>중복 확인</Button> */}
               </Grid>
               <Text fontSize="12px" margin="5px 0px" color={nicknameWarning} lineHeight="1" textIndent="0px" style={{textAlign:"center"}}>{nicknameNotice}</Text>
               <Input changeEvent={changeLikeItem} value={editInfo.likeItem} placeholder="취향" width="100%" margin="15px auto" style={{display:"block"}}/>

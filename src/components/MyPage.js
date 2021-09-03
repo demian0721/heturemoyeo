@@ -8,18 +8,15 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import CreateIcon from '@material-ui/icons/Create';
 
 //Elements
-import { Button, Grid, Image, Title, Text, Input } from "../elements/index";
+import { Button, Grid, Title} from "../elements/index";
 
 //History
 import { history } from "../redux/configStore";
 import { getToken } from '../common/token';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 //DB
 import { userActions } from '../redux/modules/user';
-
-//Components
-import SimpleModal from "./Mymodal";
 
 //임포트 사용 항목 외 삭제요망
 
@@ -31,11 +28,6 @@ const MyPage = (props) => {
   const [statusMessage, setStatus] = React.useState(userlist.statusMessage);
   
   const changeStatus = (n) => {setStatus(n.target.value);
-    console.log(statusMessage)};
-
-  // const editStatusMsg = () => {
-  //   dispatch(userActions.editStatusMsg({"statusMessage":statusMessage}));
-  // }
 
   return (
     <Style>
@@ -43,7 +35,6 @@ const MyPage = (props) => {
         <Grid style={{backgroundColor:"white",borderBottom:"1px solid #dddddd"}}>
             <Grid width="20vw" maxWidth="120px" minWidth="30px" height="20vw" maxHeight="120px" minHeight="30px" margin="40px auto 0px auto" style={{ display: "block", borderRadius: "50%" }}>
               <img style={{width:"20vw", maxWidth:"120px", minWidth:"30px", height:"20vw", maxHeight:"120px", minHeight:"30px"}} src={userlist.profileImg? userlist.profileImg : "/assets/profile_image_avatar_only.png"} /> 
-              {/* "https://i.imgur.com/2OeMYtb.png" */}
             </Grid>
             <Grid padding="20px 40px" margin="auto" style={{justifyContent:"center",maxWidth:"500px"}}>
               <Link to="/mypageedit">
@@ -67,7 +58,6 @@ const MyPage = (props) => {
               </button>
               </Grid>
               <textarea rows='2' id="status" label="status" value={statusMessage} onChange={changeStatus} style={{outlineStyle:"none", color:'#767676',  width:"100%", maxWidth:"420px", padding:'15px', fontSize:"14px", backgroundColor:"white",border:"1px solid #BEBEBE",resize:"none"}}></textarea>
-              {/* <SimpleModal status={userlist.statusMessage} /> */}
             </Grid>
         </Grid>
         
@@ -90,7 +80,6 @@ const Style = styled.div`
     width: 100vw;
     height: calc(100vh - 130px);
     background-color: #EFEFEF;
-    //styled component use
 `;
 
 export default MyPage;

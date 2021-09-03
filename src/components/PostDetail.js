@@ -1,10 +1,8 @@
 //LIBRARY
 import React, { useEffect, useState } from "react";
-import styled, { css } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 
 //Redux
-import { chatActions } from "../redux/modules/chat";
 import { postActions } from "../redux/modules/post";
 
 //UTILS
@@ -57,7 +55,6 @@ function PlaceImageComponent(props) {
 function UserProfileImageComponent(props) {
   return (
     <div 
-    // className=//"fixed z-1 top-4 left-2/3 right-1/4 mr-6"
     >
       <div
         className="w-24 h-24"
@@ -142,7 +139,6 @@ const Details = (props) => {
   return (
     <Grid height="100%"   width="100vw" maxWidth="540px" minWidth="280px" margin="auto" >
       <PlaceImageComponent img={postDetails?.postImg}/>
-      {/* <Grid>test</Grid> */}
       <Grid
         padding="18px"
         width="100%"
@@ -151,15 +147,10 @@ const Details = (props) => {
         margin="28vh 0px 0px 0px"
         height="100%"
         bg="white"
-        // position="fixed"
         style={{
           zIndex:"5",
           position: "relative",
-          // top: "400px",
           borderRadius: "10px 10px 0px 0px",
-          // bottom: "0px",
-          // left: "50%",
-          // transform: "translateX(-50%)",
         }}
       >
         <Grid
@@ -172,7 +163,6 @@ const Details = (props) => {
           <Grid is_flex>
             <Grid>
               <Grid is_flex style={{justifyContent:"space-between"}}>
-                {/* <UserProfileImageComponent img={postDetails?.profileImg} /> */}
                 <div>
                 <Title color="black" fontWeight="800" fontSize="20px" margin="0px 0px 10px 0px">
                   {postDetails?.title}
@@ -210,25 +200,10 @@ const Details = (props) => {
             
           </Grid>
         </Grid>
-        {/* 필요없어진 방장 프로필n종료시각n닫기 */}
-        {/* <Grid width="60%" margin="0px 10px">
-            <Title fontSize="small">방장 프로필</Title>
-            <Text color="black" fontSize="smaller">
-              [{postDetails?.nickname}, {postDetails?.statusMessage},{" "}
-              {postDetails?.rating}]
-            </Text>
-          </Grid> */}
-        {/* <Text color="black" margin="0px 10px" fontSize="smaller">
-            {postDetails?.endDate}
-          </Text> */}
-        {/* <button style={{ width: "40%", backgroundColor: "#a7aaad", height: "35px" }} onClick={() => {history.push("/postlist");}}>
-            <Title fontSize="small">닫기</Title>
-          </button> */}
         <Grid
           id="bottomcard"
           margin="10px 10px"
           height=""
-          // style={{ minHeight: "150px" }}
         >
           <Grid is_flex margin="10px 0px" width="" height="">
             <EventAvailableOutlinedIcon
@@ -237,7 +212,6 @@ const Details = (props) => {
                 height: "19px",
                 float: "left",
                 color: "#7B7B7B",
-                // marginLeft:"10px"
               }}
             />
             {stdate==eddate ? <Text
@@ -287,7 +261,6 @@ const Details = (props) => {
                 height: "19px",
                 float: "left",
                 color: "#7B7B7B",
-                // marginLeft:"10px"
               }}
             />
             <Text
@@ -323,7 +296,6 @@ const Details = (props) => {
                 height: "19px",
                 float: "left",
                 color: "#7B7B7B",
-                // marginLeft:"10px"
               }}
             />
             <Text
@@ -379,7 +351,6 @@ const Details = (props) => {
               display="block"
               color="white"
               style={{ 
-                // minWidth: "100px", 
               fontWeight: "bold", border: "none" }}
               hoverColor="#16C59B"
               onClick={() =>

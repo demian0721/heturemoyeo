@@ -12,8 +12,6 @@ import { ko } from "date-fns/esm/locale";
 import 'react-datepicker/dist/react-datepicker.css';
 import "../react-datepicker.css";
 import { addDays } from 'date-fns';
-import moment from 'moment';
-import { Link } from "react-router-dom";
 
 // TOKEN
 import { getToken } from "../common/token";
@@ -33,11 +31,8 @@ import { Grid, Input, Image, Title, Text, Button } from "../elements/index";
 
 // ICON
 import AddAPhotoOutlinedIcon from "@material-ui/icons/AddAPhotoOutlined";
-import RoomIcon from "@material-ui/icons/Search";
-import CloseIcon from "@material-ui/icons/Close";
 
 import useOutsideClick from "../hooks/useOutsideClick";
-import { Today } from "@material-ui/icons";
 
 const PostEdition = (props) => {
   let { postInfo } = props;
@@ -59,7 +54,6 @@ const PostEdition = (props) => {
   const [viewModal, setViewModal] = useState(false);
   const [loadMap, setLoadMap] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  // const [tags, setTags] = useState(props.Details.tag);
 
   const [beginDate, setBeginDate] = useState(null);
   const [finishDate, setFinishDate] = useState(null);
@@ -86,8 +80,6 @@ const PostEdition = (props) => {
     setIsOpen(false);
   });
 
-  // useEffect(() => {dispatch(postActions.postDetailInfo(props.match.params.postid)) }, [])
-
   const [postingContents, setPostingContents] = useState({
     postId: props.Details.postId,
     title: props.Details.title,
@@ -98,17 +90,14 @@ const PostEdition = (props) => {
     place: props.Details.place,
     bring: props.Details.bring,
     tag: props.Details.tag,
-    // tag: props.Details.tags,
     lat: props.Details.lat,
     lng: props.Details.lng,
   });
 
   if (props.Details.postImg==preview){
     var img = props.Details.postImg;
-    // console.log('이미지 no',img);
   }else{
     var img = fileInput.current.files[0];
-    // console.log('이미지 yes',img);
   };
 
   const isItPossibleToEdit = () => {
@@ -127,6 +116,7 @@ const PostEdition = (props) => {
     return false;
   };
 
+  //파일
   const selectFile = (event) => {
     const reader = new FileReader();
     const file = event.target.files[0];
@@ -142,6 +132,7 @@ const PostEdition = (props) => {
     }
   };
 
+  //수정
   const editPost = () => {
     const isAvailable = isItPossibleToEdit();
     if (!isAvailable) return window.alert("각 항목은 필수 입력사항 입니다.");
@@ -157,6 +148,7 @@ const PostEdition = (props) => {
     }
   }, []);
 
+  //지도
   let kakaoMap, geocoder, marker;
   const getAddressFromCoords = (coords, cb) => {
     geocoder.coord2RegionCode(coords?.getLng(), coords?.getLat(), cb);
@@ -219,14 +211,10 @@ const PostEdition = (props) => {
     alert("해당 기기에서 GeoLocation이 활성화 되어있지 않습니다!");
   
   useEffect(() => {
-    console.log(moment(beginDate).format("YYYY-MM-DD HH:mm:ss"));
-    console.log(postingContents);
   },[beginDate, postingContents]);
 
+  //완료여부
   const [checked, setChecked] = useState(false);
-  // const [visualTag, setVisalTag] = useState(postingContents.tag.slice(-1)[0]);
-
-  // const tagItems = <div style={{border:"1px solid #3e3e3e", padding:"5px", borderRadius:"4px"}}>{postingContents.tag}</div>;
 
   return (
     <Permit width="" height="">
@@ -454,7 +442,6 @@ const PostEdition = (props) => {
                     return !state;
                   });
                 }}
-                // ref='checkbox'
               />
               <span className="inline-flex ml-1">온라인 모임 여부</span>
             </div>
@@ -614,71 +601,6 @@ const PostEdition = (props) => {
                 });
               }}
             />
-            {/* {tags.length !== 0 && (
-                <div className="flex flex-wrap mb-2">
-                  {tags
-                    .filter((el) => el.length !== 0)
-                    .map((el, index) => {
-                      return (
-                        <div
-                          key={index}
-                          className="flex justify-start bottom-0 rounded-md bg-main listBtn transition duration-300 ease-in-out px-2 py-1 self-center text-white my-1 mx-1"
-                        >
-                          <span className="flex">{el.trim()}</span>
-                          <div
-                            className="flex cursor-pointer"
-                            style={{ marginTop: "-0.1rem" }}
-                            onClick={() =>
-                              setTags((state) => {
-                                const result = state.filter((el, idx) => idx !== index)
-                                setPostingContents({ ...postingContents, tag: result })
-                                return result
-                              })
-                            }
-                          >
-                            <CloseIcon />
-                          </div>
-                        </div>
-                      );
-                    })}
-                </div>
-              )}
-              <div className="flex self-center">
-                <InputBox
-                  className="focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-                  style={{
-                    width: "100%",
-                    border: "1.5px solid #white",
-                  }}
-                  placeholder="태그를 설정하세요"
-                  type="text"
-                  onChange={(e) => {
-                    // e.preventDefault()
-                    setPostingContents({
-                      ...postingContents,
-                      tag: tags,
-                    });
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.keyCode === 32) {
-                      if (String(e.target.value).length >= 2)
-                        tags.push(e.target.value);
-                      e.target.value = "";
-                    }
-                  }}
-                />
-                {tags.length !== 0 && (
-                  <div
-                    className="px-2 h-full py-4 border-r border-t border-b border-gray-400 mr-1 bg-green-300 cursor-pointer"
-                    onClick={() => {
-                      setTags([])
-                      setPostingContents({ ...postingContents, tag: [] })
-                    }}
-                  >
-                    <CloseIcon />
-                  </div> */}
-            {/* )}
-              </div> */}
           </div>
           <Button
             width="100%"
@@ -835,18 +757,6 @@ const PostEdition = (props) => {
   );
 };
 
-const CalendarContainer = styled.div``;
-
-const EnterButton = styled.button`
-  width: 100%;
-  background-color: #a7aaad;
-  padding: 10px;
-  margin: 10px auto;
-  font-size: 12px;
-  display: flex;
-  justify-content: center;
-`;
-
 const PosAbs = () => {
   return css`
     position: absolute;
@@ -858,15 +768,6 @@ const PosAbs = () => {
 const InputBox = styled.input`
   width: 100%;
   border: solid 1.5px #a7aaad;
-  padding: 14px 2px;
-  ::placeholder {
-    font-size: 16px;
-  }
-`;
-
-const InputBox2 = styled.input`
-  width: 100%;
-  /* border: solid 1.5px #a7aaad; */
   padding: 14px 2px;
   ::placeholder {
     font-size: 16px;
@@ -903,38 +804,6 @@ const InputFile = styled.input`
   height: 1px;
   overflow: hidden;
   ${PosAbs()};
-`;
-
-const InputArea = styled.textarea`
-  --lightcolor: #6c757d;
-
-  width: 100%;
-  height: 158px;
-  resize: none;
-  padding: 8px 15px;
-  margin-bottom: 30px;
-  border-radius: 20px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  font-size: 16px;
-
-  &:focus {
-    box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px inset;
-    outline: none;
-    border: none;
-  }
-
-  &::placeholder {
-    color: var(--lightcolor);
-  }
-
-  &::-webkit-input-placeholder {
-    color: var(--lightcolor);
-  }
-
-  &:-ms-input-placeholder {
-    color: var(--lightcolor);
-  }
 `;
 
 PostEdition.propTypes = { ...PostEdition.propTypes, ...geoPropTypes };

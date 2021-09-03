@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# 헤쳐모여 - 위치기반 소모임 플랫폼
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

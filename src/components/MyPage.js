@@ -8,7 +8,7 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import CreateIcon from '@material-ui/icons/Create';
 
 //Elements
-import { Button, Grid, Title} from "../elements/index";
+import { Button, Grid, Title } from "../elements/index";
 
 //History
 import { history } from "../redux/configStore";
@@ -27,7 +27,8 @@ const MyPage = (props) => {
   const userlist = props.userlist;
   const [statusMessage, setStatus] = React.useState(userlist.statusMessage);
   
-  const changeStatus = (n) => {setStatus(n.target.value);
+  const changeStatus = (n) => {setStatus(n.target.value);};
+
 
   return (
     <Style>
@@ -80,6 +81,7 @@ const Style = styled.div`
     width: 100vw;
     height: calc(100vh - 130px);
     background-color: #EFEFEF;
+    //styled component use
 `;
 
 export default MyPage;

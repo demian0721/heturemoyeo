@@ -5,8 +5,9 @@
 
 [사이트 링크 바로가기](https://moyeora.org/) / [시연 영상 보기](https://youtu.be/MpwPiutwqaY)
 
-## 🚩 목차
 
+
+## 🚩 목차
 1. [프로젝트 개요](#-프로젝트-개요)
 2. [사용 패키지](#-package)
 3. [기능 소개](#-기능-소개)
@@ -14,16 +15,11 @@
 
 
 
-
-
 ## 🎬 프로젝트 개요
-
 실시간 위치 기반 소모임 플랫폼!
 - 👫 우리동네, 같은 취미를 가진 사람을 만나고 싶으신가요?
 - 🗺 사소한 일상에서부터 다양하고 색다른 경험까지 찾을 수 있는 곳!
 - 🎮당신과의 만남을 기다리고 있는 이웃을 만나보세요.
-
-
 
 
 
@@ -32,12 +28,19 @@
 
 
 
+## 📋 [API Document](https://docs.google.com/spreadsheets/d/1_zMxl_czR4sAvctT4WjlYpJnrBMlpKr5b2o5Cim8Nxs/edit#gid=328670061)
+
+
+
+## 📂 [Notion](https://trusted-sail-28c.notion.site/99-9-b3c6d3acc4cd489d8abda6c0b7f3c714)
+
 
 
 ## 💁🏻‍♂️ 팀원 소개
 - Front-end: 김유진, 주재인, 황준연
 - Back-end: 이용우(팀장), 이해웅, 임관식
 - Designer: 정지우, 서정화
+
 
 
 ## 🛠 Package
@@ -50,9 +53,10 @@
 - 통신: Axios, Socket.IO
 - 그 외: kakaoMap API
 
+
+
 ## 📚 프로젝트 아키텍처
 ![image](https://user-images.githubusercontent.com/83893777/133617758-e91c20fc-e991-4d38-814b-3e746c753951.png)
-
 
 
 
@@ -75,6 +79,7 @@
 - 고객 피드백 소통 창구 (구글폼 활용)
 - 내가 작성한 모임 게시글의 경우 수정/삭제 가능하며 대화방 내 불량 유저 추방 권한 부여
 - 모임 탈퇴
+
 
 
 ## 💪 역할 분담

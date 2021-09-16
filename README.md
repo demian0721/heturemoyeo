@@ -1,6 +1,7 @@
+> 위치 기반 소모임 플랫폼 서비스, **헤쳐모여** 입니다.
+
 ![image](https://user-images.githubusercontent.com/83893777/133616407-26be250e-70bc-4957-9e5b-a2968364b983.png)
 
-> 위치 기반 소모임 플랫폼 서비스, **헤쳐모여** 입니다.
 
 [사이트 링크 바로가기](https://moyeora.org/) / [시연 영상 보기](https://youtu.be/MpwPiutwqaY)
 

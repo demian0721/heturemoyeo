@@ -50,6 +50,7 @@
 - 통신: Axios, Socket.IO
 - 그 외: kakaoMap API
 
+## 📚 프로젝트 아키텍처
 
 
 

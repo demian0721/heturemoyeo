@@ -1,4 +1,4 @@
-## :mag: **헤쳐모여**
+## :mag: 항해99 실전 프로젝트 **헤쳐모여**
 
 ![image](https://user-images.githubusercontent.com/83893777/133616407-26be250e-70bc-4957-9e5b-a2968364b983.png)
 

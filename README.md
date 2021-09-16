@@ -51,6 +51,7 @@
 - 그 외: kakaoMap API
 
 ## 📚 프로젝트 아키텍처
+![image](https://user-images.githubusercontent.com/83893777/133617758-e91c20fc-e991-4d38-814b-3e746c753951.png)
 
 
 

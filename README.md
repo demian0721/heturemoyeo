@@ -1,4 +1,4 @@
-# <img src="https://user-images.githubusercontent.com/85469084/131979637-8655a23a-4065-4e3a-9f9a-4cca49c30d28.PNG" width="35" height="35"/>  ![textlogo_green](https://user-images.githubusercontent.com/85469084/131978515-43d65b6d-7bf8-4b98-a33c-b3e66a469c11.png)
+![image](https://user-images.githubusercontent.com/83893777/133616407-26be250e-70bc-4957-9e5b-a2968364b983.png)
 
 > 위치 기반 소모임 플랫폼 서비스, **헤쳐모여** 입니다.
 

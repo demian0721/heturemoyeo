@@ -86,7 +86,8 @@
 
 - 회원 가입이 완료되면 브라우저 저장소에 첫 로그인에 관한 정보를 저장합니다.
 - 첫 로그인이 확인되면 짧은 튜토리얼을 제공하고 유저가 모두 확인하고 나면 서비스 이용이 가능하게 조치하였습니다.
-![tutorial](https://user-images.githubusercontent.com/83893777/133622098-5e6d478d-c2d8-420a-92ee-77e206381a54.gif)
+![firstLogin](https://user-images.githubusercontent.com/83893777/133628655-f751a957-c25c-44e0-bfec-24f09b6d1c1e.gif)
+
 
 **3. 유저 마커 표시반경 설정 UI 제작**
 
@@ -101,7 +102,8 @@
 - 표시반경을 유저가 설정할 수 있는 UI를 제작하였습니다.
 - 해당 UI의 설정은 로컬스토리지에 저장되어 유저가 재차 로그인하여도 설정이 변하지 않도록 구성하였습니다.
 - 이용자 수가 충분이 증가하기 전까지는 서버의 부하가 발생하지 않는다는 점을 근거로 표시반경을 700km까지 확장할 수 있도록 했습니다.
-![markerRedius](https://user-images.githubusercontent.com/83893777/133626873-bffb3500-7bb5-401f-a54f-f1cc731d776c.gif)
+![markerRedius](https://user-images.githubusercontent.com/83893777/133628113-f2147080-1084-4bdd-b74f-c4d79532b348.gif)
+
 
 
 

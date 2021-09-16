@@ -1,4 +1,4 @@
-> 위치 기반 소모임 플랫폼 서비스, **헤쳐모여** 입니다.
+#:busts_in_silhouette: 위치 기반 소모임 플랫폼 서비스, **헤쳐모여** 입니다.
 
 ![image](https://user-images.githubusercontent.com/83893777/133616407-26be250e-70bc-4957-9e5b-a2968364b983.png)
 
